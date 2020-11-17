@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<MicomToolCommonProjectFile Version="1.00">
+  <CreatorType Name="CubeSuite+" Version="V8.04.00  [09 Jun 2020]" />
+  <Placeholders>
+    <PlaceholderPrefix>%</PlaceholderPrefix>
+    <PlaceholderPostfix>%</PlaceholderPostfix>
+  </Placeholders>
+  <Project Name="src" Type="Application">
+    <Files>
+      <Category Name="src">
+        <Category Name="app">
+          <Category Name="control" />
+          <Category Name="inc_pac">
+            <Path>src\app\inc_pac\app_cmn_chk_option_pac.h</Path>
+            <Path>src\app\inc_pac\app_cmn_option_pac.h</Path>
+          </Category>
+          <Category Name="inc_pub">
+            <Path>src\app\inc_pub\app_cmn_chk_option.h</Path>
+            <Path>src\app\inc_pub\app_cmn_option.h</Path>
+          </Category>
+          <Category Name="map" />
+          <Category Name="plan" />
+          <Category Name="recognize" />
+        </Category>
+        <Category Name="hw">
+          <Category Name="config">
+            <Path>src\hw\config\hw_srv_schedule_cfg.c</Path>
+          </Category>
+          <Category Name="core">
+            <Path>src\hw\core\hw_core_dbsec.c</Path>
+            <Path>src\hw\core\hw_core_exception.c</Path>
+            <Path>src\hw\core\hw_core_junction.c</Path>
+            <Path>src\hw\core\hw_core_startup.c</Path>
+            <Path>src\hw\core\hw_core_termination.c</Path>
+            <Path>src\hw\core\hw_core_vectbl.c</Path>
+          </Category>
+          <Category Name="driver">
+            <Path>src\hw\driver\hw_drv_buzzer.c</Path>
+            <Path>src\hw\driver\hw_drv_led.c</Path>
+            <Path>src\hw\driver\hw_drv_mtr.c</Path>
+            <Path>src\hw\driver\hw_drv_raysens.c</Path>
+            <Path>src\hw\driver\hw_drv_switch.c</Path>
+          </Category>
+          <Category Name="inc_pac">
+            <Path>src\hw\inc_pac\hw_cmn_chk_option_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_cmn_option_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_core_dbsec_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_core_exception_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_core_junction_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_core_startup_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_core_termination_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_core_vectbl_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_drv_buzzer_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_drv_led_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_drv_mtr_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_drv_raysens_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_drv_switch_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_pph_adc_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_pph_intctrl_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_pph_port_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_pph_reg_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_pph_tmr_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_srv_schedule_cfg_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_srv_schedule_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_srv_time_pac.h</Path>
+          </Category>
+          <Category Name="inc_pub">
+            <Path>src\hw\inc_pub\hw_cmn_chk_option.h</Path>
+            <Path>src\hw\inc_pub\hw_cmn_option.h</Path>
+            <Path>src\hw\inc_pub\hw_drv_buzzer.h</Path>
+            <Path>src\hw\inc_pub\hw_drv_led.h</Path>
+            <Path>src\hw\inc_pub\hw_drv_mtr.h</Path>
+            <Path>src\hw\inc_pub\hw_drv_raysens.h</Path>
+            <Path>src\hw\inc_pub\hw_drv_switch.h</Path>
+            <Path>src\hw\inc_pub\hw_srv_interrupt.h</Path>
+            <Path>src\hw\inc_pub\hw_srv_termination.h</Path>
+            <Path>src\hw\inc_pub\hw_srv_time_pac.h</Path>
+          </Category>
+          <Category Name="peripheral">
+            <Path>src\hw\peripheral\hw_pph_adc.c</Path>
+            <Path>src\hw\peripheral\hw_pph_intctrl.c</Path>
+            <Path>src\hw\peripheral\hw_pph_port.c</Path>
+            <Path>src\hw\peripheral\hw_pph_tmr.c</Path>
+          </Category>
+          <Category Name="service">
+            <Path>src\hw\service\hw_srv_schedule.c</Path>
+            <Path>src\hw\service\hw_srv_termination.c</Path>
+            <Path>src\hw\service\hw_srv_time.c</Path>
+          </Category>
+        </Category>
+        <Category Name="pf">
+          <Category Name="if" />
+          <Category Name="inc_pac">
+            <Path>src\pf\inc_pac\pf_cmn_chk_option_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_cmn_option_pac.h</Path>
+          </Category>
+          <Category Name="inc_pub">
+            <Path>src\pf\inc_pub\pf_cmn_chk_option.h</Path>
+            <Path>src\pf\inc_pub\pf_cmn_option.h</Path>
+          </Category>
+        </Category>
+        <Category Name="prj">
+          <Category Name="inc_pac">
+            <Path>src\prj\inc_pac\prj_cmn_chk_option_pac.h</Path>
+            <Path>src\prj\inc_pac\prj_cmn_option_pac.h</Path>
+          </Category>
+          <Category Name="inc_pub">
+            <Path>src\prj\inc_pub\prj_cmn_chk_option.h</Path>
+            <Path>src\prj\inc_pub\prj_cmn_macro.h</Path>
+            <Path>src\prj\inc_pub\prj_cmn_option.h</Path>
+            <Path>src\prj\inc_pub\prj_cmn_section.h</Path>
+            <Path>src\prj\inc_pub\prj_cmn_type.h</Path>
+            <Path>src\prj\inc_pub\prj_sche_main.h</Path>
+          </Category>
+          <Category Name="sche">
+            <Path>src\prj\sche\prj_sche_main.c</Path>
+          </Category>
+        </Category>
+      </Category>
+    </Files>
+    <DebugOptions>
+      <DebugTool>Simulator</DebugTool>
+      <ConnectSettings />
+      <DebugToolSettings />
+    </DebugOptions>
+    <Device Series="RX">R5F5631MDxFM</Device>
+    <BuildOptions Name="CC-RX" Version="V3.02.00">
+      <BuildMode Name="DefaultBuild" Active="False">
+        <GeneralOptions>
+          <SimultaneouslyBuild>true</SimultaneouslyBuild>
+        </GeneralOptions>
+        <CompileOptions>
+          <Option>-isa=rxv1</Option>
+          <Option>-fpu</Option>
+          <Option>-lang=c99</Option>
+          <Option>-include=src\pf\inc_pub</Option>
+          <Option>-include=src\hw\inc_pub</Option>
+          <Option>-include=src\prj\inc_pub</Option>
+          <Option>-include=src\prj\inc_pac</Option>
+          <Option>-include=src\pf\inc_pac</Option>
+          <Option>-include=src\hw\inc_pac</Option>
+          <Option>-include=src\app\inc_pub</Option>
+          <Option>-include=src\app\inc_pac</Option>
+          <Option>-include=src</Option>
+          <Option>-include=PiCoClassic3</Option>
+          <Option>-include=.</Option>
+          <Option>-output=obj</Option>
+          <Option>-debug</Option>
+          <Option>-g_line</Option>
+          <Option>-optimize=0</Option>
+          <Option>-nologo</Option>
+        </CompileOptions>
+        <AssembleOptions>
+          <Option>-isa=rxv1</Option>
+          <Option>-fpu</Option>
+          <Option>-output=%BuildModeName%\%FileLeaf%.obj</Option>
+          <Option>-nologo</Option>
+          <Option>-debug</Option>
+        </AssembleOptions>
+        <LinkOptions>
+          <Option>-output=%BuildModeName%\%ProjectName%.abs</Option>
+          <Option>-list=%BuildModeName%\%ProjectName%.map</Option>
+          <Option>-nooptimize</Option>
+          <Option>-start=B_1,R_1,B_2,R_2,B,R,SU,SI/04,PResetPRG/0FFFC0000,C_1,C_2,C,C$DSEC,C$BSEC,C$INIT,C$VTBL,C$VECT,D_1,D_2,D,P,PIntPRG,W_1,W_2,W,L/0FFFC0100,FIXEDVECT/0FFFFFFD0</Option>
+          <Option>-rom=D=R,D_1=R_1,D_2=R_2</Option>
+          <Option>-nologo</Option>
+          <Option>-end</Option>
+          <Option>-input=%BuildModeName%\%ProjectName%.abs</Option>
+          <Option>-output=%BuildModeName%\%ProjectName%.mot</Option>
+          <Option>-form=stype</Option>
+          <Option>-exit</Option>
+          <PreLinker>Auto</PreLinker>
+        </LinkOptions>
+        <LibraryGenerateOptions>
+          <Option>-isa=rxv1</Option>
+          <Option>-fpu</Option>
+          <Option>-head=runtime,stdio,stdlib,string,new</Option>
+          <Option>-output=%BuildModeName%\%ProjectName%.lib</Option>
+          <Option>-nologo</Option>
+          <GenerateMode>BuildOptionChanged</GenerateMode>
+        </LibraryGenerateOptions>
+        <LinkOrder>
+          <Path>DefaultBuild\prj_sche_main.obj</Path>
+          <Path>DefaultBuild\hw_core_startup.obj</Path>
+          <Path>DefaultBuild\hw_srv_schedule_cfg.obj</Path>
+          <Path>DefaultBuild\hw_srv_schedule.obj</Path>
+          <Path>DefaultBuild\hw_core_dbsec.obj</Path>
+          <Path>DefaultBuild\hw_core_termination.obj</Path>
+          <Path>DefaultBuild\hw_core_vectbl.obj</Path>
+          <Path>DefaultBuild\hw_core_exception.obj</Path>
+          <Path>DefaultBuild\hw_srv_termination.obj</Path>
+          <Path>DefaultBuild\hw_core_junction.obj</Path>
+          <Path>DefaultBuild\hw_drv_buzzer.obj</Path>
+          <Path>DefaultBuild\hw_drv_led.obj</Path>
+          <Path>DefaultBuild\hw_drv_mtr.obj</Path>
+          <Path>DefaultBuild\hw_drv_raysens.obj</Path>
+          <Path>DefaultBuild\hw_drv_switch.obj</Path>
+          <Path>DefaultBuild\hw_pph_adc.obj</Path>
+          <Path>DefaultBuild\hw_pph_intctrl.obj</Path>
+          <Path>DefaultBuild\hw_pph_port.obj</Path>
+          <Path>DefaultBuild\hw_pph_tmr.obj</Path>
+          <Path>DefaultBuild\hw_srv_time.obj</Path>
+        </LinkOrder>
+        <CommonOptions>
+          <IncludePathForC>src\pf\inc_pub</IncludePathForC>
+          <IncludePathForC>src\hw\inc_pub</IncludePathForC>
+          <IncludePathForC>src\prj\inc_pub</IncludePathForC>
+          <IncludePathForC>src\prj\inc_pac</IncludePathForC>
+          <IncludePathForC>src\pf\inc_pac</IncludePathForC>
+          <IncludePathForC>src\hw\inc_pac</IncludePathForC>
+          <IncludePathForC>src\app\inc_pub</IncludePathForC>
+          <IncludePathForC>src\app\inc_pac</IncludePathForC>
+          <IncludePathForC>src</IncludePathForC>
+          <IncludePathForC>PiCoClassic3</IncludePathForC>
+          <IncludePathForC>.</IncludePathForC>
+        </CommonOptions>
+      </BuildMode>
+      <BuildMode Name="build" Active="True">
+        <GeneralOptions>
+          <SimultaneouslyBuild>true</SimultaneouslyBuild>
+        </GeneralOptions>
+        <CompileOptions>
+          <Option>-isa=rxv1</Option>
+          <Option>-fpu</Option>
+          <Option>-dbl_size=8</Option>
+          <Option>-auto_enum</Option>
+          <Option>-lang=c99</Option>
+          <Option>-include=src</Option>
+          <Option>-include=src\prj\inc_pub</Option>
+          <Option>-include=src\prj\inc_pac</Option>
+          <Option>-include=src\pf\inc_pub</Option>
+          <Option>-include=src\pf\inc_pac</Option>
+          <Option>-include=src\hw\inc_pub</Option>
+          <Option>-include=src\hw\inc_pac</Option>
+          <Option>-include=src\app\inc_pub</Option>
+          <Option>-include=src\app\inc_pac</Option>
+          <Option>-include=.</Option>
+          <Option>-utf8</Option>
+          <Option>-output=obj</Option>
+          <Option>-asm_path=%BuildModeName%</Option>
+          <Option>-debug</Option>
+          <Option>-g_line</Option>
+          <Option>-nostuff</Option>
+          <Option>-outcode=utf8</Option>
+          <Option>-listfile=%BuildModeName%</Option>
+          <Option>-show=source</Option>
+          <Option>-optimize=0</Option>
+          <Option>-case=ifthen</Option>
+          <Option>-nologo</Option>
+        </CompileOptions>
+        <AssembleOptions>
+          <Option>-isa=rxv1</Option>
+          <Option>-fpu</Option>
+          <Option>-utf8</Option>
+          <Option>-output=%BuildModeName%\%FileLeaf%.obj</Option>
+          <Option>-listfile=%BuildModeName%</Option>
+          <Option>-nologo</Option>
+          <Option>-debug</Option>
+        </AssembleOptions>
+        <LinkOptions>
+          <Option>-output=%BuildModeName%\main.abs</Option>
+          <Option>-padding</Option>
+          <Option>-nooptimize</Option>
+          <Option>-start=B_1,R_1,B_2,R_2,B,RAM_PRJ,RAM_HW,RAM_PF,RAM_APP,R,RAMVAL_PRJ,RAMVAL_HW,RAMVAL_PF,RAMVAL_APP,SU,SI/00000004,PResetPRG/0FFFC0000,C_1,C_2,C,CONST_PRJ,CONST_HW,CONST_PF,CONST_APP,C$DSEC,C$BSEC,C$INIT,C$VTBL,D_1,D_2,D,ROMVAL_PRJ,ROMVAL_HW,ROMVAL_PF,ROMVAL_APP/FFFC0100,PROG_JUNC0,P,PROG_PRJ,PROG_HW,PROG_PF,PROG_APP,PIntPRG,W_1,W_2,W,L/FFFC4000,C$VECT/FFFFEC00,PROG_END/FFFFF000,C_MDE/FFFFFF80,C_ID_CODE/FFFFFFA0,FIXEDVECT/0FFFFFFD0</Option>
+          <Option>-rom=D=R,D_1=R_1,D_2=R_2,ROMVAL_PRJ=RAMVAL_PRJ,ROMVAL_HW=RAMVAL_HW,ROMVAL_PF=RAMVAL_PF,ROMVAL_APP=RAMVAL_APP</Option>
+          <Option>-total_size</Option>
+          <Option>-nologo</Option>
+          <Option>-list=build\main.map</Option>
+          <Option>-show=symbol,reference,xreference,total_size,vector,RELOCATION_ATTRIBUTE</Option>
+          <Option>-end</Option>
+          <Option>-input=%BuildModeName%\main.abs</Option>
+          <Option>-output=%BuildModeName%\main.mot</Option>
+          <Option>-form=stype</Option>
+          <Option>-exit</Option>
+          <PreLinker>Auto</PreLinker>
+        </LinkOptions>
+        <LibraryGenerateOptions>
+          <Option>-isa=rxv1</Option>
+          <Option>-fpu</Option>
+          <Option>-dbl_size=8</Option>
+          <Option>-auto_enum</Option>
+          <Option>-head=runtime,stdio,stdlib,string,new</Option>
+          <Option>-output=%BuildModeName%\main.lib</Option>
+          <Option>-nologo</Option>
+          <GenerateMode>BuildOptionChanged</GenerateMode>
+        </LibraryGenerateOptions>
+        <LinkOrder>
+          <Path>build\prj_sche_main.obj</Path>
+          <Path>build\hw_core_startup.obj</Path>
+          <Path>build\hw_srv_schedule_cfg.obj</Path>
+          <Path>build\hw_srv_schedule.obj</Path>
+          <Path>build\hw_core_dbsec.obj</Path>
+          <Path>build\hw_core_termination.obj</Path>
+          <Path>build\hw_core_vectbl.obj</Path>
+          <Path>build\hw_core_exception.obj</Path>
+          <Path>build\hw_srv_termination.obj</Path>
+          <Path>build\hw_core_junction.obj</Path>
+          <Path>build\hw_drv_buzzer.obj</Path>
+          <Path>build\hw_drv_led.obj</Path>
+          <Path>build\hw_drv_mtr.obj</Path>
+          <Path>build\hw_drv_raysens.obj</Path>
+          <Path>build\hw_drv_switch.obj</Path>
+          <Path>build\hw_pph_adc.obj</Path>
+          <Path>build\hw_pph_intctrl.obj</Path>
+          <Path>build\hw_pph_port.obj</Path>
+          <Path>build\hw_pph_tmr.obj</Path>
+          <Path>build\hw_srv_time.obj</Path>
+        </LinkOrder>
+        <CommonOptions>
+          <IncludePathForC>src</IncludePathForC>
+          <IncludePathForC>src\prj\inc_pub</IncludePathForC>
+          <IncludePathForC>src\prj\inc_pac</IncludePathForC>
+          <IncludePathForC>src\pf\inc_pub</IncludePathForC>
+          <IncludePathForC>src\pf\inc_pac</IncludePathForC>
+          <IncludePathForC>src\hw\inc_pub</IncludePathForC>
+          <IncludePathForC>src\hw\inc_pac</IncludePathForC>
+          <IncludePathForC>src\app\inc_pub</IncludePathForC>
+          <IncludePathForC>src\app\inc_pac</IncludePathForC>
+          <IncludePathForC>.</IncludePathForC>
+        </CommonOptions>
+      </BuildMode>
+    </BuildOptions>
+  </Project>
+</MicomToolCommonProjectFile>
