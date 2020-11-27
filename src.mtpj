@@ -457,6 +457,13 @@
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>5e0699f5-9c23-4f92-aeb3-3d36523706c7</ParentItem>
     </Instance>
+    <Instance Guid="97f45571-6907-48a5-871d-cc364cb95dfd">
+      <Name>hw_pph_reg.src</Name>
+      <Type>File</Type>
+      <RelativePath>src\hw\peripheral\hw_pph_reg.src</RelativePath>
+      <TreeImageGuid>f654126d-e7ad-426d-be34-8455271d959b</TreeImageGuid>
+      <ParentItem>5e0699f5-9c23-4f92-aeb3-3d36523706c7</ParentItem>
+    </Instance>
     <Instance Guid="ec7ee414-e7b3-4a8d-9422-c2ad08282860">
       <Name>hw_srv_schedule.c</Name>
       <Type>File</Type>
@@ -686,7 +693,9 @@
       <SourceItemType18>CSource</SourceItemType18>
       <SourceItemGuid19>2a836574-c6d1-4090-8d72-f013ecc2a6ea</SourceItemGuid19>
       <SourceItemType19>CSource</SourceItemType19>
-      <SourceItemCount>20</SourceItemCount>
+      <SourceItemGuid20>97f45571-6907-48a5-871d-cc364cb95dfd</SourceItemGuid20>
+      <SourceItemType20>AsmSource</SourceItemType20>
+      <SourceItemCount>21</SourceItemCount>
       <LastDeviceChangedCounter>0</LastDeviceChangedCounter>
     </Instance>
     <Instance Guid="9e208646-ccba-4100-a676-29b1efe6545f">
@@ -1472,7 +1481,7 @@ D_2=R_2
 -output=%BuildModeName%\main.abs
 -padding
 -nooptimize
--start=B_1,R_1,B_2,R_2,B,RAM_PRJ,RAM_HW,RAM_PF,RAM_APP,R,RAMVAL_PRJ,RAMVAL_HW,RAMVAL_PF,RAMVAL_APP,SU,SI/00000004,PResetPRG/0FFFC0000,C_1,C_2,C,CONST_PRJ,CONST_HW,CONST_PF,CONST_APP,C$DSEC,C$BSEC,C$INIT,C$VTBL,D_1,D_2,D,ROMVAL_PRJ,ROMVAL_HW,ROMVAL_PF,ROMVAL_APP/FFFC0100,PROG_JUNC0,P,PROG_PRJ,PROG_HW,PROG_PF,PROG_APP,PIntPRG,W_1,W_2,W,L/FFFC4000,C$VECT/FFFFEC00,PROG_END/FFFFF000,C_MDE/FFFFFF80,C_ID_CODE/FFFFFFA0,FIXEDVECT/0FFFFFFD0
+-start=B_1,R_1,B_2,R_2,B,RAM_PRJ,RAM_HW,RAM_PF,RAM_APP,R,RAMVAL_PRJ,RAMVAL_HW,RAMVAL_PF,RAMVAL_APP,SU,SI:RAM_BEGINE/00000004,RAM_END/00010000,PPH_REG1/00080000,PPH_REG2/007FC000,PPH_REG3/007FFC00,PResetPRG:ROM_BEGINE/0FFFC0000,C_1,C_2,C,CONST_PRJ,CONST_HW,CONST_PF,CONST_APP,C$DSEC,C$BSEC,C$INIT,C$VTBL,D_1,D_2,D,ROMVAL_PRJ,ROMVAL_HW,ROMVAL_PF,ROMVAL_APP/FFFC0100,PROG_JUNC0,P,PROG_PRJ,PROG_HW,PROG_PF,PROG_APP,PIntPRG,W_1,W_2,W,L/FFFC4000,C$VECT/FFFFEC00,PROG_END/FFFFF000,C_MDE:ROM_END/FFFFFF80,C_ID_CODE/FFFFFFA0,FIXEDVECT/0FFFFFFD0
 -rom=D=R,D_1=R_1,D_2=R_2,ROMVAL_PRJ=RAMVAL_PRJ,ROMVAL_HW=RAMVAL_HW,ROMVAL_PF=RAMVAL_PF,ROMVAL_APP=RAMVAL_APP
 -total_size
 -nologo
@@ -1481,7 +1490,7 @@ D_2=R_2
 </LinkOptionCommandLine-DefaultValue>
       <LinkOptionSplitVect-DefaultValue>False</LinkOptionSplitVect-DefaultValue>
       <IsLockedByUser>False</IsLockedByUser>
-      <TimeTagModified--0>-8585965935414337698</TimeTagModified--0>
+      <TimeTagModified--0>-8585953932715746434</TimeTagModified--0>
       <LinkOptionCpu-0>False</LinkOptionCpu-0>
       <LinkOptionForm-0>Absolute</LinkOptionForm-0>
       <LinkOptionFormConvert-0>Stype</LinkOptionFormConvert-0>
@@ -1570,7 +1579,7 @@ D_2=R_2
 -output=%BuildModeName%\main.abs
 -padding
 -nooptimize
--start=B_1,R_1,B_2,R_2,B,RAM_PRJ,RAM_HW,RAM_PF,RAM_APP,R,RAMVAL_PRJ,RAMVAL_HW,RAMVAL_PF,RAMVAL_APP,SU,SI/00000004,PResetPRG/0FFFC0000,C_1,C_2,C,CONST_PRJ,CONST_HW,CONST_PF,CONST_APP,C$DSEC,C$BSEC,C$INIT,C$VTBL,D_1,D_2,D,ROMVAL_PRJ,ROMVAL_HW,ROMVAL_PF,ROMVAL_APP/FFFC0100,PROG_JUNC0,P,PROG_PRJ,PROG_HW,PROG_PF,PROG_APP,PIntPRG,W_1,W_2,W,L/FFFC4000,C$VECT/FFFFEC00,PROG_END/FFFFF000,C_MDE/FFFFFF80,C_ID_CODE/FFFFFFA0,FIXEDVECT/0FFFFFFD0
+-start=B_1,R_1,B_2,R_2,B,RAM_PRJ,RAM_HW,RAM_PF,RAM_APP,R,RAMVAL_PRJ,RAMVAL_HW,RAMVAL_PF,RAMVAL_APP,SU,SI:RAM_BEGINE/00000004,RAM_END/00010000,PPH_REG1/00080000,PPH_REG2/007FC000,PPH_REG3/007FFC00,PResetPRG:ROM_BEGINE/0FFFC0000,C_1,C_2,C,CONST_PRJ,CONST_HW,CONST_PF,CONST_APP,C$DSEC,C$BSEC,C$INIT,C$VTBL,D_1,D_2,D,ROMVAL_PRJ,ROMVAL_HW,ROMVAL_PF,ROMVAL_APP/FFFC0100,PROG_JUNC0,P,PROG_PRJ,PROG_HW,PROG_PF,PROG_APP,PIntPRG,W_1,W_2,W,L/FFFC4000,C$VECT/FFFFEC00,PROG_END/FFFFF000,C_MDE:ROM_END/FFFFFF80,C_ID_CODE/FFFFFFA0,FIXEDVECT/0FFFFFFD0
 -rom=D=R,D_1=R_1,D_2=R_2,ROMVAL_PRJ=RAMVAL_PRJ,ROMVAL_HW=RAMVAL_HW,ROMVAL_PF=RAMVAL_PF,ROMVAL_APP=RAMVAL_APP
 -total_size
 -nologo
@@ -1578,7 +1587,7 @@ D_2=R_2
 -exit
 </LinkOptionCommandLine-0>
       <LinkOptionSplitVect-0>False</LinkOptionSplitVect-0>
-      <TimeTagModified--1>-8585960732444592620</TimeTagModified--1>
+      <TimeTagModified--1>-8585953932715746434</TimeTagModified--1>
       <LinkOptionCpu-1>False</LinkOptionCpu-1>
       <LinkOptionForm-1>Absolute</LinkOptionForm-1>
       <LinkOptionFormConvert-1>Stype</LinkOptionFormConvert-1>
@@ -1586,7 +1595,7 @@ D_2=R_2
       <LinkOptionListShow-1>None</LinkOptionListShow-1>
       <LinkOptionOptimize-1>None</LinkOptionOptimize-1>
       <LinkOptionStack-1>False</LinkOptionStack-1>
-      <LinkOptionStart-1>B_1,R_1,B_2,R_2,B,RAM_PRJ,RAM_HW,RAM_PF,RAM_APP,R,RAMVAL_PRJ,RAMVAL_HW,RAMVAL_PF,RAMVAL_APP,SU,SI/00000004,PResetPRG/0FFFC0000,C_1,C_2,C,CONST_PRJ,CONST_HW,CONST_PF,CONST_APP,C$DSEC,C$BSEC,C$INIT,C$VTBL,D_1,D_2,D,ROMVAL_PRJ,ROMVAL_HW,ROMVAL_PF,ROMVAL_APP/FFFC0100,PROG_JUNC0,P,PROG_PRJ,PROG_HW,PROG_PF,PROG_APP,PIntPRG,W_1,W_2,W,L/FFFC4000,C$VECT/FFFFEC00,PROG_END/FFFFF000,C_MDE/FFFFFF80,C_ID_CODE/FFFFFFA0,FIXEDVECT/0FFFFFFD0</LinkOptionStart-1>
+      <LinkOptionStart-1>B_1,R_1,B_2,R_2,B,RAM_PRJ,RAM_HW,RAM_PF,RAM_APP,R,RAMVAL_PRJ,RAMVAL_HW,RAMVAL_PF,RAMVAL_APP,SU,SI:RAM_BEGINE/00000004,RAM_END/00010000,PPH_REG1/00080000,PPH_REG2/007FC000,PPH_REG3/007FFC00,PResetPRG:ROM_BEGINE/0FFFC0000,C_1,C_2,C,CONST_PRJ,CONST_HW,CONST_PF,CONST_APP,C$DSEC,C$BSEC,C$INIT,C$VTBL,D_1,D_2,D,ROMVAL_PRJ,ROMVAL_HW,ROMVAL_PF,ROMVAL_APP/FFFC0100,PROG_JUNC0,P,PROG_PRJ,PROG_HW,PROG_PF,PROG_APP,PIntPRG,W_1,W_2,W,L/FFFC4000,C$VECT/FFFFEC00,PROG_END/FFFFF000,C_MDE:ROM_END/FFFFFF80,C_ID_CODE/FFFFFFA0,FIXEDVECT/0FFFFFFD0</LinkOptionStart-1>
       <LinkOptionCompress-1>False</LinkOptionCompress-1>
       <LinkOptionCpuInformation-1 />
       <LinkOptionDebug-1>Debug</LinkOptionDebug-1>
@@ -1671,7 +1680,7 @@ ROMVAL_APP=RAMVAL_APP
 -output=%BuildModeName%\main.abs
 -padding
 -nooptimize
--start=B_1,R_1,B_2,R_2,B,RAM_PRJ,RAM_HW,RAM_PF,RAM_APP,R,RAMVAL_PRJ,RAMVAL_HW,RAMVAL_PF,RAMVAL_APP,SU,SI/00000004,PResetPRG/0FFFC0000,C_1,C_2,C,CONST_PRJ,CONST_HW,CONST_PF,CONST_APP,C$DSEC,C$BSEC,C$INIT,C$VTBL,D_1,D_2,D,ROMVAL_PRJ,ROMVAL_HW,ROMVAL_PF,ROMVAL_APP/FFFC0100,PROG_JUNC0,P,PROG_PRJ,PROG_HW,PROG_PF,PROG_APP,PIntPRG,W_1,W_2,W,L/FFFC4000,C$VECT/FFFFEC00,PROG_END/FFFFF000,C_MDE/FFFFFF80,C_ID_CODE/FFFFFFA0,FIXEDVECT/0FFFFFFD0
+-start=B_1,R_1,B_2,R_2,B,RAM_PRJ,RAM_HW,RAM_PF,RAM_APP,R,RAMVAL_PRJ,RAMVAL_HW,RAMVAL_PF,RAMVAL_APP,SU,SI:RAM_BEGINE/00000004,RAM_END/00010000,PPH_REG1/00080000,PPH_REG2/007FC000,PPH_REG3/007FFC00,PResetPRG:ROM_BEGINE/0FFFC0000,C_1,C_2,C,CONST_PRJ,CONST_HW,CONST_PF,CONST_APP,C$DSEC,C$BSEC,C$INIT,C$VTBL,D_1,D_2,D,ROMVAL_PRJ,ROMVAL_HW,ROMVAL_PF,ROMVAL_APP/FFFC0100,PROG_JUNC0,P,PROG_PRJ,PROG_HW,PROG_PF,PROG_APP,PIntPRG,W_1,W_2,W,L/FFFC4000,C$VECT/FFFFEC00,PROG_END/FFFFF000,C_MDE:ROM_END/FFFFFF80,C_ID_CODE/FFFFFFA0,FIXEDVECT/0FFFFFFD0
 -rom=D=R,D_1=R_1,D_2=R_2,ROMVAL_PRJ=RAMVAL_PRJ,ROMVAL_HW=RAMVAL_HW,ROMVAL_PF=RAMVAL_PF,ROMVAL_APP=RAMVAL_APP
 -total_size
 -nologo
@@ -2417,6 +2426,10 @@ ROMVAL_APP=RAMVAL_APP
       <ItemAddTime>637411604342849697</ItemAddTime>
       <ItemAddTimeCount>0</ItemAddTimeCount>
     </Instance>
+    <Instance Guid="97f45571-6907-48a5-871d-cc364cb95dfd">
+      <ItemAddTime>637418431147972174</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
     <Instance Guid="a7be515f-f007-45ed-9059-4e1500c0f74d">
       <TimeTagModified-SourceItem0--0>-8585965936459669448</TimeTagModified-SourceItem0--0>
       <SourceItem0-IsLockedByUser>False</SourceItem0-IsLockedByUser>
@@ -2558,6 +2571,15 @@ ROMVAL_APP=RAMVAL_APP
       <TimeTagModified-SourceItem19--1>-8585966823151971976</TimeTagModified-SourceItem19--1>
       <SourceItem19-BuildingTarget-1>True</SourceItem19-BuildingTarget-1>
       <SourceItem19-IndividualCompileOption-1>False</SourceItem19-IndividualCompileOption-1>
+    </Instance>
+    <Instance Guid="c20a78d9-8038-46fe-9b87-bc2fa2aa9bdc">
+      <TimeTagModified-SourceItem20--0>-8585953929706803634</TimeTagModified-SourceItem20--0>
+      <SourceItem20-IsLockedByUser>False</SourceItem20-IsLockedByUser>
+      <SourceItem20-BuildingTarget-0>True</SourceItem20-BuildingTarget-0>
+      <SourceItem20-IndividualAssembleOption-0>False</SourceItem20-IndividualAssembleOption-0>
+      <TimeTagModified-SourceItem20--1>-8585953929706803634</TimeTagModified-SourceItem20--1>
+      <SourceItem20-BuildingTarget-1>True</SourceItem20-BuildingTarget-1>
+      <SourceItem20-IndividualAssembleOption-1>False</SourceItem20-IndividualAssembleOption-1>
     </Instance>
   </Class>
   <Class Guid="44fa27c9-0aa0-4297-bd3b-2c5c5bdb8881">
