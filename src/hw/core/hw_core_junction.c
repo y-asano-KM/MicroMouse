@@ -107,7 +107,7 @@ VD FnVD_HwCore_Junction_shiftUserProgram(VD)
   FnVD_HwSrv_wrapMainProc();
 
   /* 戻らない想定だが念のため停止処理を行う */
-  FnVD_HwCore_Termination_kill((U4)0);
+  FnVD_HwCore_Termination_kill((U4)0x0000FFFF);
 }
 /* セクションをユーザー定義に戻す */
 #include "prj_cmn_section.h"

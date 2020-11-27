@@ -104,7 +104,7 @@ static VD FnVD_HwCore_Exception_kill(U4 tu4Code)
 #pragma interrupt (FnVD_HwCore_Exception_handleReserved)
 VD FnVD_HwCore_Exception_handleReserved(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010000);
 }
 
 
@@ -119,7 +119,7 @@ VD FnVD_HwCore_Exception_handleReserved(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSuperVisor)
 VD FnVD_HwCore_Exception_handleSuperVisor(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010001);
 }
 
 
@@ -134,7 +134,7 @@ VD FnVD_HwCore_Exception_handleSuperVisor(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleAccess)
 VD FnVD_HwCore_Exception_handleAccess(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010002);
 }
 
 
@@ -149,7 +149,7 @@ VD FnVD_HwCore_Exception_handleAccess(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleUndefined)
 VD FnVD_HwCore_Exception_handleUndefined(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010004);
 }
 
 
@@ -164,7 +164,7 @@ VD FnVD_HwCore_Exception_handleUndefined(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleFloatingPoint)
 VD FnVD_HwCore_Exception_handleFloatingPoint(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010006);
 }
 
 
@@ -179,7 +179,7 @@ VD FnVD_HwCore_Exception_handleFloatingPoint(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleNonMaskableInterrupt)
 VD FnVD_HwCore_Exception_handleNonMaskableInterrupt(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001000B);
 }
 
 
@@ -194,7 +194,7 @@ VD FnVD_HwCore_Exception_handleNonMaskableInterrupt(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleBrk)
 VD FnVD_HwCore_Exception_handleBrk(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010100);
 }
 
 
@@ -209,7 +209,7 @@ VD FnVD_HwCore_Exception_handleBrk(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTrap)
 VD FnVD_HwCore_Exception_handleTrap(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010101);
 }
 
 
@@ -224,7 +224,7 @@ VD FnVD_HwCore_Exception_handleTrap(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleBSC_BUSERR)
 VD FnVD_HwCore_Exception_handleBSC_BUSERR(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010110);
 }
 
 
@@ -239,7 +239,7 @@ VD FnVD_HwCore_Exception_handleBSC_BUSERR(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleFCU_FIFERR)
 VD FnVD_HwCore_Exception_handleFCU_FIFERR(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010115);
 }
 
 
@@ -254,7 +254,7 @@ VD FnVD_HwCore_Exception_handleFCU_FIFERR(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleFCU_FRDYI)
 VD FnVD_HwCore_Exception_handleFCU_FRDYI(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010117);
 }
 
 
@@ -269,7 +269,7 @@ VD FnVD_HwCore_Exception_handleFCU_FRDYI(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_SWINT)
 VD FnVD_HwCore_Exception_handleICU_SWINT(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001011B);
 }
 
 
@@ -285,7 +285,7 @@ VD FnVD_HwCore_Exception_handleICU_SWINT(VD)
 VD FnVD_HwCore_Exception_handleCMT0_CMI0(VD)
 {
 #if 1
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001011C);
 #else
   int_cmt0();
 #endif
@@ -304,7 +304,7 @@ VD FnVD_HwCore_Exception_handleCMT0_CMI0(VD)
 VD FnVD_HwCore_Exception_handleCMT1_CMI1(VD)
 {
 #if 1
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001011D);
 #else
   int_cmt1();
 #endif
@@ -323,7 +323,7 @@ VD FnVD_HwCore_Exception_handleCMT1_CMI1(VD)
 VD FnVD_HwCore_Exception_handleCMT2_CMI2(VD)
 {
 #if 1
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001011E);
 #else
   int_cmt2();
 #endif
@@ -341,7 +341,7 @@ VD FnVD_HwCore_Exception_handleCMT2_CMI2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCMT3_CMI3)
 VD FnVD_HwCore_Exception_handleCMT3_CMI3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001011F);
 }
 
 
@@ -356,7 +356,7 @@ VD FnVD_HwCore_Exception_handleCMT3_CMI3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleETHER_EINT)
 VD FnVD_HwCore_Exception_handleETHER_EINT(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010120);
 }
 
 
@@ -372,7 +372,7 @@ VD FnVD_HwCore_Exception_handleETHER_EINT(VD)
 VD FnVD_HwCore_Exception_handleUSB0_D0FIFO0(VD)
 {
 #if 1
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010121);
 #else
   usb_cpu_d0fifo_int_hand();
 #endif
@@ -390,7 +390,7 @@ VD FnVD_HwCore_Exception_handleUSB0_D0FIFO0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleUSB0_D1FIFO0)
 VD FnVD_HwCore_Exception_handleUSB0_D1FIFO0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010122);
 }
 
 
@@ -406,7 +406,7 @@ VD FnVD_HwCore_Exception_handleUSB0_D1FIFO0(VD)
 VD FnVD_HwCore_Exception_handleUSB0_USBI0(VD)
 {
 #if 1
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010123);
 #else
   usb_cpu_usb_int_hand_r();
 #endif
@@ -424,7 +424,7 @@ VD FnVD_HwCore_Exception_handleUSB0_USBI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleUSB1_D0FIFO1)
 VD FnVD_HwCore_Exception_handleUSB1_D0FIFO1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010124);
 }
 
 
@@ -439,7 +439,7 @@ VD FnVD_HwCore_Exception_handleUSB1_D0FIFO1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleUSB1_D1FIFO1)
 VD FnVD_HwCore_Exception_handleUSB1_D1FIFO1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010125);
 }
 
 
@@ -454,7 +454,7 @@ VD FnVD_HwCore_Exception_handleUSB1_D1FIFO1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleUSB1_USBI1)
 VD FnVD_HwCore_Exception_handleUSB1_USBI1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010126);
 }
 
 
@@ -469,7 +469,7 @@ VD FnVD_HwCore_Exception_handleUSB1_USBI1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRSPI0_SPRI0)
 VD FnVD_HwCore_Exception_handleRSPI0_SPRI0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010127);
 }
 
 
@@ -484,7 +484,7 @@ VD FnVD_HwCore_Exception_handleRSPI0_SPRI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRSPI0_SPTI0)
 VD FnVD_HwCore_Exception_handleRSPI0_SPTI0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010128);
 }
 
 
@@ -499,7 +499,7 @@ VD FnVD_HwCore_Exception_handleRSPI0_SPTI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRSPI0_SPII0)
 VD FnVD_HwCore_Exception_handleRSPI0_SPII0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010129);
 }
 
 
@@ -514,7 +514,7 @@ VD FnVD_HwCore_Exception_handleRSPI0_SPII0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRSPI1_SPRI1)
 VD FnVD_HwCore_Exception_handleRSPI1_SPRI1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001012A);
 }
 
 
@@ -529,7 +529,7 @@ VD FnVD_HwCore_Exception_handleRSPI1_SPRI1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRSPI1_SPTI1)
 VD FnVD_HwCore_Exception_handleRSPI1_SPTI1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001012B);
 }
 
 
@@ -544,7 +544,7 @@ VD FnVD_HwCore_Exception_handleRSPI1_SPTI1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRSPI1_SPII1)
 VD FnVD_HwCore_Exception_handleRSPI1_SPII1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001012C);
 }
 
 
@@ -559,7 +559,7 @@ VD FnVD_HwCore_Exception_handleRSPI1_SPII1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRSPI2_SPRI2)
 VD FnVD_HwCore_Exception_handleRSPI2_SPRI2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001012D);
 }
 
 
@@ -574,7 +574,7 @@ VD FnVD_HwCore_Exception_handleRSPI2_SPRI2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRSPI2_SPTI2)
 VD FnVD_HwCore_Exception_handleRSPI2_SPTI2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001012E);
 }
 
 
@@ -589,7 +589,7 @@ VD FnVD_HwCore_Exception_handleRSPI2_SPTI2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRSPI2_SPII2)
 VD FnVD_HwCore_Exception_handleRSPI2_SPII2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001012F);
 }
 
 
@@ -604,7 +604,7 @@ VD FnVD_HwCore_Exception_handleRSPI2_SPII2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCAN0_RXF0)
 VD FnVD_HwCore_Exception_handleCAN0_RXF0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010130);
 }
 
 
@@ -619,7 +619,7 @@ VD FnVD_HwCore_Exception_handleCAN0_RXF0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCAN0_TXF0)
 VD FnVD_HwCore_Exception_handleCAN0_TXF0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010131);
 }
 
 
@@ -634,7 +634,7 @@ VD FnVD_HwCore_Exception_handleCAN0_TXF0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCAN0_RXM0)
 VD FnVD_HwCore_Exception_handleCAN0_RXM0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010132);
 }
 
 
@@ -649,7 +649,7 @@ VD FnVD_HwCore_Exception_handleCAN0_RXM0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCAN0_TXM0)
 VD FnVD_HwCore_Exception_handleCAN0_TXM0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010133);
 }
 
 
@@ -664,7 +664,7 @@ VD FnVD_HwCore_Exception_handleCAN0_TXM0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCAN1_RXF1)
 VD FnVD_HwCore_Exception_handleCAN1_RXF1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010134);
 }
 
 
@@ -679,7 +679,7 @@ VD FnVD_HwCore_Exception_handleCAN1_RXF1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCAN1_TXF1)
 VD FnVD_HwCore_Exception_handleCAN1_TXF1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010135);
 }
 
 
@@ -694,7 +694,7 @@ VD FnVD_HwCore_Exception_handleCAN1_TXF1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCAN1_RXM1)
 VD FnVD_HwCore_Exception_handleCAN1_RXM1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010136);
 }
 
 
@@ -709,7 +709,7 @@ VD FnVD_HwCore_Exception_handleCAN1_RXM1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCAN1_TXM1)
 VD FnVD_HwCore_Exception_handleCAN1_TXM1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010137);
 }
 
 
@@ -724,7 +724,7 @@ VD FnVD_HwCore_Exception_handleCAN1_TXM1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCAN2_RXF2)
 VD FnVD_HwCore_Exception_handleCAN2_RXF2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010138);
 }
 
 
@@ -739,7 +739,7 @@ VD FnVD_HwCore_Exception_handleCAN2_RXF2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCAN2_TXF2)
 VD FnVD_HwCore_Exception_handleCAN2_TXF2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010139);
 }
 
 
@@ -754,7 +754,7 @@ VD FnVD_HwCore_Exception_handleCAN2_TXF2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCAN2_RXM2)
 VD FnVD_HwCore_Exception_handleCAN2_RXM2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001013A);
 }
 
 
@@ -769,7 +769,7 @@ VD FnVD_HwCore_Exception_handleCAN2_RXM2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleCAN2_TXM2)
 VD FnVD_HwCore_Exception_handleCAN2_TXM2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001013B);
 }
 
 
@@ -784,7 +784,7 @@ VD FnVD_HwCore_Exception_handleCAN2_TXM2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRTC_CUP)
 VD FnVD_HwCore_Exception_handleRTC_CUP(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001013E);
 }
 
 
@@ -799,7 +799,7 @@ VD FnVD_HwCore_Exception_handleRTC_CUP(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ0)
 VD FnVD_HwCore_Exception_handleICU_IRQ0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010140);
 }
 
 
@@ -814,7 +814,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ1)
 VD FnVD_HwCore_Exception_handleICU_IRQ1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010141);
 }
 
 
@@ -829,7 +829,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ2)
 VD FnVD_HwCore_Exception_handleICU_IRQ2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010142);
 }
 
 
@@ -844,7 +844,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ3)
 VD FnVD_HwCore_Exception_handleICU_IRQ3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010143);
 }
 
 
@@ -859,7 +859,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ4)
 VD FnVD_HwCore_Exception_handleICU_IRQ4(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010144);
 }
 
 
@@ -874,7 +874,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ4(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ5)
 VD FnVD_HwCore_Exception_handleICU_IRQ5(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010145);
 }
 
 
@@ -889,7 +889,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ5(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ6)
 VD FnVD_HwCore_Exception_handleICU_IRQ6(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010146);
 }
 
 
@@ -904,7 +904,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ6(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ7)
 VD FnVD_HwCore_Exception_handleICU_IRQ7(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010147);
 }
 
 
@@ -919,7 +919,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ7(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ8)
 VD FnVD_HwCore_Exception_handleICU_IRQ8(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010148);
 }
 
 
@@ -934,7 +934,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ8(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ9)
 VD FnVD_HwCore_Exception_handleICU_IRQ9(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010149);
 }
 
 
@@ -949,7 +949,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ9(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ10)
 VD FnVD_HwCore_Exception_handleICU_IRQ10(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001014A);
 }
 
 
@@ -964,7 +964,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ10(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ11)
 VD FnVD_HwCore_Exception_handleICU_IRQ11(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001014B);
 }
 
 
@@ -979,7 +979,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ11(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ12)
 VD FnVD_HwCore_Exception_handleICU_IRQ12(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001014C);
 }
 
 
@@ -994,7 +994,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ12(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ13)
 VD FnVD_HwCore_Exception_handleICU_IRQ13(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001014D);
 }
 
 
@@ -1009,7 +1009,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ13(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ14)
 VD FnVD_HwCore_Exception_handleICU_IRQ14(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001014E);
 }
 
 
@@ -1024,7 +1024,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ14(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_IRQ15)
 VD FnVD_HwCore_Exception_handleICU_IRQ15(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001014F);
 }
 
 
@@ -1039,7 +1039,7 @@ VD FnVD_HwCore_Exception_handleICU_IRQ15(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleUSB_USBR0)
 VD FnVD_HwCore_Exception_handleUSB_USBR0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001015A);
 }
 
 
@@ -1054,7 +1054,7 @@ VD FnVD_HwCore_Exception_handleUSB_USBR0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleUSB_USBR1)
 VD FnVD_HwCore_Exception_handleUSB_USBR1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001015B);
 }
 
 
@@ -1069,7 +1069,7 @@ VD FnVD_HwCore_Exception_handleUSB_USBR1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRTC_ALM)
 VD FnVD_HwCore_Exception_handleRTC_ALM(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001015C);
 }
 
 
@@ -1084,7 +1084,7 @@ VD FnVD_HwCore_Exception_handleRTC_ALM(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRTC_PRD)
 VD FnVD_HwCore_Exception_handleRTC_PRD(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001015D);
 }
 
 
@@ -1099,7 +1099,7 @@ VD FnVD_HwCore_Exception_handleRTC_PRD(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleAD_ADI0)
 VD FnVD_HwCore_Exception_handleAD_ADI0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010162);
 }
 
 
@@ -1114,7 +1114,7 @@ VD FnVD_HwCore_Exception_handleAD_ADI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleS12AD_S12ADI0)
 VD FnVD_HwCore_Exception_handleS12AD_S12ADI0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010166);
 }
 
 
@@ -1129,7 +1129,7 @@ VD FnVD_HwCore_Exception_handleS12AD_S12ADI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_GROUP0)
 VD FnVD_HwCore_Exception_handleICU_GROUP0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001016A);
 }
 
 
@@ -1144,7 +1144,7 @@ VD FnVD_HwCore_Exception_handleICU_GROUP0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_GROUP1)
 VD FnVD_HwCore_Exception_handleICU_GROUP1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001016B);
 }
 
 
@@ -1159,7 +1159,7 @@ VD FnVD_HwCore_Exception_handleICU_GROUP1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_GROUP2)
 VD FnVD_HwCore_Exception_handleICU_GROUP2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001016C);
 }
 
 
@@ -1174,7 +1174,7 @@ VD FnVD_HwCore_Exception_handleICU_GROUP2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_GROUP3)
 VD FnVD_HwCore_Exception_handleICU_GROUP3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001016D);
 }
 
 
@@ -1189,7 +1189,7 @@ VD FnVD_HwCore_Exception_handleICU_GROUP3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_GROUP4)
 VD FnVD_HwCore_Exception_handleICU_GROUP4(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001016E);
 }
 
 
@@ -1204,7 +1204,7 @@ VD FnVD_HwCore_Exception_handleICU_GROUP4(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_GROUP5)
 VD FnVD_HwCore_Exception_handleICU_GROUP5(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001016F);
 }
 
 
@@ -1219,7 +1219,7 @@ VD FnVD_HwCore_Exception_handleICU_GROUP5(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_GROUP6)
 VD FnVD_HwCore_Exception_handleICU_GROUP6(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010170);
 }
 
 
@@ -1234,7 +1234,7 @@ VD FnVD_HwCore_Exception_handleICU_GROUP6(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleICU_GROUP12)
 VD FnVD_HwCore_Exception_handleICU_GROUP12(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010172);
 }
 
 
@@ -1249,7 +1249,7 @@ VD FnVD_HwCore_Exception_handleICU_GROUP12(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI12_SCIX0)
 VD FnVD_HwCore_Exception_handleSCI12_SCIX0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001017A);
 }
 
 
@@ -1264,7 +1264,7 @@ VD FnVD_HwCore_Exception_handleSCI12_SCIX0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI12_SCIX1)
 VD FnVD_HwCore_Exception_handleSCI12_SCIX1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001017B);
 }
 
 
@@ -1279,7 +1279,7 @@ VD FnVD_HwCore_Exception_handleSCI12_SCIX1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI12_SCIX2)
 VD FnVD_HwCore_Exception_handleSCI12_SCIX2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001017C);
 }
 
 
@@ -1294,7 +1294,7 @@ VD FnVD_HwCore_Exception_handleSCI12_SCIX2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI12_SCIX3)
 VD FnVD_HwCore_Exception_handleSCI12_SCIX3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001017D);
 }
 
 
@@ -1309,7 +1309,7 @@ VD FnVD_HwCore_Exception_handleSCI12_SCIX3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU0_TGI0A)
 VD FnVD_HwCore_Exception_handleTPU0_TGI0A(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001017E);
 }
 
 
@@ -1324,7 +1324,7 @@ VD FnVD_HwCore_Exception_handleTPU0_TGI0A(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU0_TGI0B)
 VD FnVD_HwCore_Exception_handleTPU0_TGI0B(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001017F);
 }
 
 
@@ -1339,7 +1339,7 @@ VD FnVD_HwCore_Exception_handleTPU0_TGI0B(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU0_TGI0C)
 VD FnVD_HwCore_Exception_handleTPU0_TGI0C(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010180);
 }
 
 
@@ -1354,7 +1354,7 @@ VD FnVD_HwCore_Exception_handleTPU0_TGI0C(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU0_TGI0D)
 VD FnVD_HwCore_Exception_handleTPU0_TGI0D(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010181);
 }
 
 
@@ -1369,7 +1369,7 @@ VD FnVD_HwCore_Exception_handleTPU0_TGI0D(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU1_TGI1A)
 VD FnVD_HwCore_Exception_handleTPU1_TGI1A(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010182);
 }
 
 
@@ -1384,7 +1384,7 @@ VD FnVD_HwCore_Exception_handleTPU1_TGI1A(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU1_TGI1B)
 VD FnVD_HwCore_Exception_handleTPU1_TGI1B(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010183);
 }
 
 
@@ -1399,7 +1399,7 @@ VD FnVD_HwCore_Exception_handleTPU1_TGI1B(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU2_TGI2A)
 VD FnVD_HwCore_Exception_handleTPU2_TGI2A(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010184);
 }
 
 
@@ -1414,7 +1414,7 @@ VD FnVD_HwCore_Exception_handleTPU2_TGI2A(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU2_TGI2B)
 VD FnVD_HwCore_Exception_handleTPU2_TGI2B(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010185);
 }
 
 
@@ -1429,7 +1429,7 @@ VD FnVD_HwCore_Exception_handleTPU2_TGI2B(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU3_TGI3A)
 VD FnVD_HwCore_Exception_handleTPU3_TGI3A(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010186);
 }
 
 
@@ -1444,7 +1444,7 @@ VD FnVD_HwCore_Exception_handleTPU3_TGI3A(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU3_TGI3B)
 VD FnVD_HwCore_Exception_handleTPU3_TGI3B(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010187);
 }
 
 
@@ -1459,7 +1459,7 @@ VD FnVD_HwCore_Exception_handleTPU3_TGI3B(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU3_TGI3C)
 VD FnVD_HwCore_Exception_handleTPU3_TGI3C(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010188);
 }
 
 
@@ -1474,7 +1474,7 @@ VD FnVD_HwCore_Exception_handleTPU3_TGI3C(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU3_TGI3D)
 VD FnVD_HwCore_Exception_handleTPU3_TGI3D(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010189);
 }
 
 
@@ -1489,7 +1489,7 @@ VD FnVD_HwCore_Exception_handleTPU3_TGI3D(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU4_TGI4A)
 VD FnVD_HwCore_Exception_handleTPU4_TGI4A(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001018A);
 }
 
 
@@ -1504,7 +1504,7 @@ VD FnVD_HwCore_Exception_handleTPU4_TGI4A(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU4_TGI4B)
 VD FnVD_HwCore_Exception_handleTPU4_TGI4B(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001018B);
 }
 
 
@@ -1519,7 +1519,7 @@ VD FnVD_HwCore_Exception_handleTPU4_TGI4B(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU5_TGI5A)
 VD FnVD_HwCore_Exception_handleTPU5_TGI5A(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001018C);
 }
 
 
@@ -1534,7 +1534,7 @@ VD FnVD_HwCore_Exception_handleTPU5_TGI5A(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU5_TGI5B)
 VD FnVD_HwCore_Exception_handleTPU5_TGI5B(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001018D);
 }
 
 
@@ -1551,9 +1551,9 @@ VD FnVD_HwCore_Exception_handleTPU5_TGI5B(VD)
 VD FnVD_HwCore_Exception_handleTPU6_TGI6A_MTU0_TGIA0(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001018E);
 #else
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001018E);
 #endif
 }
 
@@ -1571,9 +1571,9 @@ VD FnVD_HwCore_Exception_handleTPU6_TGI6A_MTU0_TGIA0(VD)
 VD FnVD_HwCore_Exception_handleTPU6_TGI6B_MTU0_TGIB0(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001018F);
 #else
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001018F);
 #endif
 }
 
@@ -1591,9 +1591,9 @@ VD FnVD_HwCore_Exception_handleTPU6_TGI6B_MTU0_TGIB0(VD)
 VD FnVD_HwCore_Exception_handleTPU6_TGI6C_MTU0_TGIC0(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010190);
 #else
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010190);
 #endif
 }
 
@@ -1611,9 +1611,9 @@ VD FnVD_HwCore_Exception_handleTPU6_TGI6C_MTU0_TGIC0(VD)
 VD FnVD_HwCore_Exception_handleTPU6_TGI6D_MTU0_TGID0(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010191);
 #else
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010191);
 #endif
 }
 
@@ -1629,7 +1629,7 @@ VD FnVD_HwCore_Exception_handleTPU6_TGI6D_MTU0_TGID0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleMTU0_TGIE0)
 VD FnVD_HwCore_Exception_handleMTU0_TGIE0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010192);
 }
 
 
@@ -1644,7 +1644,7 @@ VD FnVD_HwCore_Exception_handleMTU0_TGIE0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleMTU0_TGIF0)
 VD FnVD_HwCore_Exception_handleMTU0_TGIF0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010193);
 }
 
 
@@ -1661,9 +1661,9 @@ VD FnVD_HwCore_Exception_handleMTU0_TGIF0(VD)
 VD FnVD_HwCore_Exception_handleTPU7_TGI7A_MTU1_TGIA1(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010194);
 #else
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010194);
 #endif
 }
 
@@ -1681,9 +1681,9 @@ VD FnVD_HwCore_Exception_handleTPU7_TGI7A_MTU1_TGIA1(VD)
 VD FnVD_HwCore_Exception_handleTPU7_TGI7B_MTU1_TGIB1(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010195);
 #else
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010195);
 #endif
 }
 
@@ -1701,9 +1701,9 @@ VD FnVD_HwCore_Exception_handleTPU7_TGI7B_MTU1_TGIB1(VD)
 VD FnVD_HwCore_Exception_handleTPU8_TGI8A_MTU2_TGIA2(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010196);
 #else
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010196);
 #endif
 }
 
@@ -1721,9 +1721,9 @@ VD FnVD_HwCore_Exception_handleTPU8_TGI8A_MTU2_TGIA2(VD)
 VD FnVD_HwCore_Exception_handleTPU8_TGI8B_MTU2_TGIB2(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010197);
 #else
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010197);
 #endif
 }
 
@@ -1741,9 +1741,9 @@ VD FnVD_HwCore_Exception_handleTPU8_TGI8B_MTU2_TGIB2(VD)
 VD FnVD_HwCore_Exception_handleTPU9_TGI9A_MTU3_TGIA3(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010198);
 #else
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010198);
 #endif
 }
 
@@ -1761,9 +1761,9 @@ VD FnVD_HwCore_Exception_handleTPU9_TGI9A_MTU3_TGIA3(VD)
 VD FnVD_HwCore_Exception_handleTPU9_TGI9B_MTU3_TGIB3(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010199);
 #else
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x00010199);
 #endif
 }
 
@@ -1781,10 +1781,10 @@ VD FnVD_HwCore_Exception_handleTPU9_TGI9B_MTU3_TGIB3(VD)
 VD FnVD_HwCore_Exception_handleTPU9_TGI9C_MTU3_TGIC3(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001019A);
 #else
   #if 1
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001019A);
   #else
   int_mot_r();
   #endif
@@ -1805,9 +1805,9 @@ VD FnVD_HwCore_Exception_handleTPU9_TGI9C_MTU3_TGIC3(VD)
 VD FnVD_HwCore_Exception_handleTPU9_TGI9D_MTU3_TGID3(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001019B);
 #else
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001019B);
 #endif
 }
 
@@ -1825,9 +1825,9 @@ VD FnVD_HwCore_Exception_handleTPU9_TGI9D_MTU3_TGID3(VD)
 VD FnVD_HwCore_Exception_handleTPU10_TGI10A_MTU4_TGIA4(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001019C);
 #else
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001019C);
 #endif
 }
 
@@ -1845,10 +1845,10 @@ VD FnVD_HwCore_Exception_handleTPU10_TGI10A_MTU4_TGIA4(VD)
 VD FnVD_HwCore_Exception_handleTPU10_TGI10B_MTU4_TGIB4(VD)
 {
 #if 0
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001019D);
 #else
   #if 1
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001019D);
   #else
   int_mot_l();
   #endif
@@ -1867,7 +1867,7 @@ VD FnVD_HwCore_Exception_handleTPU10_TGI10B_MTU4_TGIB4(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleMTU4_TGIC4)
 VD FnVD_HwCore_Exception_handleMTU4_TGIC4(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001019E);
 }
 
 
@@ -1882,7 +1882,7 @@ VD FnVD_HwCore_Exception_handleMTU4_TGIC4(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleMTU4_TGID4)
 VD FnVD_HwCore_Exception_handleMTU4_TGID4(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x0001019F);
 }
 
 
@@ -1897,7 +1897,7 @@ VD FnVD_HwCore_Exception_handleMTU4_TGID4(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleMTU4_TCIV4)
 VD FnVD_HwCore_Exception_handleMTU4_TCIV4(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101A0);
 }
 
 
@@ -1912,7 +1912,7 @@ VD FnVD_HwCore_Exception_handleMTU4_TCIV4(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU11_TGI11A)
 VD FnVD_HwCore_Exception_handleTPU11_TGI11A(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101A1);
 }
 
 
@@ -1927,7 +1927,7 @@ VD FnVD_HwCore_Exception_handleTPU11_TGI11A(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTPU11_TGI11B)
 VD FnVD_HwCore_Exception_handleTPU11_TGI11B(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101A2);
 }
 
 
@@ -1942,7 +1942,7 @@ VD FnVD_HwCore_Exception_handleTPU11_TGI11B(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleMTU5_TGIU5)
 VD FnVD_HwCore_Exception_handleMTU5_TGIU5(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101A3);
 }
 
 
@@ -1957,7 +1957,7 @@ VD FnVD_HwCore_Exception_handleMTU5_TGIU5(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleMTU5_TGIV5)
 VD FnVD_HwCore_Exception_handleMTU5_TGIV5(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101A4);
 }
 
 
@@ -1972,7 +1972,7 @@ VD FnVD_HwCore_Exception_handleMTU5_TGIV5(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleMTU5_TGIW5)
 VD FnVD_HwCore_Exception_handleMTU5_TGIW5(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101A5);
 }
 
 
@@ -1987,7 +1987,7 @@ VD FnVD_HwCore_Exception_handleMTU5_TGIW5(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handlePOE_OEI1)
 VD FnVD_HwCore_Exception_handlePOE_OEI1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101A6);
 }
 
 
@@ -2002,7 +2002,7 @@ VD FnVD_HwCore_Exception_handlePOE_OEI1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handlePOE_OEI2)
 VD FnVD_HwCore_Exception_handlePOE_OEI2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101A7);
 }
 
 
@@ -2017,7 +2017,7 @@ VD FnVD_HwCore_Exception_handlePOE_OEI2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTMR0_CMIA0)
 VD FnVD_HwCore_Exception_handleTMR0_CMIA0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101AA);
 }
 
 
@@ -2032,7 +2032,7 @@ VD FnVD_HwCore_Exception_handleTMR0_CMIA0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTMR0_CMIB0)
 VD FnVD_HwCore_Exception_handleTMR0_CMIB0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101AB);
 }
 
 
@@ -2047,7 +2047,7 @@ VD FnVD_HwCore_Exception_handleTMR0_CMIB0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTMR0_OVI0)
 VD FnVD_HwCore_Exception_handleTMR0_OVI0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101AC);
 }
 
 
@@ -2062,7 +2062,7 @@ VD FnVD_HwCore_Exception_handleTMR0_OVI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTMR1_CMIA1)
 VD FnVD_HwCore_Exception_handleTMR1_CMIA1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101AD);
 }
 
 
@@ -2077,7 +2077,7 @@ VD FnVD_HwCore_Exception_handleTMR1_CMIA1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTMR1_CMIB1)
 VD FnVD_HwCore_Exception_handleTMR1_CMIB1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101AE);
 }
 
 
@@ -2092,7 +2092,7 @@ VD FnVD_HwCore_Exception_handleTMR1_CMIB1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTMR1_OVI1)
 VD FnVD_HwCore_Exception_handleTMR1_OVI1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101AF);
 }
 
 
@@ -2107,7 +2107,7 @@ VD FnVD_HwCore_Exception_handleTMR1_OVI1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTMR2_CMIA2)
 VD FnVD_HwCore_Exception_handleTMR2_CMIA2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101B0);
 }
 
 
@@ -2122,7 +2122,7 @@ VD FnVD_HwCore_Exception_handleTMR2_CMIA2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTMR2_CMIB2)
 VD FnVD_HwCore_Exception_handleTMR2_CMIB2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101B1);
 }
 
 
@@ -2137,7 +2137,7 @@ VD FnVD_HwCore_Exception_handleTMR2_CMIB2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTMR2_OVI2)
 VD FnVD_HwCore_Exception_handleTMR2_OVI2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101B2);
 }
 
 
@@ -2152,7 +2152,7 @@ VD FnVD_HwCore_Exception_handleTMR2_OVI2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTMR3_CMIA3)
 VD FnVD_HwCore_Exception_handleTMR3_CMIA3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101B3);
 }
 
 
@@ -2167,7 +2167,7 @@ VD FnVD_HwCore_Exception_handleTMR3_CMIA3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTMR3_CMIB3)
 VD FnVD_HwCore_Exception_handleTMR3_CMIB3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101B4);
 }
 
 
@@ -2182,7 +2182,7 @@ VD FnVD_HwCore_Exception_handleTMR3_CMIB3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleTMR3_OVI3)
 VD FnVD_HwCore_Exception_handleTMR3_OVI3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101B5);
 }
 
 
@@ -2197,7 +2197,7 @@ VD FnVD_HwCore_Exception_handleTMR3_OVI3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC0_EEI0)
 VD FnVD_HwCore_Exception_handleRIIC0_EEI0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101B6);
 }
 
 
@@ -2212,7 +2212,7 @@ VD FnVD_HwCore_Exception_handleRIIC0_EEI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC0_RXI0)
 VD FnVD_HwCore_Exception_handleRIIC0_RXI0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101B7);
 }
 
 
@@ -2227,7 +2227,7 @@ VD FnVD_HwCore_Exception_handleRIIC0_RXI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC0_TXI0)
 VD FnVD_HwCore_Exception_handleRIIC0_TXI0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101B8);
 }
 
 
@@ -2242,7 +2242,7 @@ VD FnVD_HwCore_Exception_handleRIIC0_TXI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC0_TEI0)
 VD FnVD_HwCore_Exception_handleRIIC0_TEI0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101B9);
 }
 
 
@@ -2258,7 +2258,7 @@ VD FnVD_HwCore_Exception_handleRIIC0_TEI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC1_EEI1)
 VD FnVD_HwCore_Exception_handleRIIC1_EEI1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101BA);
 }
 
 
@@ -2273,7 +2273,7 @@ VD FnVD_HwCore_Exception_handleRIIC1_EEI1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC1_RXI1)
 VD FnVD_HwCore_Exception_handleRIIC1_RXI1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101BB);
 }
 
 
@@ -2288,7 +2288,7 @@ VD FnVD_HwCore_Exception_handleRIIC1_RXI1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC1_TXI1)
 VD FnVD_HwCore_Exception_handleRIIC1_TXI1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101BC);
 }
 
 
@@ -2303,7 +2303,7 @@ VD FnVD_HwCore_Exception_handleRIIC1_TXI1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC1_TEI1)
 VD FnVD_HwCore_Exception_handleRIIC1_TEI1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101BD);
 }
 
 
@@ -2318,7 +2318,7 @@ VD FnVD_HwCore_Exception_handleRIIC1_TEI1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC2_EEI2)
 VD FnVD_HwCore_Exception_handleRIIC2_EEI2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101BE);
 }
 
 
@@ -2333,7 +2333,7 @@ VD FnVD_HwCore_Exception_handleRIIC2_EEI2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC2_RXI2)
 VD FnVD_HwCore_Exception_handleRIIC2_RXI2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101BF);
 }
 
 
@@ -2348,7 +2348,7 @@ VD FnVD_HwCore_Exception_handleRIIC2_RXI2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC2_TXI2)
 VD FnVD_HwCore_Exception_handleRIIC2_TXI2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101C0);
 }
 
 
@@ -2363,7 +2363,7 @@ VD FnVD_HwCore_Exception_handleRIIC2_TXI2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC2_TEI2)
 VD FnVD_HwCore_Exception_handleRIIC2_TEI2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101C1);
 }
 
 
@@ -2378,7 +2378,7 @@ VD FnVD_HwCore_Exception_handleRIIC2_TEI2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC3_EEI3)
 VD FnVD_HwCore_Exception_handleRIIC3_EEI3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101C2);
 }
 
 
@@ -2393,7 +2393,7 @@ VD FnVD_HwCore_Exception_handleRIIC3_EEI3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC3_RXI3)
 VD FnVD_HwCore_Exception_handleRIIC3_RXI3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101C3);
 }
 
 
@@ -2408,7 +2408,7 @@ VD FnVD_HwCore_Exception_handleRIIC3_RXI3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC3_TXI3)
 VD FnVD_HwCore_Exception_handleRIIC3_TXI3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101C4);
 }
 
 
@@ -2423,7 +2423,7 @@ VD FnVD_HwCore_Exception_handleRIIC3_TXI3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleRIIC3_TEI3)
 VD FnVD_HwCore_Exception_handleRIIC3_TEI3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101C5);
 }
 
 
@@ -2438,7 +2438,7 @@ VD FnVD_HwCore_Exception_handleRIIC3_TEI3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleDMAC_DMAC0I)
 VD FnVD_HwCore_Exception_handleDMAC_DMAC0I(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101C6);
 }
 
 
@@ -2453,7 +2453,7 @@ VD FnVD_HwCore_Exception_handleDMAC_DMAC0I(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleDMAC_DMAC1I)
 VD FnVD_HwCore_Exception_handleDMAC_DMAC1I(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101C7);
 }
 
 
@@ -2468,7 +2468,7 @@ VD FnVD_HwCore_Exception_handleDMAC_DMAC1I(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleDMAC_DMAC2I)
 VD FnVD_HwCore_Exception_handleDMAC_DMAC2I(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101C8);
 }
 
 
@@ -2483,7 +2483,7 @@ VD FnVD_HwCore_Exception_handleDMAC_DMAC2I(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleDMAC_DMAC3I)
 VD FnVD_HwCore_Exception_handleDMAC_DMAC3I(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101C9);
 }
 
 
@@ -2498,7 +2498,7 @@ VD FnVD_HwCore_Exception_handleDMAC_DMAC3I(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleEXDMAC_EXDMAC0I)
 VD FnVD_HwCore_Exception_handleEXDMAC_EXDMAC0I(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101CA);
 }
 
 
@@ -2513,7 +2513,7 @@ VD FnVD_HwCore_Exception_handleEXDMAC_EXDMAC0I(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleEXDMAC_EXDMAC1I)
 VD FnVD_HwCore_Exception_handleEXDMAC_EXDMAC1I(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101CB);
 }
 
 
@@ -2528,7 +2528,7 @@ VD FnVD_HwCore_Exception_handleEXDMAC_EXDMAC1I(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleDEU_DEU0)
 VD FnVD_HwCore_Exception_handleDEU_DEU0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101CE);
 }
 
 
@@ -2543,7 +2543,7 @@ VD FnVD_HwCore_Exception_handleDEU_DEU0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleDEU_DEU1)
 VD FnVD_HwCore_Exception_handleDEU_DEU1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101CF);
 }
 
 
@@ -2558,7 +2558,7 @@ VD FnVD_HwCore_Exception_handleDEU_DEU1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handlePDC_PCDFI)
 VD FnVD_HwCore_Exception_handlePDC_PCDFI(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101D0);
 }
 
 
@@ -2573,7 +2573,7 @@ VD FnVD_HwCore_Exception_handlePDC_PCDFI(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handlePDC_PCFEI)
 VD FnVD_HwCore_Exception_handlePDC_PCFEI(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101D1);
 }
 
 
@@ -2588,7 +2588,7 @@ VD FnVD_HwCore_Exception_handlePDC_PCFEI(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handlePDC_PCERI)
 VD FnVD_HwCore_Exception_handlePDC_PCERI(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101D2);
 }
 
 
@@ -2603,7 +2603,7 @@ VD FnVD_HwCore_Exception_handlePDC_PCERI(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI0_RXI0)
 VD FnVD_HwCore_Exception_handleSCI0_RXI0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101D6);
 }
 
 
@@ -2618,7 +2618,7 @@ VD FnVD_HwCore_Exception_handleSCI0_RXI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI0_TXI0)
 VD FnVD_HwCore_Exception_handleSCI0_TXI0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101D7);
 }
 
 
@@ -2633,7 +2633,7 @@ VD FnVD_HwCore_Exception_handleSCI0_TXI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI0_TEI0)
 VD FnVD_HwCore_Exception_handleSCI0_TEI0(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101D8);
 }
 
 
@@ -2648,7 +2648,7 @@ VD FnVD_HwCore_Exception_handleSCI0_TEI0(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI1_RXI1)
 VD FnVD_HwCore_Exception_handleSCI1_RXI1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101D9);
 }
 
 
@@ -2663,7 +2663,7 @@ VD FnVD_HwCore_Exception_handleSCI1_RXI1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI1_TXI1)
 VD FnVD_HwCore_Exception_handleSCI1_TXI1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101DA);
 }
 
 
@@ -2678,7 +2678,7 @@ VD FnVD_HwCore_Exception_handleSCI1_TXI1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI1_TEI1)
 VD FnVD_HwCore_Exception_handleSCI1_TEI1(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101DB);
 }
 
 
@@ -2693,7 +2693,7 @@ VD FnVD_HwCore_Exception_handleSCI1_TEI1(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI2_RXI2)
 VD FnVD_HwCore_Exception_handleSCI2_RXI2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101DC);
 }
 
 
@@ -2708,7 +2708,7 @@ VD FnVD_HwCore_Exception_handleSCI2_RXI2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI2_TXI2)
 VD FnVD_HwCore_Exception_handleSCI2_TXI2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101DD);
 }
 
 
@@ -2723,7 +2723,7 @@ VD FnVD_HwCore_Exception_handleSCI2_TXI2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI2_TEI2)
 VD FnVD_HwCore_Exception_handleSCI2_TEI2(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101DE);
 }
 
 
@@ -2738,7 +2738,7 @@ VD FnVD_HwCore_Exception_handleSCI2_TEI2(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI3_RXI3)
 VD FnVD_HwCore_Exception_handleSCI3_RXI3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101DF);
 }
 
 
@@ -2753,7 +2753,7 @@ VD FnVD_HwCore_Exception_handleSCI3_RXI3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI3_TXI3)
 VD FnVD_HwCore_Exception_handleSCI3_TXI3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101E0);
 }
 
 
@@ -2768,7 +2768,7 @@ VD FnVD_HwCore_Exception_handleSCI3_TXI3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI3_TEI3)
 VD FnVD_HwCore_Exception_handleSCI3_TEI3(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101E1);
 }
 
 
@@ -2783,7 +2783,7 @@ VD FnVD_HwCore_Exception_handleSCI3_TEI3(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI4_RXI4)
 VD FnVD_HwCore_Exception_handleSCI4_RXI4(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101E2);
 }
 
 
@@ -2798,7 +2798,7 @@ VD FnVD_HwCore_Exception_handleSCI4_RXI4(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI4_TXI4)
 VD FnVD_HwCore_Exception_handleSCI4_TXI4(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101E3);
 }
 
 
@@ -2813,7 +2813,7 @@ VD FnVD_HwCore_Exception_handleSCI4_TXI4(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI4_TEI4)
 VD FnVD_HwCore_Exception_handleSCI4_TEI4(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101E4);
 }
 
 
@@ -2828,7 +2828,7 @@ VD FnVD_HwCore_Exception_handleSCI4_TEI4(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI5_RXI5)
 VD FnVD_HwCore_Exception_handleSCI5_RXI5(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101E5);
 }
 
 
@@ -2843,7 +2843,7 @@ VD FnVD_HwCore_Exception_handleSCI5_RXI5(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI5_TXI5)
 VD FnVD_HwCore_Exception_handleSCI5_TXI5(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101E6);
 }
 
 
@@ -2858,7 +2858,7 @@ VD FnVD_HwCore_Exception_handleSCI5_TXI5(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI5_TEI5)
 VD FnVD_HwCore_Exception_handleSCI5_TEI5(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101E7);
 }
 
 
@@ -2873,7 +2873,7 @@ VD FnVD_HwCore_Exception_handleSCI5_TEI5(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI6_RXI6)
 VD FnVD_HwCore_Exception_handleSCI6_RXI6(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101E8);
 }
 
 
@@ -2888,7 +2888,7 @@ VD FnVD_HwCore_Exception_handleSCI6_RXI6(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI6_TXI6)
 VD FnVD_HwCore_Exception_handleSCI6_TXI6(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101E9);
 }
 
 
@@ -2903,7 +2903,7 @@ VD FnVD_HwCore_Exception_handleSCI6_TXI6(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI6_TEI6)
 VD FnVD_HwCore_Exception_handleSCI6_TEI6(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101EA);
 }
 
 
@@ -2918,7 +2918,7 @@ VD FnVD_HwCore_Exception_handleSCI6_TEI6(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI7_RXI7)
 VD FnVD_HwCore_Exception_handleSCI7_RXI7(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101EB);
 }
 
 
@@ -2933,7 +2933,7 @@ VD FnVD_HwCore_Exception_handleSCI7_RXI7(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI7_TXI7)
 VD FnVD_HwCore_Exception_handleSCI7_TXI7(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101EC);
 }
 
 
@@ -2948,7 +2948,7 @@ VD FnVD_HwCore_Exception_handleSCI7_TXI7(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI7_TEI7)
 VD FnVD_HwCore_Exception_handleSCI7_TEI7(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101ED);
 }
 
 
@@ -2963,7 +2963,7 @@ VD FnVD_HwCore_Exception_handleSCI7_TEI7(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI8_RXI8)
 VD FnVD_HwCore_Exception_handleSCI8_RXI8(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101EE);
 }
 
 
@@ -2978,7 +2978,7 @@ VD FnVD_HwCore_Exception_handleSCI8_RXI8(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI8_TXI8)
 VD FnVD_HwCore_Exception_handleSCI8_TXI8(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101EF);
 }
 
 
@@ -2993,7 +2993,7 @@ VD FnVD_HwCore_Exception_handleSCI8_TXI8(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI8_TEI8)
 VD FnVD_HwCore_Exception_handleSCI8_TEI8(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101F0);
 }
 
 
@@ -3008,7 +3008,7 @@ VD FnVD_HwCore_Exception_handleSCI8_TEI8(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI9_RXI9)
 VD FnVD_HwCore_Exception_handleSCI9_RXI9(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101F1);
 }
 
 
@@ -3023,7 +3023,7 @@ VD FnVD_HwCore_Exception_handleSCI9_RXI9(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI9_TXI9)
 VD FnVD_HwCore_Exception_handleSCI9_TXI9(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101F2);
 }
 
 
@@ -3038,7 +3038,7 @@ VD FnVD_HwCore_Exception_handleSCI9_TXI9(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI9_TEI9)
 VD FnVD_HwCore_Exception_handleSCI9_TEI9(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101F3);
 }
 
 
@@ -3053,7 +3053,7 @@ VD FnVD_HwCore_Exception_handleSCI9_TEI9(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI10_RXI10)
 VD FnVD_HwCore_Exception_handleSCI10_RXI10(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101F4);
 }
 
 
@@ -3068,7 +3068,7 @@ VD FnVD_HwCore_Exception_handleSCI10_RXI10(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI10_TXI10)
 VD FnVD_HwCore_Exception_handleSCI10_TXI10(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101F5);
 }
 
 
@@ -3083,7 +3083,7 @@ VD FnVD_HwCore_Exception_handleSCI10_TXI10(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI10_TEI10)
 VD FnVD_HwCore_Exception_handleSCI10_TEI10(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101F6);
 }
 
 
@@ -3098,7 +3098,7 @@ VD FnVD_HwCore_Exception_handleSCI10_TEI10(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI11_RXI11)
 VD FnVD_HwCore_Exception_handleSCI11_RXI11(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101F7);
 }
 
 
@@ -3113,7 +3113,7 @@ VD FnVD_HwCore_Exception_handleSCI11_RXI11(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI11_TXI11)
 VD FnVD_HwCore_Exception_handleSCI11_TXI11(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101F8);
 }
 
 
@@ -3128,7 +3128,7 @@ VD FnVD_HwCore_Exception_handleSCI11_TXI11(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI11_TEI11)
 VD FnVD_HwCore_Exception_handleSCI11_TEI11(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101F9);
 }
 
 
@@ -3143,7 +3143,7 @@ VD FnVD_HwCore_Exception_handleSCI11_TEI11(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI12_RXI12)
 VD FnVD_HwCore_Exception_handleSCI12_RXI12(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101FA);
 }
 
 
@@ -3158,7 +3158,7 @@ VD FnVD_HwCore_Exception_handleSCI12_RXI12(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI12_TXI12)
 VD FnVD_HwCore_Exception_handleSCI12_TXI12(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101FB);
 }
 
 
@@ -3173,7 +3173,7 @@ VD FnVD_HwCore_Exception_handleSCI12_TXI12(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleSCI12_TEI12)
 VD FnVD_HwCore_Exception_handleSCI12_TEI12(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101FC);
 }
 
 
@@ -3188,7 +3188,7 @@ VD FnVD_HwCore_Exception_handleSCI12_TEI12(VD)
 #pragma interrupt (FnVD_HwCore_Exception_handleIEB_IEBINT)
 VD FnVD_HwCore_Exception_handleIEB_IEBINT(VD)
 {
-  FnVD_HwCore_Exception_kill((U4)0);
+  FnVD_HwCore_Exception_kill((U4)0x000101FD);
 }
 
 
