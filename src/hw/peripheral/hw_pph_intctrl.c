@@ -956,6 +956,24 @@ VD FnVD_HwPph_IntCtrl_initToKill(VD)
 
 
 /* ============================================================ */
+/* 関数名 : FnU1_HwPph_IntCtrl_getIntReq                        */
+/*          割り込み要求取得                                    */
+/* 引数   : tenId  割り込みベクタ番号                           */
+/* 戻り値 : 割り込み要求(0:なし, 1:あり)                        */
+/* 概要   : 割り込み要求要求を提供する                          */
+/* 制約   : なし                                                */
+/* ============================================================ */
+U1 FnU1_HwPph_IntCtrl_getIntReq(EN_HwPph_IntCtrl_VecId tenId)
+{
+  ST_IRn tstIR;
+
+  tstIR.u1Val = stRegICU.staIRn[tenId].u1Val;
+
+  return (tstIR.stBit.b1IR);
+}
+
+
+/* ============================================================ */
 /* 関数名 : FnVD_HwPph_IntCtrl_clrIntReq                        */
 /*          割り込み要求クリア                                  */
 /* 引数   : tenId  割り込みベクタ番号                           */
@@ -967,6 +985,28 @@ VD FnVD_HwPph_IntCtrl_initToKill(VD)
 VD FnVD_HwPph_IntCtrl_clrIntReq(EN_HwPph_IntCtrl_VecId tenId)
 {
   stRegICU.staIRn[tenId].u1Val = (U1)0x00;
+}
+
+
+/* ============================================================ */
+/* 関数名 : FnU1_HwPph_IntCtrl_getAndClrIntReq                  */
+/*          割り込み要求取得及びクリア                          */
+/* 引数   : tenId  割り込みベクタ番号                           */
+/* 戻り値 : なし                                                */
+/* 概要   : 割り込み要求を取得し要求ありの場合は                */
+/*          レジスタをクリアする                                */
+/* 制約   : 割り込み禁止中に実行すること                        */
+/* ============================================================ */
+U1 FnU1_HwPph_IntCtrl_getAndClrIntReq(EN_HwPph_IntCtrl_VecId tenId)
+{
+  ST_IRn tstIR;
+
+  tstIR.u1Val = stRegICU.staIRn[tenId].u1Val;
+  if (tstIR.stBit.b1IR == (U1)C_ON) {
+    stRegICU.staIRn[tenId].u1Val = (U1)0x00;
+  }
+
+  return (tstIR.stBit.b1IR);
 }
 
 
@@ -990,11 +1030,11 @@ VD FnVD_HwPph_IntCtrl_mskIntReq(EN_HwPph_IntCtrl_VecId tenId, U1 tu1Msk)
   U1 tu1Val;  /* 作業用 */
 
   tu1Idx = (U1)((U1)tenId >> (U1)3);                /* Idx = RoundDown(VecNum / 8) */
-  tu1Pos = (U1)((U1)1 << ((U1)tenId & (U1)0x07));   /* Pos = VecNum mod 8 */
+  tu1Pos = (U1)((U1)1 << (U1)((U1)tenId & (U1)0x07));   /* Pos = VecNum mod 8 */
 
   tu1Val = stRegICU.staIERm[tu1Idx].u1Val;
   if (tu1Msk == (U1)C_OFF) {
-    tu1Val &= ~tu1Pos;
+    tu1Val &= (U1)~tu1Pos;
   }
   else {
     tu1Val |= tu1Pos;
