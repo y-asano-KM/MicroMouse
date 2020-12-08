@@ -18,6 +18,7 @@
 #include "hw_cmn_option_pac.h"
 
 /* 個別 */
+#include "hw_pph_clk_pac.h"
 
 /* 本体 */
 #include "hw_srv_schedule_cfg_pac.h"
@@ -78,6 +79,10 @@
 /* ============================================================ */
 VD FnVD_HwSrv_wrapInitProc(VD)
 {
+  /* クロック設定 */
+  FnVD_HwPph_Clk_init();
+
+  /* PF/APL初期化処理 */
   if (CPFnVD_HwSrv_Sche_CfgInitProc != CPVD_NULL) {
     CPFnVD_HwSrv_Sche_CfgInitProc();
   }

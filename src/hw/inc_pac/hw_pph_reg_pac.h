@@ -34,6 +34,143 @@
 /* 周辺I/Oレジスタのアライメントはメンバーのデータサイズに応じるためunpackとする */
 #pragma bit_order right
 #pragma unpack
+/* システムクロックコントロールレジスタ */ /* 0008 0020 */
+typedef union {
+  struct {
+    U4 b4Fix0   :4;  /* RW:予約(0001b固定) */
+    U4 b4Fix1   :4;  /* RW:予約(0001b固定) */
+    U4 b4PCKB   :4;  /* RW:周辺モジュールクロックB(PCLKB)選択ビット */
+    U4 b4PCKA   :4;  /* RW:周辺モジュールクロックA(PCLKA)選択ビット */
+    U4 b4BCK    :4;  /* RW:外部バスクロック(BCLK)選択ビット */
+    U4 b2Dmy0   :2;  /* RW:予約 */
+    U4 b1PSTOP0 :1;  /* RW:SDCLK端子出力制御ビット */
+    U4 b1PSTOP1 :1;  /* RW:BCLK端子出力制御ビット */
+    U4 b4ICK    :4;  /* RW:システムクロック(ICLK)選択ビット */
+    U4 b4FCK    :4;  /* RW:FlashIFクロック(FCLK)選択ビット */
+  } stBit;
+  U4 u4Val;
+} ST_SCKCR;
+
+/* システムクロックコントロールレジスタ2 */ /* 0008 0024 */
+typedef union {
+  struct {
+    U2 b4IEBCK :4;  /* RW:IEBUSクロック(IECLK)選択ビット */
+    U2 b4UCK   :4;  /* RW:USBクロック(UCLK)選択ビット */
+    U2 b8Dmy0  :8;  /* RW:予約 */
+  } stBit;
+  U2 u2Val;
+} ST_SCKCR2;
+
+/* システムクロックコントロールレジスタ3 */ /* 0008 0026 */
+typedef union {
+  struct {
+    U2 b8Dmy0  :8;  /* RW:予約 */
+    U2 b3CKSEL :3;  /* RW:クロックソース選択ビット */
+    U2 b5Dmy1  :5;  /* RW:予約 */
+  } stBit;
+  U2 u2Val;
+} ST_SCKCR3;
+
+/* PLLコントロールレジスタ */ /* 0008 0028 */
+typedef union {
+  struct {
+    U2 b2PLIDIV :2;  /* RW:PLL入力分周比選択ビット */
+    U2 b6Dmy0   :6;  /* RW:予約 */
+    U2 b6STC    :6;  /* RW:周波数逓倍率設定ビット */
+    U2 b2Dmy1   :2;  /* RW:予約 */
+  } stBit;
+  U2 u2Val;
+} ST_PLLCR;
+
+/* PLLコントロールレジスタ2 */ /* 0008 002A */
+typedef union {
+  struct {
+    U1 b1PLLEN :1;  /* RW:PLL停止制御ビット */
+    U1 b7Dmy0  :7;  /* RW:予約 */
+  } stBit;
+  U1 u1Val;
+} ST_PLLCR2;
+
+/* 外部バスクロックコントロールレジスタ */ /* 0008 0030 */
+typedef union {
+  struct {
+    U1 b1BCLKDIV :1;  /* RW:BCLK端子出力選択ビット */
+    U1 b7Dmy0    :7;  /* RW:予約 */
+  } stBit;
+  U1 u1Val;
+} ST_BCKCR;
+
+/* PLL ウェイトコントロールレジスタ */ /* 0008 00A6 */
+typedef union {
+  struct {
+    U1 b5PSTS :5;  /* RW:PLLウェイト時間設定ビット */
+    U1 b3Dmy0 :3;
+  } stBit;
+  U1 u1Val;
+} ST_PLLWTCR;
+
+/* プロテクトレジスタ */ /* 0008 03FE */
+typedef union {
+  struct {
+    U2 b1PRC0  :1;  /* RW:プロテクトビット0 */
+    U2 b1PRC1  :1;  /* RW:プロテクトビット1 */
+    U2 b1Dmy0  :1;  /* RW:予約 */
+    U2 b1PRC3  :1;  /* RW:プロテクトビット3 */
+    U2 b4Dmy1  :4;  /* RW:予約 */
+    U2 b8PRKEY :8;  /* RW:PRCキーコードビット */
+  } stBit;
+  U2 u2Val;
+} ST_PRCR;
+
+/* SYSTEMモジュール0 */
+typedef struct {
+  U2          stMDMONR;       /* モードモニタレジスタ */ /* ToDo:未実装 */
+  U2          stMDSR;         /* モードステータスレジスタ */ /* ToDo:未実装 */
+  U2          stSYSCR0;       /* システムコントロールレジスタ0 */ /* ToDo:未実装 */
+  U2          stSYSCR1;       /* システムコントロールレジスタ1 */ /* ToDo:未実装 */
+  U1          u1aDmy00[2];    /* 予約 */
+  U2          stSBYCR;        /* スタンバイコントロールレジスタ */ /* ToDo:未実装 */
+  U2          u1aDmy01[2];    /* 予約 */
+  U4          stMSTPCRA;      /* モジュールストップコントロールレジスタA */ /* ToDo:未実装 */
+  U4          stMSTPCRB;      /* モジュールストップコントロールレジスタB */ /* ToDo:未実装 */
+  U4          stMSTPCRC;      /* モジュールストップコントロールレジスタC */ /* ToDo:未実装 */
+  U4          stMSTPCRD;      /* モジュールストップコントロールレジスタD */ /* ToDo:未実装 */
+  ST_SCKCR    stSCKCR;        /* システムクロックコントロールレジスタ */
+  ST_SCKCR2   stSCKCR2;       /* システムクロックコントロールレジスタ2 */
+  ST_SCKCR3   stSCKCR3;       /* システムクロックコントロールレジスタ3 */
+  ST_PLLCR    stPLLCR;        /* PLLコントロールレジスタ */
+  ST_PLLCR2   stPLLCR2;       /* PLLコントロールレジスタ2 */
+  U1          u1aDmy02[5];    /* 予約 */
+  ST_BCKCR    stBCKCR;        /* 外部バスクロックコントロールレジスタ */
+  U1          u1aDmy03[1];    /* 予約 */
+  U1          stMOSCCR;       /* メインクロック発振器コントロールレジスタ */ /* ToDo:未実装 */
+  U1          stSOSCCR;       /* サブクロック発振器コントロールレジスタ */ /* ToDo:未実装 */
+  U1          stLOCOCR;       /* 低速オンチップオシレータコントロールレジスタ */ /* ToDo:未実装 */
+  U1          stILOCOCR;      /* IWDT専用オンチップオシレータコントロールレジスタ */ /* ToDo:未実装 */
+  U1          stHOCOCR;       /* 高速オンチップオシレータコントロールレジスタ */ /* ToDo:未実装 */
+  U1          u1aDmy04[9];    /* 予約 */
+  U1          stOSTDCR;       /* 発振停止検出コントロールレジスタ */ /* ToDo:未実装 */
+  U1          stOSTDSR;       /* 発振停止検出ステータスレジスタ */ /* ToDo:未実装 */
+  U1          u1aDmy05[94];   /* 予約 */
+  U1          stOPCCR;        /* 動作電力コントロールレジスタ */ /* ToDo:未実装 */
+  U1          stRSTCKCR;      /* スリープモード復帰クロックソース切り替えレジスタ */ /* ToDo:未実装 */
+  U1          stMOSCWTCR;     /* メインクロック発振器ウェイトコントロールレジスタ */ /* ToDo:未実装 */
+  U1          stSOSCWTCR;     /* サブクロック発振器ウェイトコントロールレジスタ */ /* ToDo:未実装 */
+  U1          u1aDmy06[2];    /* 予約 */
+  ST_PLLWTCR  stPLLWTCR;      /* PLLウェイトコントロールレジスタ */
+  U1          u1aDmy07[25];   /* 予約 */
+  U1          stRSTSR2;       /* リセットステータスレジスタ2 */ /* ToDo:未実装 */
+  U1          u1aDmy08[1];    /* 予約 */
+  U2          stSWRR;         /* ソフトウェアリセットレジスタ */ /* ToDo:未実装 */
+  U1          u1aDmy09[28];   /* 予約 */
+  U1          stLVD1CR1;      /* 電圧監視1回路制御レジスタ1 */ /* ToDo:未実装 */
+  U1          stLVD1SR;       /* 電圧監視1回路ステータスレジスタ */ /* ToDo:未実装 */
+  U1          stLVD2CR1;      /* 電圧監視2回路制御レジスタ1 */ /* ToDo:未実装 */
+  U1          stLVD2SR;       /* 電圧監視2回路ステータスレジスタ */ /* ToDo:未実装 */
+  U1          u1aDmy10[794];  /* 予約 */
+  ST_PRCR     stPRCR;         /* プロテクトレジスタ */
+} ST_SYSTEM0;
+
 /* 割り込み要求レジスタn (n = 割り込みベクタ番号) */
 typedef union {
   struct {
@@ -305,11 +442,12 @@ typedef union {
 /* ============================================================ */
 /* 変数宣言(extern)                                             */
 /* ============================================================ */
-extern volatile ST_ICU    __evenaccess stRegICU;             /* ICUモジュール(GRPm, GENm, GCRm, SEL除く) */
-extern volatile ST_PORTm  __evenaccess stRegPORTm;           /* PORTmモジュール */
-extern volatile ST_MPC    __evenaccess stRegMPC;             /* MPCモジュール(PmnPFSレジスタ除く) */
-extern volatile ST_PORT   __evenaccess stRegPORT;            /* PORTモジュール */
-extern volatile ST_PmnPFS __evenaccess sta2RegPmnPFS[32][8]; /* MPCモジュール(PmnPFSレジスタ) */
+extern volatile ST_SYSTEM0 __evenaccess stRegSys0;            /* SYSTEMモジュール(0) */
+extern volatile ST_ICU     __evenaccess stRegICU;             /* ICUモジュール(GRPm, GENm, GCRm, SEL除く) */
+extern volatile ST_PORTm   __evenaccess stRegPORTm;           /* PORTmモジュール */
+extern volatile ST_MPC     __evenaccess stRegMPC;             /* MPCモジュール(PmnPFSレジスタ除く) */
+extern volatile ST_PORT    __evenaccess stRegPORT;            /* PORTモジュール */
+extern volatile ST_PmnPFS  __evenaccess sta2RegPmnPFS[32][8]; /* MPCモジュール(PmnPFSレジスタ) */
 
 
 /* ============================================================ */

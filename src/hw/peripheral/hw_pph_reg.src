@@ -7,6 +7,7 @@
 ;/* ============================================================ */
 ;/* 変数定義(extern)                                             */
 ;/* ============================================================ */
+.glb _stRegSys0
 .glb _stRegICU
 .glb _stRegPORTm
 .glb _stRegMPC
@@ -19,23 +20,31 @@
 ;/* セクション指定 */
 .section  PPH_REG1,data,align=4
 ;/* adrs = 0x00080000 */
-  .blkb 00007000H
+_stRegSys0:
+  .blkb 00000400H
+  .blkb 00006C00H
+
 ;/* adrs = 0x00087000 */
 _stRegICU:
   .blkb 00000596H
   .blkb 00000A6AH
+
 ;/* adrs = 0x00088000 */
   .blkb 00004000H
+
 ;/* adrs = 0x0008C000 */
 _stRegPORTm:
   .blkb 00000100H
+
 ;/* adrs = 0x0008C100 */
 _stRegMPC:
   .blkb 00000020H
+
 ;/* adrs = 0x0008C120 */
 _stRegPORT:
   .blkb 00000002H
   .blkb 0000001EH
+
 ;/* adrs = 0x0008C140 */
 _sta2RegPmnPFS:
   .blkb 00000100H

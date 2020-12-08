@@ -24,6 +24,8 @@
         </Category>
         <Category Name="hw">
           <Category Name="config">
+            <Path>src\hw\config\hw_pph_clk_cfg.c</Path>
+            <Path>src\hw\config\hw_pph_port_cfg.c</Path>
             <Path>src\hw\config\hw_srv_schedule_cfg.c</Path>
           </Category>
           <Category Name="core">
@@ -56,7 +58,10 @@
             <Path>src\hw\inc_pac\hw_drv_raysens_pac.h</Path>
             <Path>src\hw\inc_pac\hw_drv_switch_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_adc_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_pph_clk_cfg_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_pph_clk_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_intctrl_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_pph_port_cfg_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_port_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_reg_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_tmr_pac.h</Path>
@@ -74,10 +79,11 @@
             <Path>src\hw\inc_pub\hw_drv_switch.h</Path>
             <Path>src\hw\inc_pub\hw_srv_interrupt.h</Path>
             <Path>src\hw\inc_pub\hw_srv_termination.h</Path>
-            <Path>src\hw\inc_pub\hw_srv_time_pac.h</Path>
+            <Path>src\hw\inc_pub\hw_srv_time.h</Path>
           </Category>
           <Category Name="peripheral">
             <Path>src\hw\peripheral\hw_pph_adc.c</Path>
+            <Path>src\hw\peripheral\hw_pph_clk.c</Path>
             <Path>src\hw\peripheral\hw_pph_intctrl.c</Path>
             <Path>src\hw\peripheral\hw_pph_port.c</Path>
             <Path>src\hw\peripheral\hw_pph_tmr.c</Path>
@@ -202,6 +208,9 @@
           <Path>DefaultBuild\hw_pph_tmr.obj</Path>
           <Path>DefaultBuild\hw_srv_time.obj</Path>
           <Path>DefaultBuild\hw_pph_reg.obj</Path>
+          <Path>DefaultBuild\hw_pph_clk.obj</Path>
+          <Path>DefaultBuild\hw_pph_port_cfg.obj</Path>
+          <Path>DefaultBuild\hw_pph_clk_cfg.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src\pf\inc_pub</IncludePathForC>
@@ -308,6 +317,9 @@
           <Path>build\hw_pph_tmr.obj</Path>
           <Path>build\hw_srv_time.obj</Path>
           <Path>build\hw_pph_reg.obj</Path>
+          <Path>build\hw_pph_clk.obj</Path>
+          <Path>build\hw_pph_port_cfg.obj</Path>
+          <Path>build\hw_pph_clk_cfg.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src</IncludePathForC>
