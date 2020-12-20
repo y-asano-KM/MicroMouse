@@ -1011,32 +1011,34 @@ U1 FnU1_HwPph_IntCtrl_getAndClrIntReq(EN_HwPph_IntCtrl_VecId tenId)
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_HwPph_IntCtrl_mskIntReq                        */
+/* 関数名 : FnVD_HwPph_IntCtrl_setEnbInt                        */
 /*          割り込み要求マスク許可禁止設定                      */
 /* 引数   : tenId  割り込みベクタ番号                           */
-/*          tu1Msk マスク設定(0:マスクしない, 1:マスクする)     */
+/*          tu1Enb 許可設定(0:禁止, 1:許可)                     */
 /* 戻り値 : なし                                                */
 /* 概要   : 割り込み要求許可レジスタの設定を行う                */
 /* 制約   : 割り込み禁止中に実行すること                        */
-/*          マスクする場合、割り込みは発生しなくなるが          */
+/*          禁止する場合、割り込みは発生しなくなるが            */
 /*          割り込み要求は滞留することに注意                    */
 /*          (要求が滞留した状態でマスクを解除すると             */
 /*           即時割り込みが発生する)                            */
 /* ============================================================ */
-VD FnVD_HwPph_IntCtrl_mskIntReq(EN_HwPph_IntCtrl_VecId tenId, U1 tu1Msk)
+VD FnVD_HwPph_IntCtrl_setEnbInt(EN_HwPph_IntCtrl_VecId tenId, U1 tu1Enb)
 {
   U1 tu1Idx;  /* レジスタアクセス用インデックス */
   U1 tu1Pos;  /* ビット位置 */
   U1 tu1Val;  /* 作業用 */
 
-  tu1Idx = (U1)((U1)tenId >> (U1)3);                /* Idx = RoundDown(VecNum / 8) */
-  tu1Pos = (U1)((U1)1 << (U1)((U1)tenId & (U1)0x07));   /* Pos = VecNum mod 8 */
+  tu1Idx = (U1)((U1)tenId >> (U1)3);                    /* Idx = RoundDown(VecNum / 8) */
+  tu1Pos = (U1)((U1)1 << (U1)((U1)tenId & (U1)0x07));   /* Pos = VecNum % 8 */
 
   tu1Val = stRegICU.staIERm[tu1Idx].u1Val;
-  if (tu1Msk == (U1)C_OFF) {
+  if (tu1Enb == (U1)C_OFF) {
+    /* 割り込み発生禁止 */
     tu1Val &= (U1)~tu1Pos;
   }
   else {
+    /* 割り込み発生許可 */
     tu1Val |= tu1Pos;
   }
   stRegICU.staIERm[tu1Idx].u1Val = tu1Val;

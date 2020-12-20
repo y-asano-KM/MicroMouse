@@ -319,7 +319,7 @@ extern VD FnVD_HwPph_IntCtrl_initToKill(VD);
 extern U1 FnU1_HwPph_IntCtrl_getIntReq(EN_HwPph_IntCtrl_VecId tenId);
 extern VD FnVD_HwPph_IntCtrl_clrIntReq(EN_HwPph_IntCtrl_VecId tenId);
 extern U1 FnU1_HwPph_IntCtrl_getAndClrIntReq(EN_HwPph_IntCtrl_VecId tenId);
-extern VD FnVD_HwPph_IntCtrl_enbMsk(EN_HwPph_IntCtrl_VecId tenId, U1 tu1Msk);
+extern VD FnVD_HwPph_IntCtrl_setEnbInt(EN_HwPph_IntCtrl_VecId tenId, U1 tu1Enb);
 extern VD FnVD_HwPph_IntCtrl_setPriority(EN_HwPph_IntCtrl_VecId tenId, EN_HwPph_IntCtrl_Priority tenP);
 
 

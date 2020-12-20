@@ -25,6 +25,7 @@
         <Category Name="hw">
           <Category Name="config">
             <Path>src\hw\config\hw_pph_clk_cfg.c</Path>
+            <Path>src\hw\config\hw_pph_cmt_cfg.c</Path>
             <Path>src\hw\config\hw_pph_port_cfg.c</Path>
             <Path>src\hw\config\hw_srv_schedule_cfg.c</Path>
           </Category>
@@ -60,11 +61,15 @@
             <Path>src\hw\inc_pac\hw_pph_adc_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_clk_cfg_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_clk_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_pph_cmt_cfg_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_pph_cmt_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_pph_intctrl_cfg_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_intctrl_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_port_cfg_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_port_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_reg_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_tmr_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_srv_exception_pac.h</Path>
             <Path>src\hw\inc_pac\hw_srv_schedule_cfg_pac.h</Path>
             <Path>src\hw\inc_pac\hw_srv_schedule_pac.h</Path>
             <Path>src\hw\inc_pac\hw_srv_time_pac.h</Path>
@@ -78,18 +83,21 @@
             <Path>src\hw\inc_pub\hw_drv_raysens.h</Path>
             <Path>src\hw\inc_pub\hw_drv_switch.h</Path>
             <Path>src\hw\inc_pub\hw_srv_interrupt.h</Path>
+            <Path>src\hw\inc_pub\hw_srv_schedule.h</Path>
             <Path>src\hw\inc_pub\hw_srv_termination.h</Path>
             <Path>src\hw\inc_pub\hw_srv_time.h</Path>
           </Category>
           <Category Name="peripheral">
             <Path>src\hw\peripheral\hw_pph_adc.c</Path>
             <Path>src\hw\peripheral\hw_pph_clk.c</Path>
+            <Path>src\hw\peripheral\hw_pph_cmt.c</Path>
             <Path>src\hw\peripheral\hw_pph_intctrl.c</Path>
             <Path>src\hw\peripheral\hw_pph_port.c</Path>
             <Path>src\hw\peripheral\hw_pph_tmr.c</Path>
             <Path>src\hw\peripheral\hw_pph_reg.src</Path>
           </Category>
           <Category Name="service">
+            <Path>src\hw\service\hw_srv_exception.c</Path>
             <Path>src\hw\service\hw_srv_schedule.c</Path>
             <Path>src\hw\service\hw_srv_termination.c</Path>
             <Path>src\hw\service\hw_srv_time.c</Path>
@@ -104,6 +112,14 @@
           <Category Name="inc_pub">
             <Path>src\pf\inc_pub\pf_cmn_chk_option.h</Path>
             <Path>src\pf\inc_pub\pf_cmn_option.h</Path>
+            <Path>src\pf\inc_pub\pf_sche_init.h</Path>
+            <Path>src\pf\inc_pub\pf_sche_interrupt.h</Path>
+            <Path>src\pf\inc_pub\pf_sche_main.h</Path>
+          </Category>
+          <Category Name="sche">
+            <Path>src\pf\sche\pf_sche_init.c</Path>
+            <Path>src\pf\sche\pf_sche_interrupt.c</Path>
+            <Path>src\pf\sche\pf_sche_main.c</Path>
           </Category>
         </Category>
         <Category Name="prj">
@@ -117,9 +133,11 @@
             <Path>src\prj\inc_pub\prj_cmn_option.h</Path>
             <Path>src\prj\inc_pub\prj_cmn_section.h</Path>
             <Path>src\prj\inc_pub\prj_cmn_type.h</Path>
+            <Path>src\prj\inc_pub\prj_sche_init.h</Path>
             <Path>src\prj\inc_pub\prj_sche_main.h</Path>
           </Category>
           <Category Name="sche">
+            <Path>src\prj\sche\prj_sche_init.c</Path>
             <Path>src\prj\sche\prj_sche_main.c</Path>
           </Category>
         </Category>
@@ -211,6 +229,13 @@
           <Path>DefaultBuild\hw_pph_clk.obj</Path>
           <Path>DefaultBuild\hw_pph_port_cfg.obj</Path>
           <Path>DefaultBuild\hw_pph_clk_cfg.obj</Path>
+          <Path>DefaultBuild\hw_pph_cmt.obj</Path>
+          <Path>DefaultBuild\hw_srv_exception.obj</Path>
+          <Path>DefaultBuild\hw_pph_cmt_cfg.obj</Path>
+          <Path>DefaultBuild\prj_sche_init.obj</Path>
+          <Path>DefaultBuild\pf_sche_init.obj</Path>
+          <Path>DefaultBuild\pf_sche_main.obj</Path>
+          <Path>DefaultBuild\pf_sche_interrupt.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src\pf\inc_pub</IncludePathForC>
@@ -320,6 +345,13 @@
           <Path>build\hw_pph_clk.obj</Path>
           <Path>build\hw_pph_port_cfg.obj</Path>
           <Path>build\hw_pph_clk_cfg.obj</Path>
+          <Path>build\hw_pph_cmt.obj</Path>
+          <Path>build\hw_srv_exception.obj</Path>
+          <Path>build\hw_pph_cmt_cfg.obj</Path>
+          <Path>build\prj_sche_init.obj</Path>
+          <Path>build\pf_sche_init.obj</Path>
+          <Path>build\pf_sche_main.obj</Path>
+          <Path>build\pf_sche_interrupt.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src</IncludePathForC>

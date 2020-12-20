@@ -35,8 +35,9 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern VD FnVD_HwSrv_wrapInitProc(VD);
-extern VD FnVD_HwSrv_wrapMainProc(VD);
+extern VD FnVD_HwSrv_Sche_wrapInitProc(VD);
+extern VD FnVD_HwSrv_Sche_wrapMainProc(VD);
+extern VD FnVD_HwSrv_Sche_wrapInt1msProc(VD);
 
 
 /* ============================================================ */

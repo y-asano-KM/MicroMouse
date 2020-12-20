@@ -1,8 +1,8 @@
 /* ============================================================ */
-/* ファイル名 : hw_srv_schedule_cfg.c                           */
-/* 機能       : スケジュール用ユーザ設定                        */
+/* ファイル名 : pf_sche_init.c                                  */
+/* 機能       : PF初期化スケジュール                            */
 /* ============================================================ */
-#define SECTION_HW
+#define SECTION_PF
 
 /* ============================================================ */
 /* インクルード                                                 */
@@ -14,16 +14,12 @@
 #include "prj_cmn_macro.h"
 
 /* カテゴリ共通 */
-#include "hw_cmn_option.h"
-#include "hw_cmn_option_pac.h"
+#include "prj_cmn_option_pac.h"
 
 /* 個別 */
-#include "prj_sche_main.h"
-#include "prj_sche_init.h"
-#include "pf_sche_interrupt.h"
 
 /* 本体 */
-#include "hw_srv_schedule_cfg_pac.h"
+#include "pf_sche_init.h"
 
 
 /* ============================================================ */
@@ -54,13 +50,6 @@
 /* ============================================================ */
 /* const変数定義(extern)                                        */
 /* ============================================================ */
-/* スケジューラコールバック設定 */
-VD (* const CPFnVD_HwSrv_Sche_CfgInitProc)(VD) = FnVD_PrjSche_wrapInitProc;
-VD (* const CPFnVD_HwSrv_Sche_CfgMainProc)(VD) = FnVD_PrjSche_wrapMainProc;
-VD (* const CPFnVD_HwSrv_Sche_Cfg1msProc)(VD)  = FnVD_PfSche_wrapInt1msProc;
-
-/* メインスケジューラ待ち許可設定 */
-U1 CU1_HwSrv_Sche_CfgEnbWainMainProc = (U1)C_ON;
 
 
 /* ============================================================ */
@@ -76,3 +65,16 @@ U1 CU1_HwSrv_Sche_CfgEnbWainMainProc = (U1)C_ON;
 /* ============================================================ */
 /* 関数定義                                                     */
 /* ============================================================ */
+/* ============================================================ */
+/* 関数名 : FnVD_PfSche_wrapInitProc                            */
+/*          PF初期化スケジュール                                */
+/* 引数   : なし                                                */
+/* 戻り値 : なし                                                */
+/* 概要   : 初期化処理の実行順を管理する                        */
+/* 制約   : なし                                                */
+/* ============================================================ */
+VD FnVD_PfSche_wrapInitProc(VD)
+{
+
+}
+
