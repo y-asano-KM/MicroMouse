@@ -155,7 +155,7 @@ typedef enum {
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern VD FnVD_HwPph_Clk_init(VD);
+extern VD FnVD_HwPph_Clk_cfg(VD);
 
 
 /* ============================================================ */
@@ -171,6 +171,122 @@ extern VD FnVD_HwPph_Clk_init(VD);
 /* ============================================================ */
 /* 関数形式マクロ定義                                           */
 /* ============================================================ */
+/* ============================================================ */
+/* 関数名 : McFL_HwPph_Clk_getPllClkFreq                        */
+/*          PLL入力クロック周波数演算                           */
+/* 引数   : tflMainClkFreq  メインクロック周波数                */
+/*          tenPllIDiv      PLL入力分周比選択                   */
+/*          (EN_HwPph_Clk_PllIDiv型)                            */
+/* 戻り値 : [MHz]PLL入力クロック周波数                          */
+/* 概要   : PLL入力クロック周波数値を返す                       */
+/* 制約   : なし                                                */
+/* ============================================================ */
+#define McFL_HwPph_Clk_calPllClkFreq(tflMainClkFreq, tenPllIDiv)             ((FL)((tflMainClkFreq) / (FL)((U4)((U4)1 << (U4)(tenPllIDiv)))))
+
+
+/* ============================================================ */
+/* 関数名 : McFL_HwPph_Clk_calCpuClkFreq                        */
+/*          CPUクロック周波数演算                               */
+/* 引数   : tflPllClkFreq  PLL入力クロック周波数                */
+/*          tenFreqMul     周波数逓倍率設定                     */
+/*          (EN_HwPph_Clk_FreqMul型)                            */
+/* 戻り値 : [MHz]CPUクロック周波数                              */
+/* 概要   : CPUクロック周波数値を返す                           */
+/* 制約   : なし                                                */
+/* ============================================================ */
+#define McFL_HwPph_Clk_calCpuClkFreq(tflPllClkFreq, tenFreqMul)              ((FL)((tflPllClkFreq) * (FL)((U4)((U4)tenFreqMul + (U4)1))))
+
+
+/* ============================================================ */
+/* 関数名 : McFL_HwPph_Clk_calPphClkAFreq                       */
+/*          周辺モジュールクロックA周波数演算                   */
+/* 引数   : tflCpuClkFreq  CPUクロック周波数                    */
+/*          tenPphClkADiv  周辺モジュールクロックA選択          */
+/*          (EN_HwPph_Clk_PphClkA型)                            */
+/* 戻り値 : [MHz]周辺モジュールクロックA周波数                  */
+/* 概要   : 周辺モジュールクロックA周波数値を返す               */
+/* 制約   : なし                                                */
+/* ============================================================ */
+#define McFL_HwPph_Clk_calPphClkAFreq(tflCpuClkFreq, tenPphClkADiv)          ((FL)((tflCpuClkFreq) / (FL)((U4)((U4)1 << (U4)(tenPphClkADiv)))))
+
+
+/* ============================================================ */
+/* 関数名 : McFL_HwPph_Clk_calPphClkBFreq                       */
+/*          周辺モジュールクロックB周波数演算                   */
+/* 引数   : tflCpuClkFreq  CPUクロック周波数                    */
+/*          tenPphClkBDiv  周辺モジュールクロックB選択          */
+/*          (EN_HwPph_Clk_PphClkB型)                            */
+/* 戻り値 : [MHz]周辺モジュールクロックB周波数                  */
+/* 概要   : 周辺モジュールクロックB周波数値を返す               */
+/* 制約   : なし                                                */
+/* ============================================================ */
+#define McFL_HwPph_Clk_calPphClkBFreq(tflCpuClkFreq, tenPphClkBDiv)          ((FL)((tflCpuClkFreq) / (FL)((U4)((U4)1 << (U4)(tenPphClkBDiv)))))
+
+
+/* ============================================================ */
+/* 関数名 : McFL_HwPph_Clk_calExtBusClkFreq                     */
+/*          外部バスクロック周波数演算                          */
+/* 引数   : tflCpuClkFreq    CPUクロック周波数                  */
+/*          tenExtBusClkDiv  外部バスクロック選択               */
+/*          (EN_HwPph_Clk_ExtBusClk型)                          */
+/* 戻り値 : [MHz]外部バスクロック周波数                         */
+/* 概要   : 外部バスクロック周波数値を返す                      */
+/* 制約   : なし                                                */
+/* ============================================================ */
+#define McFL_HwPph_Clk_calExtBusClkFreq(tflCpuClkFreq, tenExtBusClkDiv)      ((FL)((tflCpuClkFreq) / (FL)((U4)((U4)1 << (U4)(tenExtBusClkDiv)))))
+
+
+/* ============================================================ */
+/* 関数名 : McFL_HwPph_Clk_calSysClkFreq                        */
+/*          システムクロック周波数演算                          */
+/* 引数   : tflCpuClkFreq  CPUクロック周波数                    */
+/*          tenSysClkDiv   システムクロック選択                 */
+/*          (EN_HwPph_Clk_SysClk型)                             */
+/* 戻り値 : [MHz]システムクロック周波数                         */
+/* 概要   : システムクロック周波数値を返す                      */
+/* 制約   : なし                                                */
+/* ============================================================ */
+#define McFL_HwPph_Clk_calSysClkFreq(tflCpuClkFreq, tenSysClkDiv)            ((FL)((tflCpuClkFreq) / (FL)((U4)((U4)1 << (U4)(tenSysClkDiv)))))
+
+
+/* ============================================================ */
+/* 関数名 : McFL_HwPph_Clk_calFlashIfClkFreq                    */
+/*          FlashIFクロック周波数演算                           */
+/* 引数   : tflCpuClkFreq     CPUクロック周波数                 */
+/*          tenFlashIfClkDiv  FlashIFクロック選択               */
+/*          (EN_HwPph_Clk_FlashIfClk型)                         */
+/* 戻り値 : [MHz]FlashIFクロック周波数                          */
+/* 概要   : FlashIFクロック周波数値を返す                       */
+/* 制約   : なし                                                */
+/* ============================================================ */
+#define McFL_HwPph_Clk_calFlashIfClkFreq(tflCpuClkFreq, tenFlashIfClkDiv)    ((FL)((tflCpuClkFreq) / (FL)((U4)((U4)1 << (U4)(tenFlashIfClkDiv)))))
+
+
+/* ============================================================ */
+/* 関数名 : McFL_HwPph_Clk_calIeBusClkFreq                      */
+/*          IEBUSクロック周波数演算                             */
+/* 引数   : tflCpuClkFreq   CPUクロック周波数                   */
+/*          tenIeBusClkDiv  IEBUSクロック選択                   */
+/*          (EN_HwPph_Clk_IeBusClk型)                           */
+/* 戻り値 : [MHz]IEBUSクロック周波数                            */
+/* 概要   : IEBUSクロック周波数値を返す                         */
+/* 制約   : なし                                                */
+/* ============================================================ */
+#define McFL_HwPph_Clk_calIeBusClkFreq(tflCpuClkFreq, tenIeBusClkDiv)        ((tenIeBusClkDiv == CEN_HwPph_Clk_IeBusClk_Div06) ? ((FL)((tflCpuClkFreq) / (FL)6.0F)) \
+                                                                                                                               : ((FL)((tflCpuClkFreq) / (FL)((U4)((U4)1 << (U4)(tenIeBusClkDiv))))))
+
+
+/* ============================================================ */
+/* 関数名 : McFL_HwPph_Clk_calUsbClkFreq                        */
+/*          USBクロック周波数演算                               */
+/* 引数   : tflCpuClkFreq  CPUクロック周波数                    */
+/*          tenUsbClkDiv   USBクロック選択                      */
+/*          (EN_HwPph_Clk_UsbClk型)                             */
+/* 戻り値 : [MHz]USBクロック周波数                              */
+/* 概要   : USBクロック周波数値を返す                           */
+/* 制約   : なし                                                */
+/* ============================================================ */
+#define McFL_HwPph_Clk_calUsbClkFreq(tflCpuClkFreq, tenUsbClkDiv)            ((FL)((tflCpuClkFreq) / (FL)((U4)((U4)(tenUsbClkDiv) + (U4)1))))
 
 
 #endif

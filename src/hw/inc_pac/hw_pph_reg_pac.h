@@ -34,6 +34,165 @@
 /* 周辺I/Oレジスタのアライメントはメンバーのデータサイズに応じるためunpackとする */
 #pragma bit_order right
 #pragma unpack
+/* ----------------- */
+/* SYSTEMモジュール0 */
+/* ----------------- */
+/* モジュールストップコントロールレジスタA */
+typedef union {
+  struct {
+    U4 b1Fix0    :1;   /* RW:予約(1b固定) */
+    U4 b1Fix1    :1;   /* RW:予約(1b固定) */
+    U4 b1Fix2    :1;   /* RW:予約(1b固定) */
+    U4 b1Fix3    :1;   /* RW:予約(1b固定) */
+    U4 b1MSTPA4  :1;   /* RW:8ビットタイマ3、2(ユニット1)モジュールストップ設定ビット (TMR3,2) */
+    U4 b1MSTPA5  :1;   /* RW:8ビットタイマ1、0(ユニット0)モジュールストップ設定ビット (TMR1,0) */
+    U4 b1Fix6    :1;   /* RW:予約(1b固定) */
+    U4 b1Fix7    :1;   /* RW:予約(1b固定) */
+    U4 b1Fix8    :1;   /* RW:予約(1b固定) */
+    U4 b1MSTPA9  :1;   /* RW:マルチファンクションタイマパルスユニット2モジュールストップ設定ビット (MTU0-5) */
+    U4 b1MSTPA10 :1;   /* RW:プログラマブルパルスジェネレータ(ユニット1)モジュールストップ設定ビット (PPG1) */
+    U4 b1MSTPA11 :1;   /* RW:プログラマブルパルスジェネレータ(ユニット0)モジュールストップ設定ビット (PPG0) */
+    U4 b1MSTPA12 :1;   /* RW:16ビットタイマパルスユニット1(ユニット1)モジュールストップ設定ビット (TPU6-11) */
+    U4 b1MSTPA13 :1;   /* RW:16ビットタイマパルスユニット0(ユニット0)モジュールストップ設定ビット (TPU0-5) */
+    U4 b1MSTPA14 :1;   /* RW:コンペアマッチタイマ(ユニット1)モジュールストップ設定ビット (CMT2,3) */
+    U4 b1MSTPA15 :1;   /* RW:コンペアマッチタイマ(ユニット0)モジュールストップ設定ビット (CMT0,1) */
+    U4 b1Fix16   :1;   /* RW:予約(1b固定) */
+    U4 b1MSTPA17 :1;   /* RW:12ビットA/Dコンバータモジュールストップ設定ビット (S12AD) */
+    U4 b1Fix18   :1;   /* RW:予約(1b固定) */
+    U4 b1MSTPA19 :1;   /* RW:D/Aコンバータモジュールストップ設定ビット (DA) */
+    U4 b1Fix20   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix21   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix22   :1;   /* RW:予約(1b固定) */
+    U4 b1MSTPA23 :1;   /* RW:10ビットA/Dコンバータモジュールストップ設定ビット (AD) */
+    U4 b1MSTPA24 :1;   /* RW:モジュールストップA24設定ビット */
+    U4 b1Fix25   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix26   :1;   /* RW:予約(1b固定) */
+    U4 b1MSTPA27 :1;   /* RW:モジュールストップA27設定ビット */
+    U4 b1MSTPA28 :1;   /* RW:DMAコントローラ/データトランスファコントローラモジュールストップ設定ビット (DMAC/DTC) */
+    U4 b1MSTPA29 :1;   /* RW:EXDMAコントローラモジュールストップ設定ビット (EXDMAC) */
+    U4 b1Fix30   :1;   /* RW:予約(1b固定) */
+    U4 b1ACSE    :1;   /* RW:全モジュールクロックストップモード許可ビット */
+  } stBit;
+  U4 u4Val;
+} ST_MSTPCRA;
+
+/* モジュールストップコントロールレジスタB */
+typedef union {
+  struct {
+    U4 b1MSTPB0  :1;   /* RW:CANモジュール0モジュールストップ設定ビット (CAN0) */
+    U4 b1MSTPB1  :1;   /* RW:CANモジュール1モジュールストップ設定ビット (CAN1) */
+    U4 b1MSTPB2  :1;   /* RW:CANモジュール2モジュールストップ設定ビット (CAN2) */
+    U4 b1Fix3    :1;   /* RW:予約(1b固定) */
+    U4 b1MSTPB4  :1;   /* RW:シリアルコミュニケーションインタフェースSCIdモジュールストップ設定ビット (SCI12) */
+    U4 b1Fix5    :1;   /* RW:予約(1b固定) */
+    U4 b1Fix6    :1;   /* RW:予約(1b固定) */
+    U4 b1Fix7    :1;   /* RW:予約(1b固定) */
+    U4 b1MSTPB8  :1;   /* RW:温度センサモジュールストップ設定ビット (温度センサ) */
+    U4 b1Fix9    :1;   /* RW:予約(1b固定) */
+    U4 b1Fix10   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix11   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix12   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix13   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix14   :1;   /* RW:予約(1b固定) */
+    U4 b1MSTPB15 :1;   /* RW:イーサネットコントローラ用DMAコントローラモジュールストップ設定ビット (EDMAC) */
+    U4 b1MSTPB16 :1;   /* RW:シリアルペリフェラルインタフェース1モジュールストップ設定ビット (RSPI1) */
+    U4 b1MSTPB17 :1;   /* RW:シリアルペリフェラルインタフェース0モジュールストップ設定ビット (RSPI0) */
+    U4 b1MSTPB18 :1;   /* RW:ユニバーサルシリアルバスインタフェース(ポート1)モジュールストップ設定ビット (USB1) */
+    U4 b1MSTPB19 :1;   /* RW:ユニバーサルシリアルバスインタフェース(ポート0)モジュールストップ設定ビット (USB0) */
+    U4 b1MSTPB20 :1;   /* RW:I2Cバスインタフェース1モジュールストップ設定ビット (RIIC1) */
+    U4 b1MSTPB21 :1;   /* RW:I2Cバスインタフェース0モジュールストップ設定ビット (RIIC0) */
+    U4 b1MSTPB22 :1;   /* RW:パラレルデータキャプチャユニットモジュールストップ設定ビット (PDC) */
+    U4 b1MSTPB23 :1;   /* RW:CRC演算器モジュールストップ設定ビット (CRC) */
+    U4 b1MSTPB24 :1;   /* RW:シリアルコミュニケーションインタフェース7モジュールストップ設定ビット (SCI7) */
+    U4 b1MSTPB25 :1;   /* RW:シリアルコミュニケーションインタフェース6モジュールストップ設定ビット (SCI6) */
+    U4 b1MSTPB26 :1;   /* RW:シリアルコミュニケーションインタフェース5モジュールストップ設定ビット (SCI5) */
+    U4 b1MSTPB27 :1;   /* RW:シリアルコミュニケーションインタフェース4モジュールストップ設定ビット (SCI4) */
+    U4 b1MSTPB28 :1;   /* RW:シリアルコミュニケーションインタフェース3モジュールストップ設定ビット (SCI3) */
+    U4 b1MSTPB29 :1;   /* RW:シリアルコミュニケーションインタフェース2モジュールストップ設定ビット (SCI2) */
+    U4 b1MSTPB30 :1;   /* RW:シリアルコミュニケーションインタフェース1モジュールストップ設定ビット (SCI1) */
+    U4 b1MSTPB31 :1;   /* RW:シリアルコミュニケーションインタフェース0モジュールストップ設定ビット (SCI0) */
+  } stBit;
+  U4 u4Val;
+} ST_MSTPCRB;
+
+/* モジュールストップコントロールレジスタC */
+typedef union {
+  struct {
+    U4 b1MSTPC0  :1;   /* RW:RAM0モジュールストップ設定ビット (RAM0) */
+    U4 b1MSTPC1  :1;   /* RW:RAM1モジュールストップ設定ビット (RAM1) */
+    U4 b1Dmy2    :1;   /* RW:予約 */
+    U4 b1Dmy3    :1;   /* RW:予約 */
+    U4 b1Dmy4    :1;   /* RW:予約 */
+    U4 b1Dmy5    :1;   /* RW:予約 */
+    U4 b1Dmy6    :1;   /* RW:予約 */
+    U4 b1Dmy7    :1;   /* RW:予約 */
+    U4 b1Dmy8    :1;   /* RW:予約 */
+    U4 b1Dmy9    :1;   /* RW:予約 */
+    U4 b1Dmy10   :1;   /* RW:予約 */
+    U4 b1Dmy11   :1;   /* RW:予約 */
+    U4 b1Dmy12   :1;   /* RW:予約 */
+    U4 b1Dmy13   :1;   /* RW:予約 */
+    U4 b1Dmy14   :1;   /* RW:予約 */
+    U4 b1Dmy15   :1;   /* RW:予約 */
+    U4 b1MSTPC16 :1;   /* RW:I2Cバスインタフェース3モジュールストップ設定ビット (RIIC3) */
+    U4 b1MSTPC17 :1;   /* RW:I2Cバスインタフェース2モジュールストップ設定ビット (RIIC2) */
+    U4 b1MSTPC18 :1;   /* RW:IEBUSモジュールストップ設定ビット (IEBUS) */
+    U4 b1MSTPC19 :1;   /* RW:周波数測定機能モジュールストップ設定ビット (MCK) */
+    U4 b1Fix20   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix21   :1;   /* RW:予約(1b固定) */
+    U4 b1MSTPC22 :1;   /* RW:シリアルペリフェラルインタフェース2モジュールストップ設定ビット (RSPI2) */
+    U4 b1Fix23   :1;   /* RW:予約(1b固定) */
+    U4 b1MSTPC24 :1;   /* RW:シリアルコミュニケーションインタフェース11モジュールストップ設定ビット (SCI11) */
+    U4 b1MSTPC25 :1;   /* RW:シリアルコミュニケーションインタフェース10モジュールストップ設定ビット (SCI10) */
+    U4 b1MSTPC26 :1;   /* RW:シリアルコミュニケーションインタフェース9モジュールストップ設定ビット (SCI9) */
+    U4 b1MSTPC27 :1;   /* RW:シリアルコミュニケーションインタフェース8モジュールストップ設定ビット (SCI8) */
+    U4 b1Fix28   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix29   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix30   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix31   :1;   /* RW:予約(1b固定) */
+  } stBit;
+  U4 u4Val;
+} ST_MSTPCRC;
+
+/* モジュールストップコントロールレジスタD */
+typedef union {
+  struct {
+    U4 b1Dmy0    :1;   /* RW:予約 */
+    U4 b1Dmy1    :1;   /* RW:予約 */
+    U4 b1Dmy2    :1;   /* RW:予約 */
+    U4 b1Dmy3    :1;   /* RW:予約 */
+    U4 b1Dmy4    :1;   /* RW:予約 */
+    U4 b1Dmy5    :1;   /* RW:予約 */
+    U4 b1Dmy6    :1;   /* RW:予約 */
+    U4 b1Dmy7    :1;   /* RW:予約 */
+    U4 b1Fix8    :1;   /* RW:予約(1b固定) */
+    U4 b1Fix9    :1;   /* RW:予約(1b固定) */
+    U4 b1Fix10   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix11   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix12   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix13   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix14   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix15   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix16   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix17   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix18   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix19   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix20   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix21   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix22   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix23   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix24   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix25   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix26   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix27   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix28   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix29   :1;   /* RW:予約(1b固定) */
+    U4 b1Fix30   :1;   /* RW:予約(1b固定) */
+    U4 b1MSTPD31 :1;   /* RW:データ暗号化ユニット(DEU)モジュールストップ設定ビット (DEU) */
+  } stBit;
+  U4 u4Val;
+} ST_MSTPCRD;
+
 /* システムクロックコントロールレジスタ */ /* 0008 0020 */
 typedef union {
   struct {
@@ -131,10 +290,10 @@ typedef struct {
   U1          u1aDmy00[2];    /* 予約 */
   U2          stSBYCR;        /* スタンバイコントロールレジスタ */ /* ToDo:未実装 */
   U2          u1aDmy01[2];    /* 予約 */
-  U4          stMSTPCRA;      /* モジュールストップコントロールレジスタA */ /* ToDo:未実装 */
-  U4          stMSTPCRB;      /* モジュールストップコントロールレジスタB */ /* ToDo:未実装 */
-  U4          stMSTPCRC;      /* モジュールストップコントロールレジスタC */ /* ToDo:未実装 */
-  U4          stMSTPCRD;      /* モジュールストップコントロールレジスタD */ /* ToDo:未実装 */
+  ST_MSTPCRA  stMSTPCRA;      /* モジュールストップコントロールレジスタA */
+  ST_MSTPCRB  stMSTPCRB;      /* モジュールストップコントロールレジスタB */
+  ST_MSTPCRC  stMSTPCRC;      /* モジュールストップコントロールレジスタC */
+  ST_MSTPCRD  stMSTPCRD;      /* モジュールストップコントロールレジスタD */
   ST_SCKCR    stSCKCR;        /* システムクロックコントロールレジスタ */
   ST_SCKCR2   stSCKCR2;       /* システムクロックコントロールレジスタ2 */
   ST_SCKCR3   stSCKCR3;       /* システムクロックコントロールレジスタ3 */
@@ -171,6 +330,9 @@ typedef struct {
   ST_PRCR     stPRCR;         /* プロテクトレジスタ */
 } ST_SYSTEM0;
 
+/* ---------------------------------------- */
+/* ICUモジュール(GRPm, GENm, GCRm, SEL除く) */
+/* ---------------------------------------- */
 /* 割り込み要求レジスタn (n = 割り込みベクタ番号) */
 typedef union {
   struct {
@@ -245,6 +407,61 @@ typedef struct {
   U2      stNMIFLTC;       /* NMI端子デジタルフィルタ設定レジスタ */ /* ToDo:未実装 */
 } ST_ICU;
 
+/* -------------------------- */
+/* CMT/CMTmモジュール (m=0-3) */
+/* -------------------------- */
+/* コンペアマッチタイマスタートレジスタi (i = 0,1) */
+typedef union {
+  struct {
+    U2 b1STR02 :1;   /* RW:カウントスタート0, 2ビット */
+    U2 b1STR13 :1;   /* RW:カウントスタート1, 3ビット */
+    U2 b14Dmy1 :14;  /* 予約 */
+  } stBit;
+  U2 u2Val;
+} ST_CMSTRi;
+
+/* コンペアマッチタイマコントロールレジスタ */
+typedef union {
+  struct {
+    U2 b2CKS  :2;  /* RW:クロック選択ビット */
+    U2 b4Dmy0 :4;  /* 予約 */
+    U2 b1CMIE :1;  /* RW:コンペアマッチ割り込み許可ビット */
+    U2 b1Fix0 :1;  /* 予約(R:不定値, W:1固定) */
+    U2 b8Dmy1 :8;  /* 予約 */
+  } stBit;
+  U2 u2Val;
+} ST_CMCR;
+
+/* コンペアマッチタイマカウンタ */
+typedef union {
+  struct {
+    U2 b16CNT :16;  /* RW:カウンタ値ビット */
+  } stBit;
+  U2 u2Val;
+} ST_CMCNT;
+
+/* コンペアマッチタイマコンスタントレジスタ */
+typedef union {
+  struct {
+    U2 b16CMP :16;  /* RW:コンペア値設定ビット */
+  } stBit;
+  U2 u2Val;
+} ST_CMCOR;
+
+/* CMT/CMTmモジュール (m=0-3) */
+typedef struct {
+  ST_CMSTRi stCMSTR;   /* コンペアマッチタイマスタートレジスタ0, 1 (MainIdx:m/2) */
+  struct {
+    ST_CMCR  stCMCR;   /* コンペアマッチタイマコントロールレジスタ0-3 (MainIdx:m/2, SubIdx:m%2) */
+    ST_CMCNT stCMCNT;  /* コンペアマッチタイマカウンタ0-3 (MainIdx:m/2, SubIdx:m%2) */
+    ST_CMCOR stCMCOR;  /* コンペアマッチタイマコンスタントレジスタ0-3 (MainIdx:m/2, SubIdx:m%2) */
+  } staCM[2];          /* (MainIdx:m/2) */
+  U1 u1Dmy0[2];        /* 予約 */
+} ST_CMTm;
+
+/* --------------------------------------------------------- */
+/* PORTmモジュール(idx = 0:P0, ..., 10:PA, ... 16:PG, 18:PJ) */
+/* --------------------------------------------------------- */
 /* ポート方向レジスタ */
 typedef union {
   struct {
@@ -362,6 +579,9 @@ typedef struct {
   ST_DSCR staDSCR[32];       /* 駆動能力制御レジスタ */
 } ST_PORTm;
 
+/* -------------- */
+/* PORTモジュール */
+/* -------------- */
 /* ポート切り替えレジスタA */ /* Note:64ピンパッケージ限定 */
 typedef union {
   struct {
@@ -392,6 +612,9 @@ typedef struct {
   ST_PSRB stPSRB;  /* ポート切り替えレジスタB */ /* Note:48ピンパッケージ限定 */
 } ST_PORT;
 
+/* ------------- */
+/* MPCモジュール */
+/* ------------- */
 /* 書き込みプロテクトレジスタ */
 typedef union {
   struct {
@@ -444,6 +667,7 @@ typedef union {
 /* ============================================================ */
 extern volatile ST_SYSTEM0 __evenaccess stRegSys0;            /* SYSTEMモジュール(0) */
 extern volatile ST_ICU     __evenaccess stRegICU;             /* ICUモジュール(GRPm, GENm, GCRm, SEL除く) */
+extern volatile ST_CMTm    __evenaccess staRegCMTm[2];        /* CMT/CMTmモジュール (m=0-3  MainIdx=m/2, SubIdx=m%2) */
 extern volatile ST_PORTm   __evenaccess stRegPORTm;           /* PORTmモジュール */
 extern volatile ST_MPC     __evenaccess stRegMPC;             /* MPCモジュール(PmnPFSレジスタ除く) */
 extern volatile ST_PORT    __evenaccess stRegPORT;            /* PORTモジュール */

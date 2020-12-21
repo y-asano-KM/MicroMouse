@@ -42,6 +42,8 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(static)                                 */
 /* ============================================================ */
+static VD FnVD_HwPph_Clk_enbClkSetting(VD);
+static VD FnVD_HwPph_Clk_dibClkSetting(VD);
 
 
 /* ============================================================ */
@@ -115,7 +117,7 @@ VD FnVD_HwPph_Clk_dibClkSetting(VD)
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_HwPph_Clk_init                                 */
+/* 関数名 : FnVD_HwPph_Clk_cfg                                  */
 /*          クロック設定                                        */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
@@ -123,7 +125,7 @@ VD FnVD_HwPph_Clk_dibClkSetting(VD)
 /* 制約   : 割り込み禁止中に実行すること                        */
 /*          スタートアップにて1回のみ実行すること               */
 /* ============================================================ */
-VD FnVD_HwPph_Clk_init(VD)
+VD FnVD_HwPph_Clk_cfg(VD)
 {
   ST_PLLCR   tstPLLCR;
   ST_PLLCR2  tstPLLCR2;
@@ -141,47 +143,47 @@ VD FnVD_HwPph_Clk_init(VD)
 
   /* PLLWTCRレジスタ設定 */ /* Note:PLL停止時に設定すること */
   tstPLLWTCR.u1Val = (U1)0x00;
-  tstPLLWTCR.stBit.b5PSTS = (U1)CEN_HwPph_Clk_PllWaitTim;
+  tstPLLWTCR.stBit.b5PSTS = (U1)CEN_HwPph_Clk_CfgPllWaitTim_;
   stRegSys0.stPLLWTCR.u1Val = tstPLLWTCR.u1Val;
 
   /* PLLCRレジスタ設定 */ /* Note:PLL停止時に設定すること */
   tstPLLCR.u2Val = (U2)0x0000;
-  tstPLLCR.stBit.b2PLIDIV = (U2)CEN_HwPph_Clk_PllIDiv;
-  tstPLLCR.stBit.b6STC    = (U2)CEN_HwPph_Clk_FreqMul;
+  tstPLLCR.stBit.b2PLIDIV = (U2)CEN_HwPph_Clk_CfgPllIDiv_;
+  tstPLLCR.stBit.b6STC    = (U2)CEN_HwPph_Clk_CfgFreqMul_;
   stRegSys0.stPLLCR.u2Val = tstPLLCR.u2Val;
 
   /* PLLCR2レジスタ設定 */
   tstPLLCR2.u1Val = (U1)0x00;
-  tstPLLCR2.stBit.b1PLLEN = CU1_HwPph_Clk_PllStop;
+  tstPLLCR2.stBit.b1PLLEN = CU1_HwPph_Clk_CfgPllStop_;
   stRegSys0.stPLLCR2.u1Val = tstPLLCR2.u1Val;
 
   /* SCKCRレジスタ設定 */
   tstSCKCR.u4Val = (U4)0x00000000;
   tstSCKCR.stBit.b4Fix0   = CU4_HwPph_Clk_SCKCR_Fix0;
   tstSCKCR.stBit.b4Fix1   = CU4_HwPph_Clk_SCKCR_Fix1;
-  tstSCKCR.stBit.b4PCKB   = (U4)CEN_HwPph_Clk_PphClkB;
-  tstSCKCR.stBit.b4PCKA   = (U4)CEN_HwPph_Clk_PphClkA;
-  tstSCKCR.stBit.b4BCK    = (U4)CEN_HwPph_Clk_ExtBusClk;
-  tstSCKCR.stBit.b1PSTOP0 = (U4)CU1_HwPph_Clk_SdRamClkPortStop;
-  tstSCKCR.stBit.b1PSTOP1 = (U4)CU1_HwPph_Clk_BusClkPortStop;
-  tstSCKCR.stBit.b4ICK    = (U4)CEN_HwPph_Clk_SysClk;
-  tstSCKCR.stBit.b4FCK    = (U4)CEN_HwPph_Clk_FlashIfClk;
+  tstSCKCR.stBit.b4PCKB   = (U4)CEN_HwPph_Clk_CfgPphClkB_;
+  tstSCKCR.stBit.b4PCKA   = (U4)CEN_HwPph_Clk_CfgPphClkA_;
+  tstSCKCR.stBit.b4BCK    = (U4)CEN_HwPph_Clk_CfgExtBusClk_;
+  tstSCKCR.stBit.b1PSTOP0 = (U4)CU1_HwPph_Clk_CfgSdRamClkPortStop_;
+  tstSCKCR.stBit.b1PSTOP1 = (U4)CU1_HwPph_Clk_CfgBusClkPortStop_;
+  tstSCKCR.stBit.b4ICK    = (U4)CEN_HwPph_Clk_CfgSysClk_;
+  tstSCKCR.stBit.b4FCK    = (U4)CEN_HwPph_Clk_CfgFlashIfClk_;
   stRegSys0.stSCKCR.u4Val = tstSCKCR.u4Val;
 
   /* SCKCR2レジスタ設定 */
   tstSCKCR2.u2Val = (U2)0x0000;
-  tstSCKCR2.stBit.b4IEBCK = (U2)CEN_HwPph_Clk_IeBusClk;
-  tstSCKCR2.stBit.b4UCK   = (U2)CEN_HwPph_Clk_UsbClk;
+  tstSCKCR2.stBit.b4IEBCK = (U2)CEN_HwPph_Clk_CfgIeBusClk_;
+  tstSCKCR2.stBit.b4UCK   = (U2)CEN_HwPph_Clk_CfgUsbClk_;
   stRegSys0.stSCKCR2.u2Val = tstSCKCR2.u2Val;
 
   /* BCKCRレジスタ設定 */
   tstBCKCR.u1Val = (U1)0x00;
-  tstBCKCR.stBit.b1BCLKDIV = CU1_HwPph_Clk_ExtBusClkDiv;
+  tstBCKCR.stBit.b1BCLKDIV = CU1_HwPph_Clk_CfgExtBusClkDiv_;
   stRegSys0.stBCKCR.u1Val = tstBCKCR.u1Val;
 
   /* SCKCR3レジスタ設定 */
   tstSCKCR3.u2Val = (U2)0x0000;
-  tstSCKCR3.stBit.b3CKSEL = (U2)CEN_HwPph_Clk_SrcSel;
+  tstSCKCR3.stBit.b3CKSEL = (U2)CEN_HwPph_Clk_CfgSrcSel_;
   stRegSys0.stSCKCR3.u2Val = tstSCKCR3.u2Val;
 
   /* 保護 */

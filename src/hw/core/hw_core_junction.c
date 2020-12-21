@@ -98,13 +98,13 @@ VD FnVD_HwCore_Junction_shiftUserProgram(VD)
   FnVD_HwPph_IntCtrl_initForStartup();
 
   /* ユーザプログラム初期化処理 */
-  FnVD_HwSrv_wrapInitProc();
+  FnVD_HwSrv_Sche_wrapInitProc();
 
   /* 割り込み許可 */
   EI();
 
   /* ユーザプログラムへ移行(無限ループで戻らない) */
-  FnVD_HwSrv_wrapMainProc();
+  FnVD_HwSrv_Sche_wrapMainProc();
 
   /* 戻らない想定だが念のため停止処理を行う */
   FnVD_HwCore_Termination_kill((U4)0x0000FFFF);

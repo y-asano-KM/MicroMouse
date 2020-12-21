@@ -25,6 +25,8 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
+/* [us]メインスケジューラ実行周期 */
+#define CU2_HwSrv_Sche_CfgMainProcPeriod    ((U2)5000)
 
 
 /* ============================================================ */
@@ -47,7 +49,8 @@
 /* ============================================================ */
 extern VD (* const CPFnVD_HwSrv_Sche_CfgInitProc)(VD);
 extern VD (* const CPFnVD_HwSrv_Sche_CfgMainProc)(VD);
-
+extern VD (* const CPFnVD_HwSrv_Sche_Cfg1msProc)(VD);
+extern U1 CU1_HwSrv_Sche_CfgEnbWainMainProc;
 
 /* ============================================================ */
 /* 関数形式マクロ定義                                           */

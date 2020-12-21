@@ -17,6 +17,7 @@
 #include "prj_cmn_option_pac.h"
 
 /* 個別 */
+#include "pf_sche_main.h"
 
 /* 本体 */
 #include "prj_sche_main.h"
@@ -73,7 +74,8 @@
 /* 概要   : メイン処理の実行順を管理する                        */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfSche_wrapMainProc(VD)
+VD FnVD_PrjSche_wrapMainProc(VD)
 {
-
+  FnVD_PfSche_wrapMainProc();
 }
+
