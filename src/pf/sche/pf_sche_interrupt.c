@@ -14,9 +14,11 @@
 #include "prj_cmn_macro.h"
 
 /* カテゴリ共通 */
-#include "prj_cmn_option_pac.h"
+#include "pf_cmn_option.h"
+#include "pf_cmn_option_pac.h"
 
 /* 個別 */
+#include "pf_if_hw_pac.h"
 
 /* 本体 */
 #include "pf_sche_interrupt.h"
@@ -75,6 +77,11 @@
 /* ============================================================ */
 VD FnVD_PfSche_wrapInt1msProc(VD)
 {
+  /* ToDo:仮実装(実行順序未検討)(モータ出力が先の方が良い?) */ 
+  /* HW入力値取得 */
+  FnVD_PfIf_Hw_inputForInt();
 
+  /* HW出力値指示 */
+  FnVD_PfIf_Hw_outputForInt();
 }
 

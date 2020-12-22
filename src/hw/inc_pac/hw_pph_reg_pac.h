@@ -415,7 +415,7 @@ typedef union {
   struct {
     U2 b1STR02 :1;   /* RW:カウントスタート0, 2ビット */
     U2 b1STR13 :1;   /* RW:カウントスタート1, 3ビット */
-    U2 b14Dmy1 :14;  /* 予約 */
+    U2 b14Dmy1 :14;  /* RW:予約 */
   } stBit;
   U2 u2Val;
 } ST_CMSTRi;
@@ -424,10 +424,10 @@ typedef union {
 typedef union {
   struct {
     U2 b2CKS  :2;  /* RW:クロック選択ビット */
-    U2 b4Dmy0 :4;  /* 予約 */
+    U2 b4Dmy0 :4;  /* RW:予約 */
     U2 b1CMIE :1;  /* RW:コンペアマッチ割り込み許可ビット */
     U2 b1Fix0 :1;  /* 予約(R:不定値, W:1固定) */
-    U2 b8Dmy1 :8;  /* 予約 */
+    U2 b8Dmy1 :8;  /* RW:予約 */
   } stBit;
   U2 u2Val;
 } ST_CMCR;
@@ -458,6 +458,222 @@ typedef struct {
   } staCM[2];          /* (MainIdx:m/2) */
   U1 u1Dmy0[2];        /* 予約 */
 } ST_CMTm;
+
+/* --------------- */
+/* S12ADモジュール */
+/* --------------- */
+/* A/D コントロールレジスタ */
+typedef union {
+  struct {
+    U1 b1EXTRG :1;    /* RW:トリガ選択ビット */
+    U1 b1TRGE  :1;    /* RW:トリガ開始許可ビット */
+    U1 b2CKS   :2;    /* RW:A/D変換クロック選択ビット */
+    U1 b1ADIE  :1;    /* RW:スキャン終了割り込み許可ビット */
+    U1 b1Dmy0  :1;    /* RW:予約 */
+    U1 b1ADCS  :1;    /* RW:スキャンモード選択ビット */
+    U1 b1ADST  :1;    /* RW:A/D変換スタートビット */
+  } stBit;
+  U1 u1Val;
+} ST_ADCSR;
+
+/* A/D チャネル選択レジスタi (i = ch/16, ch = 0-20) */
+typedef union {
+  struct {
+    U2 b1ANSi0  :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN000}, {1,AN016}) */
+    U2 b1ANSi1  :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN001}, {1,AN017}) */
+    U2 b1ANSi2  :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN002}, {1,AN018}) */
+    U2 b1ANSi3  :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN003}, {1,AN019}) */
+    U2 b1ANSi4  :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN004}, {1,AN020}) */
+    U2 b1ANSi5  :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN005}, {1,予約}) */
+    U2 b1ANSi6  :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN006}, {1,予約}) */
+    U2 b1ANSi7  :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN007}, {1,予約}) */
+    U2 b1ANSi8  :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN008}, {1,予約}) */
+    U2 b1ANSi9  :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN009}, {1,予約}) */
+    U2 b1ANSi10 :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN010}, {1,予約}) */
+    U2 b1ANSi11 :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN011}, {1,予約}) */
+    U2 b1ANSi12 :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN012}, {1,予約}) */
+    U2 b1ANSi13 :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN013}, {1,予約}) */
+    U2 b1ANSi14 :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN014}, {1,予約}) */
+    U2 b1ANSi15 :1;    /* RW:A/D変換チャネル選択ビット({i, ch}={0,AN015}, {1,予約}) */
+  } stBit;
+  U2 u2Val;
+} ST_ADANSi;
+
+/* A/D 変換値加算モード選択レジスタi (i = ch/16, ch = 0-20) */
+typedef union {
+  struct {
+    U2 b1ADSi0  :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN000}, {1,AN016}) */
+    U2 b1ADSi1  :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN001}, {1,AN017}) */
+    U2 b1ADSi2  :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN002}, {1,AN018}) */
+    U2 b1ADSi3  :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN003}, {1,AN019}) */
+    U2 b1ADSi4  :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN004}, {1,AN020}) */
+    U2 b1ADSi5  :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN005}, {1,予約}) */
+    U2 b1ADSi6  :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN006}, {1,予約}) */
+    U2 b1ADSi7  :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN007}, {1,予約}) */
+    U2 b1ADSi8  :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN008}, {1,予約}) */
+    U2 b1ADSi9  :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN009}, {1,予約}) */
+    U2 b1ADSi10 :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN010}, {1,予約}) */
+    U2 b1ADSi11 :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN011}, {1,予約}) */
+    U2 b1ADSi12 :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN012}, {1,予約}) */
+    U2 b1ADSi13 :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN013}, {1,予約}) */
+    U2 b1ADSi14 :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN014}, {1,予約}) */
+    U2 b1ADSi15 :1;    /* RW:AD変換値加算チャネル選択ビット({i, ch}={0,AN015}, {1,予約}) */
+  } stBit;
+  U2 u2Val;
+} ST_ADADSi;
+
+/* A/D 変換値加算回数選択レジスタ */
+typedef union {
+  struct {
+    U1 b2ADC   :2;    /* RW:加算回数選択ビット */
+    U1 b6Dmy0  :6;    /* RW:予約 */
+  } stBit;
+  U1 u1Val;
+} ST_ADADC;
+
+/* A/D コントロール拡張レジスタ */
+typedef union {
+  struct {
+    U2 b5Dmy0   :5;    /* RW:予約 */
+    U2 b1ACE    :1;    /* RW:自動クリアイネーブルビット */
+    U2 b9Dmy0   :9;    /* RW:予約 */
+    U2 b1ADRFMT :1;    /* RW:A/Dデータレジスタフォーマット選択ビット */
+  } stBit;
+  U2 u2Val;
+} ST_ADCER;
+
+/* A/D 開始トリガ選択レジスタ */
+typedef union {
+  struct {
+    U1 b4ADSTRS :4;    /* RW:A/D変換開始トリガ選択ビット */
+    U1 b4Dmy0   :4;    /* RW:予約 */
+  } stBit;
+  U1 u1Val;
+} ST_ADSTRGR;
+
+/* A/D 変換拡張入力コントロールレジスタ */
+typedef union {
+  struct {
+    U2 b1TSSAD :1;    /* RW:温度センサ出力A/D変換値加算モード選択ビット */
+    U2 b1OCSAD :1;    /* RW:内部基準電圧A/D変換値加算モード選択ビット */
+    U2 b6Dmy0  :6;    /* RW:予約 */
+    U2 b1TSS   :1;    /* RW:温度センサ出力A/D変換選択ビット */
+    U2 b1OCS   :1;    /* RW:内部基準電圧A/D変換選択ビット */
+    U2 b6Dmy1  :6;    /* RW:予約 */
+  } stBit;
+  U2 u2Val;
+} ST_ADEXICR;
+
+/* A/D 温度センサデータレジスタ */
+typedef union {
+  struct {
+    struct {
+      U2 b12AD  :12;    /* RW:12ビットA/D変換値 */
+      U2 b4Dmy0 :4;     /* RW:予約 */
+    } stBit;
+  } stRight;            /* 右詰め */
+  struct {
+    struct {
+      U2 b4Dmy0 :4;     /* RW:予約 */
+      U2 b12AD  :12;    /* RW:12ビットA/D変換値 */
+    } stBit;
+  } stLeft;             /* 左詰め */
+  struct {
+    struct {
+      U2 b2Dmy0 :2;     /* RW:予約 */
+      U2 b14AD  :14;    /* RW:14ビットA/D変換値加算結果 */
+    } stBit;
+  } stAdd;              /* 加算モード(左詰め) */
+  U2 u2Val;
+} ST_ADTSDR;
+
+/* A/D 内部基準電圧データレジスタ */
+typedef union {
+  struct {
+    struct {
+      U2 b12AD  :12;    /* RW:12ビットA/D変換値 */
+      U2 b4Dmy0 :4;     /* RW:予約 */
+    } stBit;
+  } stRight;            /* 右詰め */
+  struct {
+    struct {
+      U2 b4Dmy0 :4;     /* RW:予約 */
+      U2 b12AD  :12;    /* RW:12ビットA/D変換値 */
+    } stBit;
+  } stLeft;             /* 左詰め */
+  struct {
+    struct {
+      U2 b2Dmy0 :2;     /* RW:予約 */
+      U2 b14AD  :14;    /* RW:14ビットA/D変換値加算結果 */
+    } stBit;
+  } stAdd;              /* 加算モード(左詰め) */
+  U2 u2Val;
+} ST_ADOCDR;
+
+/* A/D データレジスタy (y = 0-20) */
+typedef union {
+  struct {
+    struct {
+      U2 b12AD  :12;    /* RW:12ビットA/D変換値 */
+      U2 b4Dmy0 :4;     /* RW:予約 */
+    } stBit;
+  } stRight;            /* 右詰め */
+  struct {
+    struct {
+      U2 b4Dmy0 :4;     /* RW:予約 */
+      U2 b12AD  :12;    /* RW:12ビットA/D変換値 */
+    } stBit;
+  } stLeft;             /* 左詰め */
+  struct {
+    struct {
+      U2 b2Dmy0 :2;     /* RW:予約 */
+      U2 b14AD  :14;    /* RW:14ビットA/D変換値加算結果 */
+    } stBit;
+  } stAdd;              /* 加算モード(左詰め) */
+  U2 u2Val;
+} ST_ADDRy;
+
+/* A/D サンプリングステートレジスタ01 */
+typedef union {
+  struct {
+    U2 b8SST1 :1;    /* RW:サンプリング時間1設定ビット */
+    U2 b8Fix0 :6;    /* RW:固定(20 = 0001 0100b) */
+  } stBit;
+  U2 u2Val;
+} ST_ADSSTR01;
+
+/* A/D サンプリングステートレジスタ23 */
+typedef union {
+  struct {
+    U2 b8Fix0 :6;    /* RW:固定(20 = 0001 0100b) */
+    U2 b8SST2 :1;    /* RW:サンプリング時間1設定ビット */
+  } stBit;
+  U2 u2Val;
+} ST_ADSSTR23;
+
+/* S12ADモジュール */
+typedef struct {
+  ST_ADCSR    stADCSR;       /* A/Dコントロールレジスタ */
+  U1          u1aDmy0[3];    /* 予約 */
+  ST_ADANSi   staADANSi[2];  /* A/Dチャネル選択レジスタi */
+  ST_ADADSi   staADADSi[2];  /* A/D変換値加算モード選択レジスタi */
+  ST_ADADC    stADADC;       /* A/D変換値加算回数選択レジスタ */
+  U1          u1aDmy1[1];    /* 予約 */
+  ST_ADCER    stADCER;       /* A/Dコントロール拡張レジスタ */
+  ST_ADSTRGR  stADSTRGR;     /* A/D開始トリガ選択レジスタ */
+  U1          u1aDmy2[1];    /* 予約 */
+  ST_ADEXICR  stADEXICR;     /* A/D変換拡張入力コントロールレジスタ */
+  U1          u1aDmy3[6];    /* 予約 */
+  ST_ADTSDR   stADTSDR;      /* A/D温度センサデータレジスタ */
+  ST_ADOCDR   stADOCDR;      /* A/D内部基準電圧データレジスタ */
+  U1          u1aDmy4[2];    /* 予約 */
+  ST_ADDRy    staADDRy[21];  /* A/Dデータレジスタy */
+  U1          u1aDmy5[22];   /* 予約 */
+  ST_ADSSTR01 stADSSTR01;    /* A/Dサンプリングステートレジスタ01 */
+  U1          u1aDmy6[14];   /* 予約 */
+  ST_ADSSTR23 stADSSTR23;    /* A/Dサンプリングステートレジスタ23 */
+  U1          u1aDmy7[14];   /* 予約 */
+} ST_S12AD;
 
 /* --------------------------------------------------------- */
 /* PORTmモジュール(idx = 0:P0, ..., 10:PA, ... 16:PG, 18:PJ) */
@@ -668,6 +884,7 @@ typedef union {
 extern volatile ST_SYSTEM0 __evenaccess stRegSys0;            /* SYSTEMモジュール(0) */
 extern volatile ST_ICU     __evenaccess stRegICU;             /* ICUモジュール(GRPm, GENm, GCRm, SEL除く) */
 extern volatile ST_CMTm    __evenaccess staRegCMTm[2];        /* CMT/CMTmモジュール (m=0-3  MainIdx=m/2, SubIdx=m%2) */
+extern volatile ST_S12AD   __evenaccess stRegS12AD;           /* S12ADモジュール */
 extern volatile ST_PORTm   __evenaccess stRegPORTm;           /* PORTmモジュール */
 extern volatile ST_MPC     __evenaccess stRegMPC;             /* MPCモジュール(PmnPFSレジスタ除く) */
 extern volatile ST_PORT    __evenaccess stRegPORT;            /* PORTモジュール */
