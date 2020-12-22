@@ -25,6 +25,7 @@
 #include "hw_pph_cmt_cfg_pac.h"
 #include "hw_pph_intctrl_pac.h"
 #include "hw_pph_intctrl_cfg_pac.h"
+#include "hw_pph_adc_pac.h"
 
 /* 本体 */
 #include "hw_srv_schedule.h"
@@ -41,6 +42,7 @@
 #define CEN_HwSrv_Sche_IntCtrl_Priority_Int1ms    CEN_HwPph_IntCtrl_CfgPriority_CMT1_CMI1
 #define CU1_HwSrv_Sche_IntCtrl_EnbInt_Int1ms      ((U1)C_ON)
 #define CU2_HwSrc_Sche_waitTimMainProc            ((U2)((FL)((FL)CU2_HwSrv_Sche_CfgMainProcPeriod / CFL_HwSrv_Time_ClkLsb)))
+
 
 /* ============================================================ */
 /* 型定義                                                       */
@@ -257,6 +259,12 @@ VD FnVD_HwSrv_Sche_wrapInitProc(VD)
 
   /* 1ms定期割り込みスケジューラ初期化 */
   FnVD_HwSrv_Sche_initInt1msProc();
+
+  /* S12ADモジュール停止遷移/解除 */
+  FnVD_HwPph_Adc_stpModuleStp();
+
+  /* A/D変換設定 */
+  FnVD_HwPph_Adc_cfg();
 
   /* PF/APL初期化処理 */
   if (CPFnVD_HwSrv_Sche_CfgInitProc != CPVD_NULL) {

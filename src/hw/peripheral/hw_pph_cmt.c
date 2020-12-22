@@ -122,7 +122,7 @@ static VD FnVD_HwPph_Cmt_enbStpModuleSetting(VD)
 /* 概要   : モジュール停止制御レジスタの保護する                */
 /* 制約   : 割り込み禁止中に実行すること                        */
 /* ============================================================ */
-#pragma inline (FnVD_HwPph_Clk_dibClkSetting)
+#pragma inline (FnVD_HwPph_Cmt_dibStpModuleSetting)
 static VD FnVD_HwPph_Cmt_dibStpModuleSetting(VD)
 {
   ST_PRCR tstPRCR;

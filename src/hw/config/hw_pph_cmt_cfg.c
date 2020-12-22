@@ -18,7 +18,6 @@
 #include "hw_cmn_option_pac.h"
 
 /* 個別 */
-#include "prj_sche_main.h"
 
 /* 本体 */
 #include "hw_pph_cmt_pac.h"

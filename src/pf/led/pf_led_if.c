@@ -1,8 +1,8 @@
 /* ============================================================ */
-/* ファイル名 : hw_drv_led.c                                    */
-/* 機能       : LED制御処理                                     */
+/* ファイル名 : pf_led_if.c                                     */
+/* 機能       : LED I/F処理                                     */
 /* ============================================================ */
-#define SECTION_HW
+#define SECTION_PF
 
 /* ============================================================ */
 /* インクルード                                                 */
@@ -14,33 +14,20 @@
 #include "prj_cmn_macro.h"
 
 /* カテゴリ共通 */
-#include "hw_cmn_option.h"
-#include "hw_cmn_option_pac.h"
+#include "pf_cmn_option.h"
+#include "pf_cmn_option_pac.h"
 
 /* 個別 */
-#include "hw_srv_interrupt.h"
-#include "hw_pph_port_pac.h"
-#include "hw_pph_port_cfg_pac.h"
+#include "hw_drv_led.h"
+#include "pf_led_ctrl_pac.h"
 
 /* 本体 */
-#include "hw_drv_led.h"
-#include "hw_drv_led_pac.h"
+#include "pf_led_if_pac.h"
 
 
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
-/* コンフィグレーション */
-#define CST_HwDrv_Led_Port_CfgLed0 CST_HwPph_Port_CfgPB0
-#define CST_HwDrv_Led_Port_CfgLed1 CST_HwPph_Port_CfgPA6
-#define CST_HwDrv_Led_Port_CfgLed2 CST_HwPph_Port_CfgPA4
-#define CST_HwDrv_Led_Port_CfgLed3 CST_HwPph_Port_CfgPA0
-
-/* ポート識番号 */
-#define CEN_HwDrv_Led_Port_IdLed0  CEN_HwPph_Port_Id_PB0
-#define CEN_HwDrv_Led_Port_IdLed1  CEN_HwPph_Port_Id_PA6
-#define CEN_HwDrv_Led_Port_IdLed2  CEN_HwPph_Port_Id_PA4
-#define CEN_HwDrv_Led_Port_IdLed3  CEN_HwPph_Port_Id_PA0
 
 
 /* ============================================================ */
@@ -82,108 +69,121 @@
 /* 関数定義                                                     */
 /* ============================================================ */
 /* ============================================================ */
-/* 関数名 : FnVD_HwDrv_Led_init                                 */
-/*          LED初期化                                           */
+/* 関数名 : FnVD_PfLed_If_initHw                                */
+/*          LED I/F処理初期化(HW用)                             */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : 初期化する                                          */
-/* 制約   : 割り込み禁止中に実行すること                        */
+/* 概要   : ハードウェア層の初期化を行う                        */
+/* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_HwDrv_Led_init(VD)
+VD FnVD_PfLed_If_initHw(VD)
 {
-  /* LED0:確認用LED0 */
-  FnVD_HwPph_Port_cfg(&CST_HwDrv_Led_Port_CfgLed0);
-
-  /* LED1:確認用LED1 */
-  FnVD_HwPph_Port_cfg(&CST_HwDrv_Led_Port_CfgLed1);
-
-  /* LED2:確認用LED2 */
-  FnVD_HwPph_Port_cfg(&CST_HwDrv_Led_Port_CfgLed2);
-
-  /* LED3:確認用LED3*/
-  FnVD_HwPph_Port_cfg(&CST_HwDrv_Led_Port_CfgLed3);
+  FnVD_HwDrv_Led_init();
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_HwDrv_Led_setReqLed                            */
+/* 関数名 : FnVD_PfLed_If_setReqLed                             */
 /*          LED消灯/点灯要求設定                                */
-/* 引数   : tu1ReqLedi  (0:消灯, 1:点灯, i=0-3)                 */
+/* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : LEDを点灯/消灯させる                                */
-/* 制約   : 割り込み禁止が解除される                            */
+/* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_HwDrv_Led_setReqLed(U1 tu1ReqLed0, U1 tu1ReqLed1, U1 tu1ReqLed2, U1 tu1ReqLed3)
+VD FnVD_PfLed_If_setReqLed(VD)
 {
-  DI();
-  FnVD_HwPph_Port_setOutLv(CEN_HwDrv_Led_Port_IdLed0, tu1ReqLed0);
-  FnVD_HwPph_Port_setOutLv(CEN_HwDrv_Led_Port_IdLed1, tu1ReqLed1);
-  FnVD_HwPph_Port_setOutLv(CEN_HwDrv_Led_Port_IdLed2, tu1ReqLed2);
-  FnVD_HwPph_Port_setOutLv(CEN_HwDrv_Led_Port_IdLed3, tu1ReqLed3);
-  EI();
+  U1 tu1ReqLed0;
+  U1 tu1ReqLed1;
+  U1 tu1ReqLed2;
+  U1 tu1ReqLed3;
+
+  /* 点灯/消灯要求出力値取得 */
+  tu1ReqLed0 = FnU1_PfLed_Ctrl_getReqLed0();
+  tu1ReqLed1 = FnU1_PfLed_Ctrl_getReqLed1();
+  tu1ReqLed2 = FnU1_PfLed_Ctrl_getReqLed2();
+  tu1ReqLed3 = FnU1_PfLed_Ctrl_getReqLed3();
+
+  /* 出力要求設定 */
+  FnVD_HwDrv_Led_setReqLed(tu1ReqLed0, tu1ReqLed1, tu1ReqLed2, tu1ReqLed3);
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_HwDrv_Led_setReqLed0                           */
+/* 関数名 : FnVD_PfLed_If_setReqLed0                            */
 /*          LED0消灯/点灯要求設定                               */
-/* 引数   : tu1Req  (0:消灯, 1:点灯)                            */
+/* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : LEDを点灯/消灯させる                                */
-/* 制約   : 割り込み禁止が解除される                            */
+/* 概要   : LED0を点灯/消灯させる                               */
+/* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_HwDrv_Led_setReqLed0(U1 tu1Req)
+VD FnVD_PfLed_If_setReqLed0(VD)
 {
-  DI();
-  FnVD_HwPph_Port_setOutLv(CEN_HwDrv_Led_Port_IdLed0, tu1Req);
-  EI();
+  U1 tu1ReqLed;
+
+  /* 点灯/消灯要求出力値取得 */
+  tu1ReqLed = FnU1_PfLed_Ctrl_getReqLed0();
+
+  /* 出力要求設定 */
+  FnVD_HwDrv_Led_setReqLed0(tu1ReqLed);
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_HwDrv_Led_setReqLed1                           */
+/* 関数名 : FnVD_PfLed_If_setReqLed1                            */
 /*          LED1消灯/点灯要求設定                               */
-/* 引数   : tu1Req  (0:消灯, 1:点灯)                            */
+/* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : LEDを点灯/消灯させる                                */
-/* 制約   : 割り込み禁止が解除される                            */
+/* 概要   : LED1を点灯/消灯させる                               */
+/* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_HwDrv_Led_setReqLed1(U1 tu1Req)
+VD FnVD_PfLed_If_setReqLed1(VD)
 {
-  DI();
-  FnVD_HwPph_Port_setOutLv(CEN_HwDrv_Led_Port_IdLed1, tu1Req);
-  EI();
+  U1 tu1ReqLed;
+
+  /* 点灯/消灯要求出力値取得 */
+  tu1ReqLed = FnU1_PfLed_Ctrl_getReqLed1();
+
+  /* 出力要求設定 */
+  FnVD_HwDrv_Led_setReqLed1(tu1ReqLed);
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_HwDrv_Led_setReqLed2                           */
+/* 関数名 : FnVD_PfLed_If_setReqLed2                            */
 /*          LED2消灯/点灯要求設定                               */
-/* 引数   : tu1Req  (0:消灯, 1:点灯)                            */
+/* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : LEDを点灯/消灯させる                                */
-/* 制約   : 割り込み禁止が解除される                            */
+/* 概要   : LED2を点灯/消灯させる                               */
+/* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_HwDrv_Led_setReqLed2(U1 tu1Req)
+VD FnVD_PfLed_If_setReqLed2(VD)
 {
-  DI();
-  FnVD_HwPph_Port_setOutLv(CEN_HwDrv_Led_Port_IdLed2, tu1Req);
-  EI();
+  U1 tu1ReqLed;
+
+  /* 点灯/消灯要求出力値取得 */
+  tu1ReqLed = FnU1_PfLed_Ctrl_getReqLed2();
+
+  /* 出力要求設定 */
+  FnVD_HwDrv_Led_setReqLed2(tu1ReqLed);
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_HwDrv_Led_setReqLed3                           */
+/* 関数名 : FnVD_PfLed_If_setReqLed3                            */
 /*          LED3消灯/点灯要求設定                               */
-/* 引数   : tu1Req  (0:消灯, 1:点灯)                            */
+/* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : LEDを点灯/消灯させる                                */
-/* 制約   : 割り込み禁止が解除される                            */
+/* 概要   : LED3を点灯/消灯させる                               */
+/* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_HwDrv_Led_setReqLed3(U1 tu1Req)
+VD FnVD_PfLed_If_setReqLed3(VD)
 {
-  DI();
-  FnVD_HwPph_Port_setOutLv(CEN_HwDrv_Led_Port_IdLed3, tu1Req);
-  EI();
+  U1 tu1ReqLed;
+
+  /* 点灯/消灯要求出力値取得 */
+  tu1ReqLed = FnU1_PfLed_Ctrl_getReqLed3();
+
+  /* 出力要求設定 */
+  FnVD_HwDrv_Led_setReqLed3(tu1ReqLed);
 }
 

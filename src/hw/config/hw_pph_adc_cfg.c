@@ -1,6 +1,6 @@
 /* ============================================================ */
-/* ファイル名 : hw_pph_clk_cfg.c                                */
-/* 機能       : クロック処理用ユーザ設定                        */
+/* ファイル名 : hw_pph_adc_cfg.c                                */
+/* 機能       : A/D変換処理用ユーザ設定                         */
 /* ============================================================ */
 #define SECTION_HW
 
@@ -20,8 +20,8 @@
 /* 個別 */
 
 /* 本体 */
-#include "hw_pph_clk_pac.h"
-#include "hw_pph_clk_cfg_pac.h"
+#include "hw_pph_adc_pac.h"
+#include "hw_pph_adc_cfg_pac.h"
 
 
 /* ============================================================ */
@@ -52,71 +52,68 @@
 /* ============================================================ */
 /* const変数定義(extern)                                        */
 /* ============================================================ */
+/* ----------------- */
+/* ADCSRレジスタ設定 */
+/* ----------------- */
+/* トリガ設定(ADCSR.EXTRG) */
+/* Memo:ソフトウェアトリガーを使用するため未実装 */
+
+/* トリガ開始許可設定(ADCSR.TRGE) */
+/* Memo:ソフトウェアトリガーを使用するため未実装 */
+
+/* A/D変換クロック設定(ADCSR.CKS) */
+const EN_HwPph_Adc_SelClk CEN_HwPph_Adc_CfgSelClk_ = CEN_HwPph_Adc_CfgSelClk;
+
+/* スキャン終了割り込み許可(ADCSR.ADIE) */ /* S12ADI0割り込み */
+const U1 CU1_HwPph_Adc_CfgIntEnb_ = CU1_HwPph_Adc_CfgIntEnb;
+
+/* スキャンモード設定(ADCSR.ADCS) */
+/* Memo:シングルスキャンモードを使用するため未実装 */
+
+/* -------------------- */
+/* ADADS0,1レジスタ設定 */
+/* -------------------- */
+/* Memo:加算モードを使用しないため未実装 */
+
+/* ----------------- */
+/* ADADCレジスタ設定 */
+/* ----------------- */
+/* Memo:加算モードを使用しないため未実装 */
+
+/* ----------------- */
+/* ADCERレジスタ設定 */
+/* ----------------- */
+/* 自動クリアイネーブル設定(ADCER.ACE) */
+const U1 CU1_HwPph_Adc_CfgReadClrEnb_ = CU1_HwPph_Adc_CfgReadClrEnb;
+
+/* A/Dデータレジスタフォーマット設定(ADCER.ADRFMT) */
+const EN_HwPph_Adc_Format CEN_HwPph_Adc_CfgFormat_ = CEN_HwPph_Adc_CfgFormat;
+
 /* ------------------- */
-/* PLLWTCRレジスタ設定 */
+/* ADSTRGRレジスタ設定 */
 /* ------------------- */
-/* PLLウェイト時間設定(PLLWTCR.PSTS) */
-const EN_HwPph_Clk_PllWaitTim CEN_HwPph_Clk_CfgPllWaitTim_ = CEN_HwPph_Clk_CfgPllWaitTim;
+/* Memo:ソフトウェアトリガーを使用するため未実装 */
 
-/* ----------------- */
-/* PLLCRレジスタ設定 */
-/* ----------------- */
-/* PLL入力分周比選択(PLLCR.PLIDIV) */
-const EN_HwPph_Clk_PllIDiv CEN_HwPph_Clk_CfgPllIDiv_ = CEN_HwPph_Clk_CfgPllIDiv;
+/* ------------------- */
+/* ADEXICRレジスタ設定 */
+/* ------------------- */
+/* Memo:温度センサ/内部基準電圧を使用しないため未実装 */
 
-/* 周波数逓倍率設定(PLLCR.STC) */
-const EN_HwPph_Clk_FreqMul CEN_HwPph_Clk_CfgFreqMul_ = CEN_HwPph_Clk_CfgFreqMul;
+/* ------------------- */
+/* ADEXICRレジスタ設定 */
+/* ------------------- */
+/* Memo:温度センサ/内部基準電圧を使用しないため未実装 */
 
-/* ------------------ */
-/* PLLCR2レジスタ設定 */
-/* ------------------ */
-/* PLL停止制御(PLLCR2.PLLEN) */
-const U1 CU1_HwPph_Clk_CfgPllStop_ = CU1_HwPph_Clk_CfgPllStop;
+/* -------------------- */
+/* ADSSTR01レジスタ設定 */
+/* -------------------- */
+/* サンプリング時間1設定(ADSSTR01.SST1) */  /* Note:設定範囲は20から255までであること */
+const U1 CU1_HwPph_Adc_CfgSamplingTime_ = (U1)McXX_grdMin((U2)CU1_HwPph_Adc_CfgSamplingTime, CU2_HwPph_Adc_ADSSTR01_SST1_Min);
 
-/* ----------------- */
-/* SCKCRレジスタ設定 */
-/* ----------------- */
-/* 周辺モジュールクロックB選択(SCKCR.PCKB) */
-const EN_HwPph_Clk_PphClkB CEN_HwPph_Clk_CfgPphClkB_ = CEN_HwPph_Clk_CfgPphClkB;
-
-/* 周辺モジュールクロックA選択(SCKCR.PCKA) */
-const EN_HwPph_Clk_PphClkA CEN_HwPph_Clk_CfgPphClkA_ = CEN_HwPph_Clk_CfgPphClkA;
-
-/* 外部バスクロック選択(SCKCR.BCK) */
-const EN_HwPph_Clk_ExtBusClk CEN_HwPph_Clk_CfgExtBusClk_ = CEN_HwPph_Clk_CfgExtBusClk;
-
-/* SDCLK端子出力制御(SCKCR.PSTOP0) */
-const U1 CU1_HwPph_Clk_CfgSdRamClkPortStop_ = CU1_HwPph_Clk_CfgSdRamClkPortStop;
-
-/* BCLK端子出力制御(SCKCR.PSTOP1) */
-const U1 CU1_HwPph_Clk_CfgBusClkPortStop_ = CU1_HwPph_Clk_CfgBusClkPortStop;
-
-/* システムクロック選択(SCKCR.ICK) */
-const EN_HwPph_Clk_SysClk CEN_HwPph_Clk_CfgSysClk_ = CEN_HwPph_Clk_CfgSysClk;
-
-/* FlashIFクロック選択(SCKCR.FCK) */
-const EN_HwPph_Clk_FlashIfClk CEN_HwPph_Clk_CfgFlashIfClk_ = CEN_HwPph_Clk_CfgFlashIfClk;
-
-/* ------------------ */
-/* SCKCR2レジスタ設定 */
-/* ------------------ */
-/* IEBUSクロック選択(SCKCR2.IEBCK) */
-const EN_HwPph_Clk_IeBusClk CEN_HwPph_Clk_CfgIeBusClk_ = CEN_HwPph_Clk_CfgIeBusClk;
-
-/* USBクロック選択(SCKCR2.UCK) */
-const EN_HwPph_Clk_UsbClk CEN_HwPph_Clk_CfgUsbClk_ = CEN_HwPph_Clk_CfgUsbClk;
-
-/* ------------------ */
-/* SCKCR3レジスタ設定 */
-/* ------------------ */
-/* クロックソース選択(SCKCR3.CKSEL) */
-const EN_HwPph_Clk_SrcSel CEN_HwPph_Clk_CfgSrcSel_ = CEN_HwPph_Clk_CfgSrcSel;
-
-/* ------------------ */
-/* BCKCRレジスタ設定 */
-/* ------------------ */
-/* BCLK端子出力選択(BCKCR.BCLKDIV) */
-const U1 CU1_HwPph_Clk_CfgExtBusClkDiv_ = CU1_HwPph_Clk_CfgExtBusClkDiv;
+/* -------------------- */
+/* ADSSTR23レジスタ設定 */
+/* -------------------- */
+/* Memo:温度センサを使用しないため未実装 */
 
 
 /* ============================================================ */

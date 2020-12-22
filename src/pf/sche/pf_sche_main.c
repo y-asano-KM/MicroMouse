@@ -14,9 +14,12 @@
 #include "prj_cmn_macro.h"
 
 /* カテゴリ共通 */
-#include "prj_cmn_option_pac.h"
+#include "pf_cmn_option.h"
+#include "pf_cmn_option_pac.h"
 
 /* 個別 */
+#include "pf_if_hw_pac.h"
+#include "pf_led_ctrl_pac.h"
 
 /* 本体 */
 #include "pf_sche_main.h"
@@ -75,6 +78,14 @@
 /* ============================================================ */
 VD FnVD_PfSche_wrapMainProc(VD)
 {
+  /* ToDo:仮実装(実行順序未検討)(モータ出力が先の方が良い?) */ 
+  /* HW入力値取得 */
+  FnVD_PfIf_Hw_input();
 
+  /* LED制御 */
+  FnVD_PfLed_Ctrl_mediate();
+
+  /* HW出力値指示 */
+  FnVD_PfIf_Hw_Output();
 }
 

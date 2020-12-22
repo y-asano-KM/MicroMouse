@@ -14,9 +14,13 @@
 #include "prj_cmn_macro.h"
 
 /* カテゴリ共通 */
-#include "prj_cmn_option_pac.h"
+#include "pf_cmn_option.h"
+#include "pf_cmn_option_pac.h"
 
 /* 個別 */
+#include "pf_if_hw_pac.h"
+#include "pf_raysens_if_pac.h"
+#include "pf_led_ctrl_pac.h"
 
 /* 本体 */
 #include "pf_sche_init.h"
@@ -75,6 +79,23 @@
 /* ============================================================ */
 VD FnVD_PfSche_wrapInitProc(VD)
 {
+  /* -------------------- */
+  /* ハードウェア層初期化 */
+  /* -------------------- */
+  FnVD_PfIf_Hw_init();
 
+  /* ---------- */
+  /* PF層初期化 */
+  /* ---------- */
+  /* 光学センサI/F処理初期化 */
+  FnVD_PfRaySens_If_initPf();
+
+  /* LED制御初期化 */
+  FnVD_PfLed_Ctrl_init();
+
+  /* -------------- */
+  /* アプリ層初期化 */
+  /* -------------- */
+  /* ToDo:未実装 */
 }
 

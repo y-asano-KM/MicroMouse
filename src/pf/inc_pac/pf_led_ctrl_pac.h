@@ -1,8 +1,8 @@
-#if !defined(INCLUDED_hw_drv_led_h)
-#define INCLUDED_hw_drv_led_h
+#if !defined(INCLUDED_pf_led_ctrl_pac_h)
+#define INCLUDED_pf_led_ctrl_pac_h
 /* ============================================================ */
-/* ファイル名 : hw_drv_led.h                                    */
-/* 機能       : LED制御処理                                     */
+/* ファイル名 : pf_led_ctrl_pac.h                               */
+/* 機能       : LED制御                                         */
 /* ============================================================ */
 
 /* ============================================================ */
@@ -14,7 +14,8 @@
 #include "prj_cmn_macro.h"
 
 /* カテゴリ共通 */
-#include "hw_cmn_option.h"
+#include "pf_cmn_option.h"
+#include "pf_cmn_option_pac.h"
 
 /* 個別 */
 
@@ -34,12 +35,12 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern VD FnVD_HwDrv_Led_init(VD);
-extern VD FnVD_HwDrv_Led_setReqLed(U1 tu1ReqLed0, U1 tu1ReqLed1, U1 tu1ReqLed2, U1 tu1ReqLed3);
-extern VD FnVD_HwDrv_Led_setReqLed0(U1 tu1Req);
-extern VD FnVD_HwDrv_Led_setReqLed1(U1 tu1Req);
-extern VD FnVD_HwDrv_Led_setReqLed2(U1 tu1Req);
-extern VD FnVD_HwDrv_Led_setReqLed3(U1 tu1Req);
+extern VD FnVD_PfLed_Ctrl_init(VD);
+extern VD FnVD_PfLed_Ctrl_mediate(VD);
+extern U1 FnU1_PfLed_Ctrl_getReqLed0(VD);
+extern U1 FnU1_PfLed_Ctrl_getReqLed1(VD);
+extern U1 FnU1_PfLed_Ctrl_getReqLed2(VD);
+extern U1 FnU1_PfLed_Ctrl_getReqLed3(VD);
 
 
 /* ============================================================ */
