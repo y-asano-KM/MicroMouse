@@ -15,6 +15,13 @@
 #define OP_PrjCmn_LittleEndian
 /* #define OP_PrjCmn_BigEndian */
 
+/* [ms]メインスケジュール周期 */
+#define CU1_PrjCmn_MainPeriod      ((U1)5)
+
+/* [ms]1ms割り込み周期 */
+#define CU1_PrjCmn_Int1msPeriod    ((U1)1)
+
+
 /* ================================================== */
 /* オプションチェック                                 */
 /* ================================================== */

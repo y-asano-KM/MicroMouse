@@ -18,6 +18,7 @@
 #include "pf_cmn_option_pac.h"
 
 /* 個別 */
+#include "pf_bat_monitor_pac.h"
 
 /* 本体 */
 #include "pf_led_ctrl_pac.h"
@@ -109,27 +110,43 @@ VD FnVD_PfLed_Ctrl_mediate(VD)
   /* ToDo:テスト用のため最終的には削除する */
   U4 tu4MainCnt;
   U4 tu4Int1msCnt;
+#endif
   U1 tu1LedReq0;
   U1 tu1LedReq1;
   U1 tu1LedReq2;
   U1 tu1LedReq3;
-#endif
+  U1 tu1BatVolLow;
 
+  /* バッテリー電圧低下状態取得 */
+  tu1BatVolLow = FnU1_PfBat_Moni_getStsVoltageLow();
+
+  if (0) {
+    /* 何もしない */
+  }
+  else if (tu1BatVolLow == (U1)C_ON) {
+    tu1LedReq0 = (U1)C_OFF;
+    tu1LedReq1 = (U1)C_OFF;
+    tu1LedReq2 = (U1)C_OFF;
+    tu1LedReq3 = (U1)C_OFF;
+  }
+  else {
 #if defined(OP_PfSche_Main_TestLed)
-  /* ToDo:テスト用のため最終的には削除する */
-  /* 確認用LED点灯処理 */
-  tu4MainCnt   = FnU4_HwSrv_Sche_getMainCnt();
-  tu4Int1msCnt = FnU4_HwSrv_Sche_getInt1msCnt();
+    /* ToDo:テスト用のため最終的には削除する */
+    /* 確認用LED点灯処理 */
+    tu4MainCnt   = FnU4_HwSrv_Sche_getMainCnt();
+    tu4Int1msCnt = FnU4_HwSrv_Sche_getInt1msCnt();
 
-  tu1LedReq0 = (((U4)(tu4MainCnt & (U4)0x00000080) == (U4)0) ? (U1)C_ON : (U1)C_OFF);
-  tu1LedReq1 = tu1LedReq0;
-  tu1LedReq2 = (((U4)(tu4Int1msCnt & (U4)0x00000100) == (U4)0) ? (U1)C_ON : (U1)C_OFF);
-  tu1LedReq3 = tu1LedReq2;
+    tu1LedReq0 = (((U4)(tu4MainCnt & (U4)0x00000080) == (U4)0) ? (U1)C_ON : (U1)C_OFF);
+    tu1LedReq1 = tu1LedReq0;
+    tu1LedReq2 = (((U4)(tu4Int1msCnt & (U4)0x00000100) == (U4)0) ? (U1)C_ON : (U1)C_OFF);
+    tu1LedReq3 = tu1LedReq2;
+#endif
+  }
+
   fPfLed_Ctrl_ReqLed0 = tu1LedReq0;
   fPfLed_Ctrl_ReqLed1 = tu1LedReq1;
   fPfLed_Ctrl_ReqLed2 = tu1LedReq2;
   fPfLed_Ctrl_ReqLed3 = tu1LedReq3;
-#endif
 }
 
 

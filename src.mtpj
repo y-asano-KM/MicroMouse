@@ -205,6 +205,13 @@
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>b49bd226-c51a-458e-b501-961e03187fa8</ParentItem>
     </Instance>
+    <Instance Guid="be63565f-a9d4-418f-86bb-56d5b2915258">
+      <Name>hw_drv_bat.c</Name>
+      <Type>File</Type>
+      <RelativePath>src\hw\driver\hw_drv_bat.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>e61b15d3-68dc-4718-b81d-155b38947186</ParentItem>
+    </Instance>
     <Instance Guid="3c9815bf-ad91-4272-8c1a-6651832e37f6">
       <Name>hw_drv_buzzer.c</Name>
       <Type>File</Type>
@@ -293,6 +300,13 @@
       <Name>hw_core_vectbl_pac.h</Name>
       <Type>File</Type>
       <RelativePath>src\hw\inc_pac\hw_core_vectbl_pac.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>c1b05982-b777-45cf-90ba-54268e840748</ParentItem>
+    </Instance>
+    <Instance Guid="75336183-bc3d-403b-96ea-ce7a7638e44a">
+      <Name>hw_drv_bat_pac.h</Name>
+      <Type>File</Type>
+      <RelativePath>src\hw\inc_pac\hw_drv_bat_pac.h</RelativePath>
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>c1b05982-b777-45cf-90ba-54268e840748</ParentItem>
     </Instance>
@@ -457,6 +471,13 @@
       <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
       <ParentItem>13971a2f-93e5-4c9d-adbd-99b7eec49ac6</ParentItem>
     </Instance>
+    <Instance Guid="3a100b7f-7ddf-4cdc-a3ec-b9a4267f7c11">
+      <Name>hw_drv_bat.h</Name>
+      <Type>File</Type>
+      <RelativePath>src\hw\inc_pub\hw_drv_bat.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>13971a2f-93e5-4c9d-adbd-99b7eec49ac6</ParentItem>
+    </Instance>
     <Instance Guid="2ebd7776-baae-4459-8e24-45622e0c3267">
       <Name>hw_drv_buzzer.h</Name>
       <Type>File</Type>
@@ -597,6 +618,11 @@
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>d2e861bc-b4fc-412b-a7cf-2ddab846ecba</ParentItem>
     </Instance>
+    <Instance Guid="608bab1d-a6fb-45cb-bf83-557cfd355343">
+      <Name>bat</Name>
+      <Type>Category</Type>
+      <ParentItem>0a533ce2-510e-4162-ac2f-0449d1b866d2</ParentItem>
+    </Instance>
     <Instance Guid="9824d22b-0066-43ac-b7e8-4744532b7c03">
       <Name>if</Name>
       <Type>Category</Type>
@@ -627,12 +653,54 @@
       <Type>Category</Type>
       <ParentItem>0a533ce2-510e-4162-ac2f-0449d1b866d2</ParentItem>
     </Instance>
+    <Instance Guid="ec17bfc4-cbf6-4b5f-9c27-1cb7d42dfe90">
+      <Name>pf_bat_if.c</Name>
+      <Type>File</Type>
+      <RelativePath>src\pf\bat\pf_bat_if.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>608bab1d-a6fb-45cb-bf83-557cfd355343</ParentItem>
+    </Instance>
+    <Instance Guid="c6ca0472-1e55-4334-be2d-33626d42556b">
+      <Name>pf_bat_monitor.c</Name>
+      <Type>File</Type>
+      <RelativePath>src\pf\bat\pf_bat_monitor.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>608bab1d-a6fb-45cb-bf83-557cfd355343</ParentItem>
+    </Instance>
+    <Instance Guid="c7909aee-12c1-41c0-8d81-ed8446ba9dca">
+      <Name>pf_bled_ctrl.c</Name>
+      <Type>File</Type>
+      <RelativePath>src\pf\bat\pf_bled_ctrl.c</RelativePath>
+      <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
+      <ParentItem>608bab1d-a6fb-45cb-bf83-557cfd355343</ParentItem>
+    </Instance>
     <Instance Guid="7eeb1e3c-8f31-47ea-82df-c6c869143b2e">
       <Name>pf_if_hw.c</Name>
       <Type>File</Type>
       <RelativePath>src\pf\if\pf_if_hw.c</RelativePath>
       <TreeImageGuid>941832c1-fc3b-4e1b-94e8-01ea17128b42</TreeImageGuid>
       <ParentItem>9824d22b-0066-43ac-b7e8-4744532b7c03</ParentItem>
+    </Instance>
+    <Instance Guid="531290c2-cee7-403e-984c-a3878796f7a1">
+      <Name>pf_bat_if_pac.h</Name>
+      <Type>File</Type>
+      <RelativePath>src\pf\inc_pac\pf_bat_if_pac.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>139992d6-51b7-4985-a5d2-2415a39f1be0</ParentItem>
+    </Instance>
+    <Instance Guid="71263f35-1688-4352-b30d-1bd1dbfc71e6">
+      <Name>pf_bat_monitor_pac.h</Name>
+      <Type>File</Type>
+      <RelativePath>src\pf\inc_pac\pf_bat_monitor_pac.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>139992d6-51b7-4985-a5d2-2415a39f1be0</ParentItem>
+    </Instance>
+    <Instance Guid="5f410c9f-a7b9-4f1f-b60f-6068e100d747">
+      <Name>pf_bled_ctrl_pac.h</Name>
+      <Type>File</Type>
+      <RelativePath>src\pf\inc_pac\pf_bled_ctrl_pac.h</RelativePath>
+      <TreeImageGuid>03cad1e8-2eb3-4cde-a8a3-982423631122</TreeImageGuid>
+      <ParentItem>139992d6-51b7-4985-a5d2-2415a39f1be0</ParentItem>
     </Instance>
     <Instance Guid="136f7288-dd2e-4a8f-bb79-503c03030aa1">
       <Name>pf_cmn_chk_option_pac.h</Name>
@@ -946,25 +1014,33 @@
       <SourceItemType25>CSource</SourceItemType25>
       <SourceItemGuid26>4fa78b95-73b5-43d6-8a87-f91d98cab036</SourceItemGuid26>
       <SourceItemType26>CSource</SourceItemType26>
-      <SourceItemGuid27>4050e911-d311-4a22-9ca7-ba690d4ba4f0</SourceItemGuid27>
+      <SourceItemGuid27>7eeb1e3c-8f31-47ea-82df-c6c869143b2e</SourceItemGuid27>
       <SourceItemType27>CSource</SourceItemType27>
-      <SourceItemGuid28>be3ccb84-18e2-44bd-ab24-19010136168f</SourceItemGuid28>
+      <SourceItemGuid28>8d16460d-4bf4-47b3-a83a-2061451e18ae</SourceItemGuid28>
       <SourceItemType28>CSource</SourceItemType28>
-      <SourceItemGuid29>a1e121ad-9f26-4a82-8c47-02cafca054f9</SourceItemGuid29>
+      <SourceItemGuid29>09f12d4a-9daf-4e08-a02e-316f63cc49b9</SourceItemGuid29>
       <SourceItemType29>CSource</SourceItemType29>
-      <SourceItemGuid30>559abe64-48b2-4009-acdd-51f6fc998027</SourceItemGuid30>
+      <SourceItemGuid30>b6bb3d82-98d6-434d-a301-72f9a583ff8b</SourceItemGuid30>
       <SourceItemType30>CSource</SourceItemType30>
-      <SourceItemGuid31>2a836574-c6d1-4090-8d72-f013ecc2a6ea</SourceItemGuid31>
+      <SourceItemGuid31>4050e911-d311-4a22-9ca7-ba690d4ba4f0</SourceItemGuid31>
       <SourceItemType31>CSource</SourceItemType31>
-      <SourceItemGuid32>7eeb1e3c-8f31-47ea-82df-c6c869143b2e</SourceItemGuid32>
+      <SourceItemGuid32>be3ccb84-18e2-44bd-ab24-19010136168f</SourceItemGuid32>
       <SourceItemType32>CSource</SourceItemType32>
-      <SourceItemGuid33>b6bb3d82-98d6-434d-a301-72f9a583ff8b</SourceItemGuid33>
+      <SourceItemGuid33>a1e121ad-9f26-4a82-8c47-02cafca054f9</SourceItemGuid33>
       <SourceItemType33>CSource</SourceItemType33>
-      <SourceItemGuid34>8d16460d-4bf4-47b3-a83a-2061451e18ae</SourceItemGuid34>
+      <SourceItemGuid34>559abe64-48b2-4009-acdd-51f6fc998027</SourceItemGuid34>
       <SourceItemType34>CSource</SourceItemType34>
-      <SourceItemGuid35>09f12d4a-9daf-4e08-a02e-316f63cc49b9</SourceItemGuid35>
+      <SourceItemGuid35>2a836574-c6d1-4090-8d72-f013ecc2a6ea</SourceItemGuid35>
       <SourceItemType35>CSource</SourceItemType35>
-      <SourceItemCount>36</SourceItemCount>
+      <SourceItemGuid36>be63565f-a9d4-418f-86bb-56d5b2915258</SourceItemGuid36>
+      <SourceItemType36>CSource</SourceItemType36>
+      <SourceItemGuid37>ec17bfc4-cbf6-4b5f-9c27-1cb7d42dfe90</SourceItemGuid37>
+      <SourceItemType37>CSource</SourceItemType37>
+      <SourceItemGuid38>c6ca0472-1e55-4334-be2d-33626d42556b</SourceItemGuid38>
+      <SourceItemType38>CSource</SourceItemType38>
+      <SourceItemGuid39>c7909aee-12c1-41c0-8d81-ed8446ba9dca</SourceItemGuid39>
+      <SourceItemType39>CSource</SourceItemType39>
+      <SourceItemCount>40</SourceItemCount>
       <LastDeviceChangedCounter>0</LastDeviceChangedCounter>
     </Instance>
     <Instance Guid="9e208646-ccba-4100-a676-29b1efe6545f">
@@ -2827,6 +2903,42 @@ ROMVAL_APP=RAMVAL_APP
       <ItemAddTime>637442679732919345</ItemAddTime>
       <ItemAddTimeCount>1</ItemAddTimeCount>
     </Instance>
+    <Instance Guid="be63565f-a9d4-418f-86bb-56d5b2915258">
+      <ItemAddTime>637443563015518821</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="75336183-bc3d-403b-96ea-ce7a7638e44a">
+      <ItemAddTime>637443563248975760</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="3a100b7f-7ddf-4cdc-a3ec-b9a4267f7c11">
+      <ItemAddTime>637443563530888919</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="ec17bfc4-cbf6-4b5f-9c27-1cb7d42dfe90">
+      <ItemAddTime>637443563804549285</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="c6ca0472-1e55-4334-be2d-33626d42556b">
+      <ItemAddTime>637443563804549285</ItemAddTime>
+      <ItemAddTimeCount>1</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="c7909aee-12c1-41c0-8d81-ed8446ba9dca">
+      <ItemAddTime>637443563804549285</ItemAddTime>
+      <ItemAddTimeCount>2</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="531290c2-cee7-403e-984c-a3878796f7a1">
+      <ItemAddTime>637443564285326612</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="71263f35-1688-4352-b30d-1bd1dbfc71e6">
+      <ItemAddTime>637443564322071264</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
+    <Instance Guid="5f410c9f-a7b9-4f1f-b60f-6068e100d747">
+      <ItemAddTime>637443564356474899</ItemAddTime>
+      <ItemAddTimeCount>0</ItemAddTimeCount>
+    </Instance>
     <Instance Guid="a7be515f-f007-45ed-9059-4e1500c0f74d">
       <TimeTagModified-SourceItem0--0>-8585930641718569332</TimeTagModified-SourceItem0--0>
       <SourceItem0-IsLockedByUser>False</SourceItem0-IsLockedByUser>
@@ -3010,69 +3122,97 @@ ROMVAL_APP=RAMVAL_APP
       <TimeTagModified-SourceItem26--1>-8585960756511926111</TimeTagModified-SourceItem26--1>
       <SourceItem26-BuildingTarget-1>True</SourceItem26-BuildingTarget-1>
       <SourceItem26-IndividualCompileOption-1>False</SourceItem26-IndividualCompileOption-1>
-      <TimeTagModified-SourceItem27--0>-8585931309645756055</TimeTagModified-SourceItem27--0>
+      <TimeTagModified-SourceItem27--0>-8585929682017305829</TimeTagModified-SourceItem27--0>
       <SourceItem27-IsLockedByUser>False</SourceItem27-IsLockedByUser>
       <SourceItem27-BuildingTarget-0>True</SourceItem27-BuildingTarget-0>
       <SourceItem27-IndividualCompileOption-0>False</SourceItem27-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem27--1>-8585931309645756055</TimeTagModified-SourceItem27--1>
+      <TimeTagModified-SourceItem27--1>-8585929682017305829</TimeTagModified-SourceItem27--1>
       <SourceItem27-BuildingTarget-1>True</SourceItem27-BuildingTarget-1>
       <SourceItem27-IndividualCompileOption-1>False</SourceItem27-IndividualCompileOption-1>
-      <TimeTagModified-SourceItem28--0>-8585931305850725883</TimeTagModified-SourceItem28--0>
+      <TimeTagModified-SourceItem28--0>-8585929681121856463</TimeTagModified-SourceItem28--0>
       <SourceItem28-IsLockedByUser>False</SourceItem28-IsLockedByUser>
       <SourceItem28-BuildingTarget-0>True</SourceItem28-BuildingTarget-0>
       <SourceItem28-IndividualCompileOption-0>False</SourceItem28-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem28--1>-8585931305850725883</TimeTagModified-SourceItem28--1>
+      <TimeTagModified-SourceItem28--1>-8585929681121856463</TimeTagModified-SourceItem28--1>
       <SourceItem28-BuildingTarget-1>True</SourceItem28-BuildingTarget-1>
       <SourceItem28-IndividualCompileOption-1>False</SourceItem28-IndividualCompileOption-1>
-      <TimeTagModified-SourceItem29--0>-8585931309645756055</TimeTagModified-SourceItem29--0>
+      <TimeTagModified-SourceItem29--0>-8585929681121856463</TimeTagModified-SourceItem29--0>
       <SourceItem29-IsLockedByUser>False</SourceItem29-IsLockedByUser>
       <SourceItem29-BuildingTarget-0>True</SourceItem29-BuildingTarget-0>
       <SourceItem29-IndividualCompileOption-0>False</SourceItem29-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem29--1>-8585931309645756055</TimeTagModified-SourceItem29--1>
+      <TimeTagModified-SourceItem29--1>-8585929681121856463</TimeTagModified-SourceItem29--1>
       <SourceItem29-BuildingTarget-1>True</SourceItem29-BuildingTarget-1>
       <SourceItem29-IndividualCompileOption-1>False</SourceItem29-IndividualCompileOption-1>
-      <TimeTagModified-SourceItem30--0>-8585931310138319179</TimeTagModified-SourceItem30--0>
+      <TimeTagModified-SourceItem30--0>-8585929681299649395</TimeTagModified-SourceItem30--0>
       <SourceItem30-IsLockedByUser>False</SourceItem30-IsLockedByUser>
       <SourceItem30-BuildingTarget-0>True</SourceItem30-BuildingTarget-0>
       <SourceItem30-IndividualCompileOption-0>False</SourceItem30-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem30--1>-8585931310138319179</TimeTagModified-SourceItem30--1>
+      <TimeTagModified-SourceItem30--1>-8585929681299649395</TimeTagModified-SourceItem30--1>
       <SourceItem30-BuildingTarget-1>True</SourceItem30-BuildingTarget-1>
       <SourceItem30-IndividualCompileOption-1>False</SourceItem30-IndividualCompileOption-1>
-      <TimeTagModified-SourceItem31--0>-8585966823151971976</TimeTagModified-SourceItem31--0>
+      <TimeTagModified-SourceItem31--0>-8585931309645756055</TimeTagModified-SourceItem31--0>
       <SourceItem31-IsLockedByUser>False</SourceItem31-IsLockedByUser>
       <SourceItem31-BuildingTarget-0>True</SourceItem31-BuildingTarget-0>
       <SourceItem31-IndividualCompileOption-0>False</SourceItem31-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem31--1>-8585966823151971976</TimeTagModified-SourceItem31--1>
+      <TimeTagModified-SourceItem31--1>-8585931309645756055</TimeTagModified-SourceItem31--1>
       <SourceItem31-BuildingTarget-1>True</SourceItem31-BuildingTarget-1>
       <SourceItem31-IndividualCompileOption-1>False</SourceItem31-IndividualCompileOption-1>
-      <TimeTagModified-SourceItem32--0>-8585929682017305829</TimeTagModified-SourceItem32--0>
+      <TimeTagModified-SourceItem32--0>-8585931305850725883</TimeTagModified-SourceItem32--0>
       <SourceItem32-IsLockedByUser>False</SourceItem32-IsLockedByUser>
       <SourceItem32-BuildingTarget-0>True</SourceItem32-BuildingTarget-0>
       <SourceItem32-IndividualCompileOption-0>False</SourceItem32-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem32--1>-8585929682017305829</TimeTagModified-SourceItem32--1>
+      <TimeTagModified-SourceItem32--1>-8585931305850725883</TimeTagModified-SourceItem32--1>
       <SourceItem32-BuildingTarget-1>True</SourceItem32-BuildingTarget-1>
       <SourceItem32-IndividualCompileOption-1>False</SourceItem32-IndividualCompileOption-1>
-      <TimeTagModified-SourceItem33--0>-8585929681299649395</TimeTagModified-SourceItem33--0>
+      <TimeTagModified-SourceItem33--0>-8585931309645756055</TimeTagModified-SourceItem33--0>
       <SourceItem33-IsLockedByUser>False</SourceItem33-IsLockedByUser>
       <SourceItem33-BuildingTarget-0>True</SourceItem33-BuildingTarget-0>
       <SourceItem33-IndividualCompileOption-0>False</SourceItem33-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem33--1>-8585929681299649395</TimeTagModified-SourceItem33--1>
+      <TimeTagModified-SourceItem33--1>-8585931309645756055</TimeTagModified-SourceItem33--1>
       <SourceItem33-BuildingTarget-1>True</SourceItem33-BuildingTarget-1>
       <SourceItem33-IndividualCompileOption-1>False</SourceItem33-IndividualCompileOption-1>
-      <TimeTagModified-SourceItem34--0>-8585929681121856463</TimeTagModified-SourceItem34--0>
+      <TimeTagModified-SourceItem34--0>-8585931310138319179</TimeTagModified-SourceItem34--0>
       <SourceItem34-IsLockedByUser>False</SourceItem34-IsLockedByUser>
       <SourceItem34-BuildingTarget-0>True</SourceItem34-BuildingTarget-0>
       <SourceItem34-IndividualCompileOption-0>False</SourceItem34-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem34--1>-8585929681121856463</TimeTagModified-SourceItem34--1>
+      <TimeTagModified-SourceItem34--1>-8585931310138319179</TimeTagModified-SourceItem34--1>
       <SourceItem34-BuildingTarget-1>True</SourceItem34-BuildingTarget-1>
       <SourceItem34-IndividualCompileOption-1>False</SourceItem34-IndividualCompileOption-1>
-      <TimeTagModified-SourceItem35--0>-8585929681121856463</TimeTagModified-SourceItem35--0>
+      <TimeTagModified-SourceItem35--0>-8585966823151971976</TimeTagModified-SourceItem35--0>
       <SourceItem35-IsLockedByUser>False</SourceItem35-IsLockedByUser>
       <SourceItem35-BuildingTarget-0>True</SourceItem35-BuildingTarget-0>
       <SourceItem35-IndividualCompileOption-0>False</SourceItem35-IndividualCompileOption-0>
-      <TimeTagModified-SourceItem35--1>-8585929681121856463</TimeTagModified-SourceItem35--1>
+      <TimeTagModified-SourceItem35--1>-8585966823151971976</TimeTagModified-SourceItem35--1>
       <SourceItem35-BuildingTarget-1>True</SourceItem35-BuildingTarget-1>
       <SourceItem35-IndividualCompileOption-1>False</SourceItem35-IndividualCompileOption-1>
+      <TimeTagModified-SourceItem36--0>-8585928797839256987</TimeTagModified-SourceItem36--0>
+      <SourceItem36-IsLockedByUser>False</SourceItem36-IsLockedByUser>
+      <SourceItem36-BuildingTarget-0>True</SourceItem36-BuildingTarget-0>
+      <SourceItem36-IndividualCompileOption-0>False</SourceItem36-IndividualCompileOption-0>
+      <TimeTagModified-SourceItem36--1>-8585928797839256987</TimeTagModified-SourceItem36--1>
+      <SourceItem36-BuildingTarget-1>True</SourceItem36-BuildingTarget-1>
+      <SourceItem36-IndividualCompileOption-1>False</SourceItem36-IndividualCompileOption-1>
+      <TimeTagModified-SourceItem37--0>-8585928797050226523</TimeTagModified-SourceItem37--0>
+      <SourceItem37-IsLockedByUser>False</SourceItem37-IsLockedByUser>
+      <SourceItem37-BuildingTarget-0>True</SourceItem37-BuildingTarget-0>
+      <SourceItem37-IndividualCompileOption-0>False</SourceItem37-IndividualCompileOption-0>
+      <TimeTagModified-SourceItem37--1>-8585928797050226523</TimeTagModified-SourceItem37--1>
+      <SourceItem37-BuildingTarget-1>True</SourceItem37-BuildingTarget-1>
+      <SourceItem37-IndividualCompileOption-1>False</SourceItem37-IndividualCompileOption-1>
+      <TimeTagModified-SourceItem38--0>-8585928797050216543</TimeTagModified-SourceItem38--0>
+      <SourceItem38-IsLockedByUser>False</SourceItem38-IsLockedByUser>
+      <SourceItem38-BuildingTarget-0>True</SourceItem38-BuildingTarget-0>
+      <SourceItem38-IndividualCompileOption-0>False</SourceItem38-IndividualCompileOption-0>
+      <TimeTagModified-SourceItem38--1>-8585928797050216543</TimeTagModified-SourceItem38--1>
+      <SourceItem38-BuildingTarget-1>True</SourceItem38-BuildingTarget-1>
+      <SourceItem38-IndividualCompileOption-1>False</SourceItem38-IndividualCompileOption-1>
+      <TimeTagModified-SourceItem39--0>-8585928797050216543</TimeTagModified-SourceItem39--0>
+      <SourceItem39-IsLockedByUser>False</SourceItem39-IsLockedByUser>
+      <SourceItem39-BuildingTarget-0>True</SourceItem39-BuildingTarget-0>
+      <SourceItem39-IndividualCompileOption-0>False</SourceItem39-IndividualCompileOption-0>
+      <TimeTagModified-SourceItem39--1>-8585928797050216543</TimeTagModified-SourceItem39--1>
+      <SourceItem39-BuildingTarget-1>True</SourceItem39-BuildingTarget-1>
+      <SourceItem39-IndividualCompileOption-1>False</SourceItem39-IndividualCompileOption-1>
     </Instance>
     <Instance Guid="c20a78d9-8038-46fe-9b87-bc2fa2aa9bdc">
       <TimeTagModified-SourceItem22--0>-8585953929706803634</TimeTagModified-SourceItem22--0>

@@ -18,6 +18,7 @@
 #include "hw_cmn_option_pac.h"
 
 /* 個別 */
+#include "hw_srv_interrupt.h"
 #include "hw_pph_port_pac.h"
 #include "hw_pph_port_cfg_pac.h"
 #include "hw_pph_adc_pac.h"
@@ -159,6 +160,7 @@ VD FnVD_HwDrv_RaySens_init(VD)
 /* 戻り値 : なし                                                */
 /* 概要   : センサ値を提供する                                  */
 /* 制約   : センサ識別IDが規定外の場合は0を何もしない           */
+/*          割り込み禁止が解除される                            */
 /* ============================================================ */
 VD FnVD_HwDrv_RaySens_renewVal(EN_HwDrv_RaySens_Id tenId)
 {
@@ -190,6 +192,9 @@ VD FnVD_HwDrv_RaySens_renewVal(EN_HwDrv_RaySens_Id tenId)
   }
 
   if (tu1Err == (U1)C_OFF) {
+    /* 割り込み禁止 */
+    DI();
+
     /* センサ用LED点灯 */
     FnVD_HwPph_Port_setOutLv(tenPortId, (U1)C_ON);
 
@@ -213,6 +218,9 @@ VD FnVD_HwDrv_RaySens_renewVal(EN_HwDrv_RaySens_Id tenId)
 
     /* A/D変換結果取得 */
     u2HwDrv_RaySens_Val[tenId] = FnU2_HwPph_Adc_getVal(tenAdcCh);
+
+    /* 割り込み許可 */
+    EI();
   }
 }
 

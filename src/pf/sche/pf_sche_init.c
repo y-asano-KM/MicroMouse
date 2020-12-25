@@ -19,6 +19,9 @@
 
 /* 個別 */
 #include "pf_if_hw_pac.h"
+#include "pf_bat_if_pac.h"
+#include "pf_bat_monitor_pac.h"
+#include "pf_bled_ctrl_pac.h"
 #include "pf_raysens_if_pac.h"
 #include "pf_led_ctrl_pac.h"
 
@@ -92,6 +95,13 @@ VD FnVD_PfSche_wrapInitProc(VD)
 
   /* LED制御初期化 */
   FnVD_PfLed_Ctrl_init();
+
+  /* バッテリーI/F処理初期化 */
+  FnVD_PfBat_If_initPf();
+
+  /* バッテリー監視初期化 */
+  FnVD_PfBat_Moni_init();
+  FnVD_PfBled_Ctrl_init();
 
   /* -------------- */
   /* アプリ層初期化 */
