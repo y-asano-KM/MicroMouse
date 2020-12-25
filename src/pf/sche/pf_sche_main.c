@@ -19,6 +19,8 @@
 
 /* 個別 */
 #include "pf_if_hw_pac.h"
+#include "pf_bat_monitor_pac.h"
+#include "pf_bled_ctrl_pac.h"
 #include "pf_led_ctrl_pac.h"
 
 /* 本体 */
@@ -82,8 +84,14 @@ VD FnVD_PfSche_wrapMainProc(VD)
   /* HW入力値取得 */
   FnVD_PfIf_Hw_input();
 
+  /* バッテリー電圧低下判定 */
+  FnVD_PfBat_Moni_jdgVoltageLow();
+
   /* LED制御 */
   FnVD_PfLed_Ctrl_mediate();
+
+  /* バッテリー電圧監視用LED制御 */
+  FnVD_PfBled_Ctrl_mediate();
 
   /* HW出力値指示 */
   FnVD_PfIf_Hw_Output();

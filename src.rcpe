@@ -39,6 +39,7 @@
             <Path>src\hw\core\hw_core_vectbl.c</Path>
           </Category>
           <Category Name="driver">
+            <Path>src\hw\driver\hw_drv_bat.c</Path>
             <Path>src\hw\driver\hw_drv_buzzer.c</Path>
             <Path>src\hw\driver\hw_drv_led.c</Path>
             <Path>src\hw\driver\hw_drv_mtr.c</Path>
@@ -54,6 +55,7 @@
             <Path>src\hw\inc_pac\hw_core_startup_pac.h</Path>
             <Path>src\hw\inc_pac\hw_core_termination_pac.h</Path>
             <Path>src\hw\inc_pac\hw_core_vectbl_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_drv_bat_pac.h</Path>
             <Path>src\hw\inc_pac\hw_drv_buzzer_pac.h</Path>
             <Path>src\hw\inc_pac\hw_drv_led_pac.h</Path>
             <Path>src\hw\inc_pac\hw_drv_mtr_pac.h</Path>
@@ -79,6 +81,7 @@
           <Category Name="inc_pub">
             <Path>src\hw\inc_pub\hw_cmn_chk_option.h</Path>
             <Path>src\hw\inc_pub\hw_cmn_option.h</Path>
+            <Path>src\hw\inc_pub\hw_drv_bat.h</Path>
             <Path>src\hw\inc_pub\hw_drv_buzzer.h</Path>
             <Path>src\hw\inc_pub\hw_drv_led.h</Path>
             <Path>src\hw\inc_pub\hw_drv_mtr.h</Path>
@@ -106,10 +109,18 @@
           </Category>
         </Category>
         <Category Name="pf">
+          <Category Name="bat">
+            <Path>src\pf\bat\pf_bat_if.c</Path>
+            <Path>src\pf\bat\pf_bat_monitor.c</Path>
+            <Path>src\pf\bat\pf_bled_ctrl.c</Path>
+          </Category>
           <Category Name="if">
             <Path>src\pf\if\pf_if_hw.c</Path>
           </Category>
           <Category Name="inc_pac">
+            <Path>src\pf\inc_pac\pf_bat_if_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_bat_monitor_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_bled_ctrl_pac.h</Path>
             <Path>src\pf\inc_pac\pf_cmn_chk_option_pac.h</Path>
             <Path>src\pf\inc_pac\pf_cmn_option_pac.h</Path>
             <Path>src\pf\inc_pac\pf_if_hw_pac.h</Path>
@@ -256,6 +267,10 @@
           <Path>DefaultBuild\pf_raysens_if.obj</Path>
           <Path>DefaultBuild\pf_led_ctrl.obj</Path>
           <Path>DefaultBuild\pf_led_if.obj</Path>
+          <Path>DefaultBuild\hw_drv_bat.obj</Path>
+          <Path>DefaultBuild\pf_bat_if.obj</Path>
+          <Path>DefaultBuild\pf_bat_monitor.obj</Path>
+          <Path>DefaultBuild\pf_bled_ctrl.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src\pf\inc_pub</IncludePathForC>
@@ -377,6 +392,10 @@
           <Path>build\pf_raysens_if.obj</Path>
           <Path>build\pf_led_ctrl.obj</Path>
           <Path>build\pf_led_if.obj</Path>
+          <Path>build\hw_drv_bat.obj</Path>
+          <Path>build\pf_bat_if.obj</Path>
+          <Path>build\pf_bat_monitor.obj</Path>
+          <Path>build\pf_bled_ctrl.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src</IncludePathForC>

@@ -1,6 +1,6 @@
 /* ============================================================ */
-/* ファイル名 : pf_raysens_if.c                                 */
-/* 機能       : HW I/F処理                                      */
+/* ファイル名 : pf_bat_monitor.c                                */
+/* 機能       : バッテリー監視                                  */
 /* ============================================================ */
 #define SECTION_PF
 
@@ -19,16 +19,22 @@
 
 /* 個別 */
 #include "pf_bat_if_pac.h"
-#include "pf_raysens_if_pac.h"
-#include "pf_led_if_pac.h"
 
 /* 本体 */
-#include "pf_if_hw_pac.h"
+#include "pf_bat_monitor_pac.h"
 
 
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
+/* バッテリー電圧最小値:10V */ /* ToDo:物理値 / LSBの表現としたい(LSB不明) */
+#define CU2_PfBat_Moni_VolatageMin          ((U2)2034)
+
+/* バッテリー電圧最大値:12.4V */ /* ToDo:物理値 / LSBの表現としたい(LSB不明) */
+#define CU2_PfBat_Moni_VolatageMax          ((U2)2552)
+
+/* [ms]バッテリー電圧低下検出時間 */
+#define CU1_PfBat_Moni_JdgVolatageLowTim    ((U1)((U1)50 / CU1_PrjCmn_MainPeriod))
 
 
 /* ============================================================ */
@@ -49,6 +55,14 @@
 /* ============================================================ */
 /* 変数定義(static)                                             */
 /* ============================================================ */
+/* バッテリー電圧低下検出時間タイマー */
+static U1 u1PfBat_Moni_VolatageLowTimer;
+
+/* バッテリー監視ステータス */
+static F1 f1PfBat_Moni_Sts;
+
+/* バッテリー電圧低下 */
+#define fPfBat_Moni_StsVolatageLow    f1PfBat_Moni_Sts.Flag.fBit0
 
 
 /* ============================================================ */
@@ -70,86 +84,65 @@
 /* 関数定義                                                     */
 /* ============================================================ */
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_init                                   */
-/*          HW I/F 初期化                                       */
+/* 関数名 : FnVD_PfBat_Moni_init                                */
+/*          バッテリー監視処理初期化                            */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層の初期化を行う                        */
+/* 概要   : バッテリー監視処理の初期化を行う                    */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_init(VD)
+VD FnVD_PfBat_Moni_init(VD)
 {
-  /* 光学センサ初期化 */
-  FnVD_PfRaySens_If_initHw();
+  u1PfBat_Moni_VolatageLowTimer = (U1)0;
 
-  /* LED初期化 */
-  FnVD_PfLed_If_initHw();
-
-  /* バッテリー初期化 */
-  FnVD_PfBat_If_initHw();
+  /* Memo:fPfBat_Moni_StsVolatageLowの初期化も兼ねる */
+  f1PfBat_Moni_Sts.u1Val = (U1)0x00;
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_input                                  */
-/*          HW I/F 入力処理                                     */
+/* 関数名 : FnVD_PfBat_Moni_jdgVoltageLow                       */
+/*          バッテリー電圧低下判定                              */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層からの入力データを取得する            */
+/* 概要   : バッテリー電圧値を更新する                          */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_input(VD)
+VD FnVD_PfBat_Moni_jdgVoltageLow(VD)
 {
+  U2 tu2Val;
+
+  /* バッテリー電圧値取得 */
+  tu2Val = FnU2_PfBat_If_getVal();
+
+  /* バッテリー電圧低下判定 */
+  if (tu2Val < CU2_PfBat_Moni_VolatageMin) {
+    McXX_incU1Max(u1PfBat_Moni_VolatageLowTimer);
+  }
+  else {
+    u1PfBat_Moni_VolatageLowTimer = (U1)0;
+  }
+
+  /* バッテリー電圧低下検出/復帰 */
+  if (u1PfBat_Moni_VolatageLowTimer > CU1_PfBat_Moni_JdgVolatageLowTim) {
+    fPfBat_Moni_StsVolatageLow = (U1)C_ON;
+  }
+  else {
+    /* 電源OFFまで復帰しない */
+  }
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_Output                                 */
-/*          HW I/F 出力処理                                     */
+/* 関数名 : FnU1_PfBat_Moni_getStsVoltageLow                    */
+/*          バッテリー電圧低下状態取得                          */
 /* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層への出力を指示する                    */
+/* 戻り値 : バッテリー電圧低下状態                              */
+/* 概要   : バッテリー電圧低下状態を提供する                    */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_Output(VD)
+U1 FnU1_PfBat_Moni_getStsVoltageLow(VD)
 {
-  /* ToDo:LED点灯処理を仮実装 */
-  FnVD_PfLed_If_setReqLed();
-
-  /* バッテリー電圧監視用LED処理 */
-  FnVD_PfBat_If_setReqLed0();
-  FnVD_PfBat_If_setReqLed1();
-}
-
-
-/* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_inputForInt                            */
-/*          HW I/F 入力処理(割り込み処理用)                     */
-/* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層からの入力データを取得する            */
-/* 制約   : なし                                                */
-/* ============================================================ */
-VD FnVD_PfIf_Hw_inputForInt(VD)
-{
-  /* ToDo:センサ値取得処理を仮実装 */
-  FnVD_PfRaySens_If_renewVal();
-
-  /* バッテリー電圧値取得処理 */
-  /* Note:センサ値と同じチャネルグループでA/D変換を行うため同じタスクで実行する必要あり */
-  FnVD_PfBat_If_renewVal();
-}
-
-
-/* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_outputForInt                           */
-/*          HW I/F 出力処理(割り込み処理用)                     */
-/* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層への出力を指示する                    */
-/* 制約   : なし                                                */
-/* ============================================================ */
-VD FnVD_PfIf_Hw_outputForInt(VD)
-{
+  return (fPfBat_Moni_StsVolatageLow);
 }
 

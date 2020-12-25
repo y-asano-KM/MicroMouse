@@ -41,7 +41,7 @@
 #define CEN_HwSrv_Sche_IntCtrl_VecId_Int1ms       CEN_HwPph_IntCtrl_VecId_CMT1_CMI1
 #define CEN_HwSrv_Sche_IntCtrl_Priority_Int1ms    CEN_HwPph_IntCtrl_CfgPriority_CMT1_CMI1
 #define CU1_HwSrv_Sche_IntCtrl_EnbInt_Int1ms      ((U1)C_ON)
-#define CU2_HwSrc_Sche_waitTimMainProc            ((U2)((FL)((FL)CU2_HwSrv_Sche_CfgMainProcPeriod / CFL_HwSrv_Time_ClkLsb)))
+#define CU2_HwSrv_Sche_waitTimMainProc            ((U2)((FL)((FL)CU2_HwSrv_Sche_CfgMainProcPeriod / CFL_HwSrv_Time_ClkLsb)))
 
 
 /* ============================================================ */
@@ -136,7 +136,7 @@ static VD FnVD_HwSrv_Sche_initMainProc(VD)
   u4HwSrv_Sche_Int1msCnt = (U4)0;
 
   /* メインスケジュール開始時刻初期化 */
-  u2HwSrv_Sche_MainStaTim = CU2_HwSrv_Time_ClkMax - CU2_HwSrc_Sche_waitTimMainProc;
+  u2HwSrv_Sche_MainStaTim = CU2_HwSrv_Time_ClkMax - CU2_HwSrv_Sche_waitTimMainProc;
 
   /* メインスケジュール処理負荷クリア */
   u2HwSrv_Sche_MainProcTim = (U2)0;
@@ -168,7 +168,7 @@ static VD FnVD_HwSrv_Sche_waitMainProc(VD)
      do {
        tu2TimCur = McU2_HwSrv_Time_getClk();
        tu2TimElapsed = McU2_HwSrv_Time_calElapsedTime(tu2TimCur, tu2TimPre);
-     } while (tu2TimElapsed < CU2_HwSrc_Sche_waitTimMainProc);
+     } while (tu2TimElapsed < CU2_HwSrv_Sche_waitTimMainProc);
    }
 
    /* メイン開始時刻更新 */
