@@ -127,6 +127,8 @@
             <Path>src\pf\inc_pac\pf_led_ctrl_pac.h</Path>
             <Path>src\pf\inc_pac\pf_led_if_pac.h</Path>
             <Path>src\pf\inc_pac\pf_raysens_if_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_switch_ctrl_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_switch_if_pac.h</Path>
           </Category>
           <Category Name="inc_pub">
             <Path>src\pf\inc_pub\pf_cmn_chk_option.h</Path>
@@ -146,6 +148,10 @@
             <Path>src\pf\sche\pf_sche_init.c</Path>
             <Path>src\pf\sche\pf_sche_interrupt.c</Path>
             <Path>src\pf\sche\pf_sche_main.c</Path>
+          </Category>
+          <Category Name="switch">
+            <Path>src\pf\switch\pf_switch_ctrl.c</Path>
+            <Path>src\pf\switch\pf_switch_if.c</Path>
           </Category>
         </Category>
         <Category Name="prj">
@@ -271,6 +277,8 @@
           <Path>DefaultBuild\pf_bat_if.obj</Path>
           <Path>DefaultBuild\pf_bat_monitor.obj</Path>
           <Path>DefaultBuild\pf_bled_ctrl.obj</Path>
+          <Path>DefaultBuild\pf_switch_ctrl.obj</Path>
+          <Path>DefaultBuild\pf_switch_if.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src\pf\inc_pub</IncludePathForC>
@@ -396,6 +404,8 @@
           <Path>build\pf_bat_if.obj</Path>
           <Path>build\pf_bat_monitor.obj</Path>
           <Path>build\pf_bled_ctrl.obj</Path>
+          <Path>build\pf_switch_ctrl.obj</Path>
+          <Path>build\pf_switch_if.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src</IncludePathForC>

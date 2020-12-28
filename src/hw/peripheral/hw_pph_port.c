@@ -790,7 +790,7 @@ U1 FnU1_HwPph_Port_getInLv(EN_HwPph_Port_Id tenId)
 /* 戻り値 : (0:Low, 1:High)                                     */
 /* 概要   : 汎用ポートかつ出力ポートに設定されたポートへの      */
 /*          出力レベルを設定する                                */
-/* 制約   : なし                                                */
+/* 制約   : 割り込み禁止中に実行すること                        */
 /* ============================================================ */
 VD FnVD_HwPph_Port_setOutLv(EN_HwPph_Port_Id tenId, U1 tu1OutLv)
 {

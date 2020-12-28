@@ -22,6 +22,8 @@
 #include "pf_bat_if_pac.h"
 #include "pf_bat_monitor_pac.h"
 #include "pf_bled_ctrl_pac.h"
+#include "pf_switch_if_pac.h"
+#include "pf_switch_ctrl_pac.h"
 #include "pf_raysens_if_pac.h"
 #include "pf_led_ctrl_pac.h"
 
@@ -102,6 +104,12 @@ VD FnVD_PfSche_wrapInitProc(VD)
   /* バッテリー監視初期化 */
   FnVD_PfBat_Moni_init();
   FnVD_PfBled_Ctrl_init();
+
+  /* スイッチ入力I/F処理初期化 */
+  FnVD_PfSwt_If_initPf();
+
+  /* スイッチ入力処理初期化 */
+  FnVD_PfSwt_Ctrl_init();
 
   /* -------------- */
   /* アプリ層初期化 */
