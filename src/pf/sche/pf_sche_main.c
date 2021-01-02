@@ -19,6 +19,7 @@
 
 /* 個別 */
 #include "pf_if_hw_pac.h"
+#include "pf_switch_ctrl_pac.h"
 #include "pf_bat_monitor_pac.h"
 #include "pf_bled_ctrl_pac.h"
 #include "pf_led_ctrl_pac.h"
@@ -83,6 +84,9 @@ VD FnVD_PfSche_wrapMainProc(VD)
   /* ToDo:仮実装(実行順序未検討)(モータ出力が先の方が良い?) */ 
   /* HW入力値取得 */
   FnVD_PfIf_Hw_input();
+
+  /* スイッチ入力制御処理 */
+  FnVD_PfSwt_Ctrl_proc();
 
   /* バッテリー電圧低下判定 */
   FnVD_PfBat_Moni_jdgVoltageLow();

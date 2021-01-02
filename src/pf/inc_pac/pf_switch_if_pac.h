@@ -1,8 +1,8 @@
-#if !defined(INCLUDED_hw_drv_switch_h)
-#define INCLUDED_hw_drv_switch_h
+#if !defined(INCLUDED_pf_switch_if_pac_h)
+#define INCLUDED_pf_switch_if_pac_h
 /* ============================================================ */
-/* ファイル名 : hw_drv_switch.h                                 */
-/* 機能       : スイッチ制御処理                                */
+/* ファイル名 : pf_switch_if_pac.h                              */
+/* 機能       : スイッチ入力処理                                */
 /* ============================================================ */
 
 /* ============================================================ */
@@ -14,7 +14,8 @@
 #include "prj_cmn_macro.h"
 
 /* カテゴリ共通 */
-#include "hw_cmn_option.h"
+#include "pf_cmn_option.h"
+#include "pf_cmn_option_pac.h"
 
 /* 個別 */
 
@@ -34,10 +35,12 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern VD FnVD_HwDrv_Swt_init(VD);
-extern U1 FnU1_HwDrv_Swt_getTactSwtRightSignal(VD);
-extern U1 FnU1_HwDrv_Swt_getTactSwtCenterSignal(VD);
-extern U1 FnU1_HwDrv_Swt_getTactSwtLeftSignal(VD);
+extern VD FnVD_PfSwt_If_initHw(VD);
+extern VD FnVD_PfSwt_If_initPf(VD);
+extern VD FnVD_PfSwt_If_getSignalRaw(VD);
+extern U1 FnU1_PfSwt_If_getTactSwtRightRaw(VD);
+extern U1 FnU1_PfSwt_If_getTactSwtCenterRaw(VD);
+extern U1 FnU1_PfSwt_If_getTactSwtLeftRaw(VD);
 
 
 /* ============================================================ */

@@ -27,6 +27,7 @@
 #if defined(OP_PfSche_Main_TestLed)
   /* ToDo:テスト用のため最終的には削除する */
   #include "hw_srv_schedule.h"
+  #include "pf_switch_ctrl_pac.h"
 #endif
 
 
@@ -110,6 +111,12 @@ VD FnVD_PfLed_Ctrl_mediate(VD)
   /* ToDo:テスト用のため最終的には削除する */
   U4 tu4MainCnt;
   U4 tu4Int1msCnt;
+  U1 tu1TactSwtRS;
+  U1 tu1TactSwtCS;
+  U1 tu1TactSwtLS;
+  U1 tu1TactSwtRL;
+  U1 tu1TactSwtCL;
+  U1 tu1TactSwtLL;
 #endif
   U1 tu1LedReq0;
   U1 tu1LedReq1;
@@ -137,9 +144,26 @@ VD FnVD_PfLed_Ctrl_mediate(VD)
     tu4Int1msCnt = FnU4_HwSrv_Sche_getInt1msCnt();
 
     tu1LedReq0 = (((U4)(tu4MainCnt & (U4)0x00000080) == (U4)0) ? (U1)C_ON : (U1)C_OFF);
-    tu1LedReq1 = tu1LedReq0;
-    tu1LedReq2 = (((U4)(tu4Int1msCnt & (U4)0x00000100) == (U4)0) ? (U1)C_ON : (U1)C_OFF);
-    tu1LedReq3 = tu1LedReq2;
+    tu1LedReq1 = (((U4)(tu4Int1msCnt & (U4)0x00000100) == (U4)0) ? (U1)C_ON : (U1)C_OFF);
+    tu1LedReq2 = tu1LedReq1;
+    tu1LedReq3 = tu1LedReq0;
+
+    tu1TactSwtRS = FnU1_PfSwt_Ctrl_getTactSwtRightShortPush();
+    tu1TactSwtCS = FnU1_PfSwt_Ctrl_getTactSwtCenterShortPush();
+    tu1TactSwtLS = FnU1_PfSwt_Ctrl_getTactSwtLeftShortPush();
+    tu1TactSwtRL = FnU1_PfSwt_Ctrl_getTactSwtRightLongPush();
+    tu1TactSwtCL = FnU1_PfSwt_Ctrl_getTactSwtCenterLongPush();
+    tu1TactSwtLL = FnU1_PfSwt_Ctrl_getTactSwtLeftLongPush();
+
+    tu1LedReq0 = ((tu1TactSwtRS == (U1)C_OFF) ? tu1LedReq0 : (U1)C_OFF);
+    tu1LedReq1 = ((tu1TactSwtCS == (U1)C_OFF) ? tu1LedReq1 : (U1)C_OFF);
+    tu1LedReq2 = ((tu1TactSwtCS == (U1)C_OFF) ? tu1LedReq2 : (U1)C_OFF);
+    tu1LedReq3 = ((tu1TactSwtLS == (U1)C_OFF) ? tu1LedReq3 : (U1)C_OFF);
+
+    tu1LedReq0 = ((tu1TactSwtRL == (U1)C_OFF) ? tu1LedReq0 : (U1)C_ON);
+    tu1LedReq1 = ((tu1TactSwtCL == (U1)C_OFF) ? tu1LedReq1 : (U1)C_ON);
+    tu1LedReq2 = ((tu1TactSwtCL == (U1)C_OFF) ? tu1LedReq2 : (U1)C_ON);
+    tu1LedReq3 = ((tu1TactSwtLL == (U1)C_OFF) ? tu1LedReq3 : (U1)C_ON);
 #endif
   }
 

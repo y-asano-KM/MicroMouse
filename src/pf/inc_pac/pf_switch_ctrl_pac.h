@@ -1,8 +1,8 @@
-#if !defined(INCLUDED_hw_drv_switch_h)
-#define INCLUDED_hw_drv_switch_h
+#if !defined(INCLUDED_pf_switch_ctrl_pac_h)
+#define INCLUDED_pf_switch_ctrl_pac_h
 /* ============================================================ */
-/* ファイル名 : hw_drv_switch.h                                 */
-/* 機能       : スイッチ制御処理                                */
+/* ファイル名 : pf_switch_ctrl_pac.h                            */
+/* 機能       : スイッチ入力制御                                */
 /* ============================================================ */
 
 /* ============================================================ */
@@ -14,7 +14,8 @@
 #include "prj_cmn_macro.h"
 
 /* カテゴリ共通 */
-#include "hw_cmn_option.h"
+#include "pf_cmn_option.h"
+#include "pf_cmn_option_pac.h"
 
 /* 個別 */
 
@@ -34,10 +35,17 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern VD FnVD_HwDrv_Swt_init(VD);
-extern U1 FnU1_HwDrv_Swt_getTactSwtRightSignal(VD);
-extern U1 FnU1_HwDrv_Swt_getTactSwtCenterSignal(VD);
-extern U1 FnU1_HwDrv_Swt_getTactSwtLeftSignal(VD);
+extern VD FnVD_PfSwt_Ctrl_init(VD);
+extern VD FnVD_PfSwt_Ctrl_proc(VD);
+extern U1 FnU1_PfSwt_Ctrl_getTactSwtRightMomentary(VD);
+extern U1 FnU1_PfSwt_Ctrl_getTactSwtCenterMomentary(VD);
+extern U1 FnU1_PfSwt_Ctrl_getTactSwtLeftMomentary(VD);
+extern U1 FnU1_PfSwt_Ctrl_getTactSwtRightShortPush(VD);
+extern U1 FnU1_PfSwt_Ctrl_getTactSwtCenterShortPush(VD);
+extern U1 FnU1_PfSwt_Ctrl_getTactSwtLeftShortPush(VD);
+extern U1 FnU1_PfSwt_Ctrl_getTactSwtRightLongPush(VD);
+extern U1 FnU1_PfSwt_Ctrl_getTactSwtCenterLongPush(VD);
+extern U1 FnU1_PfSwt_Ctrl_getTactSwtLeftLongPush(VD);
 
 
 /* ============================================================ */

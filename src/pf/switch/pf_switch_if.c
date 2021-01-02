@@ -1,6 +1,6 @@
 /* ============================================================ */
-/* ファイル名 : pf_raysens_if.c                                 */
-/* 機能       : HW I/F処理                                      */
+/* ファイル名 : pf_switch_if.c                                  */
+/* 機能       : スイッチ入力処理                                */
 /* ============================================================ */
 #define SECTION_PF
 
@@ -18,13 +18,10 @@
 #include "pf_cmn_option_pac.h"
 
 /* 個別 */
-#include "pf_bat_if_pac.h"
-#include "pf_switch_if_pac.h"
-#include "pf_raysens_if_pac.h"
-#include "pf_led_if_pac.h"
+#include "hw_drv_switch.h"
 
 /* 本体 */
-#include "pf_if_hw_pac.h"
+#include "pf_switch_if_pac.h"
 
 
 /* ============================================================ */
@@ -50,6 +47,17 @@
 /* ============================================================ */
 /* 変数定義(static)                                             */
 /* ============================================================ */
+/* スイッチ信号(生値) */
+static F1 f1PfSwt_If_SignalRaw;
+
+/* 右側スイッチ(生値) */
+#define fPfSwt_If_TactSwtRightRaw   f1PfSwt_If_SignalRaw.Flag.fBit0
+
+/* 中央スイッチ(生値) */
+#define fPfSwt_If_TactSwtCenterRaw  f1PfSwt_If_SignalRaw.Flag.fBit1
+
+/* 左側スイッチ(生値) */
+#define fPfSwt_If_TactSwtLeftRaw    f1PfSwt_If_SignalRaw.Flag.fBit2
 
 
 /* ============================================================ */
@@ -71,91 +79,97 @@
 /* 関数定義                                                     */
 /* ============================================================ */
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_init                                   */
-/*          HW I/F 初期化                                       */
+/* 関数名 : FnVD_PfSwt_If_initHw                                */
+/*          スイッチ入力処理初期化(HW用)                        */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : ハードウェア層の初期化を行う                        */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_init(VD)
+VD FnVD_PfSwt_If_initHw(VD)
 {
-  /* 光学センサ初期化 */
-  FnVD_PfRaySens_If_initHw();
-
-  /* LED初期化 */
-  FnVD_PfLed_If_initHw();
-
-  /* バッテリー初期化 */
-  FnVD_PfBat_If_initHw();
-
-  /* スイッチ入力処理初期化 */
-  FnVD_PfSwt_If_initHw();
+  FnVD_HwDrv_Swt_init();
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_input                                  */
-/*          HW I/F 入力処理                                     */
+/* 関数名 : FnVD_PfSwt_If_initPf                                */
+/*          スイッチ入力処理初期化(PF用)                        */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層からの入力データを取得する            */
+/* 概要   : スイッチ入力処理の初期化を行う                      */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_input(VD)
+VD FnVD_PfSwt_If_initPf(VD)
 {
-  /* スイッチ入力信号(生値)更新 */
-  FnVD_PfSwt_If_getSignalRaw();
+  /* Memo:fPfSwt_If_TactSwtRightRawの初期化を兼ねる */
+  /* Memo:fPfSwt_If_TactSwtCenterRawの初期化を兼ねる */
+  /* Memo:fPfSwt_If_TactSwtLeftRawの初期化を兼ねる */
+  f1PfSwt_If_SignalRaw.u1Val  = (U1)0x00;
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_Output                                 */
-/*          HW I/F 出力処理                                     */
+/* 関数名 : FnVD_PfSwt_If_renewSignalRaw                        */
+/*          スイッチ信号(生値)更新                              */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層への出力を指示する                    */
+/* 概要   : スイッチ信号(生値)を更新する                        */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_Output(VD)
+VD FnVD_PfSwt_If_getSignalRaw(VD)
 {
-  /* ToDo:LED点灯処理を仮実装 */
-  FnVD_PfLed_If_setReqLed();
+  /* 右側タクトスイッチ信号(生値) */
+  fPfSwt_If_TactSwtRightRaw  = FnU1_HwDrv_Swt_getTactSwtRightSignal();
 
-  /* バッテリー電圧監視用LED処理 */
-  FnVD_PfBat_If_setReqLed0();
-  FnVD_PfBat_If_setReqLed1();
+  /* 中央タクトスイッチ信号(生値) */
+  fPfSwt_If_TactSwtCenterRaw = FnU1_HwDrv_Swt_getTactSwtCenterSignal();
+
+  /* 左側タクトスイッチ信号(生値) */
+  fPfSwt_If_TactSwtLeftRaw   = FnU1_HwDrv_Swt_getTactSwtLeftSignal();
+
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_inputForInt                            */
-/*          HW I/F 入力処理(割り込み処理用)                     */
+/* 関数名 : FnU1_PfSwt_If_getTactSwtRightRaw                    */
+/*          右側タクトスイッチ信号(生値)取得                    */
 /* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層からの入力データを取得する            */
+/* 戻り値 : 右側タクトスイッチ信号(生値) (0:OFF, 1:ON)          */
+/* 概要   : 右側タクトスイッチ信号(生値)を提供する              */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_inputForInt(VD)
+U1 FnU1_PfSwt_If_getTactSwtRightRaw(VD)
 {
-  /* ToDo:センサ値取得処理を仮実装 */
-  FnVD_PfRaySens_If_renewVal();
-
-  /* バッテリー電圧値取得処理 */
-  /* Note:センサ値と同じチャネルグループでA/D変換を行うため同じタスクで実行する必要あり */
-  FnVD_PfBat_If_renewVal();
+  return (fPfSwt_If_TactSwtRightRaw);
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_outputForInt                           */
-/*          HW I/F 出力処理(割り込み処理用)                     */
+/* 関数名 : FnU1_PfSwt_If_getTactSwtCenterRaw                   */
+/*          中央タクトスイッチ信号(生値)取得                    */
 /* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層への出力を指示する                    */
+/* 戻り値 : 中央タクトスイッチ信号(生値) (0:OFF, 1:ON)          */
+/* 概要   : 中央タクトスイッチ信号(生値)を提供する              */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_outputForInt(VD)
+U1 FnU1_PfSwt_If_getTactSwtCenterRaw(VD)
 {
+  return (fPfSwt_If_TactSwtCenterRaw);
 }
+
+
+/* ============================================================ */
+/* 関数名 : FnU1_PfSwt_If_getTactSwtLeftRaw                     */
+/*          左側タクトスイッチ信号(生値)取得                    */
+/* 引数   : なし                                                */
+/* 戻り値 : 左側タクトスイッチ信号(生値) (0:OFF, 1:ON)          */
+/* 概要   : 左側タクトスイッチ信号(生値)を提供する              */
+/* 制約   : なし                                                */
+/* ============================================================ */
+U1 FnU1_PfSwt_If_getTactSwtLeftRaw(VD)
+{
+  return (fPfSwt_If_TactSwtLeftRaw);
+}
+
 
