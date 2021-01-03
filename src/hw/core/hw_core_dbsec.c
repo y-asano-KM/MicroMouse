@@ -2,6 +2,7 @@
 /* ファイル名 : hw_core_dbsec.c                                 */
 /* 機能       : セクション情報                                  */
 /* ============================================================ */
+/* ToDo:ライブラリ関数_INITSCTの代替処理を実装することにより当ファイルを削除したい */
 #define SECTION_HW
 
 /* ============================================================ */
@@ -57,13 +58,13 @@
 /* スタートアップで初期化子付き静的変数を初期化するために使用するテーブル */
 const ST_DTBL CST_DTBL[] = {
 /* pu1RomValSta,           pu1RomValEnd,           pu1RamValSta            */
-  {__sectop("D"),          __secend("D"),          __sectop("R")         },
-  {__sectop("D_2"),        __secend("D_2"),        __sectop("R_2")       },
-  {__sectop("D_1"),        __secend("D_1"),        __sectop("R_1")       },
-  {__sectop("ROMVAL_PRJ"), __secend("ROMVAL_PRJ"), __sectop("RAMVAL_PRJ")},
-  {__sectop("ROMVAL_HW"),  __secend("ROMVAL_HW"),  __sectop("RAMVAL_HW") },
-  {__sectop("ROMVAL_PF"),  __secend("ROMVAL_PF"),  __sectop("RAMVAL_PF") },
-  {__sectop("ROMVAL_APP"), __secend("ROMVAL_APP"), __sectop("RAMVAL_APP")}
+  {(U1 *)__sectop("D"),          (U1 *)__secend("D"),          (U1 *)__sectop("R")         },
+  {(U1 *)__sectop("D_2"),        (U1 *)__secend("D_2"),        (U1 *)__sectop("R_2")       },
+  {(U1 *)__sectop("D_1"),        (U1 *)__secend("D_1"),        (U1 *)__sectop("R_1")       },
+  {(U1 *)__sectop("ROMVAL_PRJ"), (U1 *)__secend("ROMVAL_PRJ"), (U1 *)__sectop("RAMVAL_PRJ")},
+  {(U1 *)__sectop("ROMVAL_HW"),  (U1 *)__secend("ROMVAL_HW"),  (U1 *)__sectop("RAMVAL_HW") },
+  {(U1 *)__sectop("ROMVAL_PF"),  (U1 *)__secend("ROMVAL_PF"),  (U1 *)__sectop("RAMVAL_PF") },
+  {(U1 *)__sectop("ROMVAL_APP"), (U1 *)__secend("ROMVAL_APP"), (U1 *)__sectop("RAMVAL_APP")}
 };
 
 #pragma section C C$BSEC
@@ -71,36 +72,37 @@ const ST_DTBL CST_DTBL[] = {
 /* スタートアップで静的変数を0クリアするために使用するテーブル */
 const ST_BTBL CST_BTBL[] = {
 /* pu1RamSta,           pu1RamEnd,           */
-  {__sectop("B"),       __secend("B")      },
-  {__sectop("B_2"),     __secend("B_2")    },
-  {__sectop("RAM_PRJ"), __secend("RAM_PRJ")},
-  {__sectop("RAM_HW"),  __secend("RAM_HW") },
-  {__sectop("RAM_PF"),  __secend("RAM_PF") },
-  {__sectop("RAM_APP"), __secend("RAM_APP")}
+  {(U1 *)__sectop("B"),       (U1 *)__secend("B")      },
+  {(U1 *)__sectop("B_2"),     (U1 *)__secend("B_2")    },
+  {(U1 *)__sectop("B_1"),     (U1 *)__secend("B_1")    },
+  {(U1 *)__sectop("RAM_PRJ"), (U1 *)__secend("RAM_PRJ")},
+  {(U1 *)__sectop("RAM_HW"),  (U1 *)__secend("RAM_HW") },
+  {(U1 *)__sectop("RAM_PF"),  (U1 *)__secend("RAM_PF") },
+  {(U1 *)__sectop("RAM_APP"), (U1 *)__secend("RAM_APP")}
 };
 /* デフォルトセクションとする */
 #pragma section
 
 /* CTBL prevents excessive output of L1100 messages when linking.         */
 /* Even if CTBL is deleted, the operation of the program does not change. */
+/* Memo:未使用のセクションが存在する場合にリンカが警告を出力するためその対策としてCTBLをダミーで定義している(W0561100) */
 U1 * const CPU1_CTBL[] = {
-  __sectop("C_1"),
-  __sectop("C_2"),
-  __sectop("C"),
-  __sectop("CONST_PRJ"),
-  __sectop("CONST_HW"),
-  __sectop("CONST_PF"),
-  __sectop("CONST_APP"),
-  __sectop("W_1"),
-  __sectop("W_2"),
-  __sectop("W"),
-  __sectop("L"),
-  __sectop("SU"),
-  __sectop("C$DSEC"),
-  __sectop("C$BSEC"),
-  __sectop("C$INIT"),
-  __sectop("C$VTBL"),
-  __sectop("C$VECT")
+  (U1 *)__sectop("SU"),
+  (U1 *)__sectop("RAM_END"),
+  (U1 *)__sectop("ROM_BEGIN"),
+  (U1 *)__sectop("C_1"),
+  (U1 *)__sectop("C_2"),
+  (U1 *)__sectop("C"),
+  (U1 *)__sectop("C$DSEC"),
+  (U1 *)__sectop("C$BSEC"),
+  (U1 *)__sectop("C$INIT"),
+  (U1 *)__sectop("C$VTBL"),
+  (U1 *)__sectop("W_1"),
+  (U1 *)__sectop("W_2"),
+  (U1 *)__sectop("W"),
+  (U1 *)__sectop("L"),
+  (U1 *)__sectop("C$VECT"),
+  (U1 *)__sectop("PROG_END")
 };
 #pragma packoption
 

@@ -20,6 +20,7 @@
 /* 個別 */
 #include "hw_srv_time.h"
 #include "hw_srv_time_pac.h"
+#include "hw_srv_chkmem_pac.h"
 #include "hw_pph_clk_pac.h"
 #include "hw_pph_cmt_pac.h"
 #include "hw_pph_cmt_cfg_pac.h"
@@ -145,10 +146,10 @@ static VD FnVD_HwSrv_Sche_initMainProc(VD)
 
 /* ============================================================ */
 /* 関数名 : FnVD_HwSrv_Sche_waitMainProc                        */
-/*          メインスケジュール待ち処理                          */
+/*          メインスケジュール待機処理                          */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : 定期処理にするための待ち処理を行う                  */
+/* 概要   : 定期処理にするための待機処理を行う                  */
 /* 制約   :                                                     */
 /* ============================================================ */
 static VD FnVD_HwSrv_Sche_waitMainProc(VD)
@@ -160,14 +161,26 @@ static VD FnVD_HwSrv_Sche_waitMainProc(VD)
    /* メイン開始時刻取得(前回値) */
    tu2TimPre = u2HwSrv_Sche_MainStaTim;
 
-   /* 待ち処理 */
+   /* 待機処理 */
    if (CU1_HwSrv_Sche_CfgEnbWainMainProc == (U1)C_OFF) {
+     /* 待ち処理禁止時は1回のみメモリ監視を実施 */
+     FnVD_HwSrv_ChkMem_proc();
+
+     /* 現在時刻取得 */
      tu2TimCur = McU2_HwSrv_Time_getClk();
    }
    else {
      do {
+       /* 待機処理中にメモリ監視を実施 */
+       FnVD_HwSrv_ChkMem_proc();
+
+       /* 現在時刻取得 */
        tu2TimCur = McU2_HwSrv_Time_getClk();
+
+       /* 経過時間算出 */
        tu2TimElapsed = McU2_HwSrv_Time_calElapsedTime(tu2TimCur, tu2TimPre);
+
+       /* 待機時間経過判定 */
      } while (tu2TimElapsed < CU2_HwSrv_Sche_waitTimMainProc);
    }
 
@@ -271,9 +284,11 @@ VD FnVD_HwSrv_Sche_wrapInitProc(VD)
     CPFnVD_HwSrv_Sche_CfgInitProc();
   }
 
+  /* メモリ監視初期化 */
+  FnVD_HwSrv_ChkMem_init();
+
   /* メインスケジューラ初期化 */
   FnVD_HwSrv_Sche_initMainProc();
-
 }
 
 
@@ -291,7 +306,7 @@ VD FnVD_HwSrv_Sche_wrapMainProc(VD)
 
   /* 無限ループ */
   for ( ; ; ) {
-    /* 待ち処理 */
+    /* 待機処理 */
     FnVD_HwSrv_Sche_waitMainProc();
 
     /* メインスケジュール実行回数カウント */

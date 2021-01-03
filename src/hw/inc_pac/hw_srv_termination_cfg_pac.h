@@ -1,8 +1,8 @@
-#if !defined(INCLUDED_hw_core_vectbl_pac_h)
-#define INCLUDED_hw_core_vectbl_pac_h
+#if !defined(INCLUDED_hw_srv_termination_cfg_pac_h)
+#define INCLUDED_hw_srv_termination_cfg_pac_h
 /* ============================================================ */
-/* ファイル名 : hw_core_vectbl_pac.h                            */
-/* 機能       : ベクタテーブル定義                              */
+/* ファイル名 : hw_srv_termination_cfg_pac.h                    */
+/* 機能       : 終了処理ユーザ設定                              */
 /* ============================================================ */
 
 /* ============================================================ */
@@ -25,8 +25,17 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
-#define CU2_HwCore_VecTbl_Size          ((U2)256)
-#define CU1_HwCore_VecTbl_SizeFixed     ((U1)12)
+/* ---------- */
+/* 終了コード */
+/* ---------- */
+/* 0x0000FFFF:スタートアップルーチントラップ */
+/* 0x00010000+ベクタ番号:例外ベクタトラップ  */
+
+/* スタックオーバーフロー(SI) */
+#define CU4_HwSrv_Termination_CfgCodeIntStackOverFlow    ((U4)0x00000100)
+
+/* スタックオーバーフロー(SU) */
+#define CU4_HwSrv_Termination_CfgCodeUsrStackOverFlow    ((U4)0x00000101)
 
 
 /* ============================================================ */
@@ -47,8 +56,6 @@
 /* ============================================================ */
 /* const変数宣言(extern)                                        */
 /* ============================================================ */
-extern VD (* const CPFnVD_HwCore_VecTbl[CU2_HwCore_VecTbl_Size])(VD);
-extern VD (* const CPFnVD_HwCore_VecTblFixed[CU1_HwCore_VecTbl_SizeFixed])(VD);
 
 
 /* ============================================================ */
