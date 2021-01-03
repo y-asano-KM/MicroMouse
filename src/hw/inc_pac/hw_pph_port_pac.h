@@ -34,32 +34,32 @@
 typedef enum {
 /* ToDo:暫定で必要最小限だけ定義 */
 /* 0xGGPP (GG:グループ, PP:ピン番号) */ /* Note:PJのグループ番号は18  */
-  CEN_HwPph_Port_Id_P05 = 0x0005U,  /* SLED_R(センサLED右側)          */
-  CEN_HwPph_Port_Id_P15 = 0x0105U,  /* motor_EN(モータON/OFF切り替え) */
-  CEN_HwPph_Port_Id_P17 = 0x0107U,  /* motor_R_PWM(右モータPWM)       */
-  CEN_HwPph_Port_Id_P26 = 0x0206U,  /* TXD1(シリアル通信(送信))       */
-  CEN_HwPph_Port_Id_P27 = 0x0207U,  /* SLED_FL(センサLED左前)         */
-  CEN_HwPph_Port_Id_P30 = 0x0300U,  /* RXD1(シリアル通信(受信))       */
-  CEN_HwPph_Port_Id_P31 = 0x0301U,  /* SW_L(タクトスイッチL)          */
-  CEN_HwPph_Port_Id_P42 = 0x0402U,  /* AN4(左センサ)                  */
-  CEN_HwPph_Port_Id_P44 = 0x0404U,  /* AN2(左前センサ)                */
-  CEN_HwPph_Port_Id_P46 = 0x0406U,  /* AN3(右センサ)                  */
-  CEN_HwPph_Port_Id_P54 = 0x0504U,  /* SLED_L(センサLED左)            */
-  CEN_HwPph_Port_Id_PA0 = 0x0A00U,  /* LED3(確認用LED3)               */
-  CEN_HwPph_Port_Id_PA3 = 0x0A03U,  /* BLED1(バッテリ監視用LED1)      */
-  CEN_HwPph_Port_Id_PA4 = 0x0A04U,  /* LED2(確認用LED2)               */
-  CEN_HwPph_Port_Id_PA6 = 0x0A06U,  /* LED1(確認用LED1)               */
-  CEN_HwPph_Port_Id_PB0 = 0x0B00U,  /* LED0(確認用LED0)               */
-  CEN_HwPph_Port_Id_PB1 = 0x0B01U,  /* BLED0(バッテリ監視用LED0)      */
-  CEN_HwPph_Port_Id_PB3 = 0x0B03U,  /* Buzzer(ブザー)                 */
-  CEN_HwPph_Port_Id_PB5 = 0x0B05U,  /* SLED_FR(センサLED右前)         */
-  CEN_HwPph_Port_Id_PC2 = 0x0C02U,  /* SW_R(タクトスイッチR)          */
-  CEN_HwPph_Port_Id_PC3 = 0x0C03U,  /* SW_C(タクトスイッチC)          */
-  CEN_HwPph_Port_Id_PC5 = 0x0C05U,  /* CW/CCW_R(右モータCS/CCW)       */
-  CEN_HwPph_Port_Id_PC6 = 0x0C06U,  /* CW/CCW_L(左モータCS/CCW)       */
-  CEN_HwPph_Port_Id_PE0 = 0x0E00U,  /* AN0(電圧監視)                  */
-  CEN_HwPph_Port_Id_PE1 = 0x0E01U,  /* AN1(右前センサ)                */
-  CEN_HwPph_Port_Id_PE2 = 0x0E02U   /* motor_L_PWM(左モータPWM)       */
+  CEN_HwPph_Port_Id_P05 = 0x0005U,
+  CEN_HwPph_Port_Id_P15 = 0x0105U,
+  CEN_HwPph_Port_Id_P17 = 0x0107U,
+  CEN_HwPph_Port_Id_P26 = 0x0206U,
+  CEN_HwPph_Port_Id_P27 = 0x0207U,
+  CEN_HwPph_Port_Id_P30 = 0x0300U,
+  CEN_HwPph_Port_Id_P31 = 0x0301U,
+  CEN_HwPph_Port_Id_P42 = 0x0402U,
+  CEN_HwPph_Port_Id_P44 = 0x0404U,
+  CEN_HwPph_Port_Id_P46 = 0x0406U,
+  CEN_HwPph_Port_Id_P54 = 0x0504U,
+  CEN_HwPph_Port_Id_PA0 = 0x0A00U,
+  CEN_HwPph_Port_Id_PA3 = 0x0A03U,
+  CEN_HwPph_Port_Id_PA4 = 0x0A04U,
+  CEN_HwPph_Port_Id_PA6 = 0x0A06U,
+  CEN_HwPph_Port_Id_PB0 = 0x0B00U,
+  CEN_HwPph_Port_Id_PB1 = 0x0B01U,
+  CEN_HwPph_Port_Id_PB3 = 0x0B03U,
+  CEN_HwPph_Port_Id_PB5 = 0x0B05U,
+  CEN_HwPph_Port_Id_PC2 = 0x0C02U,
+  CEN_HwPph_Port_Id_PC3 = 0x0C03U,
+  CEN_HwPph_Port_Id_PC5 = 0x0C05U,
+  CEN_HwPph_Port_Id_PC6 = 0x0C06U,
+  CEN_HwPph_Port_Id_PE0 = 0x0E00U,
+  CEN_HwPph_Port_Id_PE1 = 0x0E01U,
+  CEN_HwPph_Port_Id_PE2 = 0x0E02U
 } EN_HwPph_Port_Id;
 
 /* ポートコンフィグレーション情報 */

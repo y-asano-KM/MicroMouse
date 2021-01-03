@@ -1,8 +1,8 @@
-#if !defined(INCLUDED_hw_core_vectbl_pac_h)
-#define INCLUDED_hw_core_vectbl_pac_h
+#if !defined(INCLUDED_hw_srv_chkmem_cfg_pac_h)
+#define INCLUDED_hw_srv_chkmemn_cfg_pac_h
 /* ============================================================ */
-/* ファイル名 : hw_core_vectbl_pac.h                            */
-/* 機能       : ベクタテーブル定義                              */
+/* ファイル名 : hw_srv_chkmemn_cfg_pac.h                        */
+/* 機能       : メモリ監視ユーザ設定                            */
 /* ============================================================ */
 
 /* ============================================================ */
@@ -25,8 +25,6 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
-#define CU2_HwCore_VecTbl_Size          ((U2)256)
-#define CU1_HwCore_VecTbl_SizeFixed     ((U1)12)
 
 
 /* ============================================================ */
@@ -47,8 +45,8 @@
 /* ============================================================ */
 /* const変数宣言(extern)                                        */
 /* ============================================================ */
-extern VD (* const CPFnVD_HwCore_VecTbl[CU2_HwCore_VecTbl_Size])(VD);
-extern VD (* const CPFnVD_HwCore_VecTblFixed[CU1_HwCore_VecTbl_SizeFixed])(VD);
+extern U1 CU1_HwSrv_ChkMem_CfgEnbIntStackCheckErr;
+extern U1 CU1_HwSrv_ChkMem_CfgEnbUsrStackCheckErr;
 
 
 /* ============================================================ */

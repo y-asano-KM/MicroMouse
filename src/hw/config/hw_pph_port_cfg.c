@@ -280,7 +280,7 @@ const ST_HwPph_Port_Cfg CST_HwPph_Port_CfgPE1 = {
 
 const ST_HwPph_Port_Cfg CST_HwPph_Port_CfgPE2 = {
   CEN_HwPph_Port_Id_PE2,
-/* AN1:左モータPWM(周辺機能出力ポートMTIOC4A) */
+/* motor_L_PWM:左モータPWM(周辺機能出力ポートMTIOC4A) */
 /* b1PDR, b1PODR, b1Dmy0, b1PMR, b1ODR0, b1ODR1, b1PCR, b1DSCR  */
   {(U1)1, (U1)0,  (U1)0,  (U1)1, (U1)0,  (U1)0,  (U1)0, (U1)0},
 /* b5PSEL, b1Dmy0, b1ISEL, b1ASEL */

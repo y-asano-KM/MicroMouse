@@ -10,6 +10,7 @@
 .glb _stRegSys0
 .glb _stRegICU
 .glb _staRegCMTm
+.glb _stRegMTU
 .glb _stRegS12AD
 .glb _stRegPORTm
 .glb _stRegMPC
@@ -37,7 +38,14 @@ _staRegCMTm:
   .blkb 00000020H
 
 ;/* adrs = 0x00088020 */
-  .blkb 00000FE0H
+  .blkb 000005E0H
+
+;/* adrs = 0x00088600 */
+_stRegMTU:
+  .blkb 00000300H
+
+;/* adrs = 0x00088900 */
+  .blkb 00000700H
 
 ;/* adrs = 0x00089000 */
 _stRegS12AD:

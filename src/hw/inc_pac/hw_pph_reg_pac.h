@@ -459,6 +459,284 @@ typedef struct {
   U1 u1Dmy0[2];        /* 予約 */
 } ST_CMTm;
 
+/* --------------------- */
+/* MTUモジュール (m=0-5) */
+/* --------------------- */
+/* タイマコントロールレジスタ */
+typedef union {
+  struct {
+    U1 b3TPSC :3;   /* RW:タイマプリスケーラ選択ビット */
+    U1 b2CKEG :2;   /* RW:クロックエッジ選択ビット */
+    U1 b3CCLR :3;   /* RW:カウンタクリアビット */
+  } stBit;
+  U1 u1Val;
+} ST_MTU_TCR;
+
+/* タイマモードレジスタ */
+typedef union {
+  struct {
+    U1 b4MD   :4;   /* RW:モード選択ビット */
+    U1 b1BFA  :1;   /* RW:バッファ動作Aビット */
+    U1 b1BFB  :1;   /* RW:バッファ動作Bビット */
+    U1 b1BFE  :1;   /* RW:バッファ動作Eビット */
+    U1 b1Dmy0 :1;   /* RW:予約 */
+  } stBit;
+  U1 u1Val;
+} ST_MTU_TMDR;
+
+/* タイマ I/O コントロールレジスタ */
+typedef union {
+  struct {
+    U1 b4IOA :4;   /* RW:I/OコントロールAビット */
+    U1 b4IOB :4;   /* RW:I/OコントロールBビット */
+  } stBit;
+  U1 u1Val;
+} ST_MTU_TIORH;
+
+typedef union {
+  struct {
+    U1 b4IOA :4;   /* RW:I/OコントロールAビット */
+    U1 b4IOB :4;   /* RW:I/OコントロールBビット */
+  } stBit;
+  U1 u1Val;
+} ST_MTU_TIOR;
+
+typedef union {
+  struct {
+    U1 b4IOC :4;   /* RW:I/OコントロールCビット */
+    U1 b4IOD :4;   /* RW:I/OコントロールDビット */
+  } stBit;
+  U1 u1Val;
+} ST_MTU_TIORL;
+
+typedef union {
+  struct {
+    U1 b5IOC  :5;   /* RW:I/OコントロールCビット */
+    U1 b3Dmy0 :3;   /* RW:予約 */
+  } stBit;
+  U1 u1Val;
+} ST_MTU5_TIOR;
+
+/* タイマ割り込み許可レジスタ */
+typedef union {
+  struct {
+    struct {
+      U1 b1TGIEA :1;   /* RW:TGR割り込み許可Aビット */
+      U1 b1TGIEB :1;   /* RW:TGR割り込み許可Bビット */
+      U1 b1TGIEC :1;   /* RW:TGR割り込み許可Cビット */
+      U1 b1TGIED :1;   /* RW:TGR割り込み許可Dビット */
+      U1 b1TGIEV :1;   /* RW:オーバフロー割り込み許可ビット */
+      U1 b1TGIEU :1;   /* RW:アンダフロー割り込み許可ビット */
+      U1 b1TTGE2 :1;   /* RW:A/D変換開始要求許可2ビット */
+      U1 b1TTGE  :1;   /* RW:A/D変換開始要求許可ビット */
+    } stBit;
+  } stMTU;
+  struct {
+    struct {
+      U1 b1TGIE5W :1;   /* RW:TGR割り込み許可5Wビット */
+      U1 b1TGIE5V :1;   /* RW:TGR割り込み許可5Vビット */
+      U1 b1TGIE5U :1;   /* RW:TGR割り込み許可5Uビット */
+      U1 b5Dmy0   :5;   /* RW:予約 */
+    } stBit;
+  } stMTU5;
+  U1 u1Val;
+} ST_MTU_TIER;
+
+/* タイマ割り込み許可レジスタ */
+typedef union {
+  struct {
+    U1 b1TGIEE :1;   /* RW:TGR割り込み許可Eビット */
+    U1 b1TGIEF :1;   /* RW:TGR割り込み許可Fビット */
+    U1 b6Dmy0  :6;   /* RW:予約 */
+  } stBit;
+  U1 u1Val;
+} ST_MTU_TIER2;
+
+/* タイマカウンタ */
+typedef union {
+  struct {
+    U2 b16CNT :16;   /* RW:タイマカウンタ */
+  } stBit;
+  U2 u2Val;
+} ST_MTU_TCNT;
+
+/* タイマジェネラルレジスタ */
+typedef union {
+  struct {
+    U2 b16TGR :16;   /* RW:タイマジェネラルレジスタ */
+  } stBit;
+  U2 u2Val;
+} ST_MTU_TGR;
+
+/* タイマスタートレジスタ */
+typedef union {
+  struct {
+    struct {
+      U1 b1CST0 :1;   /* RW:カウンタスタート0ビット */
+      U1 b1CST1 :1;   /* RW:カウンタスタート1ビット */
+      U1 b1CST2 :1;   /* RW:カウンタスタート2ビット */
+      U1 b3Dmy0 :3;   /* RW:予約 */
+      U1 b1CST3 :1;   /* RW:カウンタスタート3ビット */
+      U1 b1CST4 :1;   /* RW:カウンタスタート4ビット */
+    } stBit;
+  } stMTU;
+  struct {
+    struct {
+      U1 b1CSTW5 :1;   /* RW:カウンタスタートW5ビット */
+      U1 b1CSTV5 :1;   /* RW:カウンタスタートV5ビット */
+      U1 b1CSTU5 :1;   /* RW:カウンタスタートU5ビット */
+      U1 b5Dmy0  :5;   /* RW:予約 */
+    } stBit;
+  } stMTU5;
+  U1 u1Val;
+} ST_MTU_TSTR;
+
+/* タイマアウトプットマスタ許可レジスタ */
+typedef union {
+  struct {
+    U1 b1OE3B :1;   /* RW:マスタ許可MTIOC3Bビット */
+    U1 b1OE4A :1;   /* RW:マスタ許可MTIOC4Aビット */
+    U1 b1OE4B :1;   /* RW:マスタ許可MTIOC4Bビット */
+    U1 b1OE3D :1;   /* RW:マスタ許可MTIOC3Dビット */
+    U1 b1OE4C :1;   /* RW:マスタ許可MTIOC4Cビット */
+    U1 b1OE4D :1;   /* RW:マスタ許可MTIOC4Dビット */
+    U1 b2Fix0 :2;   /* RW:予約(全ビット1固定) */
+  } stBit;
+  U1 u1Val;
+} ST_MTU_TOER;
+
+/* MTU/MTUmモジュール (m=0-5) */
+typedef struct {
+  ST_MTU_TCR   stMTU3_TCR;         /* タイマコントロールレジスタ */
+  ST_MTU_TCR   stMTU4_TCR;         /* タイマコントロールレジスタ */
+  ST_MTU_TMDR  stMTU3_TMDR;        /* タイマモードレジスタ */
+  ST_MTU_TMDR  stMTU4_TMDR;        /* タイマモードレジスタ */
+  ST_MTU_TIORH stMTU3_TIORH;       /* タイマI/OコントロールレジスタH */
+  ST_MTU_TIORL stMTU3_TIORL;       /* タイマI/OコントロールレジスタL */
+  ST_MTU_TIORH stMTU4_TIORH;       /* タイマI/OコントロールレジスタH */
+  ST_MTU_TIORL stMTU4_TIORL;       /* タイマI/OコントロールレジスタL */
+  ST_MTU_TIER  stMTU3_TIER;        /* タイマI/OコントロールレジスタH */
+  ST_MTU_TIER  stMTU4_TIER;        /* タイマI/OコントロールレジスタL */
+  ST_MTU_TOER  stMTU_TOER;         /* タイマアウトプットマスタ許可レジスタ */
+  U1           u1aDmy00[2];        /* 予約 */
+  U1           stMTU_TGCR;         /* タイマゲートコントロールレジスタ */ /* ToDo:未実装 */
+  U1           stMTU_TOCR1;        /* タイマアウトプットコントロールレジスタ1 */ /* ToDo:未実装 */
+  U1           stMTU_TOCR2;        /* タイマアウトプットコントロールレジスタ2 */ /* ToDo:未実装 */
+  ST_MTU_TCNT  stMTU3_TCNT;        /* タイマカウンタ */
+  ST_MTU_TCNT  stMTU4_TCNT;        /* タイマカウンタ */
+  U2           stMTU_TCDR;         /* タイマ周期データレジスタ */ /* ToDo:未実装 */
+  U2           stMTU_TDDR;         /* タイマデッドタイムデータレジスタ */ /* ToDo:未実装 */
+  ST_MTU_TGR   stMTU3_TGRA;        /* タイマジェネラルレジスタA */
+  ST_MTU_TGR   stMTU3_TGRB;        /* タイマジェネラルレジスタB */
+  ST_MTU_TGR   stMTU4_TGRA;        /* タイマジェネラルレジスタA */
+  ST_MTU_TGR   stMTU4_TGRB;        /* タイマジェネラルレジスタB */
+  U2           stMTU_TCNTS;        /* タイマサブカウンタ */ /* ToDo:未実装 */
+  U2           stMTU_TCBR;         /* タイマ周期バッファレジスタ */ /* ToDo:未実装 */
+  ST_MTU_TGR   stMTU3_TGRC;        /* タイマジェネラルレジスタC */
+  ST_MTU_TGR   stMTU3_TGRD;        /* タイマジェネラルレジスタD */
+  ST_MTU_TGR   stMTU4_TGRC;        /* タイマジェネラルレジスタC */
+  ST_MTU_TGR   stMTU4_TGRD;        /* タイマジェネラルレジスタD */
+  U1           stMTU3_TSR;         /* タイマステータスレジスタ */ /* ToDo:未実装 */
+  U1           stMTU4_TSR;         /* タイマステータスレジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy01[2];        /* 予約 */
+  U1           stMTU_TITCR;        /* タイマ割り込み間引き設定レジスタ */ /* ToDo:未実装 */
+  U1           stMTU_TITCNT;       /* タイマ割り込み間引き回数カウンタ */ /* ToDo:未実装 */
+  U1           stMTU_TBTER;        /* タイマバッファ転送設定レジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy02[1];        /* 予約 */
+  U1           stMTU_TDER;         /* タイマデッドタイム許可レジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy03[1];        /* 予約 */
+  U1           stMTU_TOLBR;        /* タイマアウトプットレベルバッファレジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy04[1];        /* 予約 */
+  U1           stMTU3_TBTM;        /* タイマバッファ動作転送モードレジスタ */ /* ToDo:未実装 */
+  U1           stMTU4_TBTM;        /* タイマバッファ動作転送モードレジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy05[6];        /* 予約 */
+  U2           stMTU4_TADCR;       /* タイマA/D変換開始要求コントロールレジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy06[2];        /* 予約 */
+  U2           stMTU4_TADCORA;     /* タイマA/D変換開始要求周期設定レジスタA */ /* ToDo:未実装 */
+  U2           stMTU4_TADCORB;     /* タイマA/D変換開始要求周期設定レジスタB */ /* ToDo:未実装 */
+  U2           stMTU4_TADCOBRA;    /* タイマA/D変換開始要求周期設定バッファレジスタA */ /* ToDo:未実装 */
+  U2           stMTU4_TADCOBRB;    /* タイマA/D変換開始要求周期設定バッファレジスタB */ /* ToDo:未実装 */
+  U1           u1aDmy07[20];       /* 予約 */
+  U1           stMTU_TWCR;         /* タイマ波形コントロールレジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy08[31];       /* 予約 */
+  ST_MTU_TSTR  stMTU_TSTR;         /* タイマスタートレジスタ */
+  U1           stMTU_TSYR;         /* タイマシンクロレジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy09[2];        /* 予約 */
+  U1           stMTU_TRWER;        /* タイマリードライト許可レジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy10[11];       /* 予約 */
+  U1           stMTU0_NFCR;        /* ノイズフィルタコントロールレジスタ */ /* ToDo:未実装 */
+  U1           stMTU1_NFCR;        /* ノイズフィルタコントロールレジスタ */ /* ToDo:未実装 */
+  U1           stMTU2_NFCR;        /* ノイズフィルタコントロールレジスタ */ /* ToDo:未実装 */
+  U1           stMTU3_NFCR;        /* ノイズフィルタコントロールレジスタ */ /* ToDo:未実装 */
+  U1           stMTU4_NFCR;        /* ノイズフィルタコントロールレジスタ */ /* ToDo:未実装 */
+  U1           stMTU5_NFCR;        /* ノイズフィルタコントロールレジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy11[106];      /* 予約 */
+  ST_MTU_TCR   stMTU0_TCR;         /* タイマコントロールレジスタ */
+  ST_MTU_TMDR  stMTU0_TMDR;        /* タイマモードレジスタ */
+  ST_MTU_TIORH stMTU0_TIORH;       /* タイマI/OコントロールレジスタH */
+  ST_MTU_TIORL stMTU0_TIORL;       /* タイマI/OコントロールレジスタH */
+  ST_MTU_TIER  stMTU0_TIER;        /* タイマ割り込み許可レジスタ */
+  U1           stMTU0_TSR;         /* タイマステータスレジスタ */ /* ToDo:未実装 */
+  ST_MTU_TCNT  stMTU0_TCNT;        /* タイマカウンタ */
+  ST_MTU_TGR   stMTU0_TGRA;        /* タイマジェネラルレジスタA */
+  ST_MTU_TGR   stMTU0_TGRB;        /* タイマジェネラルレジスタB */
+  ST_MTU_TGR   stMTU0_TGRC;        /* タイマジェネラルレジスタC */
+  ST_MTU_TGR   stMTU0_TGRD;        /* タイマジェネラルレジスタD */
+  U1           u1aDmy12[16];       /* 予約 */
+  ST_MTU_TGR   stMTU0_TGRE;        /* タイマジェネラルレジスタE */
+  ST_MTU_TGR   stMTU0_TGRF;        /* タイマジェネラルレジスタF */
+  ST_MTU_TIER2 stMTU0_TIER2;       /* タイマ割り込み許可レジスタ2 */
+  U1           u1aDmy13[1];        /* 予約 */
+  U1           stMTU0_TBTM;        /* タイマバッファ動作転送モードレジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy14[89];       /* 予約 */
+  ST_MTU_TCR   stMTU1_TCR;         /* タイマコントロールレジスタ */
+  ST_MTU_TMDR  stMTU1_TMDR;        /* タイマモードレジスタ */
+  ST_MTU_TIOR  stMTU1_TIOR;        /* タイマI/OコントロールレジスタH */
+  U1           u1aDmy15[1];        /* 予約 */
+  ST_MTU_TIER  stMTU1_TIER;        /* タイマ割り込み許可レジスタ */
+  U1           stMTU1_TSR;         /* タイマステータスレジスタ */ /* ToDo:未実装 */
+  ST_MTU_TCNT  stMTU1_TCNT;        /* タイマカウンタ */
+  ST_MTU_TGR   stMTU1_TGRA;        /* タイマジェネラルレジスタA */
+  ST_MTU_TGR   stMTU1_TGRB;        /* タイマジェネラルレジスタB */
+  U1           u1aDmy16[4];        /* 予約 */
+  U1           stMTU1_TICCR;       /* タイマインプットキャプチャコントロールレジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy17[111];      /* 予約 */
+  ST_MTU_TCR   stMTU2_TCR;         /* タイマコントロールレジスタ */
+  ST_MTU_TMDR  stMTU2_TMDR;        /* タイマモードレジスタ */
+  ST_MTU_TIOR  stMTU2_TIOR;        /* タイマI/OコントロールレジスタH */
+  U1           u1aDmy18[1];        /* 予約 */
+  ST_MTU_TIER  stMTU2_TIER;        /* タイマ割り込み許可レジスタ */
+  U1           stMTU2_TSR;         /* タイマステータスレジスタ */ /* ToDo:未実装 */
+  ST_MTU_TCNT  stMTU2_TCNT;        /* タイマカウンタ */
+  ST_MTU_TGR   stMTU2_TGRA;        /* タイマジェネラルレジスタA */
+  ST_MTU_TGR   stMTU2_TGRB;        /* タイマジェネラルレジスタB */
+  U1           u1aDmy19[116];      /* 予約 */
+  ST_MTU_TCNT  stMTU5_TCNTU;       /* タイマカウンタU */
+  ST_MTU_TGR   stMTU5_TGRU;        /* タイマジェネラルレジスタU */
+  ST_MTU_TCR   stMTU5_TCRU;        /* タイマコントロールレジスタU */
+  U1           u1aDmy20[1];        /* 予約 */
+  ST_MTU5_TIOR stMTU5_TIORU;       /* タイマI/OコントロールレジスタU */
+  U1           u1aDmy21[9];        /* 予約 */
+  ST_MTU_TCNT  stMTU5_TCNTV;       /* タイマカウンタV */
+  ST_MTU_TGR   stMTU5_TGRV;        /* タイマジェネラルレジスタV */
+  ST_MTU_TCR   stMTU5_TCRV;        /* タイマコントロールレジスタV */
+  U1           u1aDmy22[1];        /* 予約 */
+  ST_MTU5_TIOR stMTU5_TIORV;       /* タイマI/OコントロールレジスタV */
+  U1           u1aDmy23[9];        /* 予約 */
+  ST_MTU_TCNT  stMTU5_TCNTW;       /* タイマカウンタW */
+  ST_MTU_TGR   stMTU5_TGRW;        /* タイマジェネラルレジスタW */
+  ST_MTU_TCR   stMTU5_TCRW;        /* タイマコントロールレジスタW */
+  U1           u1aDmy24[1];        /* 予約 */
+  ST_MTU5_TIOR stMTU5_TIORW;       /* タイマI/OコントロールレジスタW */
+  U1           u1aDmy25[11];       /* 予約 */
+  ST_MTU_TIER  stMTU5_TIER;        /* タイマ割り込み許可レジスタ */
+  U1           u1aDmy26[1];        /* 予約 */
+  ST_MTU_TSTR  stMTU5_TSTR;        /* タイマスタートレジスタ */
+  U1           u1aDmy27[1];        /* 予約 */
+  U1           stMTU5_TCNTCMPCLR;  /* タイマコンペアマッチクリアレジスタ */ /* ToDo:未実装 */
+  U1           u1aDmy28[73];       /* 予約 */
+} ST_MTU;
+
 /* --------------- */
 /* S12ADモジュール */
 /* --------------- */
@@ -884,6 +1162,7 @@ typedef union {
 extern volatile ST_SYSTEM0 __evenaccess stRegSys0;            /* SYSTEMモジュール(0) */
 extern volatile ST_ICU     __evenaccess stRegICU;             /* ICUモジュール(GRPm, GENm, GCRm, SEL除く) */
 extern volatile ST_CMTm    __evenaccess staRegCMTm[2];        /* CMT/CMTmモジュール (m=0-3  MainIdx=m/2, SubIdx=m%2) */
+extern volatile ST_MTU     __evenaccess stRegMTU;             /* MTU/MTUmモジュール (m=0-5) */
 extern volatile ST_S12AD   __evenaccess stRegS12AD;           /* S12ADモジュール */
 extern volatile ST_PORTm   __evenaccess stRegPORTm;           /* PORTmモジュール */
 extern volatile ST_MPC     __evenaccess stRegMPC;             /* MPCモジュール(PmnPFSレジスタ除く) */

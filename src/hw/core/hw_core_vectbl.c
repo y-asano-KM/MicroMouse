@@ -338,24 +338,6 @@ VD (* const CPFnVD_HwCore_VecTbl[CU2_HwCore_VecTbl_Size])(VD) = {
   FnVD_HwCore_Exception_handleReserved                    /* 255 : 予約                    */
 };
 
-
-/* MDESレジスタ(シングルチップモード) */
-#pragma section C C_MDE
-#if defined(__BIG)  /* Big Endian */
-const U4 CU4_HwCode_VecTbl_MdeReg = (U4)0xFFFFFFF8U;
-#else /* Little Endian */
-const U4 CU4_HwCode_VecTbl_MdeReg = (U4)0xFFFFFFFFU;
-#endif
-
-/* IDコード */
-#pragma section C C_ID_CODE
-const U4 CU4_HwCore_VecTbl_IdCode[CU1_HwCore_VecTbl_SizeIdCode] = {
-  (U4)0xFFFFFFFFU,
-  (U4)0xFFFFFFFFU,
-  (U4)0xFFFFFFFFU,
-  (U4)0xFFFFFFFFU,
-};
-
 /* 固定ベクタテーブル */
 #pragma section C FIXEDVECT
 VD (* const CPFnVD_HwCore_VecTblFixed[CU1_HwCore_VecTbl_SizeFixed])(VD) = {
