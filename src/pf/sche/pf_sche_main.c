@@ -23,6 +23,7 @@
 #include "pf_bat_monitor_pac.h"
 #include "pf_bled_ctrl_pac.h"
 #include "pf_led_ctrl_pac.h"
+#include "pf_bz_ctrl_pac.h"
 
 /* 本体 */
 #include "pf_sche_main.h"
@@ -96,6 +97,9 @@ VD FnVD_PfSche_wrapMainProc(VD)
 
   /* バッテリー電圧監視用LED制御 */
   FnVD_PfBled_Ctrl_mediate();
+
+  /* ブザー制御 */
+  FnVD_PfBz_Ctrl_mediate();
 
   /* HW出力値指示 */
   FnVD_PfIf_Hw_Output();

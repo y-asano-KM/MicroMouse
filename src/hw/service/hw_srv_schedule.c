@@ -24,6 +24,7 @@
 #include "hw_pph_clk_pac.h"
 #include "hw_pph_cmt_pac.h"
 #include "hw_pph_cmt_cfg_pac.h"
+#include "hw_pph_mtu_pac.h"
 #include "hw_pph_intctrl_pac.h"
 #include "hw_pph_intctrl_cfg_pac.h"
 #include "hw_pph_adc_pac.h"
@@ -267,14 +268,19 @@ VD FnVD_HwSrv_Sche_wrapInitProc(VD)
   FnVD_HwPph_Cmt_stpModuleStp(CEN_HwPph_Cmt_Unit_2);    /* Memo:未使用 */
   FnVD_HwPph_Cmt_stpModuleStp(CEN_HwPph_Cmt_Unit_3);    /* Memo:未使用 */
 
+  /* MTUモジュール停止解除 */
+  /* MTU0:ブザー出力制御 */
+  /* MTU3,4:モータ出力制御 */
+  FnVD_HwPph_Mtu_resetModuleStp();
+
   /* 時刻取得用タイマ初期化 */
   FnVD_HwSrv_Time_init();
 
   /* 1ms定期割り込みスケジューラ初期化 */
   FnVD_HwSrv_Sche_initInt1msProc();
 
-  /* S12ADモジュール停止遷移/解除 */
-  FnVD_HwPph_Adc_stpModuleStp();
+  /* S12ADモジュール停止解除 */
+  FnVD_HwPph_Adc_resetModuleStp();
 
   /* A/D変換設定 */
   FnVD_HwPph_Adc_cfg();

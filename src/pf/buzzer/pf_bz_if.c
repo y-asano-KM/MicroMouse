@@ -1,6 +1,6 @@
 /* ============================================================ */
-/* ファイル名 : pf_sche_init.c                                  */
-/* 機能       : PF初期化スケジュール                            */
+/* ファイル名 : pf_bz_if.c                                      */
+/* 機能       : ブザー I/F処理                                  */
 /* ============================================================ */
 #define SECTION_PF
 
@@ -18,18 +18,11 @@
 #include "pf_cmn_option_pac.h"
 
 /* 個別 */
-#include "pf_if_hw_pac.h"
-#include "pf_bat_if_pac.h"
-#include "pf_bat_monitor_pac.h"
-#include "pf_bled_ctrl_pac.h"
-#include "pf_switch_if_pac.h"
-#include "pf_switch_ctrl_pac.h"
-#include "pf_raysens_if_pac.h"
-#include "pf_led_ctrl_pac.h"
+#include "hw_drv_buzzer.h"
 #include "pf_bz_ctrl_pac.h"
 
 /* 本体 */
-#include "pf_sche_init.h"
+#include "pf_bz_if_pac.h"
 
 
 /* ============================================================ */
@@ -76,48 +69,45 @@
 /* 関数定義                                                     */
 /* ============================================================ */
 /* ============================================================ */
-/* 関数名 : FnVD_PfSche_wrapInitProc                            */
-/*          PF初期化スケジュール                                */
+/* 関数名 : FnVD_PfBz_If_initHw                                 */
+/*          ブザー I/F処理初期化(HW用)                          */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : 初期化処理の実行順を管理する                        */
+/* 概要   : ハードウェア層の初期化を行う                        */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfSche_wrapInitProc(VD)
+VD FnVD_PfBz_If_initHw(VD)
 {
-  /* -------------------- */
-  /* ハードウェア層初期化 */
-  /* -------------------- */
-  FnVD_PfIf_Hw_init();
-
-  /* ---------- */
-  /* PF層初期化 */
-  /* ---------- */
-  /* 光学センサI/F処理初期化 */
-  FnVD_PfRaySens_If_initPf();
-
-  /* LED制御初期化 */
-  FnVD_PfLed_Ctrl_init();
-
-  /* ブザー制御初期化 */
-  FnVD_PfBz_Ctrl_init();
-
-  /* バッテリーI/F処理初期化 */
-  FnVD_PfBat_If_initPf();
-
-  /* バッテリー監視初期化 */
-  FnVD_PfBat_Moni_init();
-  FnVD_PfBled_Ctrl_init();
-
-  /* スイッチ入力I/F処理初期化 */
-  FnVD_PfSwt_If_initPf();
-
-  /* スイッチ入力処理初期化 */
-  FnVD_PfSwt_Ctrl_init();
-
-  /* -------------- */
-  /* アプリ層初期化 */
-  /* -------------- */
-  /* ToDo:未実装 */
+  FnVD_HwDrv_Bz_init();
 }
+
+
+/* ============================================================ */
+/* 関数名 : FnVD_PfBz_If_setReq                                 */
+/*          ブザー吹鳴要求設定                                  */
+/* 引数   : なし                                                */
+/* 戻り値 : なし                                                */
+/* 概要   : ブザーを吹鳴させる                                  */
+/* 制約   : なし                                                */
+/* ============================================================ */
+VD FnVD_PfBz_If_setReq(VD)
+{
+  U1 tu1Req;
+  U4 tu4Freq;
+
+  /* ブザー出力要求値取得 */
+  tu1Req = FnU1_PfBz_Ctrl_getReq();
+
+  if (tu1Req == (U1)C_ON) {
+    /* ブザー出力周波数取得 */
+    tu4Freq = FnU4_PfBz_Ctrl_getFreq();
+
+    /* 出力周波数設定 */
+    FnVD_HwDrv_Bz_setFreq(tu4Freq);
+  }
+
+  /* 出力要求設定 */
+  FnVD_HwDrv_Bz_ctrlStpAndGo(tu1Req);
+}
+
 
