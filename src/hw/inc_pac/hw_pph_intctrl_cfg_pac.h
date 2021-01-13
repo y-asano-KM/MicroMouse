@@ -27,8 +27,17 @@
 /* マクロ定数定義                                               */
 /* ============================================================ */
 /* 割り込み優先度設定 */
-#define CEN_HwPph_IntCtrl_CfgPriority_CMT0_CMI0    CEN_HwPph_IntCtrl_Priority_DibInt
-#define CEN_HwPph_IntCtrl_CfgPriority_CMT1_CMI1    CEN_HwPph_IntCtrl_Priority_10
+/* 右モータパルス数取得 */
+#define CEN_HwPph_IntCtrl_CfgPriority_TPU9_TGI9B_MTU3_TGIB3      CEN_HwPph_IntCtrl_Priority_14
+
+/* 左モータパルス数取得 */
+#define CEN_HwPph_IntCtrl_CfgPriority_TPU10_TGI10B_MTU4_TGIB4    CEN_HwPph_IntCtrl_Priority_14
+
+/* 1ms割り込み */
+#define CEN_HwPph_IntCtrl_CfgPriority_CMT1_CMI1                  CEN_HwPph_IntCtrl_Priority_10
+
+/* 時刻取得タイマー */
+#define CEN_HwPph_IntCtrl_CfgPriority_CMT0_CMI0                  CEN_HwPph_IntCtrl_Priority_DibInt
 
 
 /* ============================================================ */

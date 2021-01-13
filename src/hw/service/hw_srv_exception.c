@@ -18,8 +18,10 @@
 #include "hw_cmn_option_pac.h"
 
 /* 個別 */
+#include "hw_srv_interrupt.h"
 #include "hw_srv_termination.h"
 #include "hw_srv_schedule_pac.h"
+#include "hw_drv_mtr_pac.h"
 
 /* 本体 */
 #include "hw_srv_exception_pac.h"
@@ -246,11 +248,7 @@ VD FnVD_HwSrv_Exception_handleICU_SWINT(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleCMT0_CMI0(VD)
 {
-#if 1
   FnVD_HwSrv_Termination_kill((U4)0x0001011C);
-#else
-  int_cmt0();
-#endif
 }
 
 
@@ -264,11 +262,9 @@ VD FnVD_HwSrv_Exception_handleCMT0_CMI0(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleCMT1_CMI1(VD)
 {
-#if 1
+  EI();
   FnVD_HwSrv_Sche_wrapInt1msProc();   /* 1ms定期割り込みスケジューラ */
-#else
-  int_cmt1();
-#endif
+  DI();
 }
 
 
@@ -282,11 +278,7 @@ VD FnVD_HwSrv_Exception_handleCMT1_CMI1(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleCMT2_CMI2(VD)
 {
-#if 1
   FnVD_HwSrv_Termination_kill((U4)0x0001011E);
-#else
-  int_cmt2();
-#endif
 }
 
 
@@ -1429,9 +1421,9 @@ VD FnVD_HwSrv_Exception_handleTPU5_TGI5B(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU6_TGI6A_MTU0_TGIA0(VD)
 {
-#if 0
+#if (0)  /* TPU6_TGI6A */
   FnVD_HwSrv_Termination_kill((U4)0x0001018E);
-#else
+#else    /* MTU0_TGIA0 */
   FnVD_HwSrv_Termination_kill((U4)0x0001018E);
 #endif
 }
@@ -1448,9 +1440,9 @@ VD FnVD_HwSrv_Exception_handleTPU6_TGI6A_MTU0_TGIA0(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU6_TGI6B_MTU0_TGIB0(VD)
 {
-#if 0
+#if (0)  /* TPU6_TGI6B */
   FnVD_HwSrv_Termination_kill((U4)0x0001018F);
-#else
+#else    /* MTU0_TGIB0 */
   FnVD_HwSrv_Termination_kill((U4)0x0001018F);
 #endif
 }
@@ -1467,9 +1459,9 @@ VD FnVD_HwSrv_Exception_handleTPU6_TGI6B_MTU0_TGIB0(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU6_TGI6C_MTU0_TGIC0(VD)
 {
-#if 0
+#if (0)  /* TPU6_TGI6C */
   FnVD_HwSrv_Termination_kill((U4)0x00010190);
-#else
+#else    /* MTU0_TGIC0 */
   FnVD_HwSrv_Termination_kill((U4)0x00010190);
 #endif
 }
@@ -1486,9 +1478,9 @@ VD FnVD_HwSrv_Exception_handleTPU6_TGI6C_MTU0_TGIC0(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU6_TGI6D_MTU0_TGID0(VD)
 {
-#if 0
+#if (0)  /* TPU6_TGI6D */
   FnVD_HwSrv_Termination_kill((U4)0x00010191);
-#else
+#else    /* MTU0_TGID0 */
   FnVD_HwSrv_Termination_kill((U4)0x00010191);
 #endif
 }
@@ -1533,9 +1525,9 @@ VD FnVD_HwSrv_Exception_handleMTU0_TGIF0(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU7_TGI7A_MTU1_TGIA1(VD)
 {
-#if 0
+#if (0)  /* TPU7_TGI7A */
   FnVD_HwSrv_Termination_kill((U4)0x00010194);
-#else
+#else    /* MTU1_TGIA1 */
   FnVD_HwSrv_Termination_kill((U4)0x00010194);
 #endif
 }
@@ -1552,9 +1544,9 @@ VD FnVD_HwSrv_Exception_handleTPU7_TGI7A_MTU1_TGIA1(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU7_TGI7B_MTU1_TGIB1(VD)
 {
-#if 0
+#if (0)  /* TPU7_TGI7B */
   FnVD_HwSrv_Termination_kill((U4)0x00010195);
-#else
+#else    /* MTU1_TGIB1 */
   FnVD_HwSrv_Termination_kill((U4)0x00010195);
 #endif
 }
@@ -1571,9 +1563,9 @@ VD FnVD_HwSrv_Exception_handleTPU7_TGI7B_MTU1_TGIB1(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU8_TGI8A_MTU2_TGIA2(VD)
 {
-#if 0
+#if (0)  /* TPU8_TGI8A */
   FnVD_HwSrv_Termination_kill((U4)0x00010196);
-#else
+#else    /* MTU2_TGIA2 */
   FnVD_HwSrv_Termination_kill((U4)0x00010196);
 #endif
 }
@@ -1590,9 +1582,9 @@ VD FnVD_HwSrv_Exception_handleTPU8_TGI8A_MTU2_TGIA2(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU8_TGI8B_MTU2_TGIB2(VD)
 {
-#if 0
+#if (0)  /* TPU8_TGI8B */
   FnVD_HwSrv_Termination_kill((U4)0x00010197);
-#else
+#else    /* MTU2_TGIB2 */
   FnVD_HwSrv_Termination_kill((U4)0x00010197);
 #endif
 }
@@ -1609,9 +1601,9 @@ VD FnVD_HwSrv_Exception_handleTPU8_TGI8B_MTU2_TGIB2(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU9_TGI9A_MTU3_TGIA3(VD)
 {
-#if 0
+#if (0)  /* TPU9_TGI9A */
   FnVD_HwSrv_Termination_kill((U4)0x00010198);
-#else
+#else    /* MTU3_TGIA3 */
   FnVD_HwSrv_Termination_kill((U4)0x00010198);
 #endif
 }
@@ -1628,10 +1620,16 @@ VD FnVD_HwSrv_Exception_handleTPU9_TGI9A_MTU3_TGIA3(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU9_TGI9B_MTU3_TGIB3(VD)
 {
-#if 0
+#if (0)  /* TPU9_TGI9B */
   FnVD_HwSrv_Termination_kill((U4)0x00010199);
-#else
-  FnVD_HwSrv_Termination_kill((U4)0x00010199);
+#else    /* MTU3_TGIB3 */
+  #if (1)
+  EI();
+  FnVD_HwDrv_Mtr_cntPulseRight();    /* 右モータパルス数カウント */
+  DI();
+  #else
+  int_mot_r();
+  #endif
 #endif
 }
 
@@ -1647,14 +1645,10 @@ VD FnVD_HwSrv_Exception_handleTPU9_TGI9B_MTU3_TGIB3(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU9_TGI9C_MTU3_TGIC3(VD)
 {
-#if 0
+#if (0)  /* TPU9_TGI9C */
   FnVD_HwSrv_Termination_kill((U4)0x0001019A);
-#else
-  #if 1
+#else    /* MTU3_TGIC3 */
   FnVD_HwSrv_Termination_kill((U4)0x0001019A);
-  #else
-  int_mot_r();
-  #endif
 #endif
 }
 
@@ -1670,9 +1664,9 @@ VD FnVD_HwSrv_Exception_handleTPU9_TGI9C_MTU3_TGIC3(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU9_TGI9D_MTU3_TGID3(VD)
 {
-#if 0
+#if (0)  /* TPU9_TGI9D */
   FnVD_HwSrv_Termination_kill((U4)0x0001019B);
-#else
+#else    /* MTU3_TGID3 */
   FnVD_HwSrv_Termination_kill((U4)0x0001019B);
 #endif
 }
@@ -1689,9 +1683,9 @@ VD FnVD_HwSrv_Exception_handleTPU9_TGI9D_MTU3_TGID3(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU10_TGI10A_MTU4_TGIA4(VD)
 {
-#if 0
+#if (0)  /* TPU10_TGI10A */
   FnVD_HwSrv_Termination_kill((U4)0x0001019C);
-#else
+#else    /* MTU4_TGIA4 */
   FnVD_HwSrv_Termination_kill((U4)0x0001019C);
 #endif
 }
@@ -1708,14 +1702,12 @@ VD FnVD_HwSrv_Exception_handleTPU10_TGI10A_MTU4_TGIA4(VD)
 /* ============================================================ */
 VD FnVD_HwSrv_Exception_handleTPU10_TGI10B_MTU4_TGIB4(VD)
 {
-#if 0
+#if (0)  /* TPU10_TGI10B */
   FnVD_HwSrv_Termination_kill((U4)0x0001019D);
-#else
-  #if 1
-  FnVD_HwSrv_Termination_kill((U4)0x0001019D);
-  #else
-  int_mot_l();
-  #endif
+#else    /* MTU4_TGIB4 */
+  EI();
+  FnVD_HwDrv_Mtr_cntPulseLeft();    /* 左モータパルス数カウント */
+  DI();
 #endif
 }
 

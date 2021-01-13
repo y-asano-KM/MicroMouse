@@ -27,6 +27,7 @@
             <Path>src\hw\config\hw_pph_adc_cfg.c</Path>
             <Path>src\hw\config\hw_pph_clk_cfg.c</Path>
             <Path>src\hw\config\hw_pph_cmt_cfg.c</Path>
+            <Path>src\hw\config\hw_pph_mtu_cfg.c</Path>
             <Path>src\hw\config\hw_pph_port_cfg.c</Path>
             <Path>src\hw\config\hw_srv_chkmem_cfg.c</Path>
             <Path>src\hw\config\hw_srv_schedule_cfg.c</Path>
@@ -74,6 +75,7 @@
             <Path>src\hw\inc_pac\hw_pph_cmt_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_intctrl_cfg_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_intctrl_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_pph_mtu_cfg_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_mtu_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_port_cfg_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_port_pac.h</Path>
@@ -123,6 +125,10 @@
             <Path>src\pf\bat\pf_bat_monitor.c</Path>
             <Path>src\pf\bat\pf_bled_ctrl.c</Path>
           </Category>
+          <Category Name="buzzer">
+            <Path>src\pf\buzzer\pf_bz_ctrl.c</Path>
+            <Path>src\pf\buzzer\pf_bz_if.c</Path>
+          </Category>
           <Category Name="if">
             <Path>src\pf\if\pf_if_hw.c</Path>
           </Category>
@@ -130,11 +136,14 @@
             <Path>src\pf\inc_pac\pf_bat_if_pac.h</Path>
             <Path>src\pf\inc_pac\pf_bat_monitor_pac.h</Path>
             <Path>src\pf\inc_pac\pf_bled_ctrl_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_bz_ctrl_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_bz_if_pac.h</Path>
             <Path>src\pf\inc_pac\pf_cmn_chk_option_pac.h</Path>
             <Path>src\pf\inc_pac\pf_cmn_option_pac.h</Path>
             <Path>src\pf\inc_pac\pf_if_hw_pac.h</Path>
             <Path>src\pf\inc_pac\pf_led_ctrl_pac.h</Path>
             <Path>src\pf\inc_pac\pf_led_if_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_mtr_if_pac.h</Path>
             <Path>src\pf\inc_pac\pf_raysens_if_pac.h</Path>
             <Path>src\pf\inc_pac\pf_switch_ctrl_pac.h</Path>
             <Path>src\pf\inc_pac\pf_switch_if_pac.h</Path>
@@ -149,6 +158,9 @@
           <Category Name="led">
             <Path>src\pf\led\pf_led_ctrl.c</Path>
             <Path>src\pf\led\pf_led_if.c</Path>
+          </Category>
+          <Category Name="motor">
+            <Path>src\pf\motor\pf_mtr_if.c</Path>
           </Category>
           <Category Name="raysens">
             <Path>src\pf\raysens\pf_raysens_if.c</Path>
@@ -292,6 +304,10 @@
           <Path>DefaultBuild\hw_core_optmem.obj</Path>
           <Path>DefaultBuild\hw_srv_chkmem.obj</Path>
           <Path>DefaultBuild\hw_pph_mtu.obj</Path>
+          <Path>DefaultBuild\hw_pph_mtu_cfg.obj</Path>
+          <Path>DefaultBuild\pf_bz_ctrl.obj</Path>
+          <Path>DefaultBuild\pf_bz_if.obj</Path>
+          <Path>DefaultBuild\pf_mtr_if.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src\pf\inc_pub</IncludePathForC>
@@ -423,6 +439,10 @@
           <Path>build\hw_core_optmem.obj</Path>
           <Path>build\hw_srv_chkmem.obj</Path>
           <Path>build\hw_pph_mtu.obj</Path>
+          <Path>build\hw_pph_mtu_cfg.obj</Path>
+          <Path>build\pf_bz_ctrl.obj</Path>
+          <Path>build\pf_bz_if.obj</Path>
+          <Path>build\pf_mtr_if.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src</IncludePathForC>

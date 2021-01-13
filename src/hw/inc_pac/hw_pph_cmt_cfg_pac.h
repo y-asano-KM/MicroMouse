@@ -33,10 +33,10 @@
 #define CEN_HwPph_Cmt_CfgUnit3SelClk_Div    CEN_HwPph_Cmt_SelClk_Div008
 
 /* [MHz]各CMTユニットのカウント周波数 */
-#define CFL_HwPph_Cmt_CfgUnit0CntClkFreq    McFL_HwPph_Clk_calCmtCntClkFreq(CEN_HwPph_Cmt_CfgUnit0SelClk_Div)
-#define CFL_HwPph_Cmt_CfgUnit1CntClkFreq    McFL_HwPph_Clk_calCmtCntClkFreq(CEN_HwPph_Cmt_CfgUnit1SelClk_Div)
-#define CFL_HwPph_Cmt_CfgUnit2CntClkFreq    McFL_HwPph_Clk_calCmtCntClkFreq(CEN_HwPph_Cmt_CfgUnit2SelClk_Div)
-#define CFL_HwPph_Cmt_CfgUnit3CntClkFreq    McFL_HwPph_Clk_calCmtCntClkFreq(CEN_HwPph_Cmt_CfgUnit3SelClk_Div)
+#define CFL_HwPph_Cmt_CfgUnit0CntClkFreq    McFL_HwPph_Cmt_calCmtCntClkFreq(CEN_HwPph_Cmt_CfgUnit0SelClk_Div)
+#define CFL_HwPph_Cmt_CfgUnit1CntClkFreq    McFL_HwPph_Cmt_calCmtCntClkFreq(CEN_HwPph_Cmt_CfgUnit1SelClk_Div)
+#define CFL_HwPph_Cmt_CfgUnit2CntClkFreq    McFL_HwPph_Cmt_calCmtCntClkFreq(CEN_HwPph_Cmt_CfgUnit2SelClk_Div)
+#define CFL_HwPph_Cmt_CfgUnit3CntClkFreq    McFL_HwPph_Cmt_calCmtCntClkFreq(CEN_HwPph_Cmt_CfgUnit3SelClk_Div)
 
 /* 割り込み信号生成周期[us] */
 #define CFL_HwPph_Cmt_CfgUnit0IntPeriod    ((FL)0.0F)

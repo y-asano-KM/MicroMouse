@@ -1,6 +1,6 @@
 /* ============================================================ */
-/* ファイル名 : pf_raysens_if.c                                 */
-/* 機能       : HW I/F処理                                      */
+/* ファイル名 : pf_mtr_if.c                                     */
+/* 機能       : モータ I/F処理                                  */
 /* ============================================================ */
 #define SECTION_PF
 
@@ -18,15 +18,10 @@
 #include "pf_cmn_option_pac.h"
 
 /* 個別 */
-#include "pf_bat_if_pac.h"
-#include "pf_switch_if_pac.h"
-#include "pf_raysens_if_pac.h"
-#include "pf_mtr_if_pac.h"
-#include "pf_led_if_pac.h"
-#include "pf_bz_if_pac.h"
+#include "hw_drv_mtr.h"
 
 /* 本体 */
-#include "pf_if_hw_pac.h"
+#include "pf_mtr_if_pac.h"
 
 
 /* ============================================================ */
@@ -73,102 +68,86 @@
 /* 関数定義                                                     */
 /* ============================================================ */
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_init                                   */
-/*          HW I/F 初期化                                       */
+/* 関数名 : FnVD_PfMtr_If_initHw                                */
+/*          モータ I/F処理初期化(HW用)                          */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : ハードウェア層の初期化を行う                        */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_init(VD)
+VD FnVD_PfMtr_If_initHw(VD)
 {
-  /* 光学センサ初期化 */
-  FnVD_PfRaySens_If_initHw();
-
-  /* LED初期化 */
-  FnVD_PfLed_If_initHw();
-
-  /* ブザー初期化 */
-  FnVD_PfBz_If_initHw();
-
-  /* モータ初期化 */
-  FnVD_PfMtr_If_initHw();
-
-  /* バッテリー初期化 */
-  FnVD_PfBat_If_initHw();
-
-  /* スイッチ入力処理初期化 */
-  FnVD_PfSwt_If_initHw();
+  FnVD_HwDrv_Mtr_init();
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_input                                  */
-/*          HW I/F 入力処理                                     */
+/* 関数名 : FnVD_PfMtr_If_setReq                                */
+/*          モータ出力要求設定                                  */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層からの入力データを取得する            */
+/* 概要   : モータを出力する                                    */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_input(VD)
+VD FnVD_PfMtr_If_setReq(VD)
 {
-  /* スイッチ入力信号(生値)更新 */
-  FnVD_PfSwt_If_getSignalRaw();
+  U2 tu2PeriodR;
+  U2 tu2OnTimeR;
+  U2 tu2PeriodL;
+  U2 tu2OnTimeL;
+  U1 tu1RotDirPortR;
+  U1 tu1RotDirPortL;
+  U1 tu1Enb;
+
+#if 1
+  /* ToDo:暫定処置 */
+  tu1Enb = (U1)C_OFF;
+  tu1RotDirPortR = (U1)C_OFF;
+  tu1RotDirPortL = (U1)C_OFF;
+  tu2PeriodR = (U2)48000;
+  tu2OnTimeR = (U2)47940;
+  tu2PeriodL = (U2)48000;
+  tu2OnTimeL = (U2)47940;
+#endif
+
+  /* モータ出力許可設定 */
+  FnVD_HwDrv_Mtr_setEnbPort(tu1Enb);
+
+  /* モータ回転方向設定 */
+  FnVD_HwDrv_Mtr_setRotDirPortBoth(tu1RotDirPortR, tu1RotDirPortL);
+
+  /* モータPWM設定 */
+  FnVD_HwDrv_Mtr_setPulseWidthBoth(tu2PeriodR, tu2OnTimeR, tu2PeriodL, tu2OnTimeL);
+
+  /* モータ制御開始 */
+  FnVD_HwDrv_Mtr_ctrlStpAndGoBoth(tu1Enb, tu1Enb);
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_Output                                 */
-/*          HW I/F 出力処理                                     */
+/* 関数名 : FnVD_PfMtr_If_clrPulseCntr                          */
+/*          モータパルス数クリア                                */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層への出力を指示する                    */
+/* 概要   : モータパルス数をクリアする                          */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_Output(VD)
+VD FnVD_PfMtr_If_clrPulseCntr(VD)
 {
-  /* ToDo:LED点灯処理を仮実装 */
-  FnVD_PfLed_If_setReqLed();
-
-  /* バッテリー電圧監視用LED処理 */
-  FnVD_PfBat_If_setReqLed0();
-  FnVD_PfBat_If_setReqLed1();
-
-  /* ブザー吹鳴処理 */
-  FnVD_PfBz_If_setReq();
+  FnVD_HwDrv_Mtr_clrPulseCntr();
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_inputForInt                            */
-/*          HW I/F 入力処理(割り込み処理用)                     */
+/* 関数名 : FnVD_PfMtr_If_getPulseCntr                          */
+/*          モータパルス数取得                                  */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層からの入力データを取得する            */
+/* 概要   : モータパルス数を更新する                            */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_inputForInt(VD)
+VD FnVD_PfMtr_If_getPulseCntr(U2 * tpu2PulseRight, U2 * tpu2PulseLeft)
 {
-  /* ToDo:センサ値取得処理を仮実装 */
-  FnVD_PfRaySens_If_renewVal();
-
-  /* バッテリー電圧値取得処理 */
-  /* Note:センサ値と同じチャネルグループでA/D変換を行うため同じタスクで実行する必要あり */
-  FnVD_PfBat_If_renewVal();
-}
-
-
-/* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_outputForInt                           */
-/*          HW I/F 出力処理(割り込み処理用)                     */
-/* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層への出力を指示する                    */
-/* 制約   : なし                                                */
-/* ============================================================ */
-VD FnVD_PfIf_Hw_outputForInt(VD)
-{
-  /* モータ出力処理 */
-  FnVD_PfMtr_If_setReq();
+  FnVD_HwDrv_Mtr_getPulseCntr(tpu2PulseRight, tpu2PulseLeft);
 }
 

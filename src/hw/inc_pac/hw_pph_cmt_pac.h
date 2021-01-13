@@ -98,7 +98,7 @@ extern VD FnVD_HwPph_Cmt_cfg(EN_HwPph_Cmt_Unit tenUnit, const ST_HwPph_Cmt_Cfg *
 
 
 /* ============================================================ */
-/* 関数名 : McFL_HwPph_Clk_calCmtCntClkFreq                     */
+/* 関数名 : McFL_HwPph_Cmt_calCmtCntClkFreq                     */
 /*          CMTカウントクロック周波数演算                       */
 /* 引数   : tenDiv      クロック選択                            */
 /*          (EN_HwPph_Cmt_SelClk型)                             */
@@ -106,7 +106,7 @@ extern VD FnVD_HwPph_Cmt_cfg(EN_HwPph_Cmt_Unit tenUnit, const ST_HwPph_Cmt_Cfg *
 /* 概要   : CMTカウントクロック周波数値を返す                   */
 /* 制約   : なし                                                */
 /* ============================================================ */
-#define McFL_HwPph_Clk_calCmtCntClkFreq(tenDiv)  ((FL)(CFL_HwPph_Clk_CfgPphClkBFreq / (FL)McU2_HwPph_Cmt_getClkDiv(tenDiv)))
+#define McFL_HwPph_Cmt_calCmtCntClkFreq(tenDiv)  ((FL)(CFL_HwPph_Clk_CfgPphClkBFreq / (FL)McU2_HwPph_Cmt_getClkDiv(tenDiv)))
 
 
 #endif
