@@ -97,9 +97,9 @@
 
 /* タイマレジスタ識別 */
 #define CEN_HwDrv_Mtr_Mtu_IdPwmLTmrCnt          CEN_HwPph_Mtu_IdTCNT_MTU4
-#define CEN_HwDrv_Mtr_Mtu_IdPwmLPeriod          CEN_HwPph_Mtu_IdTGR_MTU3A
-#define CEN_HwDrv_Mtr_Mtu_IdPwmLOffTime         CEN_HwPph_Mtu_IdTGR_MTU3B
-#define CEN_HwDrv_Mtr_Mtu_IdPwmLNextPeriod      CEN_HwPph_Mtu_IdTGR_MTU3C
+#define CEN_HwDrv_Mtr_Mtu_IdPwmLPeriod          CEN_HwPph_Mtu_IdTGR_MTU4A
+#define CEN_HwDrv_Mtr_Mtu_IdPwmLOffTime         CEN_HwPph_Mtu_IdTGR_MTU4B
+#define CEN_HwDrv_Mtr_Mtu_IdPwmLNextPeriod      CEN_HwPph_Mtu_IdTGR_MTU4C
 
 /* [us]最低OFF時間 */
 #define CU2_HwDrv_Mtr_MinOffTimePwmL            ((U2)((FL)((FL)20.0F / CFL_HwDrv_Mtr_PwmRTmrLsb)))
@@ -112,9 +112,6 @@
 #define CU2_HwDrv_Mtr_OffTimeInitPwmL           CU2_HwDrv_Mtr_MinOffTimePwmL
 #define CU2_HwDrv_Mtr_NextPeriodInitPwmL        ((U2)((U2)((FL)((FL)16000.0F / CFL_HwDrv_Mtr_PwmRTmrLsb)) - (U2)1))
 
-/* 時間からタイマー値への変換係数 */
-#define CU4_HwDrv_Mtr_changeTimeToTimerGain    ((U4)4096)
-
 /* モータ動作開始ビット位置 */
 #define CU1_HwDrv_Mtr_Mtu_StartBitPosL          CU1_HwPph_Mtu_StartBitPosMtu4
 
@@ -122,6 +119,9 @@
 #define CU1_HwDrv_Mtr_Mtu_StartBitMskR          ((U1)((U1)1 << CU1_HwDrv_Mtr_Mtu_StartBitPosR))
 #define CU1_HwDrv_Mtr_Mtu_StartBitMskL          ((U1)((U1)1 << CU1_HwDrv_Mtr_Mtu_StartBitPosL))
 #define CU1_HwDrv_Mtr_Mtu_StartBitMskB          ((U1)(CU1_HwDrv_Mtr_Mtu_StartBitMskR | CU1_HwDrv_Mtr_Mtu_StartBitMskL))
+
+/* 時間からタイマー値への変換係数 */
+#define CU4_HwDrv_Mtr_changeTimeToTimerGain     ((U4)4096)
 
 /* ---------- */
 /* 割り込み用 */

@@ -36,9 +36,12 @@
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
 extern VD FnVD_PfMtr_If_initHw(VD);
+extern VD FnVD_PfMtr_If_initPf(VD);
 extern VD FnVD_PfMtr_If_setReq(VD);
 extern VD FnVD_PfMtr_If_clrPulseCntr(VD);
-extern VD FnVD_PfMtr_If_getPulseCntr(U2 * tpu2PulseRight, U2 * tpu2PulseLeft);
+extern VD FnVD_PfMtr_If_renewPulseCntr(VD);
+extern U2 FnU2_PfMtr_If_getPulseCountRight(VD);
+extern U2 FnU2_PfMtr_If_getPulseCountLeft(VD);
 
 
 /* ============================================================ */

@@ -37,6 +37,7 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(static)                                 */
 /* ============================================================ */
+static U4 FnU4_HwPph_IntCtrl_getPriorityRegIdx(EN_HwPph_IntCtrl_VecId tenId);
 
 
 /* ============================================================ */
@@ -1045,6 +1046,305 @@ VD FnVD_HwPph_IntCtrl_setEnbInt(EN_HwPph_IntCtrl_VecId tenId, U1 tu1Enb)
 }
 
 
+static U4 FnU4_HwPph_IntCtrl_getPriorityRegIdx(EN_HwPph_IntCtrl_VecId tenId)
+{
+  U4 tu4Idx;
+
+  if (0) {
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_BSC_BUSERR) {
+    tu4Idx = (U4)0;
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_FCU_FIFERR) {
+    tu4Idx = (U4)1;
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_FCU_FRDYI) {
+    tu4Idx = (U4)2;
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_ICU_SWINT) {
+    tu4Idx = (U4)3;
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_CMT0_CMI0) {
+    tu4Idx = (U4)4;
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_CMT1_CMI1) {
+    tu4Idx = (U4)5;
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_CMT2_CMI2) {
+    tu4Idx = (U4)6;
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_CMT3_CMI3) {
+    tu4Idx = (U4)7;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_USB0_D0FIFO0)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_USB1_USBI1)) {
+
+    tu4Idx = (U4)tenId;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_RSPI0_SPRI0)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_RSPI0_SPII0)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_RSPI0_SPRI0;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_RSPI1_SPRI1)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_RSPI1_SPII1)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_RSPI1_SPRI1;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_RSPI2_SPRI2)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_RSPI2_SPII2)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_RSPI2_SPRI2;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_CAN0_RXF0)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_CAN0_TXF0)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_CAN0_RXF0;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_CAN1_RXF1)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_CAN1_TXM1)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_CAN1_RXF1;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_CAN2_RXF2)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_CAN2_TXM2)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_CAN2_RXF2;
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_RTC_CUP) {
+    tu4Idx = (U4)tenId;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_ICU_IRQ0)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_ICU_IRQ15)) {
+
+    tu4Idx = (U4)tenId;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_USB_USBR0)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_USB_USBR1)) {
+
+    tu4Idx = (U4)tenId;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_RTC_ALM)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_RTC_PRD)) {
+
+    tu4Idx = (U4)tenId;
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_AD_ADI0) {
+    tu4Idx = (U4)tenId;
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_S12AD_S12ADI0) {
+    tu4Idx = (U4)tenId;
+  }
+  else if (   (   (tenId >= CEN_HwPph_IntCtrl_VecId_ICU_GROUP0)
+               && (tenId <= CEN_HwPph_IntCtrl_VecId_ICU_GROUP6))
+           || (tenId >= CEN_HwPph_IntCtrl_VecId_ICU_GROUP12)) {
+
+    tu4Idx = (U4)tenId;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI12_SCIX0)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI12_SCIX3)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI12_SCIX0;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TPU0_TGI0A)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TPU0_TGI0D)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TPU0_TGI0A;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TPU1_TGI1A)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TPU1_TGI1B)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TPU1_TGI1A;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TPU2_TGI2A)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TPU2_TGI2B)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TPU2_TGI2A;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TPU3_TGI3A)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TPU3_TGI3D)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TPU3_TGI3A;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TPU4_TGI4A)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TPU4_TGI4B)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TPU4_TGI4A;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TPU5_TGI5A)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TPU5_TGI5B)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TPU5_TGI5A;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TPU6_TGI6A_MTU0_TGIA0)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TPU6_TGI6D_MTU0_TGID0)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TPU6_TGI6A_MTU0_TGIA0;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_MTU0_TGIE0)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_MTU0_TGIF0)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_MTU0_TGIE0;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TPU7_TGI7A_MTU1_TGIA1)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TPU7_TGI7B_MTU1_TGIB1)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TPU7_TGI7A_MTU1_TGIA1;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TPU8_TGI8A_MTU2_TGIA2)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TPU8_TGI8B_MTU2_TGIB2)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TPU8_TGI8A_MTU2_TGIA2;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TPU9_TGI9A_MTU3_TGIA3)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TPU9_TGI9D_MTU3_TGID3)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TPU9_TGI9A_MTU3_TGIA3;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TPU10_TGI10A_MTU4_TGIA4)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_MTU4_TGID4)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TPU10_TGI10A_MTU4_TGIA4;
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_MTU4_TGIV4) {
+    tu4Idx = (U4)tenId;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_MTU5_TGIU5)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_MTU5_TGIW5)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_MTU5_TGIU5;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TPU11_TGI11A)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TPU11_TGI11B)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TPU11_TGI11A;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_POE_OEI1)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_POE_OEI2)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_POE_OEI1;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TMR0_CMIA0)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TMR0_OVI0)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TMR0_CMIA0;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TMR1_CMIA1)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TMR1_OVI1)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TMR1_CMIA1;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TMR2_CMIA2)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TMR2_OVI2)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TMR2_CMIA2;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_TMR3_CMIA3)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_TMR3_OVI3)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_TMR3_CMIA3;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_RIIC0_EEI0)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_RIIC3_TEI3)) {
+
+    tu4Idx = (U4)tenId;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_DMAC_DMAC0I)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_DMAC_DMAC3I)) {
+
+    tu4Idx = (U4)tenId;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_EXDMAC_EXDMAC0I)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_EXDMAC_EXDMAC1I)) {
+
+    tu4Idx = (U4)tenId;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_DEU_DEU0)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_DEU_DEU1)) {
+
+    tu4Idx = (U4)tenId;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_PDC_PCDFI)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_PDC_PCERI)) {
+
+    tu4Idx = (U4)tenId;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI0_RXI0)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI0_TEI0)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI0_RXI0;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI1_RXI1)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI1_TEI1)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI1_RXI1;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI2_RXI2)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI2_TEI2)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI2_RXI2;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI3_RXI3)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI3_TEI3)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI3_RXI3;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI4_RXI4)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI4_TEI4)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI4_RXI4;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI5_RXI5)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI5_TEI5)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI5_RXI5;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI6_RXI6)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI6_TEI6)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI6_RXI6;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI7_RXI7)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI7_TEI7)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI7_RXI7;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI8_RXI8)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI8_TEI8)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI8_RXI8;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI9_RXI9)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI9_TEI9)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI9_RXI9;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI10_RXI10)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI10_TEI10)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI10_RXI10;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI11_RXI11)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI11_TEI11)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI11_RXI11;
+  }
+  else if (   (tenId >= CEN_HwPph_IntCtrl_VecId_SCI12_RXI12)
+           && (tenId <= CEN_HwPph_IntCtrl_VecId_SCI12_TEI12)) {
+
+    tu4Idx = (U4)CEN_HwPph_IntCtrl_VecId_SCI12_RXI12;
+  }
+  else if (tenId == CEN_HwPph_IntCtrl_VecId_IEB_IEBINT) {
+    tu4Idx = (U4)tenId;
+  }
+  else {
+    tu4Idx = CU4_Max;
+  }
+
+  return (tu4Idx);
+}
+
+
 /* ============================================================ */
 /* 関数名 : FnVD_HwPph_IntCtrl_setPriority                      */
 /*          割り込み優先度設定                                  */
@@ -1057,10 +1357,17 @@ VD FnVD_HwPph_IntCtrl_setEnbInt(EN_HwPph_IntCtrl_VecId tenId, U1 tu1Enb)
 VD FnVD_HwPph_IntCtrl_setPriority(EN_HwPph_IntCtrl_VecId tenId, EN_HwPph_IntCtrl_Priority tenP)
 {
   ST_IPRn tstIPR;  /* 割り込み要因プライオリティレジスタ */
+  U4 tu4Idx;
 
-  tstIPR.u1Val = stRegICU.staIPRn[tenId].u1Val;
-  tstIPR.stBit.b4IPR = (U1)tenP;
-  stRegICU.staIPRn[tenId].u1Val = tstIPR.u1Val;
+  tu4Idx = FnU4_HwPph_IntCtrl_getPriorityRegIdx(tenId);
+
+  if (tu4Idx <= (U4)CU1_Max) {
+    tstIPR.u1Val = stRegICU.staIPRn[tu4Idx].u1Val;
+    tstIPR.stBit.b4IPR = (U1)tenP;
+    stRegICU.staIPRn[tu4Idx].u1Val = tstIPR.u1Val;
+  }
+  else {
+    /* 予約ベクタまたはレジスタが存在しない場合は何もしない */
+  }
 }
-
 

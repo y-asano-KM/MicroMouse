@@ -37,7 +37,7 @@
 /* ============================================================ */
 extern VD FnVD_PfIf_Hw_init(VD);
 extern VD FnVD_PfIf_Hw_input(VD);
-extern VD FnVD_PfIf_Hw_Output(VD);
+extern VD FnVD_PfIf_Hw_output(VD);
 extern VD FnVD_PfIf_Hw_inputForInt(VD);
 extern VD FnVD_PfIf_Hw_outputForInt(VD);
 

@@ -47,7 +47,7 @@
 /* ============================================================ */
 /* 変数定義(static)                                             */
 /* ============================================================ */
-/* ToDo:センサ値取得処理を仮実装 */
+/* センサ値 */
 static U2 u2PfRaySens_If_R;
 static U2 u2PfRaySens_If_FR;
 static U2 u2PfRaySens_If_FL;
@@ -113,18 +113,17 @@ VD FnVD_PfRaySens_If_initPf(VD)
 /* ============================================================ */
 VD FnVD_PfRaySens_If_renewVal(VD)
 {
-  /* ToDo:センサ値取得処理を仮実装 */
   /* センサ右側 */
   FnVD_HwDrv_RaySens_renewVal(CEN_HwDrv_RaySens_Id_R);
   u2PfRaySens_If_R = FnU2_HwDrv_RaySens_getVal(CEN_HwDrv_RaySens_Id_R);
 
-  /* センサ前方左側 */
-  FnVD_HwDrv_RaySens_renewVal(CEN_HwDrv_RaySens_Id_FL);
-  u2PfRaySens_If_FR = FnU2_HwDrv_RaySens_getVal(CEN_HwDrv_RaySens_Id_FL);
-
   /* センサ前方右側 */
   FnVD_HwDrv_RaySens_renewVal(CEN_HwDrv_RaySens_Id_FR);
-  u2PfRaySens_If_FL = FnU2_HwDrv_RaySens_getVal(CEN_HwDrv_RaySens_Id_FR);
+  u2PfRaySens_If_FR = FnU2_HwDrv_RaySens_getVal(CEN_HwDrv_RaySens_Id_FR);
+
+  /* センサ前方左側 */
+  FnVD_HwDrv_RaySens_renewVal(CEN_HwDrv_RaySens_Id_FL);
+  u2PfRaySens_If_FL = FnU2_HwDrv_RaySens_getVal(CEN_HwDrv_RaySens_Id_FL);
 
   /* センサ左側 */
   FnVD_HwDrv_RaySens_renewVal(CEN_HwDrv_RaySens_Id_L);

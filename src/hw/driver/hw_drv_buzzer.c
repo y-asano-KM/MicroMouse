@@ -39,11 +39,6 @@
 /* -------------------------- */
 #define CST_HwDrv_Bz_Port_Cfg            CST_HwPph_Port_CfgPB3
 
-/* ------------ */
-/* ポート識番号 */
-/* ------------ */
-#define CEN_HwDrv_Bz_Port_Id             CEN_HwPph_Port_Id_PB3
-
 /* ----------------------- */
 /* MTUコンフィグレーション */
 /* ----------------------- */
@@ -69,7 +64,7 @@
 #define CU1_HwDrv_Bz_Mtu_StartBitPos     CU1_HwPph_Mtu_StartBitPosMtu0
 
 /* モータ動作開始ビットマスク */
-#define CU1_HwDrv_Bz_Mtu_StartBitMsk    ((U1)((U1)1 << CU1_HwDrv_Bz_Mtu_StartBitPos))
+#define CU1_HwDrv_Bz_Mtu_StartBitMsk     ((U1)((U1)1 << CU1_HwDrv_Bz_Mtu_StartBitPos))
 
 
 /* ============================================================ */
@@ -113,7 +108,7 @@
 /* 概要   : 周波数[Hz]からタイマー値へ変換する                  */
 /* 制約   : 最大5KHz                                            */
 /* ============================================================ */
-#define McU2_HwDrv_Bz_changeFreqToTimer(tu4Freq)    ((U2)McXX_grdMax((((U4)CFL_HwDrv_Bz_PwmTmrFreq * (U4)10000000) / (tu4Freq)), (U4)62000))
+#define McU2_HwDrv_Bz_changeFreqToTimer(tu4Freq)    ((U2)McXX_grdMax((((U4)CFL_HwDrv_Bz_PwmTmrFreq * (U4)1000000) / (tu4Freq)), (U4)62000))
 
 
 /* ============================================================ */

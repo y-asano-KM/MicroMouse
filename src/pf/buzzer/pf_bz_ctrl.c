@@ -23,8 +23,6 @@
 /* 本体 */
 #include "pf_bz_ctrl_pac.h"
 
-#define OP_PfSche_Main_TestBz
-
 
 /* ============================================================ */
 /* マクロ定数定義                                               */
@@ -38,15 +36,15 @@
 /* [Hz]バッテリー電圧低下時周波数 */
 #define CU4_PfBz_Ctrl_BatVoltLowFreq    ((U4)1976)
 
-#if defined(OP_PfSche_Main_TestBz)
+#if defined(OP_PfBz_Ctrl_ExistFuncInitialChk)
   /* [ms]イニシャル吹鳴1時間 */
-  #define CU2_PfBz_Ctrl_Initial1Time    ((U2)((U2)1000 / (U2)CU1_PrjCmn_MainPeriod))
+  #define CU2_PfBz_Ctrl_Initial1Time    ((U2)((U2)500 / (U2)CU1_PrjCmn_MainPeriod))
 
   /* [ms]イニシャル吹鳴2時間 */
-  #define CU2_PfBz_Ctrl_Initial2Time    ((U2)((U2)2000 / (U2)CU1_PrjCmn_MainPeriod))
+  #define CU2_PfBz_Ctrl_Initial2Time    ((U2)((U2)1000 / (U2)CU1_PrjCmn_MainPeriod))
 
   /* [ms]イニシャル吹鳴3時間 */
-  #define CU2_PfBz_Ctrl_Initial3Time    ((U2)((U2)3000 / (U2)CU1_PrjCmn_MainPeriod))
+  #define CU2_PfBz_Ctrl_Initial3Time    ((U2)((U2)1500 / (U2)CU1_PrjCmn_MainPeriod))
 
   /* [Hz]イニシャル吹鳴1周波数 */
   #define CU4_PfBz_Ctrl_Initial1Freq    ((U4)1047)
@@ -79,8 +77,10 @@
 /* ============================================================ */
 static U4 u4PfBz_Ctrl_Freq;               /* [Hz]出力周波数(LSB:1Hz) */
 static U1 u1PfBz_Ctrl_Req;                /* 出力要求値 */
-static U2 u2PfBz_Ctrl_InitialTimer;       /* [ms]出力周波数(LSB:CU1_PrjCmn_MainPeriod) */
-static U1 u1PfBz_Ctrl_BatVoltLowTimer;    /* [ms]出力周波数(LSB:CU1_PrjCmn_MainPeriod) */
+static U1 u1PfBz_Ctrl_BatVoltLowTimer;    /* [ms]バッテリー電圧低下吹鳴用タイマ(LSB:CU1_PrjCmn_MainPeriod) */
+#if defined(OP_PfBz_Ctrl_ExistFuncInitialChk)
+static U2 u2PfBz_Ctrl_InitialTimer;       /* [ms]イニシャル吹鳴時間(LSB:CU1_PrjCmn_MainPeriod) */
+#endif
 
 
 /* ============================================================ */
@@ -115,11 +115,13 @@ VD FnVD_PfBz_Ctrl_init(VD)
   u4PfBz_Ctrl_Freq = (U4)0;
   u1PfBz_Ctrl_Req = (U1)0;
 
+  /* バッテリー電圧低下吹鳴用タイマ初期化 */
+  u1PfBz_Ctrl_BatVoltLowTimer = (U1)0;
+
+#if defined(OP_PfBz_Ctrl_ExistFuncInitialChk)
   /* イニシャル吹鳴時間初期化 */
   u2PfBz_Ctrl_InitialTimer = (U2)0;
-
-  /* バッテリー電圧低下時時間初期化 */
-  u1PfBz_Ctrl_BatVoltLowTimer = (U1)0;
+#endif
 }
 
 
@@ -137,20 +139,19 @@ VD FnVD_PfBz_Ctrl_mediate(VD)
   U1 tu1Req;
   U1 tu1BatVolLow;
 
+#if defined(OP_PfBz_Ctrl_ExistFuncInitialChk)
   /* イニシャル吹鳴時間 */
   McXX_incU2Max(u2PfBz_Ctrl_InitialTimer);
+#endif
 
-#if defined(OP_PfSche_Main_TestBz)
-  /* ToDo:テスト用のため最終的には削除する */
   /* バッテリー電圧低下状態取得 */
   tu1BatVolLow = FnU1_PfBat_Moni_getStsVoltageLow();
-#endif
 
   if (0) {
     /* 何もしない */
   }
   else if (tu1BatVolLow == (U1)C_ON) {
-    /* バッテリー電圧低下中の吹鳴処理 */
+    /* バッテリー電圧低下中の警告吹鳴(断続) */
     if (u1PfBz_Ctrl_BatVoltLowTimer <= CU1_PfBz_Ctrl_BatVoltLowPeriod) {
       u1PfBz_Ctrl_BatVoltLowTimer++;
     }
@@ -166,22 +167,25 @@ VD FnVD_PfBz_Ctrl_mediate(VD)
     }
     tu4Freq = CU4_PfBz_Ctrl_BatVoltLowFreq;
   }
-#if defined(OP_PfSche_Main_TestBz)
-  /* ToDo:テスト用のため最終的には削除する */
+#if defined(OP_PfBz_Ctrl_ExistFuncInitialChk)
   else if (u2PfBz_Ctrl_InitialTimer <= CU2_PfBz_Ctrl_Initial1Time) {
+    /* イニシャルブザー吹鳴1(連続) */
     tu1Req  = (U1)C_ON;
     tu4Freq = CU4_PfBz_Ctrl_Initial1Freq;
   }
   else if (u2PfBz_Ctrl_InitialTimer <= CU2_PfBz_Ctrl_Initial2Time) {
+    /* イニシャルブザー吹鳴2(連続) */
     tu1Req  = (U1)C_ON;
     tu4Freq = CU4_PfBz_Ctrl_Initial2Freq;
   }
   else if (u2PfBz_Ctrl_InitialTimer <= CU2_PfBz_Ctrl_Initial3Time) {
+    /* イニシャルブザー吹鳴3(連続) */
     tu1Req  = (U1)C_ON;
     tu4Freq = CU4_PfBz_Ctrl_Initial3Freq;
   }
 #endif
   else {
+    /* 上記以外 */
     tu1Req  = (U1)C_OFF;
     tu4Freq = CU4_PfBz_Ctrl_InitFreq;
   }

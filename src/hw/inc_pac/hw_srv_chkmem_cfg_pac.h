@@ -45,8 +45,8 @@
 /* ============================================================ */
 /* const変数宣言(extern)                                        */
 /* ============================================================ */
-extern U1 CU1_HwSrv_ChkMem_CfgEnbIntStackCheckErr;
-extern U1 CU1_HwSrv_ChkMem_CfgEnbUsrStackCheckErr;
+extern const U1 CU1_HwSrv_ChkMem_CfgEnbIntStackCheckErr;
+extern const U1 CU1_HwSrv_ChkMem_CfgEnbUsrStackCheckErr;
 
 
 /* ============================================================ */

@@ -1,6 +1,6 @@
 /* ============================================================ */
 /* ファイル名 : pf_mtr_if.c                                     */
-/* 機能       : モータ I/F処理                                  */
+/* 機能       : モータI/F処理                                   */
 /* ============================================================ */
 #define SECTION_PF
 
@@ -22,6 +22,12 @@
 
 /* 本体 */
 #include "pf_mtr_if_pac.h"
+
+/* #define OP_PfMtr_If_Test */
+#if defined(OP_PfMtr_If_Test)
+  /* ToDo:テスト用のため最終的には削除する */
+  #include "pf_switch_ctrl_pac.h"
+#endif
 
 
 /* ============================================================ */
@@ -47,6 +53,9 @@
 /* ============================================================ */
 /* 変数定義(static)                                             */
 /* ============================================================ */
+/* [回]モータパルス数 */
+static U2 u2PfMtr_If_PulseCountRight;
+static U2 u2PfMtr_If_PulseCountLeft;
 
 
 /* ============================================================ */
@@ -69,7 +78,7 @@
 /* ============================================================ */
 /* ============================================================ */
 /* 関数名 : FnVD_PfMtr_If_initHw                                */
-/*          モータ I/F処理初期化(HW用)                          */
+/*          モータI/F処理初期化(HW用)                           */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : ハードウェア層の初期化を行う                        */
@@ -78,6 +87,22 @@
 VD FnVD_PfMtr_If_initHw(VD)
 {
   FnVD_HwDrv_Mtr_init();
+}
+
+
+/* ============================================================ */
+/* 関数名 : FnVD_PfMtr_If_initPf                                */
+/*          モータI/F処理初期化(PF用)                           */
+/* 引数   : なし                                                */
+/* 戻り値 : なし                                                */
+/* 概要   : モータI/F処理の初期化を行う                         */
+/* 制約   : なし                                                */
+/* ============================================================ */
+VD FnVD_PfMtr_If_initPf(VD)
+{
+  /* モータパルス数初期化 */
+  u2PfMtr_If_PulseCountRight = (U2)0;
+  u2PfMtr_If_PulseCountLeft  = (U2)0;
 }
 
 
@@ -99,7 +124,7 @@ VD FnVD_PfMtr_If_setReq(VD)
   U1 tu1RotDirPortL;
   U1 tu1Enb;
 
-#if 1
+#if (1)
   /* ToDo:暫定処置 */
   tu1Enb = (U1)C_OFF;
   tu1RotDirPortR = (U1)C_OFF;
@@ -108,6 +133,15 @@ VD FnVD_PfMtr_If_setReq(VD)
   tu2OnTimeR = (U2)47940;
   tu2PeriodL = (U2)48000;
   tu2OnTimeL = (U2)47940;
+#endif
+#if defined(OP_PfMtr_If_Test)
+  /* ToDo:テスト用のため最終的には削除する */
+  /* 中央タクトスイッチ瞬時値(2度読み)ONで始動, OFFで停止 */ */
+  tu1Enb = FnU1_PfSwt_Ctrl_getTactSwtCenterMomentary();
+
+  /* 左右タクトスイッチ短押しONで逆転、OFFで正転 */
+  tu1RotDirPortR = FnU1_PfSwt_Ctrl_getTactSwtRightShortPush();
+  tu1RotDirPortL = FnU1_PfSwt_Ctrl_getTactSwtLeftShortPush();
 #endif
 
   /* モータ出力許可設定 */
@@ -139,15 +173,43 @@ VD FnVD_PfMtr_If_clrPulseCntr(VD)
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfMtr_If_getPulseCntr                          */
-/*          モータパルス数取得                                  */
+/* 関数名 : FnVD_PfMtr_If_renewPulseCntr                        */
+/*          モータパルス数更新                                  */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : モータパルス数を更新する                            */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfMtr_If_getPulseCntr(U2 * tpu2PulseRight, U2 * tpu2PulseLeft)
+VD FnVD_PfMtr_If_renewPulseCntr(VD)
 {
-  FnVD_HwDrv_Mtr_getPulseCntr(tpu2PulseRight, tpu2PulseLeft);
+  FnVD_HwDrv_Mtr_getPulseCntr(&u2PfMtr_If_PulseCountRight, &u2PfMtr_If_PulseCountLeft);
+}
+
+
+/* ============================================================ */
+/* 関数名 : FnU2_PfMtr_If_getPulseCountRight                    */
+/*          右モータパルス数取得                                */
+/* 引数   : なし                                                */
+/* 戻り値 : [回]右モータパルス数(LSB:1回)                       */
+/* 概要   : 右モータパルス数を提供する                          */
+/* 制約   : なし                                                */
+/* ============================================================ */
+U2 FnU2_PfMtr_If_getPulseCountRight(VD)
+{
+  return (u2PfMtr_If_PulseCountRight);
+}
+
+
+/* ============================================================ */
+/* 関数名 : FnU2_PfMtr_If_getPulseCountLeft                     */
+/*          左モータパルス数取得                                */
+/* 引数   : なし                                                */
+/* 戻り値 : [回]左モータパルス数(LSB:1回)                       */
+/* 概要   : 左モータパルス数を提供する                          */
+/* 制約   : なし                                                */
+/* ============================================================ */
+U2 FnU2_PfMtr_If_getPulseCountLeft(VD)
+{
+  return (u2PfMtr_If_PulseCountLeft);
 }
 

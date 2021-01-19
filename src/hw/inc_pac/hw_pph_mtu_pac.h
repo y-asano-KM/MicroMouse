@@ -287,41 +287,41 @@ typedef enum {                                      /* MTIOC4#端子の機能(#=
 /* タイマカウンタ識別 */ 
 /* ------------------ */
 typedef enum {
-  CEN_HwPph_Mtu_IdTCNT_MTU0 = 0,   /* #1:MTU0.TCNT */
+  CEN_HwPph_Mtu_IdTCNT_MTU0 = 0,   /* #0:MTU0.TCNT */
   CEN_HwPph_Mtu_IdTCNT_MTU1,       /* #1:MTU1.TCNT */
-  CEN_HwPph_Mtu_IdTCNT_MTU2,       /* #1:MTU2.TCNT */
-  CEN_HwPph_Mtu_IdTCNT_MTU3,       /* #1:MTU3.TCNT */
-  CEN_HwPph_Mtu_IdTCNT_MTU4,       /* #1:MTU4.TCNT */
-  CEN_HwPph_Mtu_IdTCNT_MTU5U,      /* #1:MTU5.TCNTU */
-  CEN_HwPph_Mtu_IdTCNT_MTU5V,      /* #1:MTU5.TCNTV */
-  CEN_HwPph_Mtu_IdTCNT_MTU5W       /* #1:MTU5.TCNTW */
+  CEN_HwPph_Mtu_IdTCNT_MTU2,       /* #2:MTU2.TCNT */
+  CEN_HwPph_Mtu_IdTCNT_MTU3,       /* #3:MTU3.TCNT */
+  CEN_HwPph_Mtu_IdTCNT_MTU4,       /* #4:MTU4.TCNT */
+  CEN_HwPph_Mtu_IdTCNT_MTU5U,      /* #5:MTU5.TCNTU */
+  CEN_HwPph_Mtu_IdTCNT_MTU5V,      /* #6:MTU5.TCNTV */
+  CEN_HwPph_Mtu_IdTCNT_MTU5W       /* #7:MTU5.TCNTW */
 } EN_HwPph_Mtu_IdTCNT;
 
 /* ---------------------------- */
 /* タイマジェネラルレジスタ識別 */ 
 /* ---------------------------- */
 typedef enum {
-  CEN_HwPph_Mtu_IdTGR_MTU0A = 0,   /* #1:MTU0.TGRA */
-  CEN_HwPph_Mtu_IdTGR_MTU0B,       /* #1:MTU0.TGRB */
-  CEN_HwPph_Mtu_IdTGR_MTU0C,       /* #1:MTU0.TGRC */
-  CEN_HwPph_Mtu_IdTGR_MTU0D,       /* #1:MTU0.TGRD */
-  CEN_HwPph_Mtu_IdTGR_MTU0E,       /* #1:MTU0.TGRE */
-  CEN_HwPph_Mtu_IdTGR_MTU0F,       /* #1:MTU0.TGRF */
-  CEN_HwPph_Mtu_IdTGR_MTU1A,       /* #1:MTU1.TGRA */
-  CEN_HwPph_Mtu_IdTGR_MTU1B,       /* #1:MTU1.TGRB */
-  CEN_HwPph_Mtu_IdTGR_MTU2A,       /* #1:MTU2.TGRA */
-  CEN_HwPph_Mtu_IdTGR_MTU2B,       /* #1:MTU2.TGRB */
-  CEN_HwPph_Mtu_IdTGR_MTU3A,       /* #1:MTU3.TGRA */
-  CEN_HwPph_Mtu_IdTGR_MTU3B,       /* #1:MTU3.TGRB */
-  CEN_HwPph_Mtu_IdTGR_MTU3C,       /* #1:MTU3.TGRC */
-  CEN_HwPph_Mtu_IdTGR_MTU3D,       /* #1:MTU3.TGRD */
-  CEN_HwPph_Mtu_IdTGR_MTU4A,       /* #1:MTU4.TGRA */
-  CEN_HwPph_Mtu_IdTGR_MTU4B,       /* #1:MTU4.TGRB */
-  CEN_HwPph_Mtu_IdTGR_MTU4C,       /* #1:MTU4.TGRC */
-  CEN_HwPph_Mtu_IdTGR_MTU4D,       /* #1:MTU4.TGRD */
-  CEN_HwPph_Mtu_IdTGR_MTU5U,       /* #1:MTU5.TGRU */
-  CEN_HwPph_Mtu_IdTGR_MTU5V,       /* #1:MTU5.TGRV */
-  CEN_HwPph_Mtu_IdTGR_MTU5W,       /* #1:MTU5.TGRW */
+  CEN_HwPph_Mtu_IdTGR_MTU0A = 0,   /* #00:MTU0.TGRA */
+  CEN_HwPph_Mtu_IdTGR_MTU0B,       /* #01:MTU0.TGRB */
+  CEN_HwPph_Mtu_IdTGR_MTU0C,       /* #02:MTU0.TGRC */
+  CEN_HwPph_Mtu_IdTGR_MTU0D,       /* #03:MTU0.TGRD */
+  CEN_HwPph_Mtu_IdTGR_MTU0E,       /* #04:MTU0.TGRE */
+  CEN_HwPph_Mtu_IdTGR_MTU0F,       /* #05:MTU0.TGRF */
+  CEN_HwPph_Mtu_IdTGR_MTU1A,       /* #06:MTU1.TGRA */
+  CEN_HwPph_Mtu_IdTGR_MTU1B,       /* #07:MTU1.TGRB */
+  CEN_HwPph_Mtu_IdTGR_MTU2A,       /* #08:MTU2.TGRA */
+  CEN_HwPph_Mtu_IdTGR_MTU2B,       /* #09:MTU2.TGRB */
+  CEN_HwPph_Mtu_IdTGR_MTU3A,       /* #10:MTU3.TGRA */
+  CEN_HwPph_Mtu_IdTGR_MTU3B,       /* #11:MTU3.TGRB */
+  CEN_HwPph_Mtu_IdTGR_MTU3C,       /* #12:MTU3.TGRC */
+  CEN_HwPph_Mtu_IdTGR_MTU3D,       /* #13:MTU3.TGRD */
+  CEN_HwPph_Mtu_IdTGR_MTU4A,       /* #14:MTU4.TGRA */
+  CEN_HwPph_Mtu_IdTGR_MTU4B,       /* #15:MTU4.TGRB */
+  CEN_HwPph_Mtu_IdTGR_MTU4C,       /* #16:MTU4.TGRC */
+  CEN_HwPph_Mtu_IdTGR_MTU4D,       /* #17:MTU4.TGRD */
+  CEN_HwPph_Mtu_IdTGR_MTU5U,       /* #18:MTU5.TGRU */
+  CEN_HwPph_Mtu_IdTGR_MTU5V,       /* #19:MTU5.TGRV */
+  CEN_HwPph_Mtu_IdTGR_MTU5W,       /* #20:MTU5.TGRW */
 } EN_HwPph_Mtu_IdTGR;
 
 /* --------------- */

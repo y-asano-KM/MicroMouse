@@ -95,8 +95,8 @@ static VD FnVD_HwPph_Port_getNumGrpPin(EN_HwPph_Port_Id tenId, U1 * tpu1GrpNum, 
   ST_HwPph_Port_IdConv tstId;
 
   tstId.u2Val = (U2)tenId;
-  *tpu1GrpNum = tstId.stNum.u1Pin;
-  *tpu1PinNum = tstId.stNum.u1Grp;
+  *tpu1PinNum = tstId.stNum.u1Pin;
+  *tpu1GrpNum = tstId.stNum.u1Grp;
 }
 
 
