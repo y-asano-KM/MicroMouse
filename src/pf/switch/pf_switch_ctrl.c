@@ -27,15 +27,20 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
-/* [ms]各種スイッチ短押し判定時間 */
-#define CU2_PfSwt_Ctrl_TactSwtRightShortPushTime     ((U2)((U2)100 / (U2)CU1_PrjCmn_MainPeriod))
-#define CU2_PfSwt_Ctrl_TactSwtCenterShortPushTime    ((U2)((U2)100 / (U2)CU1_PrjCmn_MainPeriod))
-#define CU2_PfSwt_Ctrl_TactSwtLeftShortPushTime      ((U2)((U2)100 / (U2)CU1_PrjCmn_MainPeriod))
+/* [ms]各種スイッチON判定時間(短押し) */
+#define CU2_PfSwt_Ctrl_TactSwtRightShortOnTime     ((U2)((U2)100 / (U2)CU1_PrjCmn_MainPeriod))
+#define CU2_PfSwt_Ctrl_TactSwtCenterShortOnTime    ((U2)((U2)100 / (U2)CU1_PrjCmn_MainPeriod))
+#define CU2_PfSwt_Ctrl_TactSwtLeftShortOnTime      ((U2)((U2)100 / (U2)CU1_PrjCmn_MainPeriod))
 
-/* [ms]各種スイッチ長押し判定時間 */
-#define CU2_PfSwt_Ctrl_TactSwtRightLongPushTime      ((U2)((U2)3000 / (U2)CU1_PrjCmn_MainPeriod))
-#define CU2_PfSwt_Ctrl_TactSwtCenterLongPushTime     ((U2)((U2)3000 / (U2)CU1_PrjCmn_MainPeriod))
-#define CU2_PfSwt_Ctrl_TactSwtLeftLongPushTime       ((U2)((U2)3000 / (U2)CU1_PrjCmn_MainPeriod))
+/* [ms]各種スイッチON判定時間(長押し) */
+#define CU2_PfSwt_Ctrl_TactSwtRightLongOnTime      ((U2)((U2)3000 / (U2)CU1_PrjCmn_MainPeriod))
+#define CU2_PfSwt_Ctrl_TactSwtCenterLongOnTime     ((U2)((U2)3000 / (U2)CU1_PrjCmn_MainPeriod))
+#define CU2_PfSwt_Ctrl_TactSwtLeftLongOnTime       ((U2)((U2)3000 / (U2)CU1_PrjCmn_MainPeriod))
+
+/* [ms]各種スイッチOFF判定時間 */
+#define CU2_PfSwt_Ctrl_TactSwtRightOffTime         ((U2)((U2)20 / (U2)CU1_PrjCmn_MainPeriod))
+#define CU2_PfSwt_Ctrl_TactSwtCenterOffTime        ((U2)((U2)20 / (U2)CU1_PrjCmn_MainPeriod))
+#define CU2_PfSwt_Ctrl_TactSwtLeftOffTime          ((U2)((U2)20 / (U2)CU1_PrjCmn_MainPeriod))
 
 
 /* ============================================================ */
@@ -49,11 +54,13 @@
 static VD FnVD_PfSwt_Ctrl_filterReadTwice(U1 * tpu1Filter, U1 * tpu1Prev, U1 tu1Cur);
 static VD FnVD_PfSwt_Ctrl_filter(VD);
 static VD FnVD_PfSwt_Ctrl_jdgMomentarySts(
-  U1 * tpu1PushShortFlag,
-  U1 * tpu1PushLongFlag,
-  U2 * tpu2Timer,
-  U2 tu2PushShortTime,
-  U2 tu2PushLongTime,
+  U1 * tpu1ShortOnFlag,
+  U1 * tpu1LongOnFlag,
+  U2 * tpu2OnTimer,
+  U2 * tpu2OffTimer,
+  U2 tu2ShortOnTime,
+  U2 tu2LongOnTime,
+  U2 tu2OffTime,
   U1 tu1Signal
 );
 static VD FnVD_PfSwt_Ctrl_jdgMomentaryStsTactSwtProc(VD);
@@ -124,12 +131,15 @@ static F1 f1PfSwt_Ctrl_SignalLong;
 #define fPfSwt_Ctrl_TactSwtLeftLong         f1PfSwt_Ctrl_SignalLong.Flag.fBit2
 
 
-/* ---------------------- */
-/* タクトスイッチ押下時間 */
-/* ---------------------- */
-static U2 u2PfSwt_Ctrl_TactSwtRightPushTimer;
-static U2 u2PfSwt_Ctrl_TactSwtCenterPushTimer;
-static U2 u2PfSwt_Ctrl_TactSwtLeftPushTimer;
+/* ---------------------------- */
+/* タクトスイッチON/OFF継続時間 */
+/* ---------------------------- */
+static U2 u2PfSwt_Ctrl_TactSwtRightOnTimer;
+static U2 u2PfSwt_Ctrl_TactSwtRightOffTimer;
+static U2 u2PfSwt_Ctrl_TactSwtCenterOnTimer;
+static U2 u2PfSwt_Ctrl_TactSwtCenterOffTimer;
+static U2 u2PfSwt_Ctrl_TactSwtLeftOnTimer;
+static U2 u2PfSwt_Ctrl_TactSwtLeftOffTimer;
 
 
 /* ============================================================ */
@@ -180,9 +190,12 @@ VD FnVD_PfSwt_Ctrl_init(VD)
   /* Memo:fPfSwt_Ctrl_TactSwtLeftLongの初期化を兼ねる */
   f1PfSwt_Ctrl_SignalLong.u1Val    = (U1)0x00;
 
-  u2PfSwt_Ctrl_TactSwtRightPushTimer  = (U2)0;
-  u2PfSwt_Ctrl_TactSwtCenterPushTimer = (U2)0;
-  u2PfSwt_Ctrl_TactSwtLeftPushTimer   = (U2)0;
+  u2PfSwt_Ctrl_TactSwtRightOnTimer   = (U2)0;
+  u2PfSwt_Ctrl_TactSwtRightOffTimer  = (U2)0;
+  u2PfSwt_Ctrl_TactSwtCenterOnTimer  = (U2)0;
+  u2PfSwt_Ctrl_TactSwtCenterOffTimer = (U2)0;
+  u2PfSwt_Ctrl_TactSwtLeftOnTimer    = (U2)0;
+  u2PfSwt_Ctrl_TactSwtLeftOffTimer   = (U2)0;
 }
 
 
@@ -237,56 +250,76 @@ static VD FnVD_PfSwt_Ctrl_filter(VD)
 /* ============================================================ */
 /* 関数名 : FnVD_PfSwt_Ctrl_jdgMomentarySts                     */
 /*          モーメンタリースイッチ状態判定                      */
-/* 引数   : tpu1PushShortFlag  短押しフラグ                     */
-/*          tpu1PushLongFlag   長押しフラグ                     */
-/*          tpu2Timer          [ms]押下タイマ                   */
-/*          tu2PushShortTime   [ms]短押し判定時間               */
-/*          tu2PushLongTime    [ms]長押しフラグ                 */
+/* 引数   : tpu1ShortOnFlag  短押しフラグ                       */
+/*          tpu1LongOnFlag   長押しフラグ                       */
+/*          tpu2OnTimer      [ms]ON継続時間                     */
+/*          tpu2OffTimer     [ms]OFF継続時間                    */
+/*          tu2ShortOnTime   [ms]短押し判定時間                 */
+/*          tu2LongOnTime    [ms]長押し判定時間                 */
+/*          tu2OffTime       [ms]OFF判定時間                    */
+/*                           (LSB:CU1_PrjCmn_MainPeriod)        */
 /*          tu1Signal          スイッチ入力信号                 */
 /* 戻り値 : なし                                                */
 /* 概要   : 短押し/長押しを判定する                             */
 /* 制約   : なし                                                */
 /* ============================================================ */
 static VD FnVD_PfSwt_Ctrl_jdgMomentarySts(
-  U1 * tpu1PushShortFlag,
-  U1 * tpu1PushLongFlag,
-  U2 * tpu2Timer,
-  U2 tu2PushShortTime,
-  U2 tu2PushLongTime,
+  U1 * tpu1ShortOnFlag,
+  U1 * tpu1LongOnFlag,
+  U2 * tpu2OnTimer,
+  U2 * tpu2OffTimer,
+  U2 tu2ShortOnTime,
+  U2 tu2LongOnTime,
+  U2 tu2OffTime,
   U1 tu1Signal
 )
 {
-  U2 tu2PushTim;
-  U1 tu1PushShortFlag;
-  U1 tu1PushLongFlag;
+  U2 tu2OnTimer;
+  U2 tu2OffTimer;
+  U1 tu1ShortOnFlag;
+  U1 tu1LongOnFlag;
 
   /* 前回値取得 */
-  tu1PushShortFlag = (*tpu1PushShortFlag);
-  tu1PushLongFlag  = (*tpu1PushLongFlag);
-  tu2PushTim = (*tpu2Timer);
+  tu1ShortOnFlag = (*tpu1ShortOnFlag);
+  tu1LongOnFlag  = (*tpu1LongOnFlag);
+  tu2OnTimer  = (*tpu2OnTimer);
+  tu2OffTimer = (*tpu2OffTimer);
 
-  /* 押下時間計測 */
+  /* ON/OFF時間計測 */
   if (tu1Signal == (U1)C_OFF) {
-    tu2PushTim = (U2)0;
+    /* OFF継続時間をカウント */
+    McXX_incU2Max(tu2OffTimer);
+
+    /* 2度読み信号値がOFFが一定時間経過でON継続時間クリア */
+    /* チャタリング対策で一定時間OFFが継続するまでON継続時間を保持する */
+    if (tu2OffTimer >= tu2OffTime) {
+      tu2OnTimer = (U2)0;
+    }
   }
   else {
-    McXX_incU2Max(tu2PushTim);
+    /* ON継続時間をカウント */
+    McXX_incU2Max(tu2OnTimer);
+
+    /* 2度読み信号値がONで即OFF継続時間をクリア */
+    tu2OffTimer = (U2)0;
   }
 
   /* モーメンタリースイッチ状態判定 */
-  if ((*tpu2Timer) >= tu2PushLongTime) {
+  if ((*tpu2OnTimer) >= tu2LongOnTime) {
     /* 長押し時の処理 */
-    if (tu1Signal == (U1)C_OFF) {
-      tu1PushLongFlag = ((tu1PushLongFlag == (U1)C_OFF) ? (U1)C_ON : (U1)C_OFF);
+    /* ONが長時間継続後、OFFが一定時間継続でモード切替 */
+    if (tu2OffTimer >= tu2OffTime) {
+      tu1LongOnFlag = ((tu1LongOnFlag == (U1)C_OFF) ? (U1)C_ON : (U1)C_OFF);
     }
     else {
       /* 前回値保持 */
     }
   }
-  else if ((*tpu2Timer) >= tu2PushShortTime) {
-    /* 長押し時の処理 */
-    if (tu1Signal == (U1)C_OFF) {
-      tu1PushShortFlag = ((tu1PushShortFlag == (U1)C_OFF) ? (U1)C_ON : (U1)C_OFF);
+  else if ((*tpu2OnTimer) >= tu2ShortOnTime) {
+    /* 短押し時の処理 */
+    /* ONが短時間継続後、OFFが一定時間継続でモード切替 */
+    if (tu2OffTimer >= tu2OffTime) {
+      tu1ShortOnFlag = ((tu1ShortOnFlag == (U1)C_OFF) ? (U1)C_ON : (U1)C_OFF);
     }
     else {
       /* 前回値保持 */
@@ -297,9 +330,10 @@ static VD FnVD_PfSwt_Ctrl_jdgMomentarySts(
   }
 
   /* 状態更新 */
-  *tpu1PushShortFlag = tu1PushShortFlag;
-  *tpu1PushLongFlag  = tu1PushLongFlag;
-  *tpu2Timer = tu2PushTim;
+  *tpu1ShortOnFlag = tu1ShortOnFlag;
+  *tpu1LongOnFlag  = tu1LongOnFlag;
+  *tpu2OnTimer  = tu2OnTimer;
+  *tpu2OffTimer = tu2OffTimer;
 }
 
 
@@ -322,9 +356,11 @@ static VD FnVD_PfSwt_Ctrl_jdgMomentaryStsTactSwtProc(VD)
   FnVD_PfSwt_Ctrl_jdgMomentarySts(
     &tu1PushShortFlag,
     &tu1PushLongFlag,
-    &u2PfSwt_Ctrl_TactSwtRightPushTimer,
-    CU2_PfSwt_Ctrl_TactSwtRightShortPushTime,
-    CU2_PfSwt_Ctrl_TactSwtRightLongPushTime,
+    &u2PfSwt_Ctrl_TactSwtRightOnTimer,
+    &u2PfSwt_Ctrl_TactSwtRightOffTimer,
+    CU2_PfSwt_Ctrl_TactSwtRightShortOnTime,
+    CU2_PfSwt_Ctrl_TactSwtRightLongOnTime,
+    CU2_PfSwt_Ctrl_TactSwtRightOffTime,
     fPfSwt_Ctrl_TactSwtRightMomentary
   );
   fPfSwt_Ctrl_TactSwtRightShort = tu1PushShortFlag;
@@ -336,9 +372,11 @@ static VD FnVD_PfSwt_Ctrl_jdgMomentaryStsTactSwtProc(VD)
   FnVD_PfSwt_Ctrl_jdgMomentarySts(
     &tu1PushShortFlag,
     &tu1PushLongFlag,
-    &u2PfSwt_Ctrl_TactSwtCenterPushTimer,
-    CU2_PfSwt_Ctrl_TactSwtCenterShortPushTime,
-    CU2_PfSwt_Ctrl_TactSwtCenterLongPushTime,
+    &u2PfSwt_Ctrl_TactSwtCenterOnTimer,
+    &u2PfSwt_Ctrl_TactSwtCenterOffTimer,
+    CU2_PfSwt_Ctrl_TactSwtCenterShortOnTime,
+    CU2_PfSwt_Ctrl_TactSwtCenterLongOnTime,
+    CU2_PfSwt_Ctrl_TactSwtCenterOffTime,
     fPfSwt_Ctrl_TactSwtCenterMomentary
   );
   fPfSwt_Ctrl_TactSwtCenterShort = tu1PushShortFlag;
@@ -350,9 +388,11 @@ static VD FnVD_PfSwt_Ctrl_jdgMomentaryStsTactSwtProc(VD)
   FnVD_PfSwt_Ctrl_jdgMomentarySts(
     &tu1PushShortFlag,
     &tu1PushLongFlag,
-    &u2PfSwt_Ctrl_TactSwtLeftPushTimer,
-    CU2_PfSwt_Ctrl_TactSwtLeftShortPushTime,
-    CU2_PfSwt_Ctrl_TactSwtLeftLongPushTime,
+    &u2PfSwt_Ctrl_TactSwtLeftOnTimer,
+    &u2PfSwt_Ctrl_TactSwtLeftOffTimer,
+    CU2_PfSwt_Ctrl_TactSwtLeftShortOnTime,
+    CU2_PfSwt_Ctrl_TactSwtLeftLongOnTime,
+    CU2_PfSwt_Ctrl_TactSwtLeftOffTime,
     fPfSwt_Ctrl_TactSwtLeftMomentary
   );
   fPfSwt_Ctrl_TactSwtLeftShort = tu1PushShortFlag;

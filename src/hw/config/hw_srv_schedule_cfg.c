@@ -60,7 +60,7 @@ VD (* const CPFnVD_HwSrv_Sche_CfgMainProc)(VD) = FnVD_PrjSche_wrapMainProc;
 VD (* const CPFnVD_HwSrv_Sche_Cfg1msProc)(VD)  = FnVD_PfSche_wrapInt1msProc;
 
 /* メインスケジューラ待ち許可設定 */
-U1 CU1_HwSrv_Sche_CfgEnbWainMainProc = (U1)C_ON;
+const U1 CU1_HwSrv_Sche_CfgEnbWainMainProc = (U1)C_ON;
 
 
 /* ============================================================ */

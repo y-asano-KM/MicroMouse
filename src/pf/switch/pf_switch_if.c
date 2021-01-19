@@ -117,7 +117,7 @@ VD FnVD_PfSwt_If_initPf(VD)
 /* 概要   : スイッチ信号(生値)を更新する                        */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfSwt_If_getSignalRaw(VD)
+VD FnVD_PfSwt_If_renewSignalRaw(VD)
 {
   /* 右側タクトスイッチ信号(生値) */
   fPfSwt_If_TactSwtRightRaw  = FnU1_HwDrv_Swt_getTactSwtRightSignal();

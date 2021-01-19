@@ -114,6 +114,9 @@ U1 FnU1_HwDrv_Swt_getTactSwtRightSignal(VD)
 
   tu1Ret = FnU1_HwPph_Port_getInLv(CEN_HwDrv_Swt_Port_IdSwtR);
 
+  /* 逆論理のため反転(L:ON, H:OFF) */
+  tu1Ret = ((tu1Ret == (U1)C_OFF) ? (U1)C_ON : (U1)C_OFF);
+
   return (tu1Ret);
 }
 
@@ -133,6 +136,9 @@ U1 FnU1_HwDrv_Swt_getTactSwtCenterSignal(VD)
 
   tu1Ret = FnU1_HwPph_Port_getInLv(CEN_HwDrv_Swt_Port_IdSwtC);
 
+  /* 逆論理のため反転(L:ON, H:OFF) */
+  tu1Ret = ((tu1Ret == (U1)C_OFF) ? (U1)C_ON : (U1)C_OFF);
+
   return (tu1Ret);
 }
 
@@ -151,6 +157,9 @@ U1 FnU1_HwDrv_Swt_getTactSwtLeftSignal(VD)
   U1 tu1Ret;
 
   tu1Ret = FnU1_HwPph_Port_getInLv(CEN_HwDrv_Swt_Port_IdSwtL);
+
+  /* 逆論理のため反転(L:ON, H:OFF) */
+  tu1Ret = ((tu1Ret == (U1)C_OFF) ? (U1)C_ON : (U1)C_OFF);
 
   return (tu1Ret);
 }

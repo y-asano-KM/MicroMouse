@@ -27,6 +27,7 @@
 #include "pf_raysens_if_pac.h"
 #include "pf_led_ctrl_pac.h"
 #include "pf_bz_ctrl_pac.h"
+#include "pf_mtr_if_pac.h"
 
 /* 本体 */
 #include "pf_sche_init.h"
@@ -114,6 +115,9 @@ VD FnVD_PfSche_wrapInitProc(VD)
 
   /* スイッチ入力処理初期化 */
   FnVD_PfSwt_Ctrl_init();
+
+  /* モータI/F処理初期化 */
+  FnVD_PfMtr_If_initPf();
 
   /* -------------- */
   /* アプリ層初期化 */

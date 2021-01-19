@@ -37,7 +37,7 @@
 /* ============================================================ */
 extern VD FnVD_PfSwt_If_initHw(VD);
 extern VD FnVD_PfSwt_If_initPf(VD);
-extern VD FnVD_PfSwt_If_getSignalRaw(VD);
+extern VD FnVD_PfSwt_If_renewSignalRaw(VD);
 extern U1 FnU1_PfSwt_If_getTactSwtRightRaw(VD);
 extern U1 FnU1_PfSwt_If_getTactSwtCenterRaw(VD);
 extern U1 FnU1_PfSwt_If_getTactSwtLeftRaw(VD);

@@ -102,6 +102,6 @@ VD FnVD_PfSche_wrapMainProc(VD)
   FnVD_PfBz_Ctrl_mediate();
 
   /* HW出力値指示 */
-  FnVD_PfIf_Hw_Output();
+  FnVD_PfIf_Hw_output();
 }
 

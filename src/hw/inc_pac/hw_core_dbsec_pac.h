@@ -25,6 +25,9 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
+#define CU1_HwCode_DbSec_SizeRomRamValTbl              ((U1)7)
+#define CU1_HwCode_DbSec_SizeRamTbl                    ((U1)7)
+#define CU1_HwCode_DbSec_SizeSuppressLinkerWarningTbl  ((U1)17)
 
 
 /* ============================================================ */
@@ -45,6 +48,7 @@ typedef struct {
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
+extern VD FnVD_HwCore_DbSec_initRamVal(VD);
 
 
 /* ============================================================ */
@@ -55,9 +59,10 @@ typedef struct {
 /* ============================================================ */
 /* const変数宣言(extern)                                        */
 /* ============================================================ */
-extern const ST_DTBL CST_DTBL[];
-extern const ST_BTBL CST_BTBL[];
-extern U1 * const CPU1_CTBL[];
+extern const ST_DTBL CSTA_HwCode_DbSec_RomRamValTbl[CU1_HwCode_DbSec_SizeRomRamValTbl];
+extern const ST_BTBL CSTA_HwCode_DbSec_RamTbl[CU1_HwCode_DbSec_SizeRamTbl];
+extern const U1 * const CPU1A_HwCode_DbSec_SuppressLinkerWarningTbl[CU1_HwCode_DbSec_SizeSuppressLinkerWarningTbl];
+
 
 /* ============================================================ */
 /* 関数形式マクロ定義                                           */

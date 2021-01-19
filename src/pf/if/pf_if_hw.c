@@ -113,7 +113,7 @@ VD FnVD_PfIf_Hw_init(VD)
 VD FnVD_PfIf_Hw_input(VD)
 {
   /* スイッチ入力信号(生値)更新 */
-  FnVD_PfSwt_If_getSignalRaw();
+  FnVD_PfSwt_If_renewSignalRaw();
 }
 
 
@@ -125,7 +125,7 @@ VD FnVD_PfIf_Hw_input(VD)
 /* 概要   : ハードウェア層への出力を指示する                    */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_Output(VD)
+VD FnVD_PfIf_Hw_output(VD)
 {
   /* ToDo:LED点灯処理を仮実装 */
   FnVD_PfLed_If_setReqLed();
@@ -149,8 +149,11 @@ VD FnVD_PfIf_Hw_Output(VD)
 /* ============================================================ */
 VD FnVD_PfIf_Hw_inputForInt(VD)
 {
-  /* ToDo:センサ値取得処理を仮実装 */
+  /* センサ値更新 */
   FnVD_PfRaySens_If_renewVal();
+
+  /* モータパルス数更新 */
+  FnVD_PfMtr_If_renewPulseCntr();
 
   /* バッテリー電圧値取得処理 */
   /* Note:センサ値と同じチャネルグループでA/D変換を行うため同じタスクで実行する必要あり */

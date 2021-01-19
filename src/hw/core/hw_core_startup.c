@@ -19,7 +19,7 @@
 #include "hw_cmn_option_pac.h"
 
 /* 個別 */
-#include <_h_c_lib.h>
+#include "hw_core_dbsec_pac.h"
 #include "hw_core_junction_pac.h"
 
 /* 本体 */
@@ -31,21 +31,11 @@
 /* ============================================================ */
 #define CU4_HwCore_Startup_PswInitVal    ((U4)0x00000000)     /* PSW初期値(I:割り込み禁止, U:ISP, PM:SVモード, IPL:最低優先) */
 #define CU4_HwCore_Startup_FpswInitVal   ((U4)0x00000000)     /* FPSW bit base pattern */
-#if defined(__FPU)
-  #if defined(__ROZ)                   /* Initialize FPSW */
-    #define CU4_HwCore_Startup_FpswRm    ((U4)0x00000001)     /* Let FPSW RMbits=01 (round to zero) */
-  #else
-    #define CU4_HwCore_Startup_FpswRm    ((U4)0x00000000)     /* Let FPSW RMbits=00 (round to nearest) */
-  #endif
-  #if defined(__DOFF)
-    #define CU4_HwCore_Startup_FpswDn    ((U4)0x00000100)     /* Let FPSW DNbit=1 (denormal as zero) */
-  #else
-    #define CU4_HwCore_Startup_FpswDn    ((U4)0x00000000)     /* Let FPSW DNbit=0 (denormal as is) */
-  #endif
-  #define CU4_HwCore_Startup_SetFpswVal  ((U4)(  CU4_HwCore_Startup_FpswInitVal \
+#define CU4_HwCore_Startup_FpswRm        ((U4)0x00000000)     /* Let FPSW RMbits=00 (round to nearest) */
+#define CU4_HwCore_Startup_FpswDn        ((U4)0x00000100)     /* Let FPSW DNbit=1 (denormal as zero) */
+#define CU4_HwCore_Startup_SetFpswVal    ((U4)(  CU4_HwCore_Startup_FpswInitVal \
                                                | CU4_HwCore_Startup_FpswRm \
                                                | CU4_HwCore_Startup_FpswDn))
-#endif
 
 
 /* ============================================================ */
@@ -113,18 +103,20 @@ VD FnVD_HwCore_Startup_handleResetException(VD)
   __set_psw(CU4_HwCore_Startup_PswInitVal);
 
   /* 例外ベクタベースアドレス設定 */
-#if defined(__RXV2)
-  __set_extb(__sectop("EXCEPTVECT"));
-#endif
   __set_intb(__sectop("C$VECT"));
 
-#if defined(__FPU)
   /* FPU設定 */
   __set_fpsw(CU4_HwCore_Startup_SetFpswVal);
-#endif
+
+  /* 全RAMクリア */
+  /* ToDo:_INITSCTの代替処理の一部をここへ実装すること */
+  /*      _INITSCTは使用領域のみ初期化している */
+  /*      全領域初期化は処理時間が多大にかかるため高速化を要検討 */
+  /*      初期値付き変数はFnVD_HwCore_DbSec_initRamVal内で設定することとする */
+  /*      アセンブリ化する際にスタックポインタの設定は最初の関数コールより前で実施すること */
 
   /* RAM初期化 */
-  _INITSCT();
+  FnVD_HwCore_DbSec_initRamVal();
 
   /* ユーザプログラムへ移行 */
   FnVD_HwCore_Junction_shiftUserProgram();

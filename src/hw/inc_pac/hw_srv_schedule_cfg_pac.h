@@ -50,7 +50,7 @@
 extern VD (* const CPFnVD_HwSrv_Sche_CfgInitProc)(VD);
 extern VD (* const CPFnVD_HwSrv_Sche_CfgMainProc)(VD);
 extern VD (* const CPFnVD_HwSrv_Sche_Cfg1msProc)(VD);
-extern U1 CU1_HwSrv_Sche_CfgEnbWainMainProc;
+extern const U1 CU1_HwSrv_Sche_CfgEnbWainMainProc;
 
 
 /* ============================================================ */

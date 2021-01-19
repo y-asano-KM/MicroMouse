@@ -55,10 +55,10 @@
 /* const変数定義(extern)                                        */
 /* ============================================================ */
 /* SIスタックチェックエラー時システム終了許可 */
-U1 CU1_HwSrv_ChkMem_CfgEnbIntStackCheckErr = (U1)C_ON;
+const U1 CU1_HwSrv_ChkMem_CfgEnbIntStackCheckErr = (U1)C_ON;
 
 /* SUスタックチェックエラー時システム終了許可 */
-U1 CU1_HwSrv_ChkMem_CfgEnbUsrStackCheckErr = (U1)C_ON;
+const U1 CU1_HwSrv_ChkMem_CfgEnbUsrStackCheckErr = (U1)C_ON;
 
 
 /* ============================================================ */

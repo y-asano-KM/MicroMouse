@@ -110,4 +110,3 @@ VD FnVD_PfBz_If_setReq(VD)
   FnVD_HwDrv_Bz_ctrlStpAndGo(tu1Req);
 }
 
-

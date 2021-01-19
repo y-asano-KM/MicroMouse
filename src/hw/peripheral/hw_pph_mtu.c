@@ -76,39 +76,39 @@ static VD FnVD_HwPph_Mtu_dibStpModuleSetting(VD);
 /* ============================================================ */
 /* TCNTレジスタテーブル */
 static volatile U2 __evenaccess * const CPU2A_HwPph_Mtu_TblRegTCNT[CU1_HwPph_Mtu_SizeTblRegTCNT] = {
- &stRegMTU.stMTU0_TCNT.u2Val,    /* CEN_HwPph_Mtu_IdTCNT_MTU0 */
- &stRegMTU.stMTU1_TCNT.u2Val,    /* CEN_HwPph_Mtu_IdTCNT_MTU1 */
- &stRegMTU.stMTU2_TCNT.u2Val,    /* CEN_HwPph_Mtu_IdTCNT_MTU2 */
- &stRegMTU.stMTU3_TCNT.u2Val,    /* CEN_HwPph_Mtu_IdTCNT_MTU3 */
- &stRegMTU.stMTU4_TCNT.u2Val,    /* CEN_HwPph_Mtu_IdTCNT_MTU4 */
- &stRegMTU.stMTU5_TCNTU.u2Val,   /* CEN_HwPph_Mtu_IdTCNT_MTU5U */
- &stRegMTU.stMTU5_TCNTV.u2Val,   /* CEN_HwPph_Mtu_IdTCNT_MTU5V */
- &stRegMTU.stMTU5_TCNTW.u2Val    /* CEN_HwPph_Mtu_IdTCNT_MTU5W */
+  &stRegMTU.stMTU0_TCNT.u2Val,    /* CEN_HwPph_Mtu_IdTCNT_MTU0 */
+  &stRegMTU.stMTU1_TCNT.u2Val,    /* CEN_HwPph_Mtu_IdTCNT_MTU1 */
+  &stRegMTU.stMTU2_TCNT.u2Val,    /* CEN_HwPph_Mtu_IdTCNT_MTU2 */
+  &stRegMTU.stMTU3_TCNT.u2Val,    /* CEN_HwPph_Mtu_IdTCNT_MTU3 */
+  &stRegMTU.stMTU4_TCNT.u2Val,    /* CEN_HwPph_Mtu_IdTCNT_MTU4 */
+  &stRegMTU.stMTU5_TCNTU.u2Val,   /* CEN_HwPph_Mtu_IdTCNT_MTU5U */
+  &stRegMTU.stMTU5_TCNTV.u2Val,   /* CEN_HwPph_Mtu_IdTCNT_MTU5V */
+  &stRegMTU.stMTU5_TCNTW.u2Val    /* CEN_HwPph_Mtu_IdTCNT_MTU5W */
 };
 
 /* TGRレジスタテーブル */
 static volatile U2 __evenaccess * const CPU2A_HwPph_Mtu_TblRegTGR[CU1_HwPph_Mtu_SizeTblRegTGR] = {
- &stRegMTU.stMTU0_TGRA.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU0A */
- &stRegMTU.stMTU0_TGRB.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU0B */
- &stRegMTU.stMTU0_TGRC.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU0C */
- &stRegMTU.stMTU0_TGRD.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU0D */
- &stRegMTU.stMTU0_TGRE.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU0E */
- &stRegMTU.stMTU0_TGRF.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU0F */
- &stRegMTU.stMTU1_TGRA.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU1A */
- &stRegMTU.stMTU1_TGRB.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU1B */
- &stRegMTU.stMTU2_TGRA.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU2A */
- &stRegMTU.stMTU2_TGRB.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU2B */
- &stRegMTU.stMTU3_TGRA.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU3A */
- &stRegMTU.stMTU3_TGRB.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU3B */
- &stRegMTU.stMTU3_TGRC.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU3C */
- &stRegMTU.stMTU3_TGRD.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU3D */
- &stRegMTU.stMTU4_TGRA.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU4A */
- &stRegMTU.stMTU4_TGRB.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU4B */
- &stRegMTU.stMTU4_TGRC.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU4C */
- &stRegMTU.stMTU4_TGRD.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU4D */
- &stRegMTU.stMTU5_TGRU.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU5U */
- &stRegMTU.stMTU5_TGRV.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU5V */
- &stRegMTU.stMTU5_TGRW.u2Val     /* CEN_HwPph_Mtu_IdTGR_MTU5W */
+  &stRegMTU.stMTU0_TGRA.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU0A */
+  &stRegMTU.stMTU0_TGRB.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU0B */
+  &stRegMTU.stMTU0_TGRC.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU0C */
+  &stRegMTU.stMTU0_TGRD.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU0D */
+  &stRegMTU.stMTU0_TGRE.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU0E */
+  &stRegMTU.stMTU0_TGRF.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU0F */
+  &stRegMTU.stMTU1_TGRA.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU1A */
+  &stRegMTU.stMTU1_TGRB.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU1B */
+  &stRegMTU.stMTU2_TGRA.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU2A */
+  &stRegMTU.stMTU2_TGRB.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU2B */
+  &stRegMTU.stMTU3_TGRA.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU3A */
+  &stRegMTU.stMTU3_TGRB.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU3B */
+  &stRegMTU.stMTU3_TGRC.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU3C */
+  &stRegMTU.stMTU3_TGRD.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU3D */
+  &stRegMTU.stMTU4_TGRA.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU4A */
+  &stRegMTU.stMTU4_TGRB.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU4B */
+  &stRegMTU.stMTU4_TGRC.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU4C */
+  &stRegMTU.stMTU4_TGRD.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU4D */
+  &stRegMTU.stMTU5_TGRU.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU5U */
+  &stRegMTU.stMTU5_TGRV.u2Val,    /* CEN_HwPph_Mtu_IdTGR_MTU5V */
+  &stRegMTU.stMTU5_TGRW.u2Val     /* CEN_HwPph_Mtu_IdTGR_MTU5W */
 };
 
 
@@ -380,7 +380,7 @@ VD FnVD_HwPph_Mtu_cfgMtu0(const ST_HwPph_Mtu_CfgMtu0 * tpstCfg)
   /* Memo:MTU0はTCIEUなし */
   /* Memo:MTU0はTTGE2なし */
   tstMTU_TIER.stMTU.stBit.b1TGIED = tpstCfg->u1EnbTTGE;
-  stRegMTU.stMTU0_TMDR.u1Val = tstMTU_TIER.u1Val;
+  stRegMTU.stMTU0_TIER.u1Val = tstMTU_TIER.u1Val;
 
   tstMTU_TIER2.u1Val = (U1)0x00;
   tstMTU_TIER2.stBit.b1TGIEE = tpstCfg->u1EnbTGIEE;
@@ -487,7 +487,7 @@ VD FnVD_HwPph_Mtu_cfgMtu3(const ST_HwPph_Mtu_CfgMtu3 * tpstCfg)
   /* Memo:MTU3はTCIEUなし */
   /* Memo:MTU3はTTGE2なし */
   tstMTU_TIER.stMTU.stBit.b1TGIED = tpstCfg->u1EnbTTGE;
-  stRegMTU.stMTU3_TMDR.u1Val = tstMTU_TIER.u1Val;
+  stRegMTU.stMTU3_TIER.u1Val = tstMTU_TIER.u1Val;
 
   /* Memo:MTU3はTIER2なし */
 
@@ -533,7 +533,7 @@ VD FnVD_HwPph_Mtu_cfgMtu4(const ST_HwPph_Mtu_CfgMtu4 * tpstCfg)
   tstMTU_TCR.stBit.b3TPSC = (U1)tpstCfg->enSelPriscaler;
   tstMTU_TCR.stBit.b2CKEG = (U1)tpstCfg->enSelClkEdge;
   tstMTU_TCR.stBit.b3CCLR = (U1)tpstCfg->enCntrClr;
-  stRegMTU.stMTU3_TCR.u1Val = tstMTU_TCR.u1Val;
+  stRegMTU.stMTU4_TCR.u1Val = tstMTU_TCR.u1Val;
 
   /* タイマモードレジスタ(TMDR)設定用 */
   tstMTU_TMDR.u1Val = (U1)0x00;
@@ -541,18 +541,18 @@ VD FnVD_HwPph_Mtu_cfgMtu4(const ST_HwPph_Mtu_CfgMtu4 * tpstCfg)
   tstMTU_TMDR.stBit.b1BFA = tpstCfg->u1BufA;
   tstMTU_TMDR.stBit.b1BFB = tpstCfg->u1BufB;
   /* Memo:MTU4はBFEなし */
-  stRegMTU.stMTU3_TMDR.u1Val = tstMTU_TMDR.u1Val;
+  stRegMTU.stMTU4_TMDR.u1Val = tstMTU_TMDR.u1Val;
 
   /* タイマI/Oコントロールレジスタ(TIOR)設定用 */
   tstMTU_TIORH.u1Val = (U1)0x00;
   tstMTU_TIORH.stBit.b4IOA = (U1)tpstCfg->enIoCtrlA;
   tstMTU_TIORH.stBit.b4IOB = (U1)tpstCfg->enIoCtrlB;
-  stRegMTU.stMTU3_TIORH.u1Val = tstMTU_TIORH.u1Val;
+  stRegMTU.stMTU4_TIORH.u1Val = tstMTU_TIORH.u1Val;
 
   tstMTU_TIORL.u1Val = (U1)0x00;
   tstMTU_TIORL.stBit.b4IOC = (U1)tpstCfg->enIoCtrlC;
   tstMTU_TIORL.stBit.b4IOD = (U1)tpstCfg->enIoCtrlD;
-  stRegMTU.stMTU3_TIORL.u1Val = tstMTU_TIORL.u1Val;
+  stRegMTU.stMTU4_TIORL.u1Val = tstMTU_TIORL.u1Val;
 
   /* タイマカウンタ初期化 */
   stRegMTU.stMTU4_TCNT.u2Val = (U2)0x0000;
@@ -575,7 +575,7 @@ VD FnVD_HwPph_Mtu_cfgMtu4(const ST_HwPph_Mtu_CfgMtu4 * tpstCfg)
   /* Memo:MTU4はTCIEUなし */
   tstMTU_TIER.stMTU.stBit.b1TTGE2 = tpstCfg->u1EnbTTGE2;
   tstMTU_TIER.stMTU.stBit.b1TGIED = tpstCfg->u1EnbTTGE;
-  stRegMTU.stMTU3_TMDR.u1Val = tstMTU_TIER.u1Val;
+  stRegMTU.stMTU4_TIER.u1Val = tstMTU_TIER.u1Val;
 
   /* Memo:MTU4はTIER2なし */
 
