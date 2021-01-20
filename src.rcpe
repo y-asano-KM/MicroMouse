@@ -18,7 +18,9 @@
             <Path>src\app\inc_pub\app_cmn_chk_option.h</Path>
             <Path>src\app\inc_pub\app_cmn_option.h</Path>
           </Category>
-          <Category Name="map" />
+          <Category Name="map">
+            <Path>src\app\map\app_map.c</Path>
+          </Category>
           <Category Name="plan" />
           <Category Name="recognize" />
         </Category>
@@ -308,6 +310,7 @@
           <Path>DefaultBuild\pf_bz_ctrl.obj</Path>
           <Path>DefaultBuild\pf_bz_if.obj</Path>
           <Path>DefaultBuild\pf_mtr_if.obj</Path>
+          <Path>DefaultBuild\app_map.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src\pf\inc_pub</IncludePathForC>
@@ -443,6 +446,7 @@
           <Path>build\pf_bz_ctrl.obj</Path>
           <Path>build\pf_bz_if.obj</Path>
           <Path>build\pf_mtr_if.obj</Path>
+          <Path>build\app_map.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src</IncludePathForC>
