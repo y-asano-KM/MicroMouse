@@ -270,8 +270,8 @@ VD FnVD_PfLed_Ctrl_mediate(VD)
     tu2PlusCntL = FnU2_PfMtr_If_getPulseCountLeft();
 
     /* モータパルス数取得用割り込み発生で消灯 */
-    tu1LedReq0 = ((tu2PlusCntL  > (U2)0) ? (U1)C_OFF : tu1LedReq0);
-    tu1LedReq3 = ((tu2PlusCntR  > (U2)0) ? (U1)C_OFF : tu1LedReq3);
+    tu1LedReq0 = ((tu2PlusCntL > (U2)0) ? (U1)C_OFF : tu1LedReq0);
+    tu1LedReq3 = ((tu2PlusCntR > (U2)0) ? (U1)C_OFF : tu1LedReq3);
   #endif
 #endif
   }

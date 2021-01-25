@@ -321,7 +321,7 @@ typedef enum {
   CEN_HwPph_Mtu_IdTGR_MTU4D,       /* #17:MTU4.TGRD */
   CEN_HwPph_Mtu_IdTGR_MTU5U,       /* #18:MTU5.TGRU */
   CEN_HwPph_Mtu_IdTGR_MTU5V,       /* #19:MTU5.TGRV */
-  CEN_HwPph_Mtu_IdTGR_MTU5W,       /* #20:MTU5.TGRW */
+  CEN_HwPph_Mtu_IdTGR_MTU5W        /* #20:MTU5.TGRW */
 } EN_HwPph_Mtu_IdTGR;
 
 /* --------------- */

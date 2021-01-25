@@ -1051,6 +1051,7 @@ static U4 FnU4_HwPph_IntCtrl_getPriorityRegIdx(EN_HwPph_IntCtrl_VecId tenId)
   U4 tu4Idx;
 
   if (0) {
+    /* Memo:保守性を考慮しif内は空とする */
   }
   else if (tenId == CEN_HwPph_IntCtrl_VecId_BSC_BUSERR) {
     tu4Idx = (U4)0;
@@ -1137,7 +1138,7 @@ static U4 FnU4_HwPph_IntCtrl_getPriorityRegIdx(EN_HwPph_IntCtrl_VecId tenId)
   }
   else if (   (   (tenId >= CEN_HwPph_IntCtrl_VecId_ICU_GROUP0)
                && (tenId <= CEN_HwPph_IntCtrl_VecId_ICU_GROUP6))
-           || (tenId >= CEN_HwPph_IntCtrl_VecId_ICU_GROUP12)) {
+           || (tenId == CEN_HwPph_IntCtrl_VecId_ICU_GROUP12)) {
 
     tu4Idx = (U4)tenId;
   }
