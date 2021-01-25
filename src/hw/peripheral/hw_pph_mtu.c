@@ -376,10 +376,10 @@ VD FnVD_HwPph_Mtu_cfgMtu0(const ST_HwPph_Mtu_CfgMtu0 * tpstCfg)
   tstMTU_TIER.stMTU.stBit.b1TGIEB = tpstCfg->u1EnbTGIEB;
   tstMTU_TIER.stMTU.stBit.b1TGIEC = tpstCfg->u1EnbTGIEC;
   tstMTU_TIER.stMTU.stBit.b1TGIED = tpstCfg->u1EnbTGIED;
-  tstMTU_TIER.stMTU.stBit.b1TGIED = tpstCfg->u1EnbTCIEV;
+  tstMTU_TIER.stMTU.stBit.b1TGIEV = tpstCfg->u1EnbTCIEV;
   /* Memo:MTU0はTCIEUなし */
   /* Memo:MTU0はTTGE2なし */
-  tstMTU_TIER.stMTU.stBit.b1TGIED = tpstCfg->u1EnbTTGE;
+  tstMTU_TIER.stMTU.stBit.b1TTGE  = tpstCfg->u1EnbTTGE;
   stRegMTU.stMTU0_TIER.u1Val = tstMTU_TIER.u1Val;
 
   tstMTU_TIER2.u1Val = (U1)0x00;
@@ -483,10 +483,10 @@ VD FnVD_HwPph_Mtu_cfgMtu3(const ST_HwPph_Mtu_CfgMtu3 * tpstCfg)
   tstMTU_TIER.stMTU.stBit.b1TGIEB = tpstCfg->u1EnbTGIEB;
   tstMTU_TIER.stMTU.stBit.b1TGIEC = tpstCfg->u1EnbTGIEC;
   tstMTU_TIER.stMTU.stBit.b1TGIED = tpstCfg->u1EnbTGIED;
-  tstMTU_TIER.stMTU.stBit.b1TGIED = tpstCfg->u1EnbTCIEV;
+  tstMTU_TIER.stMTU.stBit.b1TGIEV = tpstCfg->u1EnbTCIEV;
   /* Memo:MTU3はTCIEUなし */
   /* Memo:MTU3はTTGE2なし */
-  tstMTU_TIER.stMTU.stBit.b1TGIED = tpstCfg->u1EnbTTGE;
+  tstMTU_TIER.stMTU.stBit.b1TTGE  = tpstCfg->u1EnbTTGE;
   stRegMTU.stMTU3_TIER.u1Val = tstMTU_TIER.u1Val;
 
   /* Memo:MTU3はTIER2なし */
@@ -571,10 +571,10 @@ VD FnVD_HwPph_Mtu_cfgMtu4(const ST_HwPph_Mtu_CfgMtu4 * tpstCfg)
   tstMTU_TIER.stMTU.stBit.b1TGIEB = tpstCfg->u1EnbTGIEB;
   tstMTU_TIER.stMTU.stBit.b1TGIEC = tpstCfg->u1EnbTGIEC;
   tstMTU_TIER.stMTU.stBit.b1TGIED = tpstCfg->u1EnbTGIED;
-  tstMTU_TIER.stMTU.stBit.b1TGIED = tpstCfg->u1EnbTCIEV;
+  tstMTU_TIER.stMTU.stBit.b1TGIEV = tpstCfg->u1EnbTCIEV;
   /* Memo:MTU4はTCIEUなし */
   tstMTU_TIER.stMTU.stBit.b1TTGE2 = tpstCfg->u1EnbTTGE2;
-  tstMTU_TIER.stMTU.stBit.b1TGIED = tpstCfg->u1EnbTTGE;
+  tstMTU_TIER.stMTU.stBit.b1TTGE  = tpstCfg->u1EnbTTGE;
   stRegMTU.stMTU4_TIER.u1Val = tstMTU_TIER.u1Val;
 
   /* Memo:MTU4はTIER2なし */

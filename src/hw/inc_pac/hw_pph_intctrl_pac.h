@@ -300,6 +300,7 @@ typedef enum {
   CEN_HwPph_IntCtrl_Priority_04,
   CEN_HwPph_IntCtrl_Priority_05,
   CEN_HwPph_IntCtrl_Priority_06,
+  CEN_HwPph_IntCtrl_Priority_07,
   CEN_HwPph_IntCtrl_Priority_08,
   CEN_HwPph_IntCtrl_Priority_09,
   CEN_HwPph_IntCtrl_Priority_10,

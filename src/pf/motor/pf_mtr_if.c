@@ -129,10 +129,10 @@ VD FnVD_PfMtr_If_setReq(VD)
   tu1Enb = (U1)C_OFF;
   tu1RotDirPortR = (U1)C_OFF;
   tu1RotDirPortL = (U1)C_OFF;
-  tu2PeriodR = (U2)48000;
-  tu2OnTimeR = (U2)47940;
-  tu2PeriodL = (U2)48000;
-  tu2OnTimeL = (U2)47940;
+  tu2PeriodR = (U2)16000;
+  tu2OnTimeR = (U2)15980;
+  tu2PeriodL = (U2)16000;
+  tu2OnTimeL = (U2)15980;
 #endif
 #if defined(OP_PfMtr_If_Test)
   /* ToDo:テスト用のため最終的には削除する */
