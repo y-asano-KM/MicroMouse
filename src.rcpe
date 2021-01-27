@@ -13,16 +13,20 @@
           <Category Name="inc_pac">
             <Path>src\app\inc_pac\app_cmn_chk_option_pac.h</Path>
             <Path>src\app\inc_pac\app_cmn_option_pac.h</Path>
+            <Path>src\app\inc_pac\app_recgwall_pac.h</Path>
           </Category>
           <Category Name="inc_pub">
             <Path>src\app\inc_pub\app_cmn_chk_option.h</Path>
             <Path>src\app\inc_pub\app_cmn_option.h</Path>
+            <Path>src\app\inc_pub\app_recgwall.h</Path>
           </Category>
           <Category Name="map">
             <Path>src\app\map\app_map.c</Path>
           </Category>
           <Category Name="plan" />
-          <Category Name="recognize" />
+          <Category Name="recognize">
+            <Path>src\app\recognize\app_recgwall.c</Path>
+          </Category>
         </Category>
         <Category Name="hw">
           <Category Name="config">
@@ -156,6 +160,7 @@
             <Path>src\pf\inc_pub\pf_sche_init.h</Path>
             <Path>src\pf\inc_pub\pf_sche_interrupt.h</Path>
             <Path>src\pf\inc_pub\pf_sche_main.h</Path>
+            <Path>src\pf\inc_pub\pf_raysens_if.h</Path>
           </Category>
           <Category Name="led">
             <Path>src\pf\led\pf_led_ctrl.c</Path>
@@ -311,6 +316,7 @@
           <Path>DefaultBuild\pf_bz_if.obj</Path>
           <Path>DefaultBuild\pf_mtr_if.obj</Path>
           <Path>DefaultBuild\app_map.obj</Path>
+          <Path>DefaultBuild\app_recgwall.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src\pf\inc_pub</IncludePathForC>
@@ -447,6 +453,7 @@
           <Path>build\pf_bz_if.obj</Path>
           <Path>build\pf_mtr_if.obj</Path>
           <Path>build\app_map.obj</Path>
+          <Path>build\app_recgwall.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src</IncludePathForC>

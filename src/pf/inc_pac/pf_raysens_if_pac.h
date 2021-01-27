@@ -25,11 +25,28 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
+#define  CU1_SenNum  4  /* センサ数 */
+#define  CU1_Fc_A  0.8  /* RCフィルタ 設定係数 */
 
 
 /* ============================================================ */
 /* 型定義                                                       */
 /* ============================================================ */
+/* センサデータ */
+typedef struct {
+  U2  u2_sen_pval;           /* センサ前回値 */
+  U2  u2_sen_val;            /* センサ値 */
+  U2  u2_sen_fcval;          /* FCセンサ値 */
+  BL  bl_sen_data_valid;     /* センサデータ有効無効 無効:OFF(0) 有効:ON(1) */
+} ST_SENDATA;
+
+/* センサ情報 */
+typedef struct {
+  ST_SENDATA  sen_fr;        /* 前右センサ */
+  ST_SENDATA  sen_fl;        /* 前左センサ */
+  ST_SENDATA  sen_r;         /* 右センサ */
+  ST_SENDATA  sen_l;         /* 左センサ */
+} ST_SENINFO;
 
 
 /* ============================================================ */
@@ -38,10 +55,6 @@
 extern VD FnVD_PfRaySens_If_initHw(VD);
 extern VD FnVD_PfRaySens_If_initPf(VD);
 extern VD FnVD_PfRaySens_If_renewVal(VD);
-extern U2 FnU2_PfRaySens_If_getValRight(VD);
-extern U2 FnU2_PfRaySens_If_getValFrontRight(VD);
-extern U2 FnU2_PfRaySens_If_getValFrontLeft(VD);
-extern U2 FnU2_PfRaySens_If_getValLeft(VD);
 
 
 /* ============================================================ */
