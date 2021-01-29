@@ -1,6 +1,6 @@
 /* ============================================================ */
-/* ファイル名 : pf_if_hw.c                                      */
-/* 機能       : HW I/F処理                                      */
+/* ファイル名 : pf_sche_if.c                                    */
+/* 機能       : スケジュールI/F処理                             */
 /* ============================================================ */
 #define SECTION_PF
 
@@ -18,16 +18,10 @@
 #include "pf_cmn_option_pac.h"
 
 /* 個別 */
-#include "pf_sche_if_pac.h"
-#include "pf_bat_if_pac.h"
-#include "pf_switch_if_pac.h"
-#include "pf_raysens_if_pac.h"
-#include "pf_mtr_if_pac.h"
-#include "pf_led_if_pac.h"
-#include "pf_bz_if_pac.h"
+#include "hw_srv_schedule.h"
 
 /* 本体 */
-#include "pf_if_hw_pac.h"
+#include "pf_sche_if_pac.h"
 
 
 /* ============================================================ */
@@ -53,6 +47,8 @@
 /* ============================================================ */
 /* 変数定義(static)                                             */
 /* ============================================================ */
+static U4 u4PfSche_If_MainCnt;          /* [回]メイン周期実行回数(LSB:1回) */
+static U4 u4PfSche_If_Int1msCnt;        /* [回]1ms周期割り込み実行回数(LSB:1回) */
 
 
 /* ============================================================ */
@@ -74,111 +70,73 @@
 /* 関数定義                                                     */
 /* ============================================================ */
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_init                                   */
-/*          HW I/F 初期化                                       */
+/* 関数名 : FnVD_PfSche_If_initPf                               */
+/*          スケジュールI/F処理初期化(PF用)                     */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層の初期化を行う                        */
+/* 概要   : スケジュールI/F処理の初期化を行う                   */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_init(VD)
+VD FnVD_PfSche_If_initPf(VD)
 {
-  /* 光学センサ初期化 */
-  FnVD_PfRaySens_If_initHw();
-
-  /* LED初期化 */
-  FnVD_PfLed_If_initHw();
-
-  /* ブザー初期化 */
-  FnVD_PfBz_If_initHw();
-
-  /* モータ初期化 */
-  FnVD_PfMtr_If_initHw();
-
-  /* バッテリー初期化 */
-  FnVD_PfBat_If_initHw();
-
-  /* スイッチ入力処理初期化 */
-  FnVD_PfSwt_If_initHw();
+  u4PfSche_If_MainCnt   = (U4)0;
+  u4PfSche_If_Int1msCnt = (U4)0;
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_input                                  */
-/*          HW I/F 入力処理                                     */
+/* 関数名 : FnVD_PfSche_If_renewMainCnt                         */
+/*          メイン周期実行回数更新                              */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層からの入力データを取得する            */
+/* 概要   : メイン周期実行回数を更新する                        */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_input(VD)
+VD FnVD_PfSche_If_renewMainCnt(VD)
 {
-  /* メイン周期実行回数更新 */
-  FnVD_PfSche_If_renewMainCnt();
-
-  /* スイッチ入力信号(生値)更新 */
-  FnVD_PfSwt_If_renewSignalRaw();
+  u4PfSche_If_MainCnt = FnU4_HwSrv_Sche_getMainCnt();
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_Output                                 */
-/*          HW I/F 出力処理                                     */
+/* 関数名 : FnVD_PfSche_If_renewInt1msCnt                       */
+/*          1ms周期割り込み実行回数更新                         */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層への出力を指示する                    */
+/* 概要   : 1ms周期割り込み実行回数を更新する                   */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_output(VD)
+VD FnVD_PfSche_If_renewInt1msCnt(VD)
 {
-  /* ToDo:LED点灯処理を仮実装 */
-  FnVD_PfLed_If_setReqLed();
-
-  /* バッテリー電圧監視用LED処理 */
-  FnVD_PfBat_If_setReqLed0();
-  FnVD_PfBat_If_setReqLed1();
-
-  /* ブザー吹鳴処理 */
-  FnVD_PfBz_If_setReq();
+  u4PfSche_If_Int1msCnt = FnU4_HwSrv_Sche_getInt1msCnt();
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_inputForInt                            */
-/*          HW I/F 入力処理(割り込み処理用)                     */
+/* 関数名 : FnU4_PfSche_If_getMainCnt                           */
+/*          メイン周期実行回数取得                              */
 /* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層からの入力データを取得する            */
+/* 戻り値 : [回]メイン周期実行回数(LSB:1回)                     */
+/* 概要   : メイン周期実行回数を提供する                        */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_inputForInt(VD)
+U4 FnU4_PfSche_If_getMainCnt(VD)
 {
-  /* 1ms周期割り込み実行回数更新 */
-  FnVD_PfSche_If_renewInt1msCnt();
-
-  /* センサ値更新 */
-  FnVD_PfRaySens_If_renewVal();
-
-  /* モータパルス数更新 */
-  FnVD_PfMtr_If_renewPulseCntr();
-
-  /* バッテリー電圧値取得処理 */
-  /* Note:センサ値と同じチャネルグループでA/D変換を行うため同じタスクで実行する必要あり */
-  FnVD_PfBat_If_renewVal();
+  return (u4PfSche_If_MainCnt);
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_PfIf_Hw_outputForInt                           */
-/*          HW I/F 出力処理(割り込み処理用)                     */
+/* 関数名 : FnU4_PfSche_If_getInt1msCnt                         */
+/*          1ms周期割り込み実行回数取得                         */
 /* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : ハードウェア層への出力を指示する                    */
+/* 戻り値 : [回]1ms周期割り込み実行回数(LSB:1回)                */
+/* 概要   : 1ms周期割り込み実行回数を提供する                   */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfIf_Hw_outputForInt(VD)
+U4 FnU4_PfSche_If_getInt1msCnt(VD)
 {
-  /* モータ出力処理 */
-  FnVD_PfMtr_If_setReq();
+  return (u4PfSche_If_Int1msCnt);
 }
+
 

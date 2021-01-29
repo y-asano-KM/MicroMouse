@@ -15,10 +15,16 @@
 /* オプション定義                                     */
 /* ================================================== */
 /* イニシャルLED点灯チェック */
-#define OP_PfLed_Ctrl_ExistFuncInitialChk
+#define OP_PfCmn_ExistFuncInitialLedChk
 
 /* イニシャルブザー吹鳴チェック */
-/* #define OP_PfBz_Ctrl_ExistFuncInitialChk */
+/* #define OP_PfCmn_ExistFuncInitialBzChk */
+
+
+/* ================================================== */
+/* 評価用オプション定義                               */
+/* ================================================== */
+#include "pf_cmn_option_eva_pac.h"
 
 
 /* ================================================== */

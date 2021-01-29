@@ -1,8 +1,8 @@
-#if !defined(INCLUDED_pf_mtr_if_pac_h)
-#define INCLUDED_pf_mtr_if_pac_h
+#if !defined(INCLUDED_pf_led_ctrl_eva_pac_h)
+#define INCLUDED_pf_led_ctrl_eva_pac_h
 /* ============================================================ */
-/* ファイル名 : pf_bz_if_pac.h                                  */
-/* 機能       : モータ I/F処理                                  */
+/* ファイル名 : pf_led_ctrl_eva_pac.h                           */
+/* 機能       : LED制御(評価用)                                 */
 /* ============================================================ */
 
 /* ============================================================ */
@@ -35,13 +35,9 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern VD FnVD_PfMtr_If_initHw(VD);
-extern VD FnVD_PfMtr_If_initPf(VD);
-extern VD FnVD_PfMtr_If_setReq(VD);
-extern VD FnVD_PfMtr_If_clrPulseCntr(VD);
-extern VD FnVD_PfMtr_If_renewPulseCntr(VD);
-extern U2 FnU2_PfMtr_If_getRightMtrPulseCount(VD);
-extern U2 FnU2_PfMtr_If_getLeftMtrPulseCount(VD);
+#if defined(OP_PfCmn_EvaLedMediation)
+extern VD FnVD_PfLed_CtrlEva_mediate(U1 * tpu1Req0, U1 * tpu1Req1, U1 * tpu1Req2, U1 * tpu1Req3);
+#endif
 
 
 /* ============================================================ */

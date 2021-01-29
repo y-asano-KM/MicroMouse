@@ -1,8 +1,8 @@
-#if !defined(INCLUDED_pf_mtr_if_pac_h)
-#define INCLUDED_pf_mtr_if_pac_h
+#if !defined(INCLUDED_pf_sche_if_pac_h)
+#define INCLUDED_pf_sche_if_pac_h
 /* ============================================================ */
-/* ファイル名 : pf_bz_if_pac.h                                  */
-/* 機能       : モータ I/F処理                                  */
+/* ファイル名 : pf_sche_if_pac.h                                */
+/* 機能       : スケジュールI/F処理                             */
 /* ============================================================ */
 
 /* ============================================================ */
@@ -35,13 +35,11 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern VD FnVD_PfMtr_If_initHw(VD);
-extern VD FnVD_PfMtr_If_initPf(VD);
-extern VD FnVD_PfMtr_If_setReq(VD);
-extern VD FnVD_PfMtr_If_clrPulseCntr(VD);
-extern VD FnVD_PfMtr_If_renewPulseCntr(VD);
-extern U2 FnU2_PfMtr_If_getRightMtrPulseCount(VD);
-extern U2 FnU2_PfMtr_If_getLeftMtrPulseCount(VD);
+extern VD FnVD_PfSche_If_initPf(VD);
+extern VD FnVD_PfSche_If_renewMainCnt(VD);
+extern VD FnVD_PfSche_If_renewInt1msCnt(VD);
+extern U4 FnU4_PfSche_If_getMainCnt(VD);
+extern U4 FnU4_PfSche_If_getInt1msCnt(VD);
 
 
 /* ============================================================ */
