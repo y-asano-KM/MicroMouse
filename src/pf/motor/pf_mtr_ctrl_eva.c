@@ -1,6 +1,6 @@
 /* ============================================================ */
-/* ファイル名 : pf_sche_init.c                                  */
-/* 機能       : PF初期化スケジュール                            */
+/* ファイル名 : pf_mtr_ctrl_eva.c                               */
+/* 機能       : モータ制御(評価用)                              */
 /* ============================================================ */
 #define SECTION_PF
 
@@ -18,21 +18,12 @@
 #include "pf_cmn_option_pac.h"
 
 /* 個別 */
-#include "pf_if_hw_pac.h"
-#include "pf_sche_if_pac.h"
-#include "pf_bat_if_pac.h"
-#include "pf_bat_monitor_pac.h"
-#include "pf_bled_ctrl_pac.h"
-#include "pf_switch_if_pac.h"
-#include "pf_switch_ctrl_pac.h"
-#include "pf_raysens_if_pac.h"
-#include "pf_led_ctrl_pac.h"
-#include "pf_bz_ctrl_pac.h"
-#include "pf_mtr_if_pac.h"
-#include "pf_mtr_ctrl_pac.h"
+#if defined(OP_PfCmn_EvaMtrCtrl)
+  #include "pf_switch_ctrl_pac.h"
+#endif
 
 /* 本体 */
-#include "pf_sche_init.h"
+#include "pf_mtr_ctrl_eva_pac.h"
 
 
 /* ============================================================ */
@@ -78,58 +69,29 @@
 /* ============================================================ */
 /* 関数定義                                                     */
 /* ============================================================ */
+#if defined(OP_PfCmn_EvaMtrCtrl)
 /* ============================================================ */
-/* 関数名 : FnVD_PfSche_wrapInitProc                            */
-/*          PF初期化スケジュール                                */
+/* 関数名 : FnVD_PfMtr_CtrlEva_mediate                          */
+/*          モータ駆動要求調停処理(評価用)                      */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : 初期化処理の実行順を管理する                        */
+/* 概要   : モータ出力要求を評価用に生成する                    */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_PfSche_wrapInitProc(VD)
+VD FnVD_PfMtr_CtrlEva_mediate(U1 * tpu1Enb, U1 * tpu1DirR, U1 * tpu1DirL, U2 * tpu2PeriodR, U2 * tpu2PeriodL, U2 * tpu2OnTimeR, U2 * tpu2OnTimeL)
 {
-  /* -------------------- */
-  /* ハードウェア層初期化 */
-  /* -------------------- */
-  FnVD_PfIf_Hw_init();
+  /* 中央タクトスイッチ瞬時値(2度読み)ONで始動, OFFで停止 */
+  *tpu1Enb = FnU1_PfSwt_Ctrl_getTactSwtCenterMomentary();
 
-  /* ---------- */
-  /* PF層初期化 */
-  /* ---------- */
-  /* スケジュールI/F処理 */
-  FnVD_PfSche_If_initPf();
+  /* 左右タクトスイッチ短押しONで逆転、OFFで正転 */
+  *tpu1DirR = FnU1_PfSwt_Ctrl_getTactSwtRightShortPush();
+  *tpu1DirL = FnU1_PfSwt_Ctrl_getTactSwtLeftShortPush();
 
-  /* 光学センサI/F処理初期化 */
-  FnVD_PfRaySens_If_initPf();
-
-  /* LED制御初期化 */
-  FnVD_PfLed_Ctrl_init();
-
-  /* ブザー制御初期化 */
-  FnVD_PfBz_Ctrl_init();
-
-  /* バッテリーI/F処理初期化 */
-  FnVD_PfBat_If_initPf();
-
-  /* バッテリー監視初期化 */
-  FnVD_PfBat_Moni_init();
-  FnVD_PfBled_Ctrl_init();
-
-  /* スイッチ入力I/F処理初期化 */
-  FnVD_PfSwt_If_initPf();
-
-  /* スイッチ入力処理初期化 */
-  FnVD_PfSwt_Ctrl_init();
-
-  /* モータI/F処理初期化 */
-  FnVD_PfMtr_If_initPf();
-
-  /* モータ制御初期化 */
-  FnVD_PfMtr_Ctrl_init();
-
-  /* -------------- */
-  /* アプリ層初期化 */
-  /* -------------- */
-  /* ToDo:未実装 */
+  /* 駆動周期設定 */
+  *tpu2PeriodR = (U2)16000;      /* 右モータ：16ms周期(タイマ3MHz) */
+  *tpu2PeriodL = (U2)16000;      /* 左モータ：16ms周期(タイマ3MHz) */
+  *tpu2OnTimeR = (U2)15980;      /* 右モータ：パルス幅：60us */
+  *tpu2OnTimeL = (U2)15980;      /* 右モータ：パルス幅：60us */
 }
+#endif
 

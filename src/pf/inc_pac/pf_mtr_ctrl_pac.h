@@ -1,8 +1,8 @@
-#if !defined(INCLUDED_pf_mtr_if_pac_h)
-#define INCLUDED_pf_mtr_if_pac_h
+#if !defined(INCLUDED_pf_mtr_ctrl_pac_h)
+#define INCLUDED_pf_mtr_ctrl_pac_h
 /* ============================================================ */
-/* ファイル名 : pf_bz_if_pac.h                                  */
-/* 機能       : モータ I/F処理                                  */
+/* ファイル名 : pf_mtr_ctrl_pac.h                               */
+/* 機能       : モータ制御                                      */
 /* ============================================================ */
 
 /* ============================================================ */
@@ -35,13 +35,15 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern VD FnVD_PfMtr_If_initHw(VD);
-extern VD FnVD_PfMtr_If_initPf(VD);
-extern VD FnVD_PfMtr_If_setReq(VD);
-extern VD FnVD_PfMtr_If_clrPulseCntr(VD);
-extern VD FnVD_PfMtr_If_renewPulseCntr(VD);
-extern U2 FnU2_PfMtr_If_getRightMtrPulseCount(VD);
-extern U2 FnU2_PfMtr_If_getLeftMtrPulseCount(VD);
+extern VD FnVD_PfMtr_Ctrl_init(VD);
+extern VD FnVD_PfMtr_Ctrl_mediate(VD);
+extern U1 FnU1_PfMtr_Ctrl_getCtrlEnb(VD);
+extern U1 FnU1_PfMtr_Ctrl_getRightMtrRotDirReq(VD);
+extern U2 FnU2_PfMtr_Ctrl_getRightMtrPeriod(VD);
+extern U2 FnU2_PfMtr_Ctrl_getRightMtrOnTime(VD);
+extern U1 FnU1_PfMtr_Ctrl_getLeftMtrRotDirReq(VD);
+extern U2 FnU2_PfMtr_Ctrl_getLeftMtrPeriod(VD);
+extern U2 FnU2_PfMtr_Ctrl_getLeftMtrOnTime(VD);
 
 
 /* ============================================================ */

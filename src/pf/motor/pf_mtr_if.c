@@ -19,15 +19,10 @@
 
 /* 個別 */
 #include "hw_drv_mtr.h"
+#include "pf_mtr_ctrl_pac.h"
 
 /* 本体 */
 #include "pf_mtr_if_pac.h"
-
-/* #define OP_PfMtr_If_Test */
-#if defined(OP_PfMtr_If_Test)
-  /* ToDo:テスト用のため最終的には削除する */
-  #include "pf_switch_ctrl_pac.h"
-#endif
 
 
 /* ============================================================ */
@@ -54,8 +49,8 @@
 /* 変数定義(static)                                             */
 /* ============================================================ */
 /* [回]モータパルス数 */
-static U2 u2PfMtr_If_PulseCountRight;
-static U2 u2PfMtr_If_PulseCountLeft;
+static U2 u2PfMtr_If_RightMtrPulseCount;
+static U2 u2PfMtr_If_LeftMtrPulseCount;
 
 
 /* ============================================================ */
@@ -101,8 +96,8 @@ VD FnVD_PfMtr_If_initHw(VD)
 VD FnVD_PfMtr_If_initPf(VD)
 {
   /* モータパルス数初期化 */
-  u2PfMtr_If_PulseCountRight = (U2)0;
-  u2PfMtr_If_PulseCountLeft  = (U2)0;
+  u2PfMtr_If_RightMtrPulseCount = (U2)0;
+  u2PfMtr_If_LeftMtrPulseCount  = (U2)0;
 }
 
 
@@ -124,25 +119,24 @@ VD FnVD_PfMtr_If_setReq(VD)
   U1 tu1RotDirPortL;
   U1 tu1Enb;
 
-#if (1)
-  /* ToDo:暫定処置 */
-  tu1Enb = (U1)C_OFF;
-  tu1RotDirPortR = (U1)C_OFF;
-  tu1RotDirPortL = (U1)C_OFF;
-  tu2PeriodR = (U2)16000;
-  tu2OnTimeR = (U2)15980;
-  tu2PeriodL = (U2)16000;
-  tu2OnTimeL = (U2)15980;
-#endif
-#if defined(OP_PfMtr_If_Test)
-  /* ToDo:テスト用のため最終的には削除する */
-  /* 中央タクトスイッチ瞬時値(2度読み)ONで始動, OFFで停止 */ */
-  tu1Enb = FnU1_PfSwt_Ctrl_getTactSwtCenterMomentary();
+  /* ------------ */
+  /* 調停結果取得 */
+  /* ------------ */
+  tu1Enb         = FnU1_PfMtr_Ctrl_getCtrlEnb();
+  tu1RotDirPortR = FnU1_PfMtr_Ctrl_getRightMtrRotDirReq();
+  tu2PeriodR     = FnU2_PfMtr_Ctrl_getRightMtrPeriod();
+  tu2OnTimeR     = FnU2_PfMtr_Ctrl_getRightMtrOnTime();
+  tu1RotDirPortL = FnU1_PfMtr_Ctrl_getLeftMtrRotDirReq();
+  tu2PeriodL     = FnU2_PfMtr_Ctrl_getLeftMtrPeriod();
+  tu2OnTimeL     = FnU2_PfMtr_Ctrl_getLeftMtrOnTime();
 
-  /* 左右タクトスイッチ短押しONで逆転、OFFで正転 */
-  tu1RotDirPortR = FnU1_PfSwt_Ctrl_getTactSwtRightShortPush();
-  tu1RotDirPortL = FnU1_PfSwt_Ctrl_getTactSwtLeftShortPush();
-#endif
+  /* -------- */
+  /* 出力設定 */
+  /* -------- */
+  /* 非駆動時はパルス数クリア */
+  if (tu1Enb == (U1)C_OFF) {
+    FnVD_PfMtr_If_clrPulseCntr();
+  }
 
   /* モータ出力許可設定 */
   FnVD_HwDrv_Mtr_setEnbPort(tu1Enb);
@@ -153,7 +147,7 @@ VD FnVD_PfMtr_If_setReq(VD)
   /* モータPWM設定 */
   FnVD_HwDrv_Mtr_setPulseWidthBoth(tu2PeriodR, tu2OnTimeR, tu2PeriodL, tu2OnTimeL);
 
-  /* モータ制御開始 */
+  /* モータ制御開始/停止 */
   FnVD_HwDrv_Mtr_ctrlStpAndGoBoth(tu1Enb, tu1Enb);
 }
 
@@ -182,34 +176,34 @@ VD FnVD_PfMtr_If_clrPulseCntr(VD)
 /* ============================================================ */
 VD FnVD_PfMtr_If_renewPulseCntr(VD)
 {
-  FnVD_HwDrv_Mtr_getPulseCntr(&u2PfMtr_If_PulseCountRight, &u2PfMtr_If_PulseCountLeft);
+  FnVD_HwDrv_Mtr_getPulseCntr(&u2PfMtr_If_RightMtrPulseCount, &u2PfMtr_If_LeftMtrPulseCount);
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnU2_PfMtr_If_getPulseCountRight                    */
+/* 関数名 : FnU2_PfMtr_If_getRightMtrPulseCount                 */
 /*          右モータパルス数取得                                */
 /* 引数   : なし                                                */
 /* 戻り値 : [回]右モータパルス数(LSB:1回)                       */
 /* 概要   : 右モータパルス数を提供する                          */
 /* 制約   : なし                                                */
 /* ============================================================ */
-U2 FnU2_PfMtr_If_getPulseCountRight(VD)
+U2 FnU2_PfMtr_If_getRightMtrPulseCount(VD)
 {
-  return (u2PfMtr_If_PulseCountRight);
+  return (u2PfMtr_If_RightMtrPulseCount);
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnU2_PfMtr_If_getPulseCountLeft                     */
+/* 関数名 : FnU2_PfMtr_If_getLeftMtrPulseCount                  */
 /*          左モータパルス数取得                                */
 /* 引数   : なし                                                */
 /* 戻り値 : [回]左モータパルス数(LSB:1回)                       */
 /* 概要   : 左モータパルス数を提供する                          */
 /* 制約   : なし                                                */
 /* ============================================================ */
-U2 FnU2_PfMtr_If_getPulseCountLeft(VD)
+U2 FnU2_PfMtr_If_getLeftMtrPulseCount(VD)
 {
-  return (u2PfMtr_If_PulseCountLeft);
+  return (u2PfMtr_If_LeftMtrPulseCount);
 }
 

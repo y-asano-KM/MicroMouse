@@ -145,34 +145,43 @@
             <Path>src\pf\inc_pac\pf_bz_ctrl_pac.h</Path>
             <Path>src\pf\inc_pac\pf_bz_if_pac.h</Path>
             <Path>src\pf\inc_pac\pf_cmn_chk_option_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_cmn_option_eva_pac.h</Path>
             <Path>src\pf\inc_pac\pf_cmn_option_pac.h</Path>
             <Path>src\pf\inc_pac\pf_if_hw_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_led_ctrl_eva_pac.h</Path>
             <Path>src\pf\inc_pac\pf_led_ctrl_pac.h</Path>
             <Path>src\pf\inc_pac\pf_led_if_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_mtr_ctrl_eva_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_mtr_ctrl_pac.h</Path>
             <Path>src\pf\inc_pac\pf_mtr_if_pac.h</Path>
             <Path>src\pf\inc_pac\pf_raysens_if_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_sche_if_pac.h</Path>
             <Path>src\pf\inc_pac\pf_switch_ctrl_pac.h</Path>
             <Path>src\pf\inc_pac\pf_switch_if_pac.h</Path>
           </Category>
           <Category Name="inc_pub">
             <Path>src\pf\inc_pub\pf_cmn_chk_option.h</Path>
             <Path>src\pf\inc_pub\pf_cmn_option.h</Path>
+            <Path>src\pf\inc_pub\pf_raysens_if.h</Path>
             <Path>src\pf\inc_pub\pf_sche_init.h</Path>
             <Path>src\pf\inc_pub\pf_sche_interrupt.h</Path>
             <Path>src\pf\inc_pub\pf_sche_main.h</Path>
-            <Path>src\pf\inc_pub\pf_raysens_if.h</Path>
           </Category>
           <Category Name="led">
             <Path>src\pf\led\pf_led_ctrl.c</Path>
+            <Path>src\pf\led\pf_led_ctrl_eva.c</Path>
             <Path>src\pf\led\pf_led_if.c</Path>
           </Category>
           <Category Name="motor">
+            <Path>src\pf\motor\pf_mtr_ctrl.c</Path>
+            <Path>src\pf\motor\pf_mtr_ctrl_eva.c</Path>
             <Path>src\pf\motor\pf_mtr_if.c</Path>
           </Category>
           <Category Name="raysens">
             <Path>src\pf\raysens\pf_raysens_if.c</Path>
           </Category>
           <Category Name="sche">
+            <Path>src\pf\sche\pf_sche_if.c</Path>
             <Path>src\pf\sche\pf_sche_init.c</Path>
             <Path>src\pf\sche\pf_sche_interrupt.c</Path>
             <Path>src\pf\sche\pf_sche_main.c</Path>
@@ -317,6 +326,10 @@
           <Path>DefaultBuild\pf_mtr_if.obj</Path>
           <Path>DefaultBuild\app_map.obj</Path>
           <Path>DefaultBuild\app_recgwall.obj</Path>
+          <Path>DefaultBuild\pf_led_ctrl_eva.obj</Path>
+          <Path>DefaultBuild\pf_mtr_ctrl.obj</Path>
+          <Path>DefaultBuild\pf_mtr_ctrl_eva.obj</Path>
+          <Path>DefaultBuild\pf_sche_if.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src\pf\inc_pub</IncludePathForC>
@@ -454,6 +467,10 @@
           <Path>build\pf_mtr_if.obj</Path>
           <Path>build\app_map.obj</Path>
           <Path>build\app_recgwall.obj</Path>
+          <Path>build\pf_led_ctrl_eva.obj</Path>
+          <Path>build\pf_mtr_ctrl.obj</Path>
+          <Path>build\pf_mtr_ctrl_eva.obj</Path>
+          <Path>build\pf_sche_if.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src</IncludePathForC>

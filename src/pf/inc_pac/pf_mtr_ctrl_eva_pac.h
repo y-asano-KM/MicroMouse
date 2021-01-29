@@ -1,8 +1,8 @@
-#if !defined(INCLUDED_pf_mtr_if_pac_h)
-#define INCLUDED_pf_mtr_if_pac_h
+#if !defined(INCLUDED_pf_mtr_ctrl_eva_pac_h)
+#define INCLUDED_pf_mtr_ctrl_eva_pac_h
 /* ============================================================ */
-/* ファイル名 : pf_bz_if_pac.h                                  */
-/* 機能       : モータ I/F処理                                  */
+/* ファイル名 : pf_mtr_ctrl_eva_pac.h                           */
+/* 機能       : モータ制御(評価用)                              */
 /* ============================================================ */
 
 /* ============================================================ */
@@ -35,13 +35,9 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern VD FnVD_PfMtr_If_initHw(VD);
-extern VD FnVD_PfMtr_If_initPf(VD);
-extern VD FnVD_PfMtr_If_setReq(VD);
-extern VD FnVD_PfMtr_If_clrPulseCntr(VD);
-extern VD FnVD_PfMtr_If_renewPulseCntr(VD);
-extern U2 FnU2_PfMtr_If_getRightMtrPulseCount(VD);
-extern U2 FnU2_PfMtr_If_getLeftMtrPulseCount(VD);
+#if defined(OP_PfCmn_EvaMtrCtrl)
+extern VD FnVD_PfMtr_CtrlEva_mediate(U1 * tpu1Enb, U1 * tpu1DirR, U1 * tpu1DirL, U2 * tpu2PeriodR, U2 * tpu2PeriodL, U2 * tpu2OnTimeR, U2 * tpu2OnTimeL);
+#endif
 
 
 /* ============================================================ */
