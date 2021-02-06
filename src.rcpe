@@ -14,6 +14,7 @@
             <Path>src\app\inc_pac\app_cmn_chk_option_pac.h</Path>
             <Path>src\app\inc_pac\app_cmn_option_pac.h</Path>
             <Path>src\app\inc_pac\app_recgwall_pac.h</Path>
+            <Path>src\app\inc_pac\app_map_pac.h</Path>
           </Category>
           <Category Name="inc_pub">
             <Path>src\app\inc_pub\app_cmn_chk_option.h</Path>
