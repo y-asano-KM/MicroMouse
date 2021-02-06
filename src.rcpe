@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <MicomToolCommonProjectFile Version="1.00">
-  <CreatorType Name="CubeSuite+" Version="V8.04.00  [09 Jun 2020]" />
+  <CreatorType Name="CubeSuite+" Version="V8.05.00  [26 Nov 2020]" />
   <Placeholders>
     <PlaceholderPrefix>%</PlaceholderPrefix>
     <PlaceholderPostfix>%</PlaceholderPostfix>
@@ -14,6 +14,8 @@
             <Path>src\app\inc_pac\app_cmn_chk_option_pac.h</Path>
             <Path>src\app\inc_pac\app_cmn_option_pac.h</Path>
             <Path>src\app\inc_pac\app_recgwall_pac.h</Path>
+            <Path>src\app\inc_pac\app_map_pac.h</Path>
+            <Path>src\app\inc_pac\app_plan_pac.h</Path>
           </Category>
           <Category Name="inc_pub">
             <Path>src\app\inc_pub\app_cmn_chk_option.h</Path>
@@ -23,7 +25,9 @@
           <Category Name="map">
             <Path>src\app\map\app_map.c</Path>
           </Category>
-          <Category Name="plan" />
+          <Category Name="plan">
+            <Path>src\app\plan\app_plan.c</Path>
+          </Category>
           <Category Name="recognize">
             <Path>src\app\recognize\app_recgwall.c</Path>
           </Category>
@@ -218,7 +222,7 @@
       <DebugToolSettings />
     </DebugOptions>
     <Device Series="RX">R5F5631MDxFM</Device>
-    <BuildOptions Name="CC-RX" Version="V3.02.00">
+    <BuildOptions Name="CC-RX" Version="V3.03.00">
       <BuildMode Name="DefaultBuild" Active="False">
         <GeneralOptions>
           <SimultaneouslyBuild>true</SimultaneouslyBuild>
@@ -330,6 +334,7 @@
           <Path>DefaultBuild\pf_mtr_ctrl.obj</Path>
           <Path>DefaultBuild\pf_mtr_ctrl_eva.obj</Path>
           <Path>DefaultBuild\pf_sche_if.obj</Path>
+          <Path>DefaultBuild\app_plan.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src\pf\inc_pub</IncludePathForC>
@@ -471,6 +476,7 @@
           <Path>build\pf_mtr_ctrl.obj</Path>
           <Path>build\pf_mtr_ctrl_eva.obj</Path>
           <Path>build\pf_sche_if.obj</Path>
+          <Path>build\app_plan.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src</IncludePathForC>

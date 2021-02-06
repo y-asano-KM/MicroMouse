@@ -18,80 +18,20 @@
 #include "app_cmn_option_pac.h"
 
 /* 個別 */
+#include "app_recgwall.h"
+#include "app_recgwall_pac.h"
 
 /* 本体 */
-
+#include "app_map_pac.h"
 
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
-#define MAZESIZE_X (16)       /* 迷路の大きさ(MAZESIZE_X x MAZESIZE_Y)迷路 */
-#define MAZESIZE_Y (16)       /* 迷路の大きさ(MAZESIZE_X x MAZESIZE_Y)迷路 */
-
-#define UNKNOWN 2             /* 壁があるかないか判らない状態の場合の値 */
-#define NOWALL 0              /* 壁がないばあいの値 */
-#define WALL 1                /* 壁がある場合の値 */
-#define VWALL 3               /* 仮想壁の値(未使用) */
-
-#define MASK_SEARCH 0x01      /* 探索走行用マスク値.壁情報とこの値のAND値が０（NOWALL）なら壁なしor未探索区間 */
-#define MASK_SECOND 0x03      /* 最短走行用マスク値.壁情報とこの値のAND値が０（NOWALL）なら壁なし */
 
 
 /* ============================================================ */
 /* 型定義                                                       */
 /* ============================================================ */
-/*?方角を示す列挙型?*/
-typedef enum
-{
-  north=0,       /* 北 */
-  east=1,        /* 東 */
-  south=2,       /* 南 */
-  west=3,        /* 西 */
-}t_direction;
-
-/*?自分から見た方向を示す列挙型?*/
-typedef enum
-{
-  front=0,       /* 前 */
-  right=1,       /* 右 */
-  rear=2,        /* 後 */
-  left=3,        /* 左 */
-  unknown,       /* 方向不明 */
-}t_local_dir;
-
-
-/*?自車位置情報?*/
-typedef struct
-{
-  short x;           /* 自車位置のX座標(東西方向) */
-  short y;           /* 自車位置のY座標(南北方向) */
-  t_direction dir;   /* 自車方角 */
-}t_position;
-
-
-/*?壁情報を格納する構造体(ビットフィールド)?*/
-typedef struct
-{
-  unsigned char north:2; /* 北の壁情報?*/
-  unsigned char east:2;  /* 東の壁情報?*/
-  unsigned char south:2; /* 南の壁情報?*/
-  unsigned char west:2;  /* 西の壁情報?*/
-}t_wall;
-
-/* RCG デバッグ用*/
-typedef struct
-{
-  unsigned char bl_wall_with; /*?壁有無?壁無し:OFF(0)?壁あり:ON(1)?*/
-  unsigned char bl_wall_data_valid;  /*?壁データ有効無効?無効:OFF(0)?有効:ON(1)?*/
-}ST_WALLDATA;
-
-
-typedef struct
-{
-  ST_WALLDATA wall_f; /*?前壁情報?*/
-  ST_WALLDATA wall_r;  /*?右壁情報?*/
-  ST_WALLDATA wall_l;  /*?右壁情報?*/
-}ST_WALLINFO;
 
 
 /* ============================================================ */
@@ -102,15 +42,13 @@ typedef struct
 /* ============================================================ */
 /* 変数定義(extern)                                             */
 /* ============================================================ */
-
+t_position mypos;                    /* 自車位置情報?*/
+t_wall wall[MAZESIZE_X][MAZESIZE_Y]; /* 壁の情報を格納する構造体配列?*/
 
 /* ============================================================ */
 /* 変数定義(static)                                             */
 /* ============================================================ */
-static t_position mypos;                    /* 自車位置情報?*/
-static t_wall wall[MAZESIZE_X][MAZESIZE_Y]; /* 壁の情報を格納する構造体配列?*/
 
-ST_WALLINFO wallinfo;
 
 
 /* ============================================================ */
@@ -145,7 +83,6 @@ ST_WALLINFO wallinfo;
 /* 概要   : 壁情報と自車位置情報初期化                          */
 /* 制約   : なし                                                */
 /* ============================================================ */
-void Fn_MAP_init(void);
 void Fn_MAP_init(void)
 {
   int i,j;
@@ -399,19 +336,19 @@ void Fn_MAP_updateWall(void)
   unsigned char n_write,s_write,e_write,w_write;
 
   if (mypos.dir == north) {                        /* 北を向いている時 */
-     if (wallinfo.wall_f.bl_wall_with ==1) {
+     if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
 	     n_write = 1;
      }else{
 	     n_write = 0;
      }
 
-     if (wallinfo.wall_r.bl_wall_with ==1) {
+     if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
 	     e_write = 1;
      }else{
 	     e_write = 0;
      }
 
-     if (wallinfo.wall_l.bl_wall_with ==1) {
+     if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
 	     w_write = 1;
      }else{
 	     w_write = 0;
@@ -421,19 +358,19 @@ void Fn_MAP_updateWall(void)
   }
   
   if (mypos.dir == east) {                        /* 東を向いている時 */
-     if (wallinfo.wall_f.bl_wall_with ==1) {
+     if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
 	     e_write = 1;
      }else{
 	     e_write = 0;
      }
 
-     if (wallinfo.wall_r.bl_wall_with ==1) {
+     if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
 	     s_write = 1;
      }else{
 	     s_write = 0;
      }
 
-     if (wallinfo.wall_l.bl_wall_with ==1) {
+     if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
 	     n_write = 1;
      }else{
 	     n_write = 0;
@@ -443,19 +380,19 @@ void Fn_MAP_updateWall(void)
   }
   
   if (mypos.dir == south) {                        /* 南を向いている時 */
-     if (wallinfo.wall_f.bl_wall_with ==1) {
+     if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
 	     s_write = 1;
      }else{
 	     s_write = 0;
      }
 
-     if (wallinfo.wall_r.bl_wall_with ==1) {
+     if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
 	     w_write = 1;
      }else{
 	     w_write = 0;
      }
 
-     if (wallinfo.wall_l.bl_wall_with ==1) {
+     if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
 	     e_write = 1;
      }else{
 	     e_write = 0;
@@ -465,19 +402,19 @@ void Fn_MAP_updateWall(void)
   }
 
   if (mypos.dir == west) {                        /* 西を向いている時 */
-     if (wallinfo.wall_f.bl_wall_with ==1) {
+     if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
 	     w_write = 1;
      }else{
 	     w_write = 0;
      }
 
-     if (wallinfo.wall_r.bl_wall_with ==1) {
+     if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
 	     n_write = 1;
      }else{
 	     n_write = 0;
      }
 
-     if (wallinfo.wall_l.bl_wall_with ==1) {
+     if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
 	     s_write = 1;
      }else{
 	     s_write = 0;
