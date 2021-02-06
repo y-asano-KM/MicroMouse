@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <MicomToolCommonProjectFile Version="1.00">
-  <CreatorType Name="CubeSuite+" Version="V8.04.00  [09 Jun 2020]" />
+  <CreatorType Name="CubeSuite+" Version="V8.05.00  [26 Nov 2020]" />
   <Placeholders>
     <PlaceholderPrefix>%</PlaceholderPrefix>
     <PlaceholderPostfix>%</PlaceholderPostfix>
@@ -9,14 +9,18 @@
     <Files>
       <Category Name="src">
         <Category Name="app">
-          <Category Name="control" />
+          <Category Name="control">
+            <Path>src\app\controll\app_controll.c</Path>
+          </Category>
           <Category Name="inc_pac">
             <Path>src\app\inc_pac\app_cmn_chk_option_pac.h</Path>
+            <Path>src\app\inc_pac\app_controll_pac.h</Path>
             <Path>src\app\inc_pac\app_cmn_option_pac.h</Path>
             <Path>src\app\inc_pac\app_recgwall_pac.h</Path>
             <Path>src\app\inc_pac\app_map_pac.h</Path>
           </Category>
           <Category Name="inc_pub">
+            <Path>src\app\inc_pub\app_controll.h</Path>
             <Path>src\app\inc_pub\app_cmn_chk_option.h</Path>
             <Path>src\app\inc_pub\app_cmn_option.h</Path>
             <Path>src\app\inc_pub\app_recgwall.h</Path>
@@ -53,6 +57,7 @@
             <Path>src\hw\driver\hw_drv_bat.c</Path>
             <Path>src\hw\driver\hw_drv_buzzer.c</Path>
             <Path>src\hw\driver\hw_drv_led.c</Path>
+            <Path>src\hw\driver\hw_drv_wheel.c</Path>
             <Path>src\hw\driver\hw_drv_mtr.c</Path>
             <Path>src\hw\driver\hw_drv_raysens.c</Path>
             <Path>src\hw\driver\hw_drv_switch.c</Path>
@@ -88,6 +93,7 @@
             <Path>src\hw\inc_pac\hw_pph_port_pac.h</Path>
             <Path>src\hw\inc_pac\hw_pph_reg_pac.h</Path>
             <Path>src\hw\inc_pac\hw_srv_chkmem_cfg_pac.h</Path>
+            <Path>src\hw\inc_pac\hw_drv_wheel_pac.h</Path>
             <Path>src\hw\inc_pac\hw_srv_chkmem_pac.h</Path>
             <Path>src\hw\inc_pac\hw_srv_exception_pac.h</Path>
             <Path>src\hw\inc_pac\hw_srv_schedule_cfg_pac.h</Path>
@@ -100,6 +106,7 @@
             <Path>src\hw\inc_pub\hw_cmn_option.h</Path>
             <Path>src\hw\inc_pub\hw_drv_bat.h</Path>
             <Path>src\hw\inc_pub\hw_drv_buzzer.h</Path>
+            <Path>src\hw\inc_pub\hw_drv_wheel.h</Path>
             <Path>src\hw\inc_pub\hw_drv_led.h</Path>
             <Path>src\hw\inc_pub\hw_drv_mtr.h</Path>
             <Path>src\hw\inc_pub\hw_drv_raysens.h</Path>
@@ -136,6 +143,9 @@
             <Path>src\pf\buzzer\pf_bz_ctrl.c</Path>
             <Path>src\pf\buzzer\pf_bz_if.c</Path>
           </Category>
+          <Category Name="control">
+            <Path>src\pf\control\pf_control_if.c</Path>
+          </Category>
           <Category Name="if">
             <Path>src\pf\if\pf_if_hw.c</Path>
           </Category>
@@ -151,6 +161,7 @@
             <Path>src\pf\inc_pac\pf_if_hw_pac.h</Path>
             <Path>src\pf\inc_pac\pf_led_ctrl_eva_pac.h</Path>
             <Path>src\pf\inc_pac\pf_led_ctrl_pac.h</Path>
+            <Path>src\pf\inc_pac\pf_control_if_pac.h</Path>
             <Path>src\pf\inc_pac\pf_led_if_pac.h</Path>
             <Path>src\pf\inc_pac\pf_mtr_ctrl_eva_pac.h</Path>
             <Path>src\pf\inc_pac\pf_mtr_ctrl_pac.h</Path>
@@ -162,6 +173,7 @@
           </Category>
           <Category Name="inc_pub">
             <Path>src\pf\inc_pub\pf_cmn_chk_option.h</Path>
+            <Path>src\pf\inc_pub\pf_control_if.h</Path>
             <Path>src\pf\inc_pub\pf_cmn_option.h</Path>
             <Path>src\pf\inc_pub\pf_raysens_if.h</Path>
             <Path>src\pf\inc_pub\pf_sche_init.h</Path>
@@ -219,7 +231,7 @@
       <DebugToolSettings />
     </DebugOptions>
     <Device Series="RX">R5F5631MDxFM</Device>
-    <BuildOptions Name="CC-RX" Version="V3.02.00">
+    <BuildOptions Name="CC-RX" Version="V3.03.00">
       <BuildMode Name="DefaultBuild" Active="False">
         <GeneralOptions>
           <SimultaneouslyBuild>true</SimultaneouslyBuild>
@@ -331,6 +343,9 @@
           <Path>DefaultBuild\pf_mtr_ctrl.obj</Path>
           <Path>DefaultBuild\pf_mtr_ctrl_eva.obj</Path>
           <Path>DefaultBuild\pf_sche_if.obj</Path>
+          <Path>DefaultBuild\app_controll.obj</Path>
+          <Path>DefaultBuild\hw_drv_wheel.obj</Path>
+          <Path>DefaultBuild\pf_control_if.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src\pf\inc_pub</IncludePathForC>
@@ -472,6 +487,9 @@
           <Path>build\pf_mtr_ctrl.obj</Path>
           <Path>build\pf_mtr_ctrl_eva.obj</Path>
           <Path>build\pf_sche_if.obj</Path>
+          <Path>build\app_controll.obj</Path>
+          <Path>build\hw_drv_wheel.obj</Path>
+          <Path>build\pf_control_if.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src</IncludePathForC>
