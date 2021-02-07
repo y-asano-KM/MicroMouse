@@ -21,9 +21,10 @@
 #include "app_recgwall.h"
 #include "app_recgwall_pac.h"
 
+
 /* 本体 */
 #include "app_map_pac.h"
-
+#include "app_plan_pac.h"
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
@@ -490,7 +491,7 @@ void Fn_MAP_updatePosition(void)
   t_direction glob_nextdir;
 
   /* 次に行く方向を戻り値とする関数 */
-  /*get_nextdir(&glob_nextdir);*/
+  glob_nextdir = (t_direction)FnU1_Plan_indicatedir(mypos.x,mypos.y,mypos.dir);
 
   /* 方向を更新 */
   mypos.dir = glob_nextdir;

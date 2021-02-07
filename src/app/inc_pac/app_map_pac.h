@@ -25,8 +25,8 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
-#define MAZESIZE_X (16)       /* 迷路の大きさ(MAZESIZE_X x MAZESIZE_Y)迷路 */
-#define MAZESIZE_Y (16)       /* 迷路の大きさ(MAZESIZE_X x MAZESIZE_Y)迷路 */
+#define MAZESIZE_X (5)       /* 迷路の大きさ(MAZESIZE_X x MAZESIZE_Y)迷路 */
+#define MAZESIZE_Y (5)       /* 迷路の大きさ(MAZESIZE_X x MAZESIZE_Y)迷路 */
 
 #define UNKNOWN 2             /* 壁があるかないか判らない状態の場合の値 */
 #define NOWALL 0              /* 壁がないばあいの値 */
