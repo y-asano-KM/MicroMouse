@@ -234,6 +234,6 @@ U2 FnU2_PfRaySens_If_getValLeft(VD)
 /* ============================================================ */
 static U2 FnU2_PfRaySens_If_RcFilter(U2 au2_pval, U2 au2_val)
 {
-  /* 出力値 = a * 前回の出力値 + (1-a) * 今回の出力値 */
-  return((CU1_Fc_A * au2_pval) + ((1-CU1_Fc_A) * au2_val));
+  /* 出力値 = (a[%] * 前回の出力値 + (100-a)[%] * 今回の出力値) / 100 */
+  return(((CU4_Fc_RATE * (U4)au2_pval) + ((CU4_Fc_MAX_RATE - CU4_Fc_RATE) * (U4)au2_val)) / CU4_Fc_MAX_RATE);
 }
