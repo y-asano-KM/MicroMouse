@@ -89,71 +89,11 @@ void Fn_MAP_init(void)
   int i,j;
 
   /* 迷路全体を壁があるかないか判らない設定にする */
-  i = 0;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
+  for ( i = 0; i < MAZESIZE_X; i++ ) {
+    for ( j = 0; j < MAZESIZE_Y; j++ ) {
+      wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
+    }
   }
-  i = 1;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 2;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 3;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 4;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 5;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 6;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 7;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 8;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 9;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 10;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 11;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 12;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 13;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 14;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-  i = 15;
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
-  }
-
 
   /* 迷路の四方を壁ありの設定にする */
   for ( i = 0; i < MAZESIZE_X; i++ )
@@ -191,133 +131,15 @@ void Fn_MAP_outputWall(t_wall sta_wall[][MAZESIZE_Y])
 {
   int i,j;
 
-  i = 0;
-  for(j = 0; j < MAZESIZE_Y; j++)
+  for(i = 0; i < MAZESIZE_X; i++)
   {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 1;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 2;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 3;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 4;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 5;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 6;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 7;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 8;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 9;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 10;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 11;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 12;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 13;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 14;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
-  }
-  i = 15;
-  for(j = 0; j < MAZESIZE_Y; j++)
-  {
-    sta_wall[i][j].north = wall[i][j].north;
-    sta_wall[i][j].east = wall[i][j].east;
-    sta_wall[i][j].south = wall[i][j].south;
-    sta_wall[i][j].west = wall[i][j].west;
+    for(j = 0; j < MAZESIZE_Y; j++)
+    {
+      sta_wall[i][j].north = wall[i][j].north;
+      sta_wall[i][j].east = wall[i][j].east;
+      sta_wall[i][j].south = wall[i][j].south;
+      sta_wall[i][j].west = wall[i][j].west;
+    }
   }
 
 }
