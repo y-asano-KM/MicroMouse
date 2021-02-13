@@ -91,7 +91,10 @@ void Fn_MAP_init(void)
   /* 迷路全体を壁があるかないか判らない設定にする */
   for ( i = 0; i < MAZESIZE_X; i++ ) {
     for ( j = 0; j < MAZESIZE_Y; j++ ) {
-      wall[i][j].north = wall[i][j].east = wall[i][j].south = wall[i][j].west = UNKNOWN;
+      wall[i][j].north = UNKNOWN;
+      wall[i][j].east = UNKNOWN;
+      wall[i][j].south = UNKNOWN;
+      wall[i][j].west = UNKNOWN;
     }
   }
 
@@ -107,11 +110,13 @@ void Fn_MAP_init(void)
     wall[MAZESIZE_X-1][j].east = WALL;  /* 東 */
   }
    
-  /* スタート地点の右側を壁ありの設定にする */
-  wall[0][0].east = wall[1][0].west = WALL;
+  /* スタート地点の西側を壁ありの設定にする */
+  wall[0][0].east = WALL;
+  wall[1][0].west = WALL;
   
   /* 自車位置座標を(0,0)に初期化 */
-  mypos.x = mypos.y = 0;
+  mypos.x = 0;
+  mypos.y = 0;
 
   /* 自車方角を北に初期化 */
   mypos.dir = north;  
