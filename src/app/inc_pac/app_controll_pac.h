@@ -26,21 +26,20 @@
 /* マクロ定数定義                                               */
 /* ============================================================ */
 /* PLAN 動作指示 */
-#define VHECLE_STOP           0                   /* 停止 */
-#define VHECLE_FORWORD        1                   /* 前進 */
-#define VHECLE_TURNRIGHT      2                   /* 右折 */
-#define VHECLE_TURNLEFT       3                   /* 左折 */
-#define VHECLE_TURNBACK       4                   /* 転回 */
+#define VHECLE_STOP           0                   /* 停止(未使用) */
+#define VHECLE_FORWORD        1                   /* 前進(north)  */
+#define VHECLE_TURNLEFT       2                   /* 左折(east)   */
+#define VHECLE_TURNBACK       3                   /* 転回(south)  */
+#define VHECLE_TURNRIGHT      4                   /* 右折(west)   */
 
 /* モーター制御 */
-#define    MTR_STOP           0                   /* モータ停止 */
-#define    MTR_RUN            1                   /* モータ前進 */
-#define    MTR_BACK           -1                  /* モータ後進 */
+#define    MTR_STOP           0                   /* モータ停止 MTU OFFで表現するためRUNと同値 */
+#define    MTR_RUN            0                   /* モータ前進 */
+#define    MTR_BACK           1                   /* モータ後進 */
 
 /* MTU ON/OFF */
-#define MTU_ON            1                    /* MTU ON */
-#define MTU_OFF            0                    /* MTU OFF */
-
+#define MTU_ON                1                   /* MTU ON  */
+#define MTU_OFF               0                   /* MTU OFF */
 
 /* モーター励磁 */
 #define MTR_ON                0                   /* モーター励磁 ON */

@@ -18,6 +18,9 @@
 #include "app_cmn_option_pac.h"
 
 /* 個別 */
+#include "app_map_pac.h"
+#include "app_plan_pac.h"
+#include "pf_sche_if_pac.h"
 
 /* 本体 */
 #include "app_controll.h"
@@ -57,8 +60,8 @@ static void vd_s_CtrlMtuPulse(void);
 /* ============================================================ */
 /* 走行設定 */
 static U4 u4_s_TimerCount;                        /* 1mSごとにカウントアップされる変数(割り込み処理) */
-static U4 u4_s_StepCountR;                        /* 右モータ1stepごとにカウントアップされる変数(割り込み処理) */
-static U4 u4_s_StepCountL;                        /* 左モータ1stepごとにカウントアップされる変数(割り込み処理) */
+//static U4 u4_s_StepCountR;                        /* 右モータ1stepごとにカウントアップされる変数(割り込み処理) */
+//static U4 u4_s_StepCountL;                        /* 左モータ1stepごとにカウントアップされる変数(割り込み処理) */
 
 static U4 u4_s_CurrentSpeedR;                     /* 右モーター 現在速度 */
 static U4 u4_s_CurrentSpeedL;                     /* 左モーター 現在速度 */
@@ -72,8 +75,8 @@ static U1 u1_s_PidMode;                           /* 姿勢制御(PID)機能 有
 /* HWへ渡すパラメータ */
 static U2 u2_s_CycleTimeR;                        /* 右モータ周期とパルス幅(割り込み処理) */
 static U2 u2_s_CycleTimeL;                        /* 左モータ周期とパルス幅(割り込み処理) */
-static S1 s1_s_MtrModeR;                          /* 右モーター モード */
-static S1 s1_s_MtrModeL;                          /* 左モーター モード */
+static S1 u1_s_MtrModeR;                          /* 右モーター モード */
+static S1 u1_s_MtrModeL;                          /* 左モーター モード */
 static U1 u1_s_MtrPowerMode;                      /* モーター励磁 ON/OFF設定 */
 
 /* ============================================================ */
@@ -105,8 +108,8 @@ static U1 u1_s_MtrPowerMode;                      /* モーター励磁 ON/OFF�
 void vd_g_InitializeController(void)
 {
     u4_s_TimerCount    = (U4)0;                   /* 1mSごとにカウントアップされる変数 */
-    u4_s_StepCountR    = (U4)0;                   /* 右モータ1stepごとにカウントアップされる変数 */
-    u4_s_StepCountL    = (U4)0;                   /* 左モータ1stepごとにカウントアップされる変数 */
+//    u4_s_StepCountR    = (U4)0;                   /* 右モータ1stepごとにカウントアップされる変数 */
+//    u4_s_StepCountL    = (U4)0;                   /* 左モータ1stepごとにカウントアップされる変数 */
     u4_s_CurrentSpeedR = (U4)0;                   /* 右モーター 現在速度 */
     u4_s_CurrentSpeedL = (U4)0;                   /* 左モーター 現在速度 */
     u4_s_MaxSpeedR     = (U4)0;                   /* 右モーター 最高速度 */
@@ -114,12 +117,13 @@ void vd_g_InitializeController(void)
     u4_s_AccelValue    = (U4)0;                   /* 加速値 */
     u4_s_AccelCount    = (U4)0;                   /* 最高速度に達したカウント */
     u4_s_StepCount     = (U4)0;                   /* 走行ステップ数 */
-    s1_s_MtrModeR      = (S1)MTR_STOP;            /* 右モーター モード */
-    s1_s_MtrModeL      = (S1)MTR_STOP;            /* 左モーター モード */
+    u1_s_MtrModeR      = (U1)MTR_STOP;            /* 右モーター モード */
+    u1_s_MtrModeL      = (U1)MTR_STOP;            /* 左モーター モード */
     u1_s_PidMode       = (U1)0;                   /* 姿勢制御(PID)機能 有効/無効フラグ */
     u1_s_MtrPowerMode  = (U1)MTR_OFF;             /* モーター励磁 OFF設定 */
 }
 
+#if 0
 /* ============================================================ */
 /* 関数名 : u1_jdgStepChange                                    */
 /*          走行制御                                            */
@@ -141,41 +145,7 @@ U1 u1_jdgStepChange(void)
 
     return(u1_t_return);
 }
-
-/* ************************************************************************/
-/* ************************************************************************/
-/* 仮置きコード */
-/* plannerの指示を受ける */
-static U1 u1_s_next_act;
-static U1 u1_s_next_block;
-void vd_set_NextActFW(U1 u1_a_next_block)
-{
-    u1_s_next_act  = VHECLE_FORWORD;
-    u1_s_next_block = u1_a_next_block;
-}
-void vd_set_NextActTurnRight(void)
-{
-    u1_s_next_act  = VHECLE_TURNRIGHT;
-    u1_s_next_block = 0;
-}
-void vd_set_NextActTurnLeft(void)
-{
-    u1_s_next_act  = VHECLE_TURNLEFT;
-    u1_s_next_block = 0;
-}
-void vd_set_NextActTurnBack(void)
-{
-    u1_s_next_act  = VHECLE_TURNBACK;
-    u1_s_next_block = 0;
-}
-void vd_set_NextActStop(void)
-{
-    u1_s_next_act  = VHECLE_STOP;
-    u1_s_next_block = 0;
-}
-
-/* ************************************************************************/
-/* ************************************************************************/
+#endif
 
 /* ============================================================ */
 /* 関数名 : vd_ControllerMainTask                               */
@@ -189,28 +159,33 @@ void vd_ControllerMainTask(void)
 {
     U1 u1_t_next_act;
     U1 u1_t_next_block;
-
+    t_position pst_mypos;
+    U4 u4_t_1mscnt_now;
+	
+    u4_t_1mscnt_now = FnU4_PfSche_If_getInt1msCnt();
+	
     /* 左右のモータが走行ステップ数に達するまで待機 */
-    if(u4_s_StepCountR < u4_s_StepCount || u4_s_StepCountL < u4_s_StepCount){
+    if(u4_t_1mscnt_now < u4_s_StepCount || u4_t_1mscnt_now < u4_s_StepCount){
        vd_s_CtrlMtrWait();
     }
     else{
-/* ************************************************************************************************************************** */
+
 /* *********************************** */
 /* plannnerの指示を受け取る            */
 /* *********************************** */
-        u1_t_next_act = u1_s_next_act;
-        u1_t_next_block = u1_s_next_block;
+        Fn_MAP_outputPosition(&pst_mypos);
+        u1_t_next_act = FnU1_Plan_indicatedir(pst_mypos.x, pst_mypos.y, pst_mypos.dir); /* 現在地情報(x,y) 現在の進行方向を与え、次の進行方向を得る north=0,east=1,south=2,west=3 */
 
-/* *********************************** */
-/* 何ブロック進む？の情報取得する */
-/* vd_s_CtrlMtrForwardの 1stに設定 */
-/* *********************************** */
+        /* 誰がくれる？ */
+    	/* 基本0.5区画進む */
+    	/* 右旋回する場合は0.5進む→右旋回→0.5進むとなる想定 */
+    	/* プランナーはそういう指示をくれる？ */
+    	/* 複数区画を進むなら移動する区画数を取得する必要がある */
+        u1_t_next_block = HALF_BLOCK;
 
-/* ************************************************************************************************************************** */
         /* プランナ指示の元、次回制御を設定 */
         if(u1_t_next_act == (U1)VHECLE_FORWORD){
-            vd_s_CtrlMtrForward((U1)1,(U4)NORMAL_SPEED);
+            vd_s_CtrlMtrForward(u1_t_next_block,(U4)NORMAL_SPEED);
         }
         else if(u1_t_next_act == (U1)VHECLE_TURNRIGHT){
             vd_s_CtrlMtrTurn((S2)90);
@@ -239,15 +214,19 @@ void vd_ControllerMainTask(void)
 static void vd_s_CtrlMtrForward(U1 u1_a_block, U4 u4_a_speed)
 {
     //ステップカウントクリア
-    u4_s_StepCountR = 0;
-    u4_s_StepCountL = 0;
+	//何ms走行したか？
+//    u4_s_StepCountR = 0;
+//    u4_s_StepCountL = 0;
 
     //現在速度を最低速度に設定する。
     u4_s_CurrentSpeedR = (S4)MIN_SPEED;
     u4_s_CurrentSpeedL = (S4)MIN_SPEED;
 
     //走行ステップ数算出
-    u4_s_StepCount = (U4)(((FL)u1_a_block / (FL)ONE_BLOCK) * ((FL)BLOCK_LENGTH / (FL)STEP_LENGTH));
+	//1ms割り込み何回で走行が完了するか？
+	//現在の1ms割り込み回数に走行する時間を加算する
+	u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
+    u4_s_StepCount += (U4)(((FL)u1_a_block / (FL)ONE_BLOCK) * ((FL)BLOCK_LENGTH / (FL)STEP_LENGTH));
 
     //最高速度
     u4_s_MaxSpeedR = u4_a_speed;
@@ -258,8 +237,8 @@ static void vd_s_CtrlMtrForward(U1 u1_a_block, U4 u4_a_speed)
     u4_s_AccelCount = 0;
 
     //モーター処理（前進）
-    s1_s_MtrModeR = (S1)MTR_RUN;
-    s1_s_MtrModeL = (S1)MTR_RUN;
+    u1_s_MtrModeR = (U1)MTR_RUN;
+    u1_s_MtrModeL = (U1)MTR_RUN;
 
     /* モータ励磁をON */
     u1_s_MtrPowerMode = (U1)MTR_ON;
@@ -286,26 +265,28 @@ static void vd_s_CtrlMtrTurn(S2 s2_a_angle)
     if(s2_a_angle > 0){
         /* 右旋回 */
         u2_t_angle    = s2_a_angle;
-        s1_s_MtrModeR = (S1)MTR_BACK;             /* 右モーター後進 */
-        s1_s_MtrModeL = (S1)MTR_RUN;              /* 左モーター前進 */
+        u1_s_MtrModeR = (U1)MTR_BACK;             /* 右モーター後進 */
+        u1_s_MtrModeL = (U1)MTR_RUN;              /* 左モーター前進 */
     }
     else{
         /* 左旋回 */
         u2_t_angle      = -s2_a_angle;
-        s1_s_MtrModeR = (S1)MTR_RUN;              /* 右モーター前進 */
-        s1_s_MtrModeL = (S1)MTR_BACK;             /* 左モーター後進 */
+        u1_s_MtrModeR = (U1)MTR_RUN;              /* 右モーター前進 */
+        u1_s_MtrModeL = (U1)MTR_BACK;             /* 左モーター後進 */
     }
 
     /* ステップカウントクリア */
-    u4_s_StepCountR = (U4)0;
-    u4_s_StepCountL = (U4)0;
+//    u4_s_StepCountR = (U4)0;
+//    u4_s_StepCountL = (U4)0;
 
     /* 現在速度を最低速度に設定する */
 	u4_s_CurrentSpeedR = (U4)MIN_SPEED;
 	u4_s_CurrentSpeedL = (U4)MIN_SPEED;
 
     /* 走行ステップ数算出 */
-    u4_s_StepCount = (int)((float)TREAD_CIRCUIT * ((float)u2_t_angle / (float)360.0) / (float)STEP_LENGTH);
+	//現在の1ms割り込み回数に旋回する時間を加算する
+	u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
+    u4_s_StepCount += (U4)((FL)TREAD_CIRCUIT * ((FL)u2_t_angle / (FL)360.0) / (FL)STEP_LENGTH);
 
     /* 最高速度 */
     u4_s_MaxSpeedR = TURN_SPEED;
@@ -327,8 +308,8 @@ static void vd_s_CtrlMtrTurn(S2 s2_a_angle)
 static void vd_s_CtrlMtrStop(void)
 {
     /* モーター処理（停止） */
-    s1_s_MtrModeR = (S1)MTR_STOP;
-    s1_s_MtrModeL = (S1)MTR_STOP;
+    u1_s_MtrModeR = (U1)MTR_STOP;
+    u1_s_MtrModeL = (U1)MTR_STOP;
 
     /* モータ励磁をOFF */
     u1_s_MtrPowerMode = (U1)MTR_OFF;
@@ -345,18 +326,23 @@ static void vd_s_CtrlMtrStop(void)
 /* ============================================================ */
 static void vd_s_CtrlMtrWait(void)
 {
+	U1 u4_t_1mscnt_now;
+	
     if(u4_s_AccelValue > 0){
+
+		u4_t_1mscnt_now = FnU4_PfSche_If_getInt1msCnt();
+    	
         /* 加速中 */
         if(u4_s_AccelCount != 0){
-            if(((u4_s_StepCount - u4_s_StepCountR) < u4_s_AccelCount) || ((u4_s_StepCount - u4_s_StepCountL) < u4_s_AccelCount)){
+            if(((u4_s_StepCount - u4_t_1mscnt_now) < u4_s_AccelCount) || ((u4_s_StepCount - u4_t_1mscnt_now) < u4_s_AccelCount)){
                 /* 減速地点になったら減速を開始 */
-                u4_s_AccelValue = - (S4)ACCEL_VALUE;
+                u4_s_AccelValue = - (U4)ACCEL_VALUE;
             }
         }
         else{
-            if((u4_s_StepCount <= u4_s_StepCountR * (U4)2) || (u4_s_StepCount <= u4_s_StepCountL * (U4)2)){
+            if((u4_s_StepCount <= u4_t_1mscnt_now * (U4)2) || (u4_s_StepCount <= u4_t_1mscnt_now * (U4)2)){
                 /* 中間地点になったら減速を開始 */
-                u4_s_AccelValue = - (S4)ACCEL_VALUE;
+                u4_s_AccelValue = - (U4)ACCEL_VALUE;
             }
         }
     }
@@ -365,34 +351,6 @@ static void vd_s_CtrlMtrWait(void)
 /* ============================================================ */
 /* 割り込み処理                                                 */
 /* ============================================================ */
-/* ============================================================ */
-/* 関数名 : vd_g_IntDmtrR                                       */
-/*          右モーターMTU割込み処理                             */
-/* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : 右モーターが１ステップ進む毎の割込み                */
-/* 制約   : なし                                                */
-/* ============================================================ */
-void vd_g_IntDmtrR(void)
-{
-    /* ステップ数をカウント */
-    u4_s_StepCountR++;
-}
-
-/* ============================================================ */
-/* 関数名 : vd_g_IntDmtrL                                       */
-/*          左モーターMTU割込み処理                             */
-/* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : 左モーターが１ステップ進む毎の割込み                */
-/* 制約   : なし                                                */
-/* ============================================================ */
-void vd_g_IntDmtrL(void)
-{
-    /* ステップ数をカウント */
-    u4_s_StepCountL++;
-}
-
 /* ============================================================ */
 /* 関数名 : vd_s_IntDrvControll                                 */
 /*          タイマー割込み(1ms)                                 */
@@ -424,7 +382,7 @@ void vd_s_IntDrvControll(void)
 static void vd_s_IntDrvAcclControll(void)
 {
     /* 1msごとにカウントアップ */
-    u4_s_TimerCount++;            //
+    u4_s_TimerCount++;
 
     /* 加減速 */
     u4_s_CurrentSpeedR += u4_s_AccelValue;
@@ -442,13 +400,13 @@ static void vd_s_IntDrvAcclControll(void)
     if(u4_s_CurrentSpeedR > u4_s_MaxSpeedR){
         u4_s_CurrentSpeedR = u4_s_MaxSpeedR;
         if(u4_s_AccelCount == (U4)0){
-            u4_s_AccelCount = u4_s_StepCountR;
+            u4_s_AccelCount = u4_s_TimerCount;
         }
     }
     if(u4_s_CurrentSpeedL > u4_s_MaxSpeedL){
         u4_s_CurrentSpeedL = u4_s_MaxSpeedL;
         if(u4_s_AccelCount == (U4)0){
-            u4_s_AccelCount = u4_s_StepCountL;
+            u4_s_AccelCount = u4_s_TimerCount;
         }
     }
 }
@@ -556,29 +514,29 @@ U2 u2_g_get_CycleTimeL(void)
 }
 
 /* ============================================================ */
-/* 関数名 : s1_g_get_MtrModeR                                   */
+/* 関数名 : u1_g_get_MtrModeR                                   */
 /*          右モーター モード                                   */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   :                                                     */
 /* 制約   : なし                                                */
 /* ============================================================ */
-S1 s1_g_get_MtrModeR(void)
+U1 u1_g_get_MtrModeR(void)
 {
-    return(s1_s_MtrModeR);
+    return(u1_s_MtrModeR);
 }
 
 /* ============================================================ */
-/* 関数名 : s1_g_get_MtrModeL                                   */
+/* 関数名 : u1_g_get_MtrModeL                                   */
 /*          左モーター モード                                   */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   :                                                     */
 /* 制約   : なし                                                */
 /* ============================================================ */
-S1 s1_g_get_MtrModeL(void)
+U1 u1_g_get_MtrModeL(void)
 {
-    return(s1_s_MtrModeL);
+    return(u1_s_MtrModeL);
 }
 
 /* ============================================================ */
