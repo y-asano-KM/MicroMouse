@@ -79,6 +79,10 @@ static S1 u1_s_MtrModeR;                          /* 右モーター モード *
 static S1 u1_s_MtrModeL;                          /* 左モーター モード */
 static U1 u1_s_MtrPowerMode;                      /* モーター励磁 ON/OFF設定 */
 
+/* MAPへ渡すパラメータ */
+static t_local_dir st_s_dir;                      /* 移動内容を設定する */
+static t_bool st_s_runstt;                          /* 移動状態を設定する */
+
 /* ============================================================ */
 /* const変数定義(extern)                                        */
 /* ============================================================ */
@@ -121,6 +125,9 @@ void vd_g_InitializeController(void)
     u1_s_MtrModeL      = (U1)MTR_STOP;            /* 左モーター モード */
     u1_s_PidMode       = (U1)0;                   /* 姿勢制御(PID)機能 有効/無効フラグ */
     u1_s_MtrPowerMode  = (U1)MTR_OFF;             /* モーター励磁 OFF設定 */
+	st_s_dir           = 4;
+	st_s_runstt          = 1;
+	
 }
 
 #if 0
@@ -161,43 +168,55 @@ void vd_ControllerMainTask(void)
     U1 u1_t_next_block;
     t_position pst_mypos;
     U4 u4_t_1mscnt_now;
-	
+
     u4_t_1mscnt_now = FnU4_PfSche_If_getInt1msCnt();
-	
+
     /* 左右のモータが走行ステップ数に達するまで待機 */
     if(u4_t_1mscnt_now < u4_s_StepCount || u4_t_1mscnt_now < u4_s_StepCount){
        vd_s_CtrlMtrWait();
     }
     else{
+        /* 走行完了ならば */
+        if(st_s_runstt == 1){
+            /* *********************************** */
+            /* plannnerの指示を受け取る            */
+            /* *********************************** */
+            Fn_MAP_outputPosition(&pst_mypos);
+            u1_t_next_act = FnU1_Plan_indicatedir(pst_mypos.x, pst_mypos.y, pst_mypos.dir); /* 現在地情報(x,y) 現在の進行方向を与え、次の進行方向を得る north=0,east=1,south=2,west=3 */
 
-/* *********************************** */
-/* plannnerの指示を受け取る            */
-/* *********************************** */
-        Fn_MAP_outputPosition(&pst_mypos);
-        u1_t_next_act = FnU1_Plan_indicatedir(pst_mypos.x, pst_mypos.y, pst_mypos.dir); /* 現在地情報(x,y) 現在の進行方向を与え、次の進行方向を得る north=0,east=1,south=2,west=3 */
+            /* 誰がくれる？ */
+            /* 基本0.5区画進む */
+            /* 右旋回する場合は0.5進む→右旋回→0.5進むとなる想定 */
+            /* プランナーはそういう指示をくれる？ */
+            /* 複数区画を進むなら移動する区画数を取得する必要がある */
+            u1_t_next_block = HALF_BLOCK;
 
-        /* 誰がくれる？ */
-    	/* 基本0.5区画進む */
-    	/* 右旋回する場合は0.5進む→右旋回→0.5進むとなる想定 */
-    	/* プランナーはそういう指示をくれる？ */
-    	/* 複数区画を進むなら移動する区画数を取得する必要がある */
-        u1_t_next_block = HALF_BLOCK;
+            st_s_dir = (t_local_dir)u1_t_next_act;
 
-        /* プランナ指示の元、次回制御を設定 */
-        if(u1_t_next_act == (U1)VHECLE_FORWORD){
-            vd_s_CtrlMtrForward(u1_t_next_block,(U4)NORMAL_SPEED);
-        }
-        else if(u1_t_next_act == (U1)VHECLE_TURNRIGHT){
-            vd_s_CtrlMtrTurn((S2)90);
-        }
-        else if(u1_t_next_act == (U1)VHECLE_TURNLEFT){
-            vd_s_CtrlMtrTurn((S2)-90);
-        }
-        else if(u1_t_next_act == (U1)VHECLE_TURNBACK){
-            vd_s_CtrlMtrTurn((S2)180);
-        }
+            /* プランナ指示の元、次回制御を設定 */
+            if(u1_t_next_act == (U1)VHECLE_FORWORD){
+                vd_s_CtrlMtrForward(u1_t_next_block,(U4)NORMAL_SPEED);
+                st_s_runstt = 0;
+            }
+            else if(u1_t_next_act == (U1)VHECLE_TURNRIGHT){
+                vd_s_CtrlMtrTurn((S2)90);
+                st_s_runstt = 0;
+            }
+            else if(u1_t_next_act == (U1)VHECLE_TURNLEFT){
+                vd_s_CtrlMtrTurn((S2)-90);
+                st_s_runstt = 0;
+            }
+            else if(u1_t_next_act == (U1)VHECLE_TURNBACK){
+                vd_s_CtrlMtrTurn((S2)180);
+                st_s_runstt = 0;
+            }
+            else {
+                vd_s_CtrlMtrStop();
+            }
+	}
+        /* 走行中ならば */
         else {
-            vd_s_CtrlMtrStop();
+            st_s_runstt = 1;
         }
     }
 }
@@ -223,9 +242,9 @@ static void vd_s_CtrlMtrForward(U1 u1_a_block, U4 u4_a_speed)
     u4_s_CurrentSpeedL = (S4)MIN_SPEED;
 
     //走行ステップ数算出
-	//1ms割り込み何回で走行が完了するか？
-	//現在の1ms割り込み回数に走行する時間を加算する
-	u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
+    //1ms割り込み何回で走行が完了するか？
+    //現在の1ms割り込み回数に走行する時間を加算する
+    u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
     u4_s_StepCount += (U4)(((FL)u1_a_block / (FL)ONE_BLOCK) * ((FL)BLOCK_LENGTH / (FL)STEP_LENGTH));
 
     //最高速度
@@ -550,5 +569,20 @@ U1 u1_g_get_MtrModeL(void)
 U1 u1_g_get_MtrPowerMode(void)
 {
     return(u1_s_MtrPowerMode);
+}
+
+/* ============================================================ */
+/* 関数名 : Fn_CONTROL_outputStatus                             */
+/*          移動内容と移動状態出力                              */
+/* 引数   : なし                                                */
+/* 戻り値 : なし                                                */
+/* 概要   :                                                     */
+/* 制約   : なし                                                */
+/* ============================================================ */
+t_bool* Fn_CONTROL_outputStatus(t_local_dir* st_a_dir)
+{
+	st_a_dir = st_s_dir;
+	
+    return st_s_runstt;
 }
 
