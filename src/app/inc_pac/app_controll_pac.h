@@ -26,11 +26,11 @@
 /* マクロ定数定義                                               */
 /* ============================================================ */
 /* PLAN 動作指示 */
-#define VHECLE_STOP           0                   /* 停止(未使用) */
-#define VHECLE_FORWORD        1                   /* 前進(north)  */
-#define VHECLE_TURNLEFT       2                   /* 左折(east)   */
-#define VHECLE_TURNBACK       3                   /* 転回(south)  */
-#define VHECLE_TURNRIGHT      4                   /* 右折(west)   */
+#define VHECLE_FORWORD        0                   /* 前進(north)  */
+#define VHECLE_TURNRIGHT      1                   /* 右折(west)   */
+#define VHECLE_TURNBACK       2                   /* 転回(south)  */
+#define VHECLE_TURNLEFT       3                   /* 左折(east)   */
+#define VHECLE_STOP           4                   /* 停止() */
 
 /* モーター制御 */
 #define    MTR_STOP           0                   /* モータ停止 MTU OFFで表現するためRUNと同値 */
