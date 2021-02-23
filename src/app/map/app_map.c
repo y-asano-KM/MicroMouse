@@ -18,6 +18,8 @@
 #include "app_cmn_option_pac.h"
 
 /* 個別 */
+#include "app_controll.h"
+#include "app_controll_pac.h"
 #include "app_recgwall.h"
 #include "app_recgwall_pac.h"
 
@@ -316,27 +318,36 @@ void Fn_MAP_updatePosition(void)
 {
   /* 次に向かう方向を記録する変数 */
   t_direction glob_nextdir;
+  /* 移動内容を設定する変数 */
+  t_local_dir st_t_dir;
+  /* 移動状態を設定する変数 */
+  t_bool st_t_runstt;
 
-  /* 次に行く方向を戻り値とする関数 */
-  glob_nextdir = (t_direction)FnU1_Plan_indicatedir(mypos.x,mypos.y,mypos.dir);
+  st_t_runstt = Fn_CONTROL_outputStatus(&st_t_dir);
 
-  /* 方向を更新 */
-  mypos.dir = glob_nextdir;
+  if(st_t_runstt == 1){
+    /* 次に行く方向を戻り値とする関数 */
+    glob_nextdir = (t_direction)FnU1_Plan_indicatedir(mypos.x,mypos.y,mypos.dir);
 
-  if (mypos.dir == north) {
-	  mypos.y++;
-  }
+    /* 方向を更新 */
+    mypos.dir = glob_nextdir;
+
+    /* 座標を更新 */
+    if (mypos.dir == north) {
+  	  mypos.y++;
+    }
   
-  if (mypos.dir == east) {
-	  mypos.x++;
-  }
+    if (mypos.dir == east) {
+  	  mypos.x++;
+    }
 
-  if (mypos.dir == south) {
-	  mypos.y--;
-  }
+    if (mypos.dir == south) {
+  	  mypos.y--;
+    }
 
-  if (mypos.dir == west) {
-	  mypos.x--;
+    if (mypos.dir == west) {
+  	  mypos.x--;
+    }
   }
 }
 
