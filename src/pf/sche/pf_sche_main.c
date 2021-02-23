@@ -24,6 +24,7 @@
 #include "pf_bled_ctrl_pac.h"
 #include "pf_led_ctrl_pac.h"
 #include "pf_bz_ctrl_pac.h"
+#include "app_controll_pac.h"
 
 /* 本体 */
 #include "pf_sche_main.h"
@@ -103,5 +104,8 @@ VD FnVD_PfSche_wrapMainProc(VD)
 
   /* HW出力値指示 */
   FnVD_PfIf_Hw_output();
+
+  /* CONTROLLメイン処理 */
+  vd_ControllerMainTask();
 }
 

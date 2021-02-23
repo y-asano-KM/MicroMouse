@@ -156,9 +156,9 @@ VD FnVD_PfMtr_Ctrl_mediate(VD)
 
 #if (1)
   /* ToDo:暫定処置 */
-  tu1Enb     = u1_g_get_MtrPowerMode;  /* 駆動許可禁止 */
-  tu1DirR    = u1_g_get_MtrModeR;  /* 右モータ：回転方向 */
-  tu1DirL    = u1_g_get_MtrModeL;  /* 左モータ：回転方向 */
+  tu1Enb     = u1_g_get_MtrPowerMode();  /* 駆動許可禁止 */
+  tu1DirR    = u1_g_get_MtrModeR();  /* 右モータ：回転方向 */
+  tu1DirL    = u1_g_get_MtrModeL();  /* 左モータ：回転方向 */
   tu2PeriodR = (U2)16000;  /* 右モータ：16ms周期(タイマ3MHz) 暫定 */
   tu2PeriodL = (U2)16000;  /* 左モータ：16ms周期(タイマ3MHz) 暫定 */
   tu2OnTimeR = (U2)15980;  /* 右モータ：パルス幅：60us 暫定 */

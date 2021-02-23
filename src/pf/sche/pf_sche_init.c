@@ -31,6 +31,8 @@
 #include "pf_mtr_if_pac.h"
 #include "pf_mtr_ctrl_pac.h"
 
+#include "app_controll_pac.h"
+
 /* 本体 */
 #include "pf_sche_init.h"
 
@@ -130,6 +132,7 @@ VD FnVD_PfSche_wrapInitProc(VD)
   /* -------------- */
   /* アプリ層初期化 */
   /* -------------- */
-  /* ToDo:未実装 */
+  /* Controller初期化 */
+  vd_g_InitializeController();
 }
 

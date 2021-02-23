@@ -18,6 +18,7 @@
 #include "app_cmn_option_pac.h"
 
 /* 個別 */
+#include "app_map_pac.h"
 
 /* 本体 */
 
@@ -33,7 +34,7 @@
 #define VHECLE_STOP           4                   /* 停止() */
 
 /* モーター制御 */
-#define    MTR_STOP           0                   /* モータ停止 MTU OFFで表現するためRUNと同値 */
+#define    MTR_STOP           0                   /* モータ停止 MTR OFFで表現するためRUNと同値 */
 #define    MTR_RUN            0                   /* モータ前進 */
 #define    MTR_BACK           1                   /* モータ後進 */
 
@@ -42,8 +43,8 @@
 #define MTU_OFF               0                   /* MTU OFF */
 
 /* モーター励磁 */
-#define MTR_ON                0                   /* モーター励磁 ON */
-#define MTR_OFF               1                   /* モーター励磁 OFF */
+#define MTR_ON                1                   /* モーター励磁 ON */
+#define MTR_OFF               0                   /* モーター励磁 OFF */
 
 /* モーター速度 */
 #define MIN_SPEED             100                 /* 最低速度(100mm/S) */
@@ -84,7 +85,11 @@
 /* ============================================================ */
 /* 型定義                                                       */
 /* ============================================================ */
-
+typedef enum
+{
+  false = 0,
+  true  = 1
+}t_bool;
 
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
@@ -102,6 +107,7 @@ void vd_set_NextActTurnLeft(void);
 void vd_set_NextActTurnBack(void);
 void vd_set_NextActStop(void);
 
+t_bool* Fn_CONTROL_outputStatus(t_local_dir*);
 /* ============================================================ */
 /* 変数宣言(extern)                                             */
 /* ============================================================ */
