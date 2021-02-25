@@ -61,9 +61,10 @@ static void vd_s_CtrlMtuPulse(void);
 /* ============================================================ */
 /* 走行設定 */
 static U4 u4_s_TimerCount;                        /* 1msごとにカウントアップされる変数(割り込み処理) */
+#if DEBUG_CONT
 static U4 u4_s_StepCountR;                        /* 右モータ1stepごとにカウントアップされる変数(割り込み処理) */
 static U4 u4_s_StepCountL;                        /* 左モータ1stepごとにカウントアップされる変数(割り込み処理) */
-
+#endif
 static U4 u4_s_CurrentSpeedR;                     /* 右モーター 現在速度 */
 static U4 u4_s_CurrentSpeedL;                     /* 左モーター 現在速度 */
 static U4 u4_s_MaxSpeedR;                         /* 右モーター 最高速度 */
@@ -115,8 +116,10 @@ static t_bool en_s_runstt;                        /* 移動状態を設定する
 void vd_g_InitializeController(void)
 {
   u4_s_TimerCount    = (U4)0;                          /* 1msごとにカウントアップされる変数 */
+#if DEBUG_CONT
   u4_s_StepCountR    = (U4)0;                          /* 右モータ1stepごとにカウントアップされる変数 */
   u4_s_StepCountL    = (U4)0;                          /* 左モータ1stepごとにカウントアップされる変数 */
+#endif
   u4_s_CurrentSpeedR = (U4)0;                          /* 右モーター 現在速度 */
   u4_s_CurrentSpeedL = (U4)0;                          /* 左モーター 現在速度 */
   u4_s_MaxSpeedR     = (U4)0;                          /* 右モーター 最高速度 */
@@ -144,11 +147,12 @@ void vd_g_InitializeController(void)
 void vd_ControllerMainTask(void)
 {
 
-  U1 u1_t_next_block;
   U4 u4_t_1mscnt_now;
-
-//  t_position pst_mypos;
-
+  U1 u1_t_next_block;
+#if 0
+  U1 u1_t_nextact;
+  t_position pst_mypos;
+#endif
   u4_t_1mscnt_now = FnU4_PfSche_If_getInt1msCnt();
 
   /* 左右のモータが走行ステップ数に達するまで待機 */
@@ -165,9 +169,11 @@ void vd_ControllerMainTask(void)
       /* 前後左右どちらに移動するか受け取る予定 IFは変わるため、一旦消す */
       /* MAPに渡す東西南北はどうすれば？残さなきゃいけないかも */
       Fn_MAP_outputPosition(&pst_mypos);
-      u1_s_next_act = FnU1_Plan_indicatedir(pst_mypos.x, pst_mypos.y, pst_mypos.dir); /* 現在地情報(x,y) 現在の進行方向を与え、次の進行方向を得る north=0,east=1,south=2,west=3 */
-      u1_t_next_block = HALF_BLOCK;
-      en_s_dir = (t_local_dir)u1_s_next_act;
+      (VD)FnU1_Plan_indicatedir(pst_mypos.x, pst_mypos.y, pst_mypos.dir); /* 現在地情報(x,y) 現在の進行方向を与え、次の進行方向を得る north=0,east=1,south=2,west=3 */
+      u1_t_nextact = FnU1_Plan_returndir();
+      u1_t_next_block = u1_t_nextact >> 4 ;
+      en_s_dir = (t_local_dir)(u1_t_nextact & 0x0F);
+      u1_s_next_act = u1_t_nextact & 0x0F;
 #endif
 #if 1
       u1_s_next_act = VHECLE_FORWORD;
