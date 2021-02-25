@@ -37,6 +37,7 @@
 /* ============================================================ */
 extern VD FnVD_Plan_makemap(VD);
 extern U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir);
+extern U1 FnU1_Plan_returndir(VD);
 
 /* ============================================================ */
 /* 変数宣言(extern)                                             */
