@@ -57,6 +57,8 @@ static U1 u1s_west[ARRAYSIZE];
 static U1 u1s_shortestroute_c;  /* 最短経路抽出済フラグ */
 static U1 u1s_bytepos;          /* 最短経路抽出バイト位置 */
 static U1 u1s_bitpos;           /* 最短経路抽出ビット位置 */
+static U1 u1s_direction;        /* 上位４ビット：連続直進可能マス数 */
+                                /* 下位４ビット：FORWORD(前進)=0,TURNRIGHT(右折)=1,TURNBACK(転回)=2,TURNLEFT(左折)=3,STOP(停止)=4 */
 
 /* ============================================================ */
 /* const変数定義(extern)                                        */
@@ -111,7 +113,7 @@ VD FnVD_Plan_initmap(VD)
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : 壁情報をもとに歩数Mapを作成する                     */
-/* 制約   : なし                                                */
+/* 制約   : ゴールに着いたまたは経路探索を終了した時点でコール  */
 /* ============================================================ */
 VD FnVD_Plan_makemap(VD)
 {
@@ -240,7 +242,7 @@ VD FnVD_Plan_shortestroute(VD)
             {
                 if( u1s_map[u1t_i][ (U1)( u1t_j + (U1)1 ) ] == (U1)( u1t_n - (U1)1 ) )  /* 歩数マップ値が-1であれば */
                 {
-                    u1t_dir = north;                /* 進行方向を設定 */
+                    u1t_dir = north;                /* 進行方角を設定 */
                     bit_dir_flag = (flag)true;      /* 値が更新されたことを示す */
                 }
             }
@@ -252,17 +254,17 @@ VD FnVD_Plan_shortestroute(VD)
             {
                 if( u1s_map[ (U1)( u1t_i + (U1)1 ) ][u1t_j] == (U1)( u1t_n - (U1)1 ) ) /* 歩数マップ値が-1であれば */
                 {
-                    if( bit_dir_flag == (flag)true )        /* 進行方向に複数の可能性がある場合 */
+                    if( bit_dir_flag == (flag)true )        /* 進行方角に複数の可能性がある場合 */
                     {
-                        if( u1t_dir != u1t_dir_before )     /* 前回の進行方向と一致する場合は前回方向を優先 */
+                        if( u1t_dir != u1t_dir_before )     /* 前回の進行方角と一致する場合は前回方角を優先 */
                         {
-                            u1t_dir = east;         /* 進行方向を設定 */
+                            u1t_dir = east;         /* 進行方角を設定 */
                             bit_dir_flag = (flag)true;      /* 値が更新されたことを示す */
                         }
                     }
                     else
                     {
-                        u1t_dir = east;             /* 進行方向を設定 */
+                        u1t_dir = east;             /* 進行方角を設定 */
                         bit_dir_flag = (flag)true;         /* 値が更新されたことを示す */
   
                     }
@@ -276,17 +278,17 @@ VD FnVD_Plan_shortestroute(VD)
             {
                 if( u1s_map[u1t_i][ (U1)( u1t_j - (U1)1 ) ] == (U1)( u1t_n - (U1)1 ) )  /* 歩数マップ値が-1であれば */
                 {
-                    if( bit_dir_flag == (flag)true )        /* 進行方向に複数の可能性がある場合 */
+                    if( bit_dir_flag == (flag)true )        /* 進行方角に複数の可能性がある場合 */
                     {
-                        if( u1t_dir != u1t_dir_before )     /* 前回の進行方向と一致する場合は前回方向を優先 */
+                        if( u1t_dir != u1t_dir_before )     /* 前回の進行方角と一致する場合は前回方角を優先 */
                         {
-                            u1t_dir = south;        /* 進行方向を設定 */
+                            u1t_dir = south;        /* 進行方角を設定 */
                             bit_dir_flag = (flag)true;      /* 値が更新されたことを示す */
                         }
                     }
                     else
                     {
-                        u1t_dir = south;            /* 進行方向を設定 */
+                        u1t_dir = south;            /* 進行方角を設定 */
                         bit_dir_flag = (flag)true;          /* 値が更新されたことを示す */
   
                     }
@@ -300,17 +302,17 @@ VD FnVD_Plan_shortestroute(VD)
             {
                 if( u1s_map[ (U1)( u1t_i - (U1)1 ) ][u1t_j] == (U1)( u1t_n - (U1)1 ) )  /* 歩数マップ値が-1であれば */
                 {
-                    if( bit_dir_flag == (flag)true )        /* 進行方向に複数の可能性がある場合 */
+                    if( bit_dir_flag == (flag)true )        /* 進行方角に複数の可能性がある場合 */
                     {
-                        if( u1t_dir != u1t_dir_before )     /* 前回の進行方向と一致する場合は前回方向を優先 */
+                        if( u1t_dir != u1t_dir_before )     /* 前回の進行方角と一致する場合は前回方角を優先 */
                         {
-                            u1t_dir = west;         /* 進行方向を設定 */
+                            u1t_dir = west;         /* 進行方角を設定 */
                             bit_dir_flag = (flag)true;      /* 値が更新されたことを示す */
                         }
                     }
                     else
                     {
-                        u1t_dir = west;             /* 進行方向を設定 */
+                        u1t_dir = west;             /* 進行方角を設定 */
                         bit_dir_flag = (flag)true;          /* 値が更新されたことを示す */
   
                     }
@@ -318,7 +320,7 @@ VD FnVD_Plan_shortestroute(VD)
             }
         }
 
-        if( bit_dir_flag == (flag)true )        /* 進行方向を保持 */
+        if( bit_dir_flag == (flag)true )        /* 進行方角を保持 */
         {
             if( u1t_dir == north )
             {
@@ -355,9 +357,9 @@ VD FnVD_Plan_shortestroute(VD)
 /* 関数名 : FnU1_Plan_indicatedir                               */
 /*          経路を指示する                                      */
 /* 引数   : x,y ：現在地情報(x,y)                               */
-/*          dir ：現在の進行方向                                */
+/*          dir ：現在の進行方角                                */
 /* 戻り値 : u1t_ret ：north=0,east=1,south=2,west=3             */
-/* 概要   : 現在地情報(x,y)から経路(進行方向)を算出する         */
+/* 概要   : 現在地情報(x,y)から経路(進行方角)を算出する         */
 /* 制約   : なし                                                */
 /* ============================================================ */
 U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
@@ -385,7 +387,7 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
         u1t_temp &= ( (U1)1 << u1s_bitpos );
         if( u1t_temp != (U1)0 )
         {
-            u1t_ret = north;                /* 進行方向　北 */
+            u1t_ret = north;                /* 進行方角　北 */
         }
         if( u1t_ret == (U1)255 )
         {
@@ -393,7 +395,7 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
             u1t_temp &= ( (U1)1 << u1s_bitpos );
             if( u1t_temp != (U1)0 )
             {
-                u1t_ret = east;             /* 進行方向　東 */
+                u1t_ret = east;             /* 進行方角　東 */
             }
         }
         if( u1t_ret == (U1)255 )
@@ -402,7 +404,7 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
             u1t_temp &= ( (U1)1 << u1s_bitpos );
             if( u1t_temp != (U1)0 )
             {
-                u1t_ret = south;            /* 進行方向　南 */
+                u1t_ret = south;            /* 進行方角　南 */
             }
         }
         if( u1t_ret == (U1)255 )
@@ -411,7 +413,7 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
             u1t_temp &= ( (U1)1 << u1s_bitpos );
             if( u1t_temp != (U1)0 )
             {
-                u1t_ret = west;             /* 進行方向　西 */
+                u1t_ret = west;             /* 進行方角　西 */
             }
         }
 
@@ -435,10 +437,10 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
 /* 関数名 : FnU1_Plan_searchdir                                 */
 /*          最短経路が分からない場合の経路を指示する            */
 /* 引数   : x,y ：現在地情報(x,y)                               */
-/*          dir ：現在の進行方向(north=0,east=1,south=2,west=3) */
+/*          dir ：現在の進行方角(north=0,east=1,south=2,west=3) */
 /* 戻り値 : u1t_ret_temp ：north=0,east=1,south=2,west=3        */
-/* 概要   : 現在地情報(x,y)から経路(進行方向)を算出する         */
-/*          優先順:ゴール→未検索方向→直進→右左折→後退       */
+/* 概要   : 現在地情報(x,y)から経路(進行方角)を算出する         */
+/*          優先順:ゴール→未検索方角→直進→右左折→後退       */
 /* 制約   : なし                                                */
 /* ============================================================ */
 static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
@@ -457,10 +459,10 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
     {
         if( wall[x][y].north == NOWALL )        /* 壁がなければ */
         {
-            u1t_ret_temp = north;               /* 進行方向　北(仮設定) */
+            u1t_ret_temp = north;               /* 進行方角　北(仮設定) */
             if( u1s_map[x][ (U1)( y + (U1)1 ) ] == (U1)0 )      /* ゴールだったら */
             {
-                u1t_priority = (U1)8;           /* 進行方向決定 */
+                u1t_priority = (U1)8;           /* 進行方角決定 */
             }
             else
             {
@@ -469,11 +471,11 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
                     u1t_priority = (U1)4;
                 }
 
-                if( u1t_dir == north )          /* 進行方向(北)が直進方向 */
+                if( u1t_dir == north )          /* 進行方角(北)が直進方向 */
                 {
                     u1t_priority += (U1)2;
                 }
-                else if( u1t_dir != south )     /* 進行方向(北)が右左折方向 */
+                else if( u1t_dir != south )     /* 進行方角(北)が右左折方向 */
                 {
                     u1t_priority += (U1)1;
                 }
@@ -490,7 +492,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
 
                 if( u1s_map[ (U1)( x + (U1)1 ) ][y] == (U1)0 )          /* ゴールだったら */
                 {
-                    u1t_priority_temp = (U1)8;  /* 進行方向決定 */
+                    u1t_priority_temp = (U1)8;  /* 進行方角決定 */
                 }
                 else
                 {
@@ -499,11 +501,11 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
                         u1t_priority_temp = (U1)4;
                     }
 
-                    if( u1t_dir == east )       /* 進行方向(東)が直進方向 */
+                    if( u1t_dir == east )       /* 進行方角(東)が直進方向 */
                     {
                         u1t_priority_temp += (U1)2;
                     }
-                    else if( u1t_dir != west )  /* 進行方向(東)が右左折方向 */
+                    else if( u1t_dir != west )  /* 進行方角(東)が右左折方向 */
                     {
                         u1t_priority_temp += (U1)1;
                     }
@@ -511,7 +513,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
 
                 if( u1t_priority_temp > u1t_priority )
                 {
-                    u1t_ret_temp = east;        /* 進行方向　東(更新) */
+                    u1t_ret_temp = east;        /* 進行方角　東(更新) */
                     u1t_priority = u1t_priority_temp;
                     u1t_priority_temp = (U1)0;  /* クリア処理 */
                 }
@@ -527,7 +529,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
             {
                 if( u1s_map[x][ (U1)( y - (U1)1 ) ] == (U1)0 )  /* ゴールだったら */
                 {
-                    u1t_priority_temp = (U1)8;  /* 進行方向決定 */
+                    u1t_priority_temp = (U1)8;  /* 進行方角決定 */
                 }
                 else
                 {
@@ -536,11 +538,11 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
                         u1t_priority_temp = (U1)4;
                     }
 
-                    if( u1t_dir == south )      /* 進行方向(南)が直進方向 */
+                    if( u1t_dir == south )      /* 進行方角(南)が直進方向 */
                     {
                         u1t_priority_temp += (U1)2;
                     }
-                    else if( u1t_dir != north ) /* 進行方向(南)が右左折方向 */
+                    else if( u1t_dir != north ) /* 進行方角(南)が右左折方向 */
                     {
                         u1t_priority_temp += (U1)1;
                     }
@@ -548,7 +550,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
 
                 if( u1t_priority_temp > u1t_priority )
                 {
-                    u1t_ret_temp = south;       /* 進行方向　南(更新) */
+                    u1t_ret_temp = south;       /* 進行方角　南(更新) */
                     u1t_priority = u1t_priority_temp;
                     u1t_priority_temp = (U1)0;  /* クリア処理 */
                 }
@@ -564,7 +566,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
             {
                 if( u1s_map[ (U1)( x - (U1)1 ) ][y] == (U1)0 )  /* ゴールだったら */
                 {
-                    u1t_priority_temp = (U1)8;  /* 進行方向決定 */
+                    u1t_priority_temp = (U1)8;  /* 進行方角決定 */
                 }
                 else
                 {
@@ -573,11 +575,11 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
                         u1t_priority_temp = (U1)4;
                     }
 
-                    if( u1t_dir == west )       /* 進行方向(西)が直進方向 */
+                    if( u1t_dir == west )       /* 進行方角(西)が直進方向 */
                     {
                         u1t_priority_temp += (U1)2;
                     }
-                    else if( u1t_dir != east )  /* 進行方向(西)が右左折方向 */
+                    else if( u1t_dir != east )  /* 進行方角(西)が右左折方向 */
                     {
                         u1t_priority_temp += (U1)1;
                     }
@@ -585,13 +587,46 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
 
                 if( u1t_priority_temp > u1t_priority )
                 {
-                    u1t_ret_temp = west;        /* 進行方向　西(更新) */
+                    u1t_ret_temp = west;        /* 進行方角　西(更新) */
                     u1t_priority = u1t_priority_temp;
                 }
             }
         }
     }
 
+    u1s_direction = (U1)0x04;      /* 進行方向　STOP(停止) */
+    if( u1t_ret_temp == u1t_dir )
+    {
+        u1s_direction = (U1)0x10;  /* 進行方向　FORWORD(前進)１マス */
+    }
+    if( u1t_ret_temp == ( (U1)( u1t_dir + (U1)1 ) & (U1)0x03 ) )
+    {
+        u1s_direction = (U1)0x01;  /* 進行方向　TURNRIGHT(右折) */
+    }
+    if( u1t_ret_temp == ( (U1)( u1t_dir + (U1)2 ) & (U1)0x03 ) )
+    {
+        u1s_direction = (U1)0x02;  /* 進行方向　TURNBACK(転回) */
+    }
+    if( u1t_ret_temp == ( (U1)( u1t_dir + (U1)3 ) & (U1)0x03 ) )
+    {
+        u1s_direction = (U1)0x03;  /* 進行方向　TURNLEFT(左折) */
+    }
+
     return(u1t_ret_temp);
 
+}
+
+/* ============================================================ */
+/* 関数名 : FnU1_Plan_returndir                                 */
+/*          進行方向を返す                                      */
+/* 引数   : なし                                                */
+/* 戻り値 : u1s_direction ：上位４ビット：連続直進可能マス数    */
+/*            下位４ビット：FORWORD(前進)=0,TURNRIGHT(右折)=1,  */
+/*              TURNBACK(転回)=2,TURNLEFT(左折)=3,STOP(停止)=4  */
+/* 概要   : 進行方向と直進時は連続直進可能マス数を返す          */
+/* 制約   : なし                                                */
+/* ============================================================ */
+static U1 FnU1_Plan_returndir(VD)
+{
+    return(u1s_direction);
 }
