@@ -32,6 +32,7 @@
 #include "pf_mtr_ctrl_pac.h"
 
 #include "app_controll_pac.h"
+#include "app_recgwall_pac.h"
 
 /* 本体 */
 #include "pf_sche_init.h"
@@ -134,5 +135,8 @@ VD FnVD_PfSche_wrapInitProc(VD)
   /* -------------- */
   /* Controller初期化 */
   vd_g_InitializeController();
+
+  /* 認識処理初期化 */
+  FnVD_Recg_RecognizeInit();
 }
 

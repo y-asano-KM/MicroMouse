@@ -25,6 +25,7 @@
 #include "pf_led_ctrl_pac.h"
 #include "pf_bz_ctrl_pac.h"
 #include "app_controll_pac.h"
+#include "app_recgwall_pac.h"
 
 /* 本体 */
 #include "pf_sche_main.h"
@@ -92,6 +93,9 @@ VD FnVD_PfSche_wrapMainProc(VD)
 
   /* バッテリー電圧低下判定 */
   FnVD_PfBat_Moni_jdgVoltageLow();
+
+  /* 壁認識処理 */
+  FnVD_Recg_WallRecognize();
 
   /* LED制御 */
   FnVD_PfLed_Ctrl_mediate();
