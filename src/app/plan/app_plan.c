@@ -626,7 +626,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
 /* 概要   : 進行方向と直進時は連続直進可能マス数を返す          */
 /* 制約   : なし                                                */
 /* ============================================================ */
-static U1 FnU1_Plan_returndir(VD)
+U1 FnU1_Plan_returndir(VD)
 {
     return(u1s_direction);
 }
