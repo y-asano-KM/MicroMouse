@@ -319,13 +319,13 @@ void Fn_MAP_updatePosition(void)
   /* 次に向かう方向を記録する変数 */
   t_direction glob_nextdir;
   /* 移動内容を設定する変数 */
-  t_local_dir st_t_dir;
+  t_local_dir* pst_t_dir;
   /* 移動状態を設定する変数 */
-  t_bool st_t_runstt;
+  t_bool* pen_t_runstt;
 
-  st_t_runstt = Fn_CONTROL_outputStatus(&st_t_dir);
+  pen_t_runstt = Fn_CONTROL_outputStatus(pst_t_dir);
 
-  if(st_t_runstt == 1){
+  if(*pen_t_runstt == 1){
     /* 次に行く方向を戻り値とする関数 */
     glob_nextdir = (t_direction)FnU1_Plan_indicatedir(mypos.x,mypos.y,mypos.dir);
 
