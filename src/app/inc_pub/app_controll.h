@@ -34,6 +34,8 @@
 U1 u1_g_get_MtrModeR(void);                       /* 右モーター モード */
 U1 u1_g_get_MtrModeL(void);                       /* 左モーター モード */
 U1 u1_g_get_MtrPowerMode(void);                   /* モータ励磁 */
+U2 u2_g_get_MtrSpeedR(void);
+U2 u2_g_get_MtrSpeedL(void);
 
 U2 u2_g_get_CycleTimeR(void);                     /* 右モータ周期とパルス幅(1ms割り込み) */
 U2 u2_g_get_CycleTimeL(void);                     /* 左モータ周期とパルス幅(1ms割り込み) */

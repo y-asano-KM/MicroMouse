@@ -32,6 +32,8 @@
 /* デバッグ用仮置き */
 #define DEBUG_CONT    0                        /* 0:無効 1:有効 */
 
+#define DEBUG_SPPED  16                        /* 数値msの周期設定 *1000して与える 最低値16～1で動作を確認する 遅すぎたらもっと小さくする */
+
 /* ============================================================ */
 /* 型定義                                                       */
 /* ============================================================ */
@@ -120,8 +122,8 @@ void vd_g_InitializeController(void)
   u4_s_StepCountR    = (U4)0;                          /* 右モータ1stepごとにカウントアップされる変数 */
   u4_s_StepCountL    = (U4)0;                          /* 左モータ1stepごとにカウントアップされる変数 */
 #endif
-  u4_s_CurrentSpeedR = (U4)0;                          /* 右モーター 現在速度 */
-  u4_s_CurrentSpeedL = (U4)0;                          /* 左モーター 現在速度 */
+  u4_s_CurrentSpeedR = (U4)16000;                      /* 右モーター 現在速度 */
+  u4_s_CurrentSpeedL = (U4)16000;                      /* 左モーター 現在速度 */
   u4_s_MaxSpeedR     = (U4)0;                          /* 右モーター 最高速度 */
   u4_s_MaxSpeedL     = (U4)0;                          /* 左モーター 最高速度 */
   u4_s_AccelValue    = (U4)0;                          /* 加速値 */
@@ -174,6 +176,7 @@ void vd_ControllerMainTask(void)
       u1_t_next_block = u1_t_nextact >> 4 ;
       en_s_dir = (t_local_dir)(u1_t_nextact & 0x0F);
       u1_s_next_act = u1_t_nextact & 0x0F;
+      en_s_runstt = (t_bool)0;
 #endif
 #if 1
       u1_s_next_act = VHECLE_FORWORD;
@@ -247,13 +250,23 @@ static void vd_s_CtrlMtrForward(U1 u1_a_block, U4 u4_a_speed)
   u4_s_CurrentSpeedR = (S4)MIN_SPEED;
   u4_s_CurrentSpeedL = (S4)MIN_SPEED;
 #endif
+
+  //現在速度をDEBUG_SPPED*1000に設定する。
+  u4_s_CurrentSpeedR = (U4)(DEBUG_SPPED * 1000);
+  u4_s_CurrentSpeedL = (U4)(DEBUG_SPPED * 1000);
+
+
+  /* デバッグしやすさ重視でとりあえず1s動作するようにする */
+  u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
+  u4_s_StepCount += (U4)1000;
+#if 0
   //ここは見直しが必要 FTやめる 1msの走行距離をちゃんと計算する
   //走行ステップ数算出
   //1ms割り込み何回で走行が完了するか？
   //現在の1ms割り込み回数に走行する時間を加算する
   u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
   u4_s_StepCount += (U4)(((FL)u1_a_block / (FL)ONE_BLOCK) * ((FL)BLOCK_LENGTH / (FL)STEP_LENGTH));
-
+#endif
 #if DEBUG_CONT
   //最高速度
   u4_s_MaxSpeedR = u4_a_speed;
@@ -305,10 +318,20 @@ static void vd_s_CtrlMtrTurn(S2 s2_a_angle)
   u4_s_CurrentSpeedR = (U4)MIN_SPEED;
   u4_s_CurrentSpeedL = (U4)MIN_SPEED;
 #endif
+
+  //現在速度をDEBUG_SPPED*1000に設定する。
+  u4_s_CurrentSpeedR = (U4)(DEBUG_SPPED * 1000);
+  u4_s_CurrentSpeedL = (U4)(DEBUG_SPPED * 1000);
+
+  /* デバッグしやすさ重視でとりあえず1s動作するようにする */
+  u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
+  u4_s_StepCount += (U4)1000;
+#if 0
   /* 走行ステップ数算出 */
   //現在の1ms割り込み回数に旋回する時間を加算する
   u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
   u4_s_StepCount += (U4)((FL)TREAD_CIRCUIT * ((FL)u2_t_angle / (FL)360.0) / (FL)STEP_LENGTH);
+#endif
 #if DEBUG_CONT
   /* 最高速度 */
   u4_s_MaxSpeedR = TURN_SPEED;
@@ -576,6 +599,32 @@ U1 u1_g_get_MtrModeL(void)
 U1 u1_g_get_MtrPowerMode(void)
 {
   return(u1_s_MtrPowerMode);
+}
+
+/* ============================================================ */
+/* 関数名 : u2_g_get_MtrSpeedR                                  */
+/*          右モータ周期                                        */
+/* 引数   : なし                                                */
+/* 戻り値 : なし                                                */
+/* 概要   :                                                     */
+/* 制約   : なし                                                */
+/* ============================================================ */
+U2 u2_g_get_MtrSpeedR(void)
+{
+  return((U2)u4_s_CurrentSpeedR);
+}
+
+/* ============================================================ */
+/* 関数名 : u2_g_get_MtrSpeedL                                  */
+/*          左モータ周期                                        */
+/* 引数   : なし                                                */
+/* 戻り値 : なし                                                */
+/* 概要   :                                                     */
+/* 制約   : なし                                                */
+/* ============================================================ */
+U2 u2_g_get_MtrSpeedL(void)
+{
+  return((U2)u4_s_CurrentSpeedL);
 }
 
 /* ============================================================ */
