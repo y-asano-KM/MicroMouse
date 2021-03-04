@@ -159,10 +159,10 @@ VD FnVD_PfMtr_Ctrl_mediate(VD)
   tu1Enb     = u1_g_get_MtrPowerMode();  /* 駆動許可禁止 */
   tu1DirR    = u1_g_get_MtrModeR();  /* 右モータ：回転方向 */
   tu1DirL    = u1_g_get_MtrModeL();  /* 左モータ：回転方向 */
-  tu2PeriodR = (U2)16000;  /* 右モータ：16ms周期(タイマ3MHz) 暫定 */
-  tu2PeriodL = (U2)16000;  /* 左モータ：16ms周期(タイマ3MHz) 暫定 */
-  tu2OnTimeR = (U2)15980;  /* 右モータ：パルス幅：60us 暫定 */
-  tu2OnTimeL = (U2)15980;  /* 右モータ：パルス幅：60us 暫定 */
+  tu2PeriodR = u2_g_get_MtrSpeedR();  /* 右モータ：16ms周期(タイマ3MHz) 暫定 */
+  tu2PeriodL = u2_g_get_MtrSpeedL();  /* 左モータ：16ms周期(タイマ3MHz) 暫定 */
+  tu2OnTimeR = tu2PeriodR - (U2)20;  /* 右モータ：パルス幅：60us 暫定 */
+  tu2OnTimeL = tu2PeriodL - (U2)20;  /* 右モータ：パルス幅：60us 暫定 */
 #endif
 #if defined(OP_PfCmn_EvaMtrCtrl)
   /* モータ駆動要求調停処理(評価用) */
