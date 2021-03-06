@@ -34,6 +34,7 @@
 #include "app_controll_pac.h"
 #include "app_recgwall_pac.h"
 #include "app_plan_pac.h"
+#include "app_map_pac.h"
 
 /* 本体 */
 #include "pf_sche_init.h"
@@ -142,5 +143,8 @@ VD FnVD_PfSche_wrapInitProc(VD)
 
   /* 歩数Map初期化 */
   FnVD_Plan_makemap();
+
+  /* 壁情報と自車位置情報初期化 */
+  Fn_MAP_init();
 }
 
