@@ -1,7 +1,7 @@
 #if !defined(INCLUDED_app_recgwall_pac_h)
 #define INCLUDED_app_recgwall_pac_h
 /* ============================================================ */
-/* ファイル名 : app_recgwall_pac.h                        */
+/* ファイル名 : app_recgwall_pac.h                              */
 /* 機能       : 壁認識(app公開)                                 */
 /* ============================================================ */
 
@@ -35,6 +35,7 @@
 typedef struct {
   BL  bl_wall_with;          /* 壁有無 壁無し:OFF(0) 壁あり:ON(1) */
   BL  bl_wall_data_valid;    /* 壁データ有効無効 無効:OFF(0) 有効:ON(1) */
+  U2  u2_sens_val;           /* センサ値 */
 } ST_WALLDATA;
 
 /* 壁情報 */
@@ -49,13 +50,15 @@ typedef struct {
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
 extern VD FnVD_Recg_WallRecognize(VD);
+extern VD FnVD_Recg_WallRecognize_1ms(VD);
 extern VD FnVD_Recg_RecognizeInit(VD);
 
 
 /* ============================================================ */
 /* 変数宣言(extern)                                             */
 /* ============================================================ */
-extern ST_WALLINFO st_RecgWall_info; /* 壁情報 */
+extern ST_WALLINFO st_RecgWall_info;      /* 壁情報(Map) */
+extern ST_WALLINFO st_RecgWall_info_attc; /* 壁情報(姿勢制御) */
 
 
 /* ============================================================ */

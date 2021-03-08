@@ -20,6 +20,7 @@
 /* 個別 */
 #include "app_map_pac.h"
 #include "app_plan_pac.h"
+#include "app_recgwall_pac.h"
 #include "pf_sche_if_pac.h"
 
 /* 本体 */
@@ -74,7 +75,6 @@ static U4 u4_s_MaxSpeedL;                         /* 左モーター 最高速�
 static U4 u4_s_AccelValue;                        /* 加速値 */
 static U4 u4_s_AccelCount;                        /* 最高速度に達したカウント */
 static U4 u4_s_StepCount;                         /* 走行ステップ数 */
-static U1 u1_s_PidMode;                           /* 姿勢制御(PID)機能 有効/無効フラグ */
 
 static U1 u1_s_next_act;                          /*  */
 
@@ -131,7 +131,6 @@ void vd_g_InitializeController(void)
   u4_s_StepCount     = (U4)0;                          /* 走行ステップ数 */
   u1_s_MtrModeR      = (U1)MTR_STOP;                   /* 右モーター モード */
   u1_s_MtrModeL      = (U1)MTR_STOP;                   /* 左モーター モード */
-  u1_s_PidMode       = (U1)0;                          /* 姿勢制御(PID)機能 有効/無効フラグ */
   u1_s_MtrPowerMode  = (U1)MTR_OFF;                    /* モーター励磁 OFF設定 */
   en_s_dir           = (t_local_dir)4;                 /* プランナ指示 方向 */
   en_s_runstt        = (t_bool)1;                      /* 動作状況 0:走行中、1:走行完了 */
@@ -477,6 +476,7 @@ static void vd_s_IntDrvAcclControll(void)
 static void vd_s_int_AttitudeControl(void)
 {
   S4 s4_t_sen_diff;                               /* 偏差用変数 */
+  S4 s4_t_sen_pdiff;                              /* 前回偏差用変数 */
   S4 s4_t_r_sen;                                  /* 右センサ値 */
   S4 s4_t_l_sen;                                  /* 左センサ値 */
   S4 s4_t_r_sen_ref;                              /* 中央に置いた時の右センサリファレンス */
@@ -486,19 +486,16 @@ static void vd_s_int_AttitudeControl(void)
 
   FL fl_t_control_motor;
 
+  fl_t_control_motor = (FL)0;
   /* 1ならば姿勢制御をする */
-  if(u1_s_PidMode == 1){
-/* ************************************************************************************************************************** */
-/*  センサから情報を取得   */
-
-    s4_t_r_sen = 0;
-    s4_t_l_sen = 0;
-    s4_t_r_sen_ref = 0;
-    s4_t_l_sen_ref = 0;
-    u1_t_r_wall_flag = 0;
-    u1_t_l_wall_flag = 0;
-
-/* ************************************************************************************************************************** */
+#if OP_AppCmn_PidMode == 1
+  /*  センサから情報を取得   */
+    s4_t_r_sen = (S4)st_RecgWall_info_attc.wall_r.u2_sens_val;
+    s4_t_l_sen = (S4)st_RecgWall_info_attc.wall_l.u2_sens_val;
+    s4_t_r_sen_ref = CTRL_WALL_THRESHOLD_R;
+    s4_t_l_sen_ref = CTRL_WALL_THRESHOLD_L;
+    u1_t_r_wall_flag = (U1)st_RecgWall_info_attc.wall_r.bl_wall_with;
+    u1_t_l_wall_flag = (U1)st_RecgWall_info_attc.wall_l.bl_wall_with;
 
     /* ここの条件分岐で制御系を切り替える */
     /* 両側に壁がある場合 */
@@ -520,11 +517,16 @@ static void vd_s_int_AttitudeControl(void)
     }
 
     /* P制御の制御量の計算(比例制御) */
-    fl_t_control_motor =(FL)s4_t_sen_diff * (FL)PID_KP;
+    fl_t_control_motor += (FL)s4_t_sen_diff * (FL)PID_KP;
+    /* D制御の制御量の計算(微分制御) */
+    fl_t_control_motor += (FL)(s4_t_sen_diff - s4_t_sen_pdiff) * (FL)PID_KD;
 
-    u4_s_CurrentSpeedR += (U4)((FL)6297 - fl_t_control_motor);
-    u4_s_CurrentSpeedL += (U4)((FL)6297 + fl_t_control_motor);
-  }
+    /* 今回偏差を保持 */
+    s4_t_sen_pdiff = s4_t_sen_diff;
+#endif
+
+    u4_s_CurrentSpeedR += (U4)fl_t_control_motor;
+    u4_s_CurrentSpeedL += (U4)fl_t_control_motor;
 }
 
 /* ============================================================ */
