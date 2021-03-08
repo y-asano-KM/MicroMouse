@@ -32,7 +32,7 @@
 /* デバッグ用仮置き */
 #define DEBUG_CONT    0                        /* 0:無効 1:有効 */
 
-#define DEBUG_SPPED  16                        /* 数値msの周期設定 *1000して与える 最低値16～1で動作を確認する 遅すぎたらもっと小さくする */
+#define DEBUG_SPPED   2                        /* 2msの周期設定 *1000して与える  */
 
 /* ============================================================ */
 /* 型定義                                                       */
@@ -180,7 +180,7 @@ void vd_ControllerMainTask(void)
 #endif
 #if 1
       u1_s_next_act = VHECLE_FORWORD;
-      u1_t_next_block = HALF_BLOCK;
+      u1_t_next_block = HALF_BLOCK * 2;
       /* 左右旋回、反転の場合は3STEPの走行が必要であるため、制御指示を記憶する */
       en_s_dir = (t_local_dir)u1_s_next_act;
       en_s_runstt = (t_bool)0;
@@ -227,6 +227,8 @@ void vd_ControllerMainTask(void)
         u1_s_next_act = (U1)VHECLE_FORWORD;
       }
       else {
+        /* 1指示に対する動作完了時、停止し次の指示を待つ */
+        vd_s_CtrlMtrStop();
         en_s_runstt = (t_bool)1;
       }
     }
@@ -256,9 +258,9 @@ static void vd_s_CtrlMtrForward(U1 u1_a_block, U4 u4_a_speed)
   u4_s_CurrentSpeedL = (U4)(DEBUG_SPPED * 1000);
 
 
-  /* デバッグしやすさ重視でとりあえず1s動作するようにする */
+  /* 500ms動作する。PWM2msで9cm前進する */
   u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
-  u4_s_StepCount += (U4)1000;
+  u4_s_StepCount += (U4)500;
 #if 0
   //ここは見直しが必要 FTやめる 1msの走行距離をちゃんと計算する
   //走行ステップ数算出
@@ -299,6 +301,9 @@ static void vd_s_CtrlMtrTurn(S2 s2_a_angle)
 {
   U2  u2_t_angle;                 /* 旋回角度 */
 
+  /* todo */
+  /* 反転も加えないといけない。アングルではなく旋回方向もらうようにする */
+
   /* 回転方向を決定 */
   if(s2_a_angle > 0){
     /* 右旋回 */
@@ -319,13 +324,14 @@ static void vd_s_CtrlMtrTurn(S2 s2_a_angle)
   u4_s_CurrentSpeedL = (U4)MIN_SPEED;
 #endif
 
-  //現在速度をDEBUG_SPPED*1000に設定する。
-  u4_s_CurrentSpeedR = (U4)(DEBUG_SPPED * 1000);
-  u4_s_CurrentSpeedL = (U4)(DEBUG_SPPED * 1000);
+  //現在速度をDEBUG_SPPED*2000に設定する。前進より遅い設定
+  u4_s_CurrentSpeedR = (U4)(DEBUG_SPPED * 2000);
+  u4_s_CurrentSpeedL = (U4)(DEBUG_SPPED * 2000);
 
-  /* デバッグしやすさ重視でとりあえず1s動作するようにする */
+  /* 600msで90°を超える */
+  /* 100°くらい？10°分減らしてみる */
   u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
-  u4_s_StepCount += (U4)1000;
+  u4_s_StepCount += (U4)540;
 #if 0
   /* 走行ステップ数算出 */
   //現在の1ms割り込み回数に旋回する時間を加算する
