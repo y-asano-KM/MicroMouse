@@ -19,18 +19,21 @@
             <Path>src\app\inc_pac\app_recgwall_pac.h</Path>
             <Path>src\app\inc_pac\app_map_pac.h</Path>
             <Path>src\app\inc_pac\app_plan_pac.h</Path>
+            <Path>src\app\inc_pac\app_plan_mode_pac.h</Path>
           </Category>
           <Category Name="inc_pub">
             <Path>src\app\inc_pub\app_cmn_chk_option.h</Path>
             <Path>src\app\inc_pub\app_controll.h</Path>
             <Path>src\app\inc_pub\app_cmn_option.h</Path>
             <Path>src\app\inc_pub\app_recgwall.h</Path>
+            <Path>src\app\inc_pub\app_plan_mode.h</Path>
           </Category>
           <Category Name="map">
             <Path>src\app\map\app_map.c</Path>
           </Category>
           <Category Name="plan">
             <Path>src\app\plan\app_plan.c</Path>
+            <Path>src\app\plan\app_plan_mode.c</Path>
           </Category>
           <Category Name="recognize">
             <Path>src\app\recognize\app_recgwall.c</Path>
@@ -174,6 +177,7 @@
             <Path>src\pf\inc_pub\pf_sche_init.h</Path>
             <Path>src\pf\inc_pub\pf_sche_interrupt.h</Path>
             <Path>src\pf\inc_pub\pf_sche_main.h</Path>
+            <Path>src\pf\inc_pub\pf_switch_ctrl.h</Path>
           </Category>
           <Category Name="led">
             <Path>src\pf\led\pf_led_ctrl.c</Path>
@@ -340,6 +344,7 @@
           <Path>DefaultBuild\pf_sche_if.obj</Path>
           <Path>DefaultBuild\app_plan.obj</Path>
           <Path>DefaultBuild\app_controll.obj</Path>
+          <Path>DefaultBuild\app_plan_mode.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src\pf\inc_pub</IncludePathForC>
@@ -483,6 +488,7 @@
           <Path>build\pf_sche_if.obj</Path>
           <Path>build\app_plan.obj</Path>
           <Path>build\app_controll.obj</Path>
+          <Path>build\app_plan_mode.obj</Path>
         </LinkOrder>
         <CommonOptions>
           <IncludePathForC>src</IncludePathForC>
