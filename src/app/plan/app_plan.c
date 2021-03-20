@@ -396,10 +396,10 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
     else
     {
 #if debug_plan
-        u1s_north[0] = 0xF0;    /* 最悪ここに突っ込めば何とかはなる */
-        u1s_east[0] = 0x0F;     /* 最悪ここに突っ込めば何とかはなる */
-        u1s_south[1] = 0xC0;    /* 最悪ここに突っ込めば何とかはなる */
-        u1s_west[0] = 0x30;     /* 最悪ここに突っ込めば何とかはなる */
+        u1s_north[0] = 0xF0;    /* デバッグ用3月26日走行会MAP */
+        u1s_east[0] = 0x0F;     /* デバッグ用3月26日走行会MAP */
+        u1s_south[1] = 0xC0;    /* デバッグ用3月26日走行会MAP */
+        u1s_west[0] = 0x30;     /* デバッグ用3月26日走行会MAP */
 #endif
 
 	u1t_temp = u1s_north[u1s_bytepos];
