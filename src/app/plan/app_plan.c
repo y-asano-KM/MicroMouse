@@ -33,6 +33,8 @@
 #define false 0
 #define true 1
 
+#define debug_plan 0            /* デバッグ用3月26日走行会MAP */
+
 /* ============================================================ */
 /* 型定義                                                       */
 /* ============================================================ */
@@ -59,6 +61,8 @@ static U1 u1s_bytepos;          /* 最短経路抽出バイト位置 */
 static U1 u1s_bitpos;           /* 最短経路抽出ビット位置 */
 static U1 u1s_direction;        /* 上位４ビット：連続直進可能マス数 */
                                 /* 下位４ビット：FORWORD(前進)=0,TURNRIGHT(右折)=1,TURNBACK(転回)=2,TURNLEFT(左折)=3,STOP(停止)=4 */
+static U1 u1s_runpattern;       /* 探索走行=0,最短経路走行=1 */
+static U1 u1s_retdir;
 
 /* ============================================================ */
 /* const変数定義(extern)                                        */
@@ -123,71 +127,75 @@ VD FnVD_Plan_makemap(VD)
 
     FnVD_Plan_initmap();        /* Mapを初期化する */
 
-    do
+    if( u1s_runpattern == 1 )     /* 最短経路走行 */
     {
-        bit_change_flag = (flag)false;                          /* 変更がなかった場合にはループを抜ける */
-        for( u1t_i = 0; u1t_i < MAZESIZE_X; u1t_i++ )           /* 迷路の大きさ分ループ(x座標) */
+
+        do
         {
-            for( u1t_j = 0; u1t_j < MAZESIZE_Y; u1t_j++ )       /* 迷路の大きさ分ループ(y座標) */
+            bit_change_flag = (flag)false;                          /* 変更がなかった場合にはループを抜ける */
+            for( u1t_i = 0; u1t_i < MAZESIZE_X; u1t_i++ )           /* 迷路の大きさ分ループ(x座標) */
             {
-
-                if( u1s_map[u1t_i][u1t_j] == (U1)255 )          /* 255の場合は次へ */
+                for( u1t_j = 0; u1t_j < MAZESIZE_Y; u1t_j++ )       /* 迷路の大きさ分ループ(y座標) */
                 {
-                    continue;
-                }
 
-                if( u1t_j < (U1)( MAZESIZE_Y - (U1)1 ) )        /* 範囲チェック */
-                {
-                    if( wall[u1t_i][u1t_j].north == NOWALL )    /* 壁がなければ */
+                    if( u1s_map[u1t_i][u1t_j] == (U1)255 )          /* 255の場合は次へ */
                     {
-                        if( u1s_map[u1t_i][ (U1)( u1t_j + (U1)1 ) ] == (U1)255 )        /* まだ値が入っていなければ */
-                        {
-                            u1s_map[u1t_i][ (U1)( u1t_j + (U1)1 ) ] = (U1)( u1s_map[u1t_i][u1t_j] + (U1)1 );    /* 値を代入 */
-                            bit_change_flag = (flag)true;       /* 値が更新されたことを示す */
-                        }
+                        continue;
                     }
-                }
 
-                if( u1t_i < (U1)( MAZESIZE_X - (U1)1 ) )        /* 範囲チェック */
-                {
-                    if( wall[u1t_i][u1t_j].east == NOWALL )     /* 壁がなければ */
+                    if( u1t_j < (U1)( MAZESIZE_Y - (U1)1 ) )        /* 範囲チェック */
                     {
-                        if( u1s_map[ (U1)( u1t_i + (U1)1 ) ][u1t_j] == (U1)255 )        /* まだ値が入っていなければ */
+                        if( wall[u1t_i][u1t_j].north == NOWALL )    /* 壁がなければ */
                         {
-                            u1s_map[ (U1)( u1t_i + (U1)1 ) ][u1t_j] = (U1)( u1s_map[u1t_i][u1t_j] + (U1)1 );    /* 値を代入 */
-                            bit_change_flag = (flag)true;       /* 値が更新されたことを示す */
+                            if( u1s_map[u1t_i][ (U1)( u1t_j + (U1)1 ) ] == (U1)255 )        /* まだ値が入っていなければ */
+                            {
+                                u1s_map[u1t_i][ (U1)( u1t_j + (U1)1 ) ] = (U1)( u1s_map[u1t_i][u1t_j] + (U1)1 );    /* 値を代入 */
+                                bit_change_flag = (flag)true;       /* 値が更新されたことを示す */
+                            }
                         }
                     }
-                }
 
-                if( u1t_j > (U1)0 )                             /* 範囲チェック */
-                {
-                    if( wall[u1t_i][u1t_j].south == NOWALL )    /* 壁がなければ */
+                    if( u1t_i < (U1)( MAZESIZE_X - (U1)1 ) )        /* 範囲チェック */
                     {
-                        if( u1s_map[u1t_i][ (U1)( u1t_j - (U1)1 ) ] == (U1)255 )        /* 値が入っていなければ */
+                        if( wall[u1t_i][u1t_j].east == NOWALL )     /* 壁がなければ */
                         {
-                            u1s_map[u1t_i][ (U1)( u1t_j - (U1)1 ) ] = (U1)( u1s_map[u1t_i][u1t_j] + (U1)1 );    /* 値を代入 */
-                            bit_change_flag = (flag)true;       /* 値が更新されたことを示す */
+                            if( u1s_map[ (U1)( u1t_i + (U1)1 ) ][u1t_j] == (U1)255 )        /* まだ値が入っていなければ */
+                            {
+                                u1s_map[ (U1)( u1t_i + (U1)1 ) ][u1t_j] = (U1)( u1s_map[u1t_i][u1t_j] + (U1)1 );    /* 値を代入 */
+                                bit_change_flag = (flag)true;       /* 値が更新されたことを示す */
+                            }
+                        }
+                    }
+
+                    if( u1t_j > (U1)0 )                             /* 範囲チェック */
+                    {
+                        if( wall[u1t_i][u1t_j].south == NOWALL )    /* 壁がなければ */
+                        {
+                            if( u1s_map[u1t_i][ (U1)( u1t_j - (U1)1 ) ] == (U1)255 )        /* 値が入っていなければ */
+                            {
+                                u1s_map[u1t_i][ (U1)( u1t_j - (U1)1 ) ] = (U1)( u1s_map[u1t_i][u1t_j] + (U1)1 );    /* 値を代入 */
+                                bit_change_flag = (flag)true;       /* 値が更新されたことを示す */
+                            }
+                        }
+                    }
+
+                    if( u1t_i > (U1)0 )                             /* 範囲チェック */
+                    {
+                        if( wall[u1t_i][u1t_j].west == NOWALL )     /* 壁がなければ */
+	                {
+                            if( u1s_map[ (U1)( u1t_i - (U1)1 ) ][u1t_j] == (U1)255 )        /* 値が入っていなければ */
+                            {
+                                u1s_map[ (U1)( u1t_i - (U1)1 ) ][u1t_j] = (U1)( u1s_map[u1t_i][u1t_j] + (U1)1 );    /* 値を代入 */
+                                bit_change_flag = (flag)true;       /* 値が更新されたことを示す */
+                            }
                         }
                     }
                 }
 
-                if( u1t_i > (U1)0 )                             /* 範囲チェック */
-                {
-                    if( wall[u1t_i][u1t_j].west == NOWALL )     /* 壁がなければ */
-	                    {
-                        if( u1s_map[ (U1)( u1t_i - (U1)1 ) ][u1t_j] == (U1)255 )        /* 値が入っていなければ */
-                        {
-                            u1s_map[ (U1)( u1t_i - (U1)1 ) ][u1t_j] = (U1)( u1s_map[u1t_i][u1t_j] + (U1)1 );    /* 値を代入 */
-                            bit_change_flag = (flag)true;       /* 値が更新されたことを示す */
-                        }
-                    }
-                }
             }
 
-        }
-
-    }while( bit_change_flag == (flag)true );    /* 全体を作り終わるまで待つ */
+        }while( bit_change_flag == (flag)true );    /* 全体を作り終わるまで待つ */
+    }
 
 }
 
@@ -376,14 +384,25 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
         /* 最短経路が判定できなかったため、壁判定UNKNOWN箇所(歩数マップ値が初期値(255)の箇所)の捜索 */
         u1t_ret = FnU1_Plan_searchdir( x, y, dir );
     }
-    else
+    else if( u1t_n == (U1)0 )   /* ゴール地点に着いたら */
     {
         if( u1s_shortestroute_c == (U1)0 )  /* 最短経路未抽出の場合 */
         {
+            u1s_runpattern =1;
+            FnVD_Plan_makemap();            /* 歩数マップ作成 */
             FnVD_Plan_shortestroute();      /* 最短経路抽出 */
         }
+    }
+    else
+    {
+#if debug_plan
+        u1s_north[0] = 0xF0;    /* 最悪ここに突っ込めば何とかはなる */
+        u1s_east[0] = 0x0F;     /* 最悪ここに突っ込めば何とかはなる */
+        u1s_south[1] = 0xC0;    /* 最悪ここに突っ込めば何とかはなる */
+        u1s_west[0] = 0x30;     /* 最悪ここに突っ込めば何とかはなる */
+#endif
 
-        u1t_temp = u1s_north[u1s_bytepos];
+	u1t_temp = u1s_north[u1s_bytepos];
         u1t_temp &= ( (U1)1 << u1s_bitpos );
         if( u1t_temp != (U1)0 )
         {
@@ -427,7 +446,26 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
             u1s_bitpos--;
         }
 
+        u1s_direction = (U1)0x04;      /* 進行方向　STOP(停止) */
+        if( u1t_ret == dir )
+        {
+            u1s_direction = (U1)0x10;  /* 進行方向　FORWORD(前進)１マス */
+        }
+        if( u1t_ret == ( (U1)( dir + (U1)1 ) & (U1)0x03 ) )
+        {
+            u1s_direction = (U1)0x01;  /* 進行方向　TURNRIGHT(右折) */
+        }
+        if( u1t_ret == ( (U1)( dir + (U1)2 ) & (U1)0x03 ) )
+        {
+            u1s_direction = (U1)0x02;  /* 進行方向　TURNBACK(転回) */
+        }
+        if( u1t_ret == ( (U1)( dir + (U1)3 ) & (U1)0x03 ) )
+        {
+            u1s_direction = (U1)0x03;  /* 進行方向　TURNLEFT(左折) */
+        }
     }
+
+    u1s_retdir = u1t_ret;
 
     return(u1t_ret);
 
@@ -614,6 +652,19 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
 
     return(u1t_ret_temp);
 
+}
+
+/* ============================================================ */
+/* 関数名 : FnU1_Plan_retdir                                    */
+/*          現在の進行方向を返す                                */
+/* 引数   : なし                                                */
+/* 戻り値 : u1t_ret ：north=0,east=1,south=2,west=3             */
+/* 概要   : 進行方向を返す                                      */
+/* 制約   : なし                                                */
+/* ============================================================ */
+U1 FnU1_Plan_retdir(VD)
+{
+    return(u1s_retdir);
 }
 
 /* ============================================================ */
