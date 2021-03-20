@@ -22,10 +22,14 @@
 #include "app_plan_pac.h"
 #include "app_recgwall_pac.h"
 #include "pf_sche_if_pac.h"
+#if defined(OP_AppCtrl_Accel_LogicTypeTable)
+  #include "app_ctrl_accel_local.h"
+#endif
 
 /* 本体 */
 #include "app_controll.h"
 #include "app_controll_pac.h"
+
 
 /* ============================================================ */
 /* マクロ定数定義                                               */
@@ -259,7 +263,11 @@ static void vd_s_CtrlMtrForward(U1 u1_a_block, U4 u4_a_speed)
 
   /* 500ms動作する。PWM2msで9cm前進する */
   u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
+#if defined(OP_AppCtrl_Accel_LogicTypeTable)
+  u4_s_StepCount += (U4)600;
+#else
   u4_s_StepCount += (U4)500;
+#endif
 #if 0
   //ここは見直しが必要 FTやめる 1msの走行距離をちゃんと計算する
   //走行ステップ数算出
@@ -367,6 +375,11 @@ static void vd_s_CtrlMtrStop(void)
 
   /* モータ励磁をOFF */
   u1_s_MtrPowerMode = (U1)MTR_OFF;
+
+#if (0)
+  u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
+  u4_s_StepCount += (U4)10000;
+#endif
 }
 
 /* ============================================================ */
@@ -425,6 +438,7 @@ void vd_s_IntDrvControll(void)
   vd_s_CtrlMtuPulse();
 }
 
+
 /* ============================================================ */
 /* 関数名 : vd_s_IntDrvAcclControll                             */
 /*          加減速制御                                          */
@@ -435,6 +449,7 @@ void vd_s_IntDrvControll(void)
 /* ============================================================ */
 static void vd_s_IntDrvAcclControll(void)
 {
+#if defined(OP_AppCtrl_Accel_LogicTypePhysical)
   /* 1msごとにカウントアップ */
   u4_s_TimerCount++;
 
@@ -463,6 +478,31 @@ static void vd_s_IntDrvAcclControll(void)
       u4_s_AccelCount = u4_s_TimerCount;
     }
   }
+#elif defined(OP_AppCtrl_Accel_LogicTypeTable)
+  /* 1msごとにカウントアップ */
+  if (u1_s_MtrPowerMode == (U1)MTR_ON) {
+    if (u4_s_TimerCount < (U4)CU2_Max) {
+      u4_s_TimerCount++;
+    }
+
+    if (u2_s_CycleTimeR == u2_s_CycleTimeL) {
+      u4_s_CurrentSpeedR = FnU2_AppCtrl_Accel_ctrlPwmFreq(u4_s_TimerCount * (U4)1000, CU4_AppCtrl_Accel_SizePwmFreqMap, &CSTA_AppCtrl_Accel_PwmFreqMap1[0]);
+      u4_s_CurrentSpeedL = FnU2_AppCtrl_Accel_ctrlPwmFreq(u4_s_TimerCount * (U4)1000, CU4_AppCtrl_Accel_SizePwmFreqMap, &CSTA_AppCtrl_Accel_PwmFreqMap1[0]);
+    }
+    else {
+      u4_s_CurrentSpeedR = FnU2_AppCtrl_Accel_ctrlPwmFreq(u4_s_TimerCount * (U4)1000, CU4_AppCtrl_Accel_SizePwmFreqMap, &CSTA_AppCtrl_Accel_PwmFreqMap2[0]);
+      u4_s_CurrentSpeedL = FnU2_AppCtrl_Accel_ctrlPwmFreq(u4_s_TimerCount * (U4)1000, CU4_AppCtrl_Accel_SizePwmFreqMap, &CSTA_AppCtrl_Accel_PwmFreqMap2[0]);
+    }
+  }
+  else {
+    u4_s_TimerCount = (U4)0;
+    /* u4_s_CurrentSpeedR 保持 */
+    /* u4_s_CurrentSpeedL 保持 */
+  }
+
+#else
+  /* 加速制御無効 */
+#endif
 }
 
 /* ============================================================ */
