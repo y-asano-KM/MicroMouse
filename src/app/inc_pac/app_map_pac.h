@@ -46,7 +46,7 @@ typedef enum
   north=0,       /* 北 */
   east=1,        /* 東 */
   south=2,       /* 南 */
-  west=3,        /* 西 */
+  west=3        /* 西 */
 }t_direction;
 
 /*?自分から見た方向を示す列挙型?*/
@@ -56,7 +56,7 @@ typedef enum
   right=1,       /* 右 */
   rear=2,        /* 後 */
   left=3,        /* 左 */
-  unknown,       /* 方向不明 */
+  unknown       /* 方向不明 */
 }t_local_dir;
 
 
