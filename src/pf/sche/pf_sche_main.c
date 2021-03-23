@@ -26,6 +26,7 @@
 #include "pf_bz_ctrl_pac.h"
 #include "app_controll_pac.h"
 #include "app_recgwall_pac.h"
+#include "app_map_pac.h"
 
 /* 本体 */
 #include "pf_sche_main.h"
@@ -97,6 +98,9 @@ VD FnVD_PfSche_wrapMainProc(VD)
   /* 壁認識処理 */
   FnVD_Recg_WallRecognize();
 
+  /* 壁情報更新 */
+  Fn_MAP_updateWall();
+
   /* LED制御 */
   FnVD_PfLed_Ctrl_mediate();
 
@@ -111,5 +115,9 @@ VD FnVD_PfSche_wrapMainProc(VD)
 
   /* CONTROLLメイン処理 */
   vd_ControllerMainTask();
+
+  /* 自車位置情報更新 */
+  Fn_MAP_updatePosition();
+
 }
 

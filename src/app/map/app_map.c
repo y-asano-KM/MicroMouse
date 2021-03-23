@@ -51,7 +51,8 @@ t_wall wall[MAZESIZE_X][MAZESIZE_Y]; /* 壁の情報を格納する構造体配�
 /* ============================================================ */
 /* 変数定義(static)                                             */
 /* ============================================================ */
-
+  /* 前回動作状況を設定する変数 */
+  t_bool en_runstt_last;
 
 
 /* ============================================================ */
@@ -123,6 +124,9 @@ void Fn_MAP_init(void)
   /* 自車方角を北に初期化 */
   mypos.dir = north;  
 
+  /* 前回動作状況を走行完了に初期化 */
+  en_runstt_last = (t_bool)1;
+
 }
 
 
@@ -165,126 +169,135 @@ void Fn_MAP_updateWall(void)
   int x,y;
   unsigned char n_write,s_write,e_write,w_write;
 
-  if (mypos.dir == north) {                        /* 北を向いている時 */
-     if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
-	     n_write = 1;
-     }else{
-	     n_write = 0;
-     }
+  /* 移動内容を設定する変数 */
+  t_local_dir* pst_t_dir;
+  /* 移動状況を設定する変数 */
+  t_bool* pen_t_runstt;
 
-     if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
-	     e_write = 1;
-     }else{
-	     e_write = 0;
-     }
+ /* 動作状況 0:走行中、1:走行完了 */
+  pen_t_runstt = Fn_CONTROL_outputStatus(pst_t_dir);
 
-     if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
-	     w_write = 1;
-     }else{
-	     w_write = 0;
-     }
+  if(*pen_t_runstt == 1){ /* 動作状況 1:走行完了 */
+    if (mypos.dir == north) {                        /* 北を向いている時 */
+       if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
+         n_write = 1;
+       }else{
+         n_write = 0;
+       }
 
-     s_write = NOWALL;                             /* 後ろは必ず壁がない */
-  }
+       if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
+         e_write = 1;
+       }else{
+         e_write = 0;
+       }
+
+       if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
+         w_write = 1;
+       }else{
+         w_write = 0;
+       }
+
+       s_write = NOWALL;                             /* 後ろは必ず壁がない */
+    }
   
-  if (mypos.dir == east) {                        /* 東を向いている時 */
-     if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
-	     e_write = 1;
-     }else{
-	     e_write = 0;
-     }
+    if (mypos.dir == east) {                        /* 東を向いている時 */
+       if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
+         e_write = 1;
+       }else{
+         e_write = 0;
+       }
 
-     if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
-	     s_write = 1;
-     }else{
-	     s_write = 0;
-     }
+       if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
+         s_write = 1;
+       }else{
+         s_write = 0;
+       }
 
-     if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
-	     n_write = 1;
-     }else{
-	     n_write = 0;
-     }
+       if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
+         n_write = 1;
+       }else{
+         n_write = 0;
+       }
 
-     w_write = NOWALL;                             /* 後ろは必ず壁がない */
-  }
+       w_write = NOWALL;                             /* 後ろは必ず壁がない */
+    }
   
-  if (mypos.dir == south) {                        /* 南を向いている時 */
-     if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
-	     s_write = 1;
-     }else{
-	     s_write = 0;
-     }
+    if (mypos.dir == south) {                        /* 南を向いている時 */
+       if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
+         s_write = 1;
+       }else{
+         s_write = 0;
+       }
 
-     if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
-	     w_write = 1;
-     }else{
-	     w_write = 0;
-     }
+       if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
+         w_write = 1;
+       }else{
+         w_write = 0;
+       }
 
-     if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
-	     e_write = 1;
-     }else{
-	     e_write = 0;
-     }
+       if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
+         e_write = 1;
+       }else{
+         e_write = 0;
+       }
 
-     n_write = NOWALL;                             /* 後ろは必ず壁がない */
-  }
+       n_write = NOWALL;                             /* 後ろは必ず壁がない */
+    }
 
-  if (mypos.dir == west) {                        /* 西を向いている時 */
-     if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
-	     w_write = 1;
-     }else{
-	     w_write = 0;
-     }
+    if (mypos.dir == west) {                        /* 西を向いている時 */
+       if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
+         w_write = 1;
+       }else{
+         w_write = 0;
+       }
 
-     if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
-	     n_write = 1;
-     }else{
-	     n_write = 0;
-     }
+       if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
+         n_write = 1;
+       }else{
+         n_write = 0;
+       }
 
-     if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
-	     s_write = 1;
-     }else{
-	     s_write = 0;
-     }
+       if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
+         s_write = 1;
+       }else{
+         s_write = 0;
+       }
 
-     e_write = NOWALL;                             /* 後ろは必ず壁がない */
-  }
+       e_write = NOWALL;                             /* 後ろは必ず壁がない */
+    }
 
   
 
-  /* 自車位置の壁情報を更新 */
-  x = mypos.x;
-  y = mypos.y;
+    /* 自車位置の壁情報を更新 */
+    x = mypos.x;
+    y = mypos.y;
 
-  wall[x][y].north = n_write;
-  wall[x][y].south = s_write;
-  wall[x][y].east  = e_write;
-  wall[x][y].west  = w_write;
+    wall[x][y].north = n_write;
+    wall[x][y].south = s_write;
+    wall[x][y].east  = e_write;
+    wall[x][y].west  = w_write;
 
-  /* 反対側から見た壁情報を更新 */
-  if(y < MAZESIZE_Y-1)
-  {
-    wall[x][y+1].south = n_write;
+    /* 反対側から見た壁情報を更新 */
+    if(y < MAZESIZE_Y-1)
+    {
+      wall[x][y+1].south = n_write;
+    }
+
+    if(x < MAZESIZE_X-1)
+    {
+      wall[x+1][y].west = e_write;
+    }
+
+    if(y > 0)
+    {
+      wall[x][y-1].north = s_write;
+    }
+
+    if(x > 0)
+    {
+      wall[x-1][y].east = w_write;
+    }
   }
-
-  if(x < MAZESIZE_X-1)
-  {
-    wall[x+1][y].west = e_write;
-  }
-
-  if(y > 0)
-  {
-    wall[x][y-1].north = s_write;
-  }
-
-  if(x > 0)
-  {
-    wall[x-1][y].east = w_write;
-  }
-
 }
 
 
@@ -320,14 +333,16 @@ void Fn_MAP_updatePosition(void)
   t_direction glob_nextdir;
   /* 移動内容を設定する変数 */
   t_local_dir* pst_t_dir;
-  /* 移動状態を設定する変数 */
+  /* 移動状況を設定する変数 */
   t_bool* pen_t_runstt;
 
+ /* 動作状況 0:走行中、1:走行完了 */
   pen_t_runstt = Fn_CONTROL_outputStatus(pst_t_dir);
 
-  if(*pen_t_runstt == 1){
+  if((en_runstt_last == 0)   /* 前回動作状況 0:走行中 */
+     && (*pen_t_runstt == 1)){ /* 動作状況 1:走行完了 */
     /* 次に行く方向を戻り値とする関数 */
-    glob_nextdir = (t_direction)FnU1_Plan_indicatedir(mypos.x,mypos.y,mypos.dir);
+    glob_nextdir = (t_direction)FnU1_Plan_retdir();
 
     /* 方向を更新 */
     mypos.dir = glob_nextdir;
@@ -349,5 +364,9 @@ void Fn_MAP_updatePosition(void)
   	  mypos.x--;
     }
   }
+
+  /* 前回動作状況を更新 */
+  en_runstt_last == *pen_t_runstt;
+
 }
 
