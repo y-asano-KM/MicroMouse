@@ -81,6 +81,9 @@ static U4 u4_s_AccelCount;                        /* 最高速度に達したカ
 static U4 u4_s_StepCount;                         /* 走行ステップ数 */
 
 static U1 u1_s_next_act;                          /*  */
+#if defined(OP_AppCtrl_Accel_LogicTypeTable)
+static U1 u1_s_next_act_prev;
+#endif
 
 /* HWへ渡すパラメータ */
 static U2 u2_s_CycleTimeR;                        /* 右モータ周期とパルス幅(割り込み処理) */
@@ -139,6 +142,9 @@ void vd_g_InitializeController(void)
   en_s_dir           = (t_local_dir)4;                 /* プランナ指示 方向 */
   en_s_runstt        = (t_bool)1;                      /* 動作状況 0:走行中、1:走行完了 */
   u1_s_next_act      = (U1)VHECLE_STOP;                /* プランナ指示 方向→内部情報 */
+#if defined(OP_AppCtrl_Accel_LogicTypeTable)
+  u1_s_next_act_prev = (U1)VHECLE_STOP;
+#endif
 }
 
 /* ============================================================ */
@@ -338,7 +344,11 @@ static void vd_s_CtrlMtrTurn(S2 s2_a_angle)
   /* 600msで90°を超える */
   /* 100°くらい？10°分減らしてみる */
   u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
+#if defined(OP_AppCtrl_Accel_LogicTypeTable)
+  u4_s_StepCount += (U4)740;
+#else
   u4_s_StepCount += (U4)540;
+#endif
 #if 0
   /* 走行ステップ数算出 */
   //現在の1ms割り込み回数に旋回する時間を加算する
@@ -378,7 +388,7 @@ static void vd_s_CtrlMtrStop(void)
 
 #if (0)
   u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
-  u4_s_StepCount += (U4)10000;
+  u4_s_StepCount += (U4)2000;
 #endif
 }
 
@@ -481,15 +491,21 @@ static void vd_s_IntDrvAcclControll(void)
 #elif defined(OP_AppCtrl_Accel_LogicTypeTable)
   /* 1msごとにカウントアップ */
   if (u1_s_MtrPowerMode == (U1)MTR_ON) {
+  	/* 操舵方向が変化したらカウンタリセット */
+  	if (u1_s_next_act != u1_s_next_act_prev) {
+      u4_s_TimerCount = (U4)0;
+    }
     if (u4_s_TimerCount < (U4)CU2_Max) {
       u4_s_TimerCount++;
     }
 
-    if (u2_s_CycleTimeR == u2_s_CycleTimeL) {
+    if (u1_s_next_act == (U1)VHECLE_FORWORD) {
+      /* 直進 */
       u4_s_CurrentSpeedR = FnU2_AppCtrl_Accel_ctrlPwmFreq(u4_s_TimerCount * (U4)1000, CU4_AppCtrl_Accel_SizePwmFreqMap, &CSTA_AppCtrl_Accel_PwmFreqMap1[0]);
       u4_s_CurrentSpeedL = FnU2_AppCtrl_Accel_ctrlPwmFreq(u4_s_TimerCount * (U4)1000, CU4_AppCtrl_Accel_SizePwmFreqMap, &CSTA_AppCtrl_Accel_PwmFreqMap1[0]);
     }
     else {
+      /* 旋回 */
       u4_s_CurrentSpeedR = FnU2_AppCtrl_Accel_ctrlPwmFreq(u4_s_TimerCount * (U4)1000, CU4_AppCtrl_Accel_SizePwmFreqMap, &CSTA_AppCtrl_Accel_PwmFreqMap2[0]);
       u4_s_CurrentSpeedL = FnU2_AppCtrl_Accel_ctrlPwmFreq(u4_s_TimerCount * (U4)1000, CU4_AppCtrl_Accel_SizePwmFreqMap, &CSTA_AppCtrl_Accel_PwmFreqMap2[0]);
     }
@@ -500,6 +516,8 @@ static void vd_s_IntDrvAcclControll(void)
     /* u4_s_CurrentSpeedL 保持 */
   }
 
+  /* 前回値更新 */
+  u1_s_next_act_prev = u1_s_next_act;
 #else
   /* 加速制御無効 */
 #endif
