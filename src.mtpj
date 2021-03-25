@@ -1,9 +1,9 @@
 ﻿<CubeSuiteProject>
-  <ProductVersion>9.04.00.00</ProductVersion>
+  <ProductVersion>9.05.00.00</ProductVersion>
   <Class Guid="68f4a651-b9cd-473b-a595-b00447132ffa">
     <Instance Guid="00000000-0000-0000-0000-000000000000">
       <FormatVersion>2.0</FormatVersion>
-      <FileVersion>9.4</FileVersion>
+      <FileVersion>9.5</FileVersion>
       <ProjectGuid>50fd31f6-f207-4350-8d19-ae82cd5b61a1</ProjectGuid>
       <ProjectItemGuid>ffc29d34-f9b0-47d6-b828-669c632b9e1a</ProjectItemGuid>
       <FileCategoryGuid>656a04f7-5ce1-433c-8614-fd28fb188d98</FileCategoryGuid>
@@ -1488,7 +1488,7 @@
       <GeneralOptionPatch-DefaultValue>None</GeneralOptionPatch-DefaultValue>
       <GeneralOptionSaveAcc-DefaultValue>False</GeneralOptionSaveAcc-DefaultValue>
       <IsLockedByUser>False</IsLockedByUser>
-      <TimeTagModified--0>-8585852906550740979</TimeTagModified--0>
+      <TimeTagModified--0>-8585849290089311637</TimeTagModified--0>
       <BuildMode-0>DefaultBuild</BuildMode-0>
       <Memo-0 />
       <OutputMessageFormat-0>%TargetFiles%</OutputMessageFormat-0>
@@ -1496,7 +1496,7 @@
       <SetAllBuildModeValue-0>False</SetAllBuildModeValue-0>
       <PreBuildCommands-0 />
       <PostBuildCommands-0 />
-      <TimeTagModified--1>-8585852906550740979</TimeTagModified--1>
+      <TimeTagModified--1>-8585849290089311637</TimeTagModified--1>
       <OutputMessageFormat-1>%TargetFiles%</OutputMessageFormat-1>
       <FormatBuildOptionList-1>%TargetFiles% : %Program% %Options%</FormatBuildOptionList-1>
       <PreBuildCommands-1 />
@@ -1552,7 +1552,7 @@
       <GeneralOptionBaseAddressRegister-0>None</GeneralOptionBaseAddressRegister-0>
       <GeneralOptionPatch-0>None</GeneralOptionPatch-0>
       <GeneralOptionSaveAcc-0>False</GeneralOptionSaveAcc-0>
-      <LastCompilerVersion-0>V3.02.00</LastCompilerVersion-0>
+      <LastCompilerVersion-0>V3.03.00</LastCompilerVersion-0>
       <GeneralOptionIsa-1>RXv1</GeneralOptionIsa-1>
       <GeneralOptionOutput-1>LoadModuleFile</GeneralOptionOutput-1>
       <GeneralOptionPic-1>False</GeneralOptionPic-1>
@@ -1732,6 +1732,7 @@
       <COptionCheck-DefaultValue>No</COptionCheck-DefaultValue>
       <COptionFloatOrder-DefaultValue>False</COptionFloatOrder-DefaultValue>
       <COptionIncode-DefaultValue>Sjis</COptionIncode-DefaultValue>
+      <COptionBranchChaining-DefaultValue>None</COptionBranchChaining-DefaultValue>
       <IsLockedByUser>False</IsLockedByUser>
       <TimeTagModified--0>-8585856275118096036</TimeTagModified--0>
       <COptionLangC-0>C99</COptionLangC-0>
@@ -1870,6 +1871,7 @@ PiCoClassic3
       <COptionCheck-0>No</COptionCheck-0>
       <COptionFloatOrder-0>False</COptionFloatOrder-0>
       <COptionIncode-0>Sjis</COptionIncode-0>
+      <COptionBranchChaining-0>None</COptionBranchChaining-0>
       <TimeTagModified--1>-8585856275118096036</TimeTagModified--1>
       <COptionLangC-1>C99</COptionLangC-1>
       <COptionListfile-1>True</COptionListfile-1>
@@ -2006,6 +2008,7 @@ src\app\inc_pac
       <COptionCheck-1>No</COptionCheck-1>
       <COptionFloatOrder-1>False</COptionFloatOrder-1>
       <COptionIncode-1>Utf8</COptionIncode-1>
+      <COptionBranchChaining-1>None</COptionBranchChaining-1>
     </Instance>
     <Instance Guid="5ad1746c-d03e-4610-a91f-aaa4fb37bc10">
       <AsmOptionChkpm-DefaultValue>False</AsmOptionChkpm-DefaultValue>
@@ -2437,6 +2440,7 @@ ROMVAL_APP=RAMVAL_APP
       <HexOptionCrcType-DefaultValue>Ccitt</HexOptionCrcType-DefaultValue>
       <HexOptionCrcInitialValue-DefaultValue />
       <HexOptionCrcEndian-DefaultValue>None</HexOptionCrcEndian-DefaultValue>
+      <HexOptionVerboseCrc-DefaultValue>False</HexOptionVerboseCrc-DefaultValue>
       <HexOptionEndRecord-DefaultValue>None</HexOptionEndRecord-DefaultValue>
       <LinkOptionS9-DefaultValue>False</LinkOptionS9-DefaultValue>
       <HexOptionCreateUnfilledArea-DefaultValue>False</HexOptionCreateUnfilledArea-DefaultValue>
@@ -2479,6 +2483,7 @@ ROMVAL_APP=RAMVAL_APP
       <HexOptionCrcType-0>Ccitt</HexOptionCrcType-0>
       <HexOptionCrcInitialValue-0 />
       <HexOptionCrcEndian-0>None</HexOptionCrcEndian-0>
+      <HexOptionVerboseCrc-0>False</HexOptionVerboseCrc-0>
       <HexOptionEndRecord-0>None</HexOptionEndRecord-0>
       <LinkOptionS9-0>False</LinkOptionS9-0>
       <HexOptionCreateUnfilledArea-0>False</HexOptionCreateUnfilledArea-0>
@@ -2520,6 +2525,7 @@ ROMVAL_APP=RAMVAL_APP
       <HexOptionCrcType-1>Ccitt</HexOptionCrcType-1>
       <HexOptionCrcInitialValue-1 />
       <HexOptionCrcEndian-1>None</HexOptionCrcEndian-1>
+      <HexOptionVerboseCrc-1>False</HexOptionVerboseCrc-1>
       <HexOptionEndRecord-1>None</HexOptionEndRecord-1>
       <LinkOptionS9-1>False</LinkOptionS9-1>
       <HexOptionCreateUnfilledArea-1>False</HexOptionCreateUnfilledArea-1>
@@ -2698,8 +2704,9 @@ ROMVAL_APP=RAMVAL_APP
       <LbgOptionSimpleFloatConv-DefaultValue>False</LbgOptionSimpleFloatConv-DefaultValue>
       <LbgOptionFpu-DefaultValue>Fpu</LbgOptionFpu-DefaultValue>
       <LbgOptionFloatOrder-DefaultValue>False</LbgOptionFloatOrder-DefaultValue>
+      <LbgOptionBranchChaining-DefaultValue>None</LbgOptionBranchChaining-DefaultValue>
       <IsLockedByUser>False</IsLockedByUser>
-      <TimeTagModified--0>-8585852906550740979</TimeTagModified--0>
+      <TimeTagModified--0>-8585849290089261564</TimeTagModified--0>
       <LbgOptionLanguage-0>C</LbgOptionLanguage-0>
       <LbgOptionLibraryMode-0>MakeOptionChanged</LbgOptionLibraryMode-0>
       <LbgOptionLogo-0>False</LbgOptionLogo-0>
@@ -2771,7 +2778,8 @@ ROMVAL_APP=RAMVAL_APP
       <LbgOptionSimpleFloatConv-0>False</LbgOptionSimpleFloatConv-0>
       <LbgOptionFpu-0>Fpu</LbgOptionFpu-0>
       <LbgOptionFloatOrder-0>False</LbgOptionFloatOrder-0>
-      <TimeTagModified--1>-8585852906550740979</TimeTagModified--1>
+      <LbgOptionBranchChaining-0>None</LbgOptionBranchChaining-0>
+      <TimeTagModified--1>-8585849290089261564</TimeTagModified--1>
       <LbgOptionLanguage-1>C</LbgOptionLanguage-1>
       <LbgOptionLibraryMode-1>MakeOptionChanged</LbgOptionLibraryMode-1>
       <LbgOptionLogo-1>False</LbgOptionLogo-1>
@@ -2843,6 +2851,7 @@ ROMVAL_APP=RAMVAL_APP
       <LbgOptionSimpleFloatConv-1>False</LbgOptionSimpleFloatConv-1>
       <LbgOptionFpu-1>Fpu</LbgOptionFpu-1>
       <LbgOptionFloatOrder-1>False</LbgOptionFloatOrder-1>
+      <LbgOptionBranchChaining-1>None</LbgOptionBranchChaining-1>
     </Instance>
     <Instance Guid="29c9a1c5-bb32-4334-ae92-085ec6c79faf">
       <LinkOrder-0>0</LinkOrder-0>
