@@ -34,6 +34,7 @@
 #include "app_controll_pac.h"
 #include "app_recgwall_pac.h"
 #include "app_plan_pac.h"
+#include "app_plan_mode_pac.h"
 #include "app_map_pac.h"
 
 /* 本体 */
@@ -146,5 +147,9 @@ VD FnVD_PfSche_wrapInitProc(VD)
 
   /* 壁情報と自車位置情報初期化 */
   Fn_MAP_init();
+
+  /* 動作モード初期化 */
+  FnVD_AppPln_Mode_init();
+
 }
 
