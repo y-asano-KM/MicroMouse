@@ -37,6 +37,7 @@
 /* ============================================================ */
 #if defined(OP_PfCmn_EvaLedMediation)
 extern VD FnVD_PfLed_CtrlEva_mediate(U1 * tpu1Req0, U1 * tpu1Req1, U1 * tpu1Req2, U1 * tpu1Req3);
+extern VD FnVD_PfLed_CtrlEva_setValue(U2 tu2Val);
 #endif
 
 
