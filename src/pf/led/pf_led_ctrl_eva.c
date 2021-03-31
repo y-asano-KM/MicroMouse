@@ -51,6 +51,9 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(static)                                 */
 /* ============================================================ */
+#if defined(OP_PfCmn_EvaLedMediation)
+static U1 FnU1_PfLed_CtrlEva_putValue(VD);
+#endif
 
 
 /* ============================================================ */
@@ -61,6 +64,11 @@
 /* ============================================================ */
 /* 変数定義(static)                                             */
 /* ============================================================ */
+#if defined(OP_PfCmn_EvaLedMediation)
+static U2 u2PfLed_CtrlEva_Value;
+static U2 u2PfLed_CtrlEva_Timer;
+static U1 u1PfLed_CtrlEva_PutEnb;
+#endif
 
 
 /* ============================================================ */
@@ -127,6 +135,7 @@ VD FnVD_PfLed_CtrlEva_mediate(U1 * tpu1Req0, U1 * tpu1Req1, U1 * tpu1Req2, U1 * 
   U1 tu1LedReq1;
   U1 tu1LedReq2;
   U1 tu1LedReq3;
+  U1 tu1Val;
 
   /* 前処理 */
   tu1LedReq0 = (*tpu1Req0);
@@ -210,11 +219,90 @@ VD FnVD_PfLed_CtrlEva_mediate(U1 * tpu1Req0, U1 * tpu1Req1, U1 * tpu1Req2, U1 * 
   tu1LedReq3 = ((tu2PlusCntR > (U2)100) ? (U1)C_OFF : tu1LedReq3);
   #endif
 
+  /* デバッグ用モニタ */
+  if (u1PfLed_CtrlEva_PutEnb == (U1)C_ON) {
+    tu1Val = FnU1_PfLed_CtrlEva_putValue();
+    tu1LedReq0 = (((tu1Val & (U1)0x08) == (U1)0x00) ? (U1)C_OFF : (U1)C_ON);
+    tu1LedReq1 = (((tu1Val & (U1)0x04) == (U1)0x00) ? (U1)C_OFF : (U1)C_ON);
+    tu1LedReq2 = (((tu1Val & (U1)0x02) == (U1)0x00) ? (U1)C_OFF : (U1)C_ON);
+    tu1LedReq3 = (((tu1Val & (U1)0x01) == (U1)0x00) ? (U1)C_OFF : (U1)C_ON);
+  }
+
   /* 調停結果反映 */
   *tpu1Req0 = tu1LedReq0;
   *tpu1Req1 = tu1LedReq1;
   *tpu1Req2 = tu1LedReq2;
   *tpu1Req3 = tu1LedReq3;
+}
+
+
+/* ============================================================ */
+/* 関数名 : FnVD_PfLed_CtrlEva_setValue                         */
+/*          デバッグ用モニタ値設定                              */
+/* 引数   : tu2Val  モニタ値                                    */
+/* 戻り値 : なし                                                */
+/* 概要   : LEDで表示する値を設定する                           */
+/* 制約   : なし                                                */
+/* ============================================================ */
+VD FnVD_PfLed_CtrlEva_setValue(U2 tu2Val)
+{
+  if (u1PfLed_CtrlEva_PutEnb == (U1)C_OFF) {
+    u1PfLed_CtrlEva_PutEnb = (U1)C_ON;
+    u2PfLed_CtrlEva_Value = tu2Val;
+  }
+}
+
+
+/* ============================================================ */
+/* 関数名 : FnU1_PfLed_CtrlEva_putValue                         */
+/*          デバッグ用モニタ値表示桁選択                        */
+/* 引数   : なし                                                */
+/* 戻り値 : なし                                                */
+/* 概要   : LEDで表示する値の桁を選択                           */
+/* 制約   : なし                                                */
+/* ============================================================ */
+static U1 FnU1_PfLed_CtrlEva_putValue(VD)
+{
+  U2 tu2Val;
+
+  tu2Val = u2PfLed_CtrlEva_Value;
+
+  u2PfLed_CtrlEva_Timer++;
+
+  if (0) {
+  }
+  else if (u2PfLed_CtrlEva_Timer < ((U2)1000 / (U2)5)) {
+    /* 16進数4桁目表示 */
+    tu2Val &= (U2)0xF000;
+    tu2Val >>= (U2)24;
+  }
+  else if (u2PfLed_CtrlEva_Timer < ((U2)2000 / (U2)5)) {
+    /* 16進数3桁目表示 */
+    tu2Val &= (U2)0x0F00;
+    tu2Val >>= (U2)16;
+  }
+  else if (u2PfLed_CtrlEva_Timer < ((U2)3000 / (U2)5)) {
+    /* 16進数2桁目表示 */
+    tu2Val &= (U2)0x00F0;
+    tu2Val >>= (U2)8;
+  }
+  else if (u2PfLed_CtrlEva_Timer < ((U2)4000 / (U2)5)) {
+    /* 16進数1桁目表示 */
+    tu2Val &= (U2)0x000F;
+  }
+  else if (u2PfLed_CtrlEva_Timer < ((U2)5000 / (U2)5)) {
+    /* 消灯(緩衝期間) */
+    tu2Val = (U2)0x0000;
+  }
+  else {
+    /* 要求クリア */
+    tu2Val = (U2)0x0000;
+    u2PfLed_CtrlEva_Timer = (U2)0;
+    u2PfLed_CtrlEva_Value = (U2)0;
+    u1PfLed_CtrlEva_PutEnb = (U1)C_OFF;
+  }
+
+  return ((U1)tu2Val);
 }
 #endif
 
