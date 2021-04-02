@@ -274,17 +274,17 @@ static U1 FnU1_PfLed_CtrlEva_putValue(VD)
   else if (u2PfLed_CtrlEva_Timer < ((U2)1000 / (U2)5)) {
     /* 16進数4桁目表示 */
     tu2Val &= (U2)0xF000;
-    tu2Val >>= (U2)24;
+    tu2Val >>= (U2)12;
   }
   else if (u2PfLed_CtrlEva_Timer < ((U2)2000 / (U2)5)) {
     /* 16進数3桁目表示 */
     tu2Val &= (U2)0x0F00;
-    tu2Val >>= (U2)16;
+    tu2Val >>= (U2)8;
   }
   else if (u2PfLed_CtrlEva_Timer < ((U2)3000 / (U2)5)) {
     /* 16進数2桁目表示 */
     tu2Val &= (U2)0x00F0;
-    tu2Val >>= (U2)8;
+    tu2Val >>= (U2)4;
   }
   else if (u2PfLed_CtrlEva_Timer < ((U2)4000 / (U2)5)) {
     /* 16進数1桁目表示 */
