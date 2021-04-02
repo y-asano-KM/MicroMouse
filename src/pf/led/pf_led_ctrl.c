@@ -32,7 +32,7 @@
 /* ============================================================ */
 #if defined(OP_PfCmn_ExistFuncInitialLedChk)
   /* [ms]イニシャル点灯時間 */
-  #define CU2_PfLed_Ctrl_InitialOnTime    ((U2)((U2)1500 / (U2)CU1_PrjCmn_MainPeriod))
+  #define CU2_PfLed_Ctrl_InitialOnTime    ((U2)((U2)1000 / (U2)CU1_PrjCmn_MainPeriod))
 #endif
 
 
