@@ -19,9 +19,11 @@
 
 /* 個別 */
 #include "app_map_pac.h"
+#include "app_plan_mode_pac.h"
 
 /* 本体 */
 #include "app_plan_pac.h"
+
 
 /* ============================================================ */
 /* マクロ定数定義                                               */
@@ -34,6 +36,7 @@
 #define true 1
 
 #define debug_plan 0            /* デバッグ用3月26日走行会MAP */
+#define debug_planmode 0        /* Mode切替え(通常モード(最短経路走行モード):0, 探索走行モード:1)有効化 */
 
 /* ============================================================ */
 /* 型定義                                                       */
@@ -104,11 +107,25 @@ VD FnVD_Plan_initmap(VD)
     }
 
     //ゴール座標の歩数を0に設定
-    u1s_map[3][3] = (U1)0;
+    u1s_map[2][2] = (U1)0;
     /*u1s_map[7][7] = (U1)0;*/
     /*u1s_map[7][8] = (U1)0;*/
     /*u1s_map[8][7] = (U1)0;*/
     /*u1s_map[8][8] = (U1)0;*/
+
+#if debug_plan
+    for( u1t_i = (U1)0; u1t_i < ARRAYSIZE; u1t_i++ )
+    {
+        u1s_north[u1t_i] = (U1)0x00;
+        u1s_east[u1t_i] = (U1)0x00;
+        u1s_south[u1t_i] = (U1)0x00;
+        u1s_west[u1t_i] = (U1)0x00;
+    }
+
+    u1s_bytepos = (U1)0;                /* 最短経路抽出バイト位置 */
+    u1s_bitpos = (U1)7;                 /* 最短経路抽出ビット位置 */
+#endif
+
 }
 
 /* ============================================================ */
@@ -379,6 +396,10 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
     u1t_n = u1s_map[x][y];      /* 対象地点の歩数マップ値を初期値設定 */
     u1t_ret = (U1)255;
 
+#if debug_plan
+    u1t_n = (U1)254;
+#endif
+
     if( u1t_n == (U1)255 )
     {
         /* 最短経路が判定できなかったため、壁判定UNKNOWN箇所(歩数マップ値が初期値(255)の箇所)の捜索 */
@@ -396,10 +417,10 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
     else
     {
 #if debug_plan
-        u1s_north[0] = 0xF0;    /* デバッグ用3月26日走行会MAP */
-        u1s_east[0] = 0x0F;     /* デバッグ用3月26日走行会MAP */
-        u1s_south[1] = 0xC0;    /* デバッグ用3月26日走行会MAP */
-        u1s_west[0] = 0x30;     /* デバッグ用3月26日走行会MAP */
+        u1s_north[0] = (U1)0xF0;    /* デバッグ用3月26日走行会MAP */
+        u1s_east[0] = (U1)0x0F;     /* デバッグ用3月26日走行会MAP */
+        u1s_south[1] = (U1)0xC0;    /* デバッグ用3月26日走行会MAP */
+        u1s_west[1] = (U1)0x30;     /* デバッグ用3月26日走行会MAP */
 #endif
 
 	u1t_temp = u1s_north[u1s_bytepos];
@@ -493,17 +514,36 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
     u1t_priority = (U1)0;
     u1t_priority_temp = (U1)0;
 
+#if debug_planmode
+    U1 u1t_mode;
+
+    u1t_mode = FnEN_AppPln_Mode_get();
+    if( u1t_mode = (U1)1 )
+    {
+        u1s_runpattern = (U1)0; 
+    }
+    else if( u1t_mode = (U1)0 )
+    {
+        u1s_runpattern = (U1)1; 
+    }
+#endif
+
     if( y < (U1)( MAZESIZE_Y - (U1)1 ) )        /* 範囲チェック */
     {
         if( wall[x][y].north == NOWALL )        /* 壁がなければ */
         {
             u1t_ret_temp = north;               /* 進行方角　北(仮設定) */
-            if( u1s_map[x][ (U1)( y + (U1)1 ) ] == (U1)0 )      /* ゴールだったら */
-            {
-                u1t_priority = (U1)8;           /* 進行方角決定 */
-            }
+#if debug_planmode
+	    if( u1s_runpattern = (U1)1 )        /* 最短経路走行モード */
+	    {
+                if( u1s_map[x][ (U1)( y + (U1)1 ) ] == (U1)0 )      /* ゴールだったら */
+                {
+                    u1t_priority = (U1)8;           /* 進行方角決定 */
+                }
+	    }
             else
             {
+#endif
                 if( wall[x][ (U1)( y + (U1)1 ) ].north == UNKNOWN )     /* 北に１マス進んだ先を一度も探索していなかったら */
                 {
                     u1t_priority = (U1)4;
@@ -517,7 +557,9 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
                 {
                     u1t_priority += (U1)1;
                 }
+#if debug_planmode
             }
+#endif
         }
     }
 
@@ -527,13 +569,17 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
         {
             if( wall[x][y].east == NOWALL )     /* 壁がなければ */
             {
-
-                if( u1s_map[ (U1)( x + (U1)1 ) ][y] == (U1)0 )          /* ゴールだったら */
-                {
-                    u1t_priority_temp = (U1)8;  /* 進行方角決定 */
+#if debug_planmode
+                if( u1s_runpattern = (U1)1 )        /* 最短経路走行モード */
+	        {
+                    if( u1s_map[ (U1)( x + (U1)1 ) ][y] == (U1)0 )          /* ゴールだったら */
+                    {
+                        u1t_priority_temp = (U1)8;  /* 進行方角決定 */
+                    }
                 }
                 else
                 {
+#endif
                     if( wall[ (U1)( x + (U1)1 ) ][y].east == UNKNOWN ) /* 東に１マス進んだ先を一度も探索していなかったら */
                     {
                         u1t_priority_temp = (U1)4;
@@ -547,7 +593,9 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
                     {
                         u1t_priority_temp += (U1)1;
                     }
+#if debug_planmode
                 }
+#endif
 
                 if( u1t_priority_temp > u1t_priority )
                 {
@@ -565,12 +613,17 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
         {
             if( wall[x][y].south == NOWALL )    /* 壁がなければ */
             {
-                if( u1s_map[x][ (U1)( y - (U1)1 ) ] == (U1)0 )  /* ゴールだったら */
-                {
-                    u1t_priority_temp = (U1)8;  /* 進行方角決定 */
+#if debug_planmode
+                if( u1s_runpattern = (U1)1 )        /* 最短経路走行モード */
+	        {
+                    if( u1s_map[x][ (U1)( y - (U1)1 ) ] == (U1)0 )  /* ゴールだったら */
+                    {
+                        u1t_priority_temp = (U1)8;  /* 進行方角決定 */
+                    }
                 }
                 else
                 {
+#endif
                     if( wall[x][ (U1)( y - (U1)1 ) ].south == UNKNOWN ) /* 南に１マス進んだ先を一度も探索していなかったら */
                     {
                         u1t_priority_temp = (U1)4;
@@ -584,7 +637,9 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
                     {
                         u1t_priority_temp += (U1)1;
                     }
+#if debug_planmode
                 }
+#endif
 
                 if( u1t_priority_temp > u1t_priority )
                 {
@@ -600,14 +655,19 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
     {
         if( y > (U1)0 )                         /* 範囲チェック */
         {
-            if( wall[x][y].south == NOWALL )    /* 壁がなければ */
+            if( wall[x][y].west == NOWALL )    /* 壁がなければ */
             {
-                if( u1s_map[ (U1)( x - (U1)1 ) ][y] == (U1)0 )  /* ゴールだったら */
-                {
-                    u1t_priority_temp = (U1)8;  /* 進行方角決定 */
+#if debug_planmode
+                if( u1s_runpattern = (U1)1 )        /* 最短経路走行モード */
+	        {
+                    if( u1s_map[ (U1)( x - (U1)1 ) ][y] == (U1)0 )  /* ゴールだったら */
+                    {
+                        u1t_priority_temp = (U1)8;  /* 進行方角決定 */
+                    }
                 }
                 else
                 {
+#endif
                     if( wall[ (U1)( x - (U1)1 ) ][y].west == UNKNOWN )  /* 西に１マス進んだ先を一度も探索していなかったら */
                     {
                         u1t_priority_temp = (U1)4;
@@ -621,7 +681,9 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
                     {
                         u1t_priority_temp += (U1)1;
                     }
+#if debug_planmode
                 }
+#endif
 
                 if( u1t_priority_temp > u1t_priority )
                 {
@@ -637,15 +699,15 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
     {
         u1s_direction = (U1)0x10;  /* 進行方向　FORWORD(前進)１マス */
     }
-    if( u1t_ret_temp == ( (U1)( u1t_dir + (U1)1 ) & (U1)0x03 ) )
+    else if( u1t_ret_temp == ( (U1)( u1t_dir + (U1)1 ) & (U1)0x03 ) )
     {
         u1s_direction = (U1)0x01;  /* 進行方向　TURNRIGHT(右折) */
     }
-    if( u1t_ret_temp == ( (U1)( u1t_dir + (U1)2 ) & (U1)0x03 ) )
+    else if( u1t_ret_temp == ( (U1)( u1t_dir + (U1)2 ) & (U1)0x03 ) )
     {
         u1s_direction = (U1)0x02;  /* 進行方向　TURNBACK(転回) */
     }
-    if( u1t_ret_temp == ( (U1)( u1t_dir + (U1)3 ) & (U1)0x03 ) )
+    else if( u1t_ret_temp == ( (U1)( u1t_dir + (U1)3 ) & (U1)0x03 ) )
     {
         u1s_direction = (U1)0x03;  /* 進行方向　TURNLEFT(左折) */
     }
