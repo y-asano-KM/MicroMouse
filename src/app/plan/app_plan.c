@@ -400,71 +400,87 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
     u1t_n = (U1)254;
 #endif
 
-    if( u1t_n == (U1)255 )
+#if debug_planmode
+    U1 u1t_mode;
+
+    u1t_mode = FnEN_AppPln_Mode_get();
+    if( u1t_mode == (U1)2 )       /* 停止モード */
     {
-        /* 最短経路が判定できなかったため、壁判定UNKNOWN箇所(歩数マップ値が初期値(255)の箇所)の捜索 */
-        u1t_ret = FnU1_Plan_searchdir( x, y, dir );
-    }
-    else if( u1t_n == (U1)0 )   /* ゴール地点に着いたら */
-    {
-        if( u1s_shortestroute_c == (U1)0 )  /* 最短経路未抽出の場合 */
-        {
-            u1s_runpattern =1;
-            FnVD_Plan_makemap();            /* 歩数マップ作成 */
-            FnVD_Plan_shortestroute();      /* 最短経路抽出 */
-        }
+      u1s_retdir = dir;           /* 停止中のため現在の進行方角をセット */
+      u1s_direction = (U1)0x04;   /* 進行方向　STOP(停止) */
     }
     else
     {
-#if debug_plan
-        u1s_north[0] = (U1)0xF0;    /* デバッグ用3月26日走行会MAP */
-        u1s_east[0] = (U1)0x0F;     /* デバッグ用3月26日走行会MAP */
-        u1s_south[1] = (U1)0xC0;    /* デバッグ用3月26日走行会MAP */
-        u1s_west[1] = (U1)0x30;     /* デバッグ用3月26日走行会MAP */
 #endif
 
-	u1t_temp = u1s_north[u1s_bytepos];
-        u1t_temp &= ( (U1)1 << u1s_bitpos );
-        if( u1t_temp != (U1)0 )
+        if( u1t_n == (U1)255 )
         {
-            u1t_ret = north;                /* 進行方角　北 */
+            /* 最短経路が判定できなかったため、壁判定UNKNOWN箇所(歩数マップ値が初期値(255)の箇所)の捜索 */
+            u1t_ret = FnU1_Plan_searchdir( x, y, dir );
         }
-        if( u1t_ret == (U1)255 )
+        else if( u1t_n == (U1)0 )   /* ゴール地点に着いたら */
         {
-            u1t_temp = u1s_east[u1s_bytepos];
-            u1t_temp &= ( (U1)1 << u1s_bitpos );
-            if( u1t_temp != (U1)0 )
+            if( u1s_shortestroute_c == (U1)0 )  /* 最短経路未抽出の場合 */
             {
-                u1t_ret = east;             /* 進行方角　東 */
+                u1s_runpattern =1;
+                FnVD_Plan_makemap();            /* 歩数マップ作成 */
+                FnVD_Plan_shortestroute();      /* 最短経路抽出 */
+                u1t_ret = (U1)( (U1)( dir + (U1)2 ) & (U1)0x03 );   /* 進行方向　TURNBACK(転回) */
             }
-        }
-        if( u1t_ret == (U1)255 )
-        {
-            u1t_temp = u1s_south[u1s_bytepos];
-            u1t_temp &= ( (U1)1 << u1s_bitpos );
-            if( u1t_temp != (U1)0 )
-            {
-                u1t_ret = south;            /* 進行方角　南 */
-            }
-        }
-        if( u1t_ret == (U1)255 )
-        {
-            u1t_temp = u1s_west[u1s_bytepos];
-            u1t_temp &= ( (U1)1 << u1s_bitpos );
-            if( u1t_temp != (U1)0 )
-            {
-                u1t_ret = west;             /* 進行方角　西 */
-            }
-        }
-
-        if( u1s_bitpos == (U1)0 )
-        {
-            u1s_bytepos++;
-            u1s_bitpos = (U1)7;
         }
         else
         {
-            u1s_bitpos--;
+
+#if debug_plan
+            u1s_north[0] = (U1)0xF0;    /* デバッグ用3月26日走行会MAP */
+            u1s_east[0] = (U1)0x0F;     /* デバッグ用3月26日走行会MAP */
+            u1s_south[1] = (U1)0xC0;    /* デバッグ用3月26日走行会MAP */
+            u1s_west[1] = (U1)0x30;     /* デバッグ用3月26日走行会MAP */
+#endif
+
+            u1t_temp = u1s_north[u1s_bytepos];
+            u1t_temp &= ( (U1)1 << u1s_bitpos );
+            if( u1t_temp != (U1)0 )
+            {
+                u1t_ret = north;                /* 進行方角　北 */
+            }
+            if( u1t_ret == (U1)255 )
+            {
+                u1t_temp = u1s_east[u1s_bytepos];
+                u1t_temp &= ( (U1)1 << u1s_bitpos );
+                if( u1t_temp != (U1)0 )
+                {
+                    u1t_ret = east;             /* 進行方角　東 */
+                }
+            }
+            if( u1t_ret == (U1)255 )
+            {
+                u1t_temp = u1s_south[u1s_bytepos];
+                u1t_temp &= ( (U1)1 << u1s_bitpos );
+                if( u1t_temp != (U1)0 )
+                {
+                    u1t_ret = south;            /* 進行方角　南 */
+                }
+            }
+            if( u1t_ret == (U1)255 )
+            {
+                u1t_temp = u1s_west[u1s_bytepos];
+                u1t_temp &= ( (U1)1 << u1s_bitpos );
+                if( u1t_temp != (U1)0 )
+                {
+                    u1t_ret = west;             /* 進行方角　西 */
+                }
+            }
+
+            if( u1s_bitpos == (U1)0 )
+            {
+                u1s_bytepos++;
+                u1s_bitpos = (U1)7;
+            }
+            else
+            {
+                u1s_bitpos--;
+            }
         }
 
         u1s_direction = (U1)0x04;      /* 進行方向　STOP(停止) */
@@ -484,11 +500,14 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
         {
             u1s_direction = (U1)0x03;  /* 進行方向　TURNLEFT(左折) */
         }
+
+        u1s_retdir = u1t_ret;   /* 算出した進行方角をセット */
+
+#if debug_planmode
     }
+#endif
 
-    u1s_retdir = u1t_ret;
-
-    return(u1t_ret);
+    return(u1s_direction);
 
 }
 
@@ -694,31 +713,13 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
         }
     }
 
-    u1s_direction = (U1)0x04;      /* 進行方向　STOP(停止) */
-    if( u1t_ret_temp == u1t_dir )
-    {
-        u1s_direction = (U1)0x10;  /* 進行方向　FORWORD(前進)１マス */
-    }
-    else if( u1t_ret_temp == ( (U1)( u1t_dir + (U1)1 ) & (U1)0x03 ) )
-    {
-        u1s_direction = (U1)0x01;  /* 進行方向　TURNRIGHT(右折) */
-    }
-    else if( u1t_ret_temp == ( (U1)( u1t_dir + (U1)2 ) & (U1)0x03 ) )
-    {
-        u1s_direction = (U1)0x02;  /* 進行方向　TURNBACK(転回) */
-    }
-    else if( u1t_ret_temp == ( (U1)( u1t_dir + (U1)3 ) & (U1)0x03 ) )
-    {
-        u1s_direction = (U1)0x03;  /* 進行方向　TURNLEFT(左折) */
-    }
-
     return(u1t_ret_temp);
 
 }
 
 /* ============================================================ */
 /* 関数名 : FnU1_Plan_retdir                                    */
-/*          現在の進行方向を返す                                */
+/*          現在の進行方角を返す                                */
 /* 引数   : なし                                                */
 /* 戻り値 : u1t_ret ：north=0,east=1,south=2,west=3             */
 /* 概要   : 進行方向を返す                                      */
