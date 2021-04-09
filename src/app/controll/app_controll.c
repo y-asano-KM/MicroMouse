@@ -556,19 +556,19 @@ static void vd_s_int_AttitudeControl(void)
     u1_t_l_wall_flag = (U1)st_RecgWall_info_attc.wall_l.bl_wall_with;
 
     /* ここの条件分岐で制御系を切り替える */
-    /* 両側に壁がある場合 */
+    /* 両側の壁を認識している場合 */
     if(u1_t_r_wall_flag == (U1)1 && u1_t_l_wall_flag == (U1)1){
       s4_t_sen_diff = s4_t_r_sen - s4_t_l_sen;
     }
-    /* 右側だけ壁がある場合 */
+    /* 右側だけ壁を認識している場合 */
     else if(u1_t_r_wall_flag == (U1)1 && u1_t_l_wall_flag == (U1)0){
       s4_t_sen_diff = (S4)2 * (s4_t_r_sen - s4_t_r_sen_ref);  
-    }/* 左側だけ壁がある場合 */
+    }/* 左側だけ壁を認識している場合 */
     else if(u1_t_r_wall_flag == (U1)0 && u1_t_l_wall_flag == (U1)1){
       s4_t_sen_diff = (S4)-2 * (s4_t_l_sen - s4_t_l_sen_ref);  
-    }/* 両側に壁がない場合 */
+    }/* 両側の壁を認識していない場合 */
     else if(u1_t_r_wall_flag == (U1)0 && u1_t_l_wall_flag == (U1)0){
-      s4_t_sen_diff = (S4)0;
+      s4_t_sen_diff = (S4)-1 * (s4_t_r_sen - s4_t_l_sen);
     }
     else{
       /* NOP */
@@ -584,7 +584,7 @@ static void vd_s_int_AttitudeControl(void)
 #endif
 
     u4_s_CurrentSpeedR += (U4)fl_t_control_motor;
-    u4_s_CurrentSpeedL += (U4)fl_t_control_motor;
+    u4_s_CurrentSpeedL -= (U4)fl_t_control_motor;
 }
 
 /* ============================================================ */

@@ -82,8 +82,8 @@
 #define PID_KI                0.3                 /* 積分項パラメータ(要調整) */
 #define PID_KD                0.003               /* 微分項パラメータ(要調整) */
 
-#define CTRL_WALL_THRESHOLD_R	250			/* 中央に置いた時の右センサリファレンス(要調整) */
-#define CTRL_WALL_THRESHOLD_L	250			/* 中央に置いた時の左センサリファレンス(要調整) */
+#define CTRL_WALL_THRESHOLD_R	60			/* 中央に置いた時の右センサリファレンス */
+#define CTRL_WALL_THRESHOLD_L	60			/* 中央に置いた時の左センサリファレンス */
 
 /* ============================================================ */
 /* 型定義                                                       */
