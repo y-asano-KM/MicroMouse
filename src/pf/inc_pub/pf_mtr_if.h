@@ -1,7 +1,7 @@
-#if !defined(INCLUDED_pf_mtr_if_pac_h)
-#define INCLUDED_pf_mtr_if_pac_h
+#if !defined(INCLUDED_pf_mtr_if_h)
+#define INCLUDED_pf_mtr_if_h
 /* ============================================================ */
-/* ファイル名 : pf_mtr_if_pac.h                                 */
+/* ファイル名 : pf_mtr_if.h                                     */
 /* 機能       : モータ I/F処理                                  */
 /* ============================================================ */
 
@@ -15,7 +15,6 @@
 
 /* カテゴリ共通 */
 #include "pf_cmn_option.h"
-#include "pf_cmn_option_pac.h"
 
 /* 個別 */
 
@@ -35,11 +34,8 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern VD FnVD_PfMtr_If_initHw(VD);
-extern VD FnVD_PfMtr_If_initPf(VD);
-extern VD FnVD_PfMtr_If_setReq(VD);
-extern VD FnVD_PfMtr_If_clrPulseCntr(VD);
-extern VD FnVD_PfMtr_If_renewPulseCntr(VD);
+extern U2 FnU2_PfMtr_If_getRightMtrPulseCount(VD);
+extern U2 FnU2_PfMtr_If_getLeftMtrPulseCount(VD);
 
 
 /* ============================================================ */

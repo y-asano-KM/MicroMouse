@@ -56,11 +56,13 @@
 /* ============================================================ */
 /* const変数定義(static)                                        */
 /* ============================================================ */
-#if defined(OP_AppCtrl_Accel_LogicTypeTable)
+#if defined(OP_AppCtrl_Accel_LogicTypePhysical)
+/* None */
+#elif defined(OP_AppCtrl_Accel_LogicTypeTable)
 /* PWM出力周波数制御マップ */
 /* Memo:u2Timeは必ず昇順とすること */
-const ST_AppCtrl_Accel_PwmFreqMap CSTA_AppCtrl_Accel_PwmFreqMap1[CU4_AppCtrl_Accel_SizePwmFreqMap] = {
-/* u4ElapsedTime, u2PwmFreq */
+const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap1[CU4_AppCtrl_Accel_SizePwmPeriodMap] = {
+/* u4ElapsedTime, u2PwmPeriod */
   {(U4)32000,    (U2)32000},
   {(U4)48000,    (U2)16000},
   {(U4)56000,    (U2)8000},
@@ -73,8 +75,8 @@ const ST_AppCtrl_Accel_PwmFreqMap CSTA_AppCtrl_Accel_PwmFreqMap1[CU4_AppCtrl_Acc
   {CU4_Max,      CU2_Max}
 };
 
-const ST_AppCtrl_Accel_PwmFreqMap CSTA_AppCtrl_Accel_PwmFreqMap2[CU4_AppCtrl_Accel_SizePwmFreqMap] = {
-/* u4ElapsedTime, u2PwmFreq */
+const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap2[CU4_AppCtrl_Accel_SizePwmPeriodMap] = {
+/* u4ElapsedTime, u2PwmPeriod */
   {(U4)64000,    (U2)64000},
   {(U4)96000,    (U2)32000},
   {(U4)112000,   (U2)16000},
@@ -86,6 +88,17 @@ const ST_AppCtrl_Accel_PwmFreqMap CSTA_AppCtrl_Accel_PwmFreqMap2[CU4_AppCtrl_Acc
   {(U4)740000,   (U2)64000},
   {CU4_Max,      CU2_Max}
 };
+#elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
+const U2 CU2_AppCtrl_Accel_PwmTargetPulseCnt1 = (U2)248;
+const U2 CU2_AppCtrl_Accel_PwmTargetPulseCnt2 = (U2)133;
+const U2 CU2_AppCtrl_Accel_PwmTargetPeriod1   = (U2)2000;
+const U2 CU2_AppCtrl_Accel_PwmTargetPeriod2   = (U2)4000;
+const U2 CU2_AppCtrl_Accel_PwmPeriodInit1     = (U2)32000;
+const U2 CU2_AppCtrl_Accel_PwmPeriodInit2     = (U2)64000;
+const U2 CU2_AppCtrl_Accel_PwmMaxPeriod       = (U2)64000;
+const U2 CU2_AppCtrl_Accel_PwmMinPeriod       = (U2)250;
+#else
+/* None */
 #endif
 
 
