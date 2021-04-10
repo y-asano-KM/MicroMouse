@@ -43,14 +43,14 @@
 /* ============================================================ */
 /* 変数定義(extern)                                             */
 /* ============================================================ */
-U1 u1_mode_transition_permit;        /* 動作モード遷移判定許可フラグ */
-U1 u1_mode;                          /* 動作モード */
+U1 u1_mode;                          /* 走行モード */
 
 /* ============================================================ */
 /* 変数定義(static)                                             */
 /* ============================================================ */
-U1 u1_TactSwtRightShortPush_last;
-U1 u1_TactSwtLeftShortPush_last;
+U1 u1_TactSwtRightShortPush_last;   /* タクトスイッチRight短押し前回値 */
+U1 u1_TactSwtLeftShortPush_last;    /* タクトスイッチLeft短押し前回値 */
+U1 u1_TactSwtCenterShortPush_last;  /* タクトスイッチCenter短押し前回値 */
 
 
 /* ============================================================ */
@@ -81,88 +81,76 @@ U1 u1_TactSwtLeftShortPush_last;
 /* ============================================================ */
 /* ============================================================ */
 /* 関数名 : FnEN_AppPln_Mode_init                               */
-/*          動作モードの初期化                                  */
+/*          走行モードの初期化                                  */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : 動作モード遷移判定許可フラグ をOFFにする            */
-/*          動作モードを通常モードにする                        */
+/* 概要   : 走行モード遷移判定許可フラグ をOFFにする            */
+/*          走行モードを通常モードにする                        */
 /* 制約   : なし                                                */
 /* ============================================================ */
 VD FnVD_AppPln_Mode_init(VD)
 {
-  u1_mode_transition_permit = (U1)C_OFF;
-  u1_mode = (U1)CEN_AppPln_Mode_Normal;
-  u1_TactSwtRightShortPush_last = (U1)C_OFF;
-  u1_TactSwtLeftShortPush_last = (U1)C_OFF;
+  u1_mode = (U1)CEN_AppPln_Mode_Ready;         /* 走行モード：準備モード */
+  u1_TactSwtRightShortPush_last = (U1)C_OFF;   /* タクトスイッチRight短押し前回値：オフ */
+  u1_TactSwtLeftShortPush_last = (U1)C_OFF;    /* タクトスイッチLeft短押し前回値：オフ */
+  u1_TactSwtCenterShortPush_last = (U1)C_OFF;  /* タクトスイッチCenter短押し前回値：オフ */
 
-}
-
-/* ============================================================ */
-/* 関数名 : FnVD_AppPln_Mode_transition_permit_judge            */
-/*          動作モード遷移判定許可判定                          */
-/* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : 動作モード遷移判定許可判定                          */
-/* 制約   : なし                                                */
-/* ============================================================ */
-VD FnVD_AppPln_Mode_transition_permit_judge(VD)
-{
-  U1 tu1_TactSwtCenterShortPush;
-
- /* タクトスイッチC短押し状態チェック */
-  tu1_TactSwtCenterShortPush = FnU1_PfSwt_Ctrl_getTactSwtCenterShortPush();
- 
-  if (tu1_TactSwtCenterShortPush == (U1)C_ON) {
-    u1_mode_transition_permit = (U1)C_ON;
-  }
-  else {
-    u1_mode_transition_permit = (U1)C_OFF;
-  }
 }
 
 /* ============================================================ */
 /* 関数名 : FnVD_AppPln_Mode_transition_judge                   */
-/*          動作モード遷移判定                                  */
+/*          走行モード遷移判定                                  */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
-/* 概要   : 動作モード遷移判定                                  */
+/* 概要   : 走行モード遷移判定                                  */
 /* 制約   : なし                                                */
 /* ============================================================ */
 VD FnVD_AppPln_Mode_transition_judge(VD)
 {
   U1 tu1_TactSwtRightShortPush;
   U1 tu1_TactSwtLeftShortPush;
+  U1 tu1_TactSwtCenterShortPush;
 
  /* タクトスイッチR短押し状態チェック */
   tu1_TactSwtRightShortPush = FnU1_PfSwt_Ctrl_getTactSwtRightShortPush();
  /* タクトスイッチL短押し状態チェック */
   tu1_TactSwtLeftShortPush = FnU1_PfSwt_Ctrl_getTactSwtLeftShortPush();
+ /* タクトスイッチC短押し状態チェック */
+  tu1_TactSwtCenterShortPush = FnU1_PfSwt_Ctrl_getTactSwtCenterShortPush();
 
-  if ((u1_mode_transition_permit == (U1)C_ON)        /* 動作モード遷移判定許可フラグ：許可 */
-       && ((u1_TactSwtRightShortPush_last == (U1)C_OFF) /* タクトスイッチR短押し状態(前回値)：オフ */
-           && (tu1_TactSwtRightShortPush == (U1)C_ON))){ /* タクトスイッチR短押し状態(今回値)：オン */
 
-    /* 動作モードを1段階繰り上げる */
-    if ((u1_mode + (U1)1) >= (U1)CEN_AppPln_Mode_Num) {
-      u1_mode = (U1)0;
-    }
-    else {
-      u1_mode += (U1)1;
-    }
+  if ((u1_mode == (U1)CEN_AppPln_Mode_Search)       /* 走行モード = 探索モード */
+       && (tu1_TactSwtCenterShortPush != u1_TactSwtCenterShortPush_last)){ /* タクトスイッチC短押し状態 != タクトスイッチC短押し状態(前回値) */
 
+    /* 走行モード：準備モード */
+    u1_mode = (U1)CEN_AppPln_Mode_Ready;
   }
-  else if ((u1_mode_transition_permit == (U1)C_ON)       /* 動作モード遷移判定許可フラグ：許可 */
-            && ((u1_TactSwtLeftShortPush_last == (U1)C_OFF) /* タクトスイッチL短押し状態(前回値)：オフ */
-                && (tu1_TactSwtLeftShortPush == (U1)C_ON))){ /* タクトスイッチL短押し状態(今回値)：オン */
+  else if ((u1_mode == (U1)CEN_AppPln_Mode_Ready)       /* 走行モード = 準備モード */
+       && (tu1_TactSwtCenterShortPush != u1_TactSwtCenterShortPush_last)){ /* タクトスイッチC短押し状態 != タクトスイッチC短押し状態(前回値) */
 
-    /* 動作モードを1段階繰り下げる */
-    if (u1_mode <= (U1)0) {
-      u1_mode = (U1)CEN_AppPln_Mode_Num - (U1)1;
-    }
-    else {
-      u1_mode -= (U1)1;
-    }
+    /* 走行モード：探索モード */
+    u1_mode = (U1)CEN_AppPln_Mode_Search;
+  }
+  else if (((u1_mode == (U1)CEN_AppPln_Mode_Search)           /* 走行モード = 探索モード */
+             && ((u1_TactSwtLeftShortPush_last == (U1)C_OFF)  /* ←仮  ゴールに達した */
+                  || (tu1_TactSwtLeftShortPush == (U1)C_ON))) /* ←仮  探索時間タイムアップ */
+        || ((u1_mode == (U1)CEN_AppPln_Mode_TimeAttack)                           /* 走行モード = 計測モード */
+             && (tu1_TactSwtCenterShortPush != u1_TactSwtCenterShortPush_last))){ /* タクトスイッチC短押し状態 != タクトスイッチC短押し状態(前回値) */
 
+    /* 走行モード：待機モード */
+    /* u1_mode = (U1)CEN_AppPln_Mode_Stay; */
+  }
+  else if ((u1_mode == (U1)CEN_AppPln_Mode_Stay)                           /* 走行モード = 待機モード */
+       && (tu1_TactSwtCenterShortPush != u1_TactSwtCenterShortPush_last)){ /* タクトスイッチC短押し状態 != タクトスイッチC短押し状態(前回値) */
+
+    /* 走行モード：計測モード */
+    u1_mode = (U1)CEN_AppPln_Mode_TimeAttack;
+  }
+  else if ((u1_mode == (U1)CEN_AppPln_Mode_TimeAttack)                     /* 走行モード = 計測モード */
+       && (tu1_TactSwtCenterShortPush != u1_TactSwtCenterShortPush_last)){ /* ←仮  ゴールに達した */
+
+    /* 走行モード：完了モード */
+    /* u1_mode = (U1)CEN_AppPln_Mode_Finish; */
   }
   else {
     /* なにもしない */
@@ -171,21 +159,22 @@ VD FnVD_AppPln_Mode_transition_judge(VD)
   /* タクトスイッチ短押し状態前回値を更新する */
   u1_TactSwtRightShortPush_last = tu1_TactSwtRightShortPush;
   u1_TactSwtLeftShortPush_last = tu1_TactSwtLeftShortPush;
+  u1_TactSwtCenterShortPush_last = tu1_TactSwtCenterShortPush;
 
 }
 
 /* ============================================================ */
 /* 関数名 : FnEN_AppPln_Mode_get                                */
-/*          動作モードの提供                                    */
+/*          走行モードの提供                                    */
 /* 引数   : なし                                                */
-/* 戻り値 : 動作モード                                          */
-/* 概要   : 動作モードの提供                                    */
+/* 戻り値 : 走行モード                                          */
+/* 概要   : 走行モードの提供                                    */
 /* 制約   : なし                                                */
 /* ============================================================ */
 EN_AppPln_Mode FnEN_AppPln_Mode_get(VD)
 {
   return((EN_AppPln_Mode)u1_mode);
-  /* return(CEN_AppPln_Mode_Normal); */
+  /* return(CEN_AppPln_Mode_Search); */
 }
 
 

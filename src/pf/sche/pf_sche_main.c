@@ -27,6 +27,7 @@
 #include "app_controll_pac.h"
 #include "app_recgwall_pac.h"
 #include "app_map_pac.h"
+#include "app_plan_mode_pac.h"
 
 /* 本体 */
 #include "pf_sche_main.h"
@@ -95,11 +96,26 @@ VD FnVD_PfSche_wrapMainProc(VD)
   /* バッテリー電圧低下判定 */
   FnVD_PfBat_Moni_jdgVoltageLow();
 
+
+
+
   /* 壁認識処理 */
   FnVD_Recg_WallRecognize();
 
+  /* 走行モード遷移判定 */
+  FnVD_AppPln_Mode_transition_judge();
+
+  /* CONTROLLメイン処理 */
+  vd_ControllerMainTask();
+
+  /* 自車位置情報更新 */
+  Fn_MAP_updatePosition();
+
   /* 壁情報更新 */
   Fn_MAP_updateWall();
+
+
+
 
   /* LED制御 */
   FnVD_PfLed_Ctrl_mediate();
@@ -112,12 +128,5 @@ VD FnVD_PfSche_wrapMainProc(VD)
 
   /* HW出力値指示 */
   FnVD_PfIf_Hw_output();
-
-  /* CONTROLLメイン処理 */
-  vd_ControllerMainTask();
-
-  /* 自車位置情報更新 */
-  Fn_MAP_updatePosition();
-
 }
 

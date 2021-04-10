@@ -31,11 +31,14 @@
 /* ============================================================ */
 /* 型定義                                                       */
 /* ============================================================ */
-/* 動作モードを示す列挙型 */
+/* 走行モードを示す列挙型 */
 typedef enum
 {
-  CEN_AppPln_Mode_Normal = 0,     /* 通常 */
-  CEN_AppPln_Mode_Search,         /* 探索 */
+  CEN_AppPln_Mode_Ready = 0,    /* 準備モード */
+  CEN_AppPln_Mode_Search,       /* 探索モード */
+  CEN_AppPln_Mode_Stay,         /* 待機モード */
+  CEN_AppPln_Mode_TimeAttack,   /* 計測モード */
+  CEN_AppPln_Mode_Finish,       /* 完了モード */
   CEN_AppPln_Mode_Num
 }EN_AppPln_Mode;
 
@@ -43,7 +46,6 @@ typedef enum
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
 extern VD FnVD_AppPln_Mode_init(VD);
-extern VD FnVD_AppPln_Mode_transition_permit_judge(VD);
 extern VD FnVD_AppPln_Mode_transition_judge(VD);
 extern EN_AppPln_Mode FnEN_AppPln_Mode_get(VD);
 
@@ -51,8 +53,7 @@ extern EN_AppPln_Mode FnEN_AppPln_Mode_get(VD);
 /* ============================================================ */
 /* 変数宣言(extern)                                             */
 /* ============================================================ */
-extern  U1 u1_mode_transition_permit;        /* 動作モード遷移判定許可フラグ */
-extern  U1 u1_mode;                          /* 動作モード */
+extern  U1 u1_mode;                          /* 走行モード */
 
 /* ============================================================ */
 /* const変数宣言(extern)                                        */
