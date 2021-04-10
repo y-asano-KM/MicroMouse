@@ -176,6 +176,7 @@
           <Category Name="inc_pub">
             <Path>src\pf\inc_pub\pf_cmn_chk_option.h</Path>
             <Path>src\pf\inc_pub\pf_cmn_option.h</Path>
+            <Path>src\pf\inc_pub\pf_mtr_if.h</Path>
             <Path>src\pf\inc_pub\pf_raysens_if.h</Path>
             <Path>src\pf\inc_pub\pf_sche_init.h</Path>
             <Path>src\pf\inc_pub\pf_sche_interrupt.h</Path>

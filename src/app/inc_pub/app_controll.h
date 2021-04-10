@@ -40,6 +40,8 @@ U2 u2_g_get_MtrSpeedL(void);
 U2 u2_g_get_CycleTimeR(void);                     /* 右モータ周期とパルス幅(1ms割り込み) */
 U2 u2_g_get_CycleTimeL(void);                     /* 左モータ周期とパルス幅(1ms割り込み) */
 
+extern U1 u1AppCtrl_getResetPulseCntReq(VD);
+
 /* ============================================================ */
 /* 変数宣言(extern)                                             */
 /* ============================================================ */

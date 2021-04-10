@@ -25,28 +25,46 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
-#if defined(OP_AppCtrl_Accel_LogicTypeTable)
-  #define CU4_AppCtrl_Accel_SizePwmFreqMap    ((U4)10)
+#if defined(OP_AppCtrl_Accel_LogicTypePhysical)
+  /* None */
+#elif defined(OP_AppCtrl_Accel_LogicTypeTable)
+  #define CU4_AppCtrl_Accel_SizePwmPeriodMap    ((U4)10)
+#elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
+  /* None */
+#else
+  /* None */
 #endif
 
 
 /* ============================================================ */
 /* 型定義                                                       */
 /* ============================================================ */
-#if defined(OP_AppCtrl_Accel_LogicTypeTable)
+#if defined(OP_AppCtrl_Accel_LogicTypePhysical)
+/* None */
+#elif defined(OP_AppCtrl_Accel_LogicTypeTable)
 /* PWM出力周波数制御 */
 typedef struct {
   U4 u4ElapsedTime;   /* [us]経過時間 */
-  U2 u2PwmFreq;       /* [us]PWM周波数*/
-} ST_AppCtrl_Accel_PwmFreqMap;
+  U2 u2PwmPeriod;     /* [us]PWM周期*/
+} ST_AppCtrl_Accel_PwmPeriodMap;
+#elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
+/* None */
+#else
+/* None */
 #endif
 
 
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-#if defined(OP_AppCtrl_Accel_LogicTypeTable)
-extern U2 FnU2_AppCtrl_Accel_ctrlPwmFreq(U4 tu4ElapsedTime, U4 tu4SizePwmFreqMap, const ST_AppCtrl_Accel_PwmFreqMap tstaPwmFreqMap[]);
+#if defined(OP_AppCtrl_Accel_LogicTypePhysical)
+/* None */
+#elif defined(OP_AppCtrl_Accel_LogicTypeTable)
+extern U2 FnU2_AppCtrl_Accel_ctrlPwmPeriod(U4 tu4ElapsedTime, U4 tu4SizePwmPeriodMap, const ST_AppCtrl_Accel_PwmPeriodMap tstaPwmPeriodMap[]);
+#elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
+extern U2 FnU2_AppCtrl_Accel_ctrlPwmPeriod(U2 tu2PulseCnt, U2 tu2TargetPulseCnt, U2 tu2TargetPwmPeriod, U2 tu2PwmPeriodInit);
+#else
+/* None */
 #endif
 
 
@@ -58,9 +76,22 @@ extern U2 FnU2_AppCtrl_Accel_ctrlPwmFreq(U4 tu4ElapsedTime, U4 tu4SizePwmFreqMap
 /* ============================================================ */
 /* const変数宣言(extern)                                        */
 /* ============================================================ */
-#if defined(OP_AppCtrl_Accel_LogicTypeTable)
-extern const ST_AppCtrl_Accel_PwmFreqMap CSTA_AppCtrl_Accel_PwmFreqMap1[CU4_AppCtrl_Accel_SizePwmFreqMap];
-extern const ST_AppCtrl_Accel_PwmFreqMap CSTA_AppCtrl_Accel_PwmFreqMap2[CU4_AppCtrl_Accel_SizePwmFreqMap];
+#if defined(OP_AppCtrl_Accel_LogicTypePhysical)
+/* None */
+#elif defined(OP_AppCtrl_Accel_LogicTypeTable)
+extern const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap1[CU4_AppCtrl_Accel_SizePwmPeriodMap];
+extern const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap2[CU4_AppCtrl_Accel_SizePwmPeriodMap];
+#elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
+extern const U2 CU2_AppCtrl_Accel_PwmTargetPulseCnt1;
+extern const U2 CU2_AppCtrl_Accel_PwmTargetPulseCnt2;
+extern const U2 CU2_AppCtrl_Accel_PwmTargetPeriod1;
+extern const U2 CU2_AppCtrl_Accel_PwmTargetPeriod2;
+extern const U2 CU2_AppCtrl_Accel_PwmPeriodInit1;
+extern const U2 CU2_AppCtrl_Accel_PwmPeriodInit2;
+extern const U2 CU2_AppCtrl_Accel_PwmMaxPeriod;
+extern const U2 CU2_AppCtrl_Accel_PwmMinPeriod;
+#else
+/* None */
 #endif
 
 
