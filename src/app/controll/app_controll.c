@@ -32,6 +32,8 @@
 /* デバッグ用仮置き */
 #define DEBUG_CONT    0                        /* 0:無効 1:有効 */
 
+#define DEBUG_SPPED  2                        /* 数値msの周期設定 *1000して与える 最低値16～1で動作を確認する 遅すぎたらもっと小さくする */
+
 /* ============================================================ */
 /* 型定義                                                       */
 /* ============================================================ */
@@ -187,18 +189,8 @@ void vd_ControllerMainTask(void)
       /* 旋回を含む指示の場合、必ず0.5区画直進する 2STEP目で旋回し、3STEP目で0.5区画直進する 4STEP目で走行完了し、次の指示を受ける */
       /* 停止の場合は、その場で停止し走行完了する(ゴール) */
       /* プランナ指示の元、次回制御を設定 */
-      if(u1_s_next_act == (U1)VHECLE_FORWORD){
-        vd_s_CtrlMtrForward(u1_t_next_block,(U4)NORMAL_SPEED);
-        u1_s_next_act = (U1)VHECLE_STOP;
-      }
-      else if(u1_s_next_act == (U1)VHECLE_TURNRIGHT){
-        vd_s_CtrlMtrForward((U1)HALF_BLOCK,(U4)NORMAL_SPEED);
-      }
-      else if(u1_s_next_act == (U1)VHECLE_TURNLEFT){
-        vd_s_CtrlMtrForward((U1)HALF_BLOCK,(U4)NORMAL_SPEED);
-      }
-      else if(u1_s_next_act == (U1)VHECLE_TURNBACK){
-        vd_s_CtrlMtrForward((U1)HALF_BLOCK,(U4)NORMAL_SPEED);
+      if(u1_s_next_act != (U1)VHECLE_STOP){
+        vd_s_CtrlMtrForward(HALF_BLOCK,(U4)NORMAL_SPEED);
       }
       else {
         vd_s_CtrlMtrStop();
@@ -220,8 +212,8 @@ void vd_ControllerMainTask(void)
         u1_s_next_act = (U1)VHECLE_FORWORD;
       }
       else if(u1_s_next_act == (U1)VHECLE_TURNBACK){
-        vd_s_CtrlMtrTurn((S2)180);
-        u1_s_next_act = (U1)VHECLE_FORWORD;
+        vd_s_CtrlMtrTurn((S2)90);
+        u1_s_next_act = (U1)VHECLE_TURNRIGHT;
       }
       else {
         en_s_runstt = (t_bool)1;
@@ -247,13 +239,23 @@ static void vd_s_CtrlMtrForward(U1 u1_a_block, U4 u4_a_speed)
   u4_s_CurrentSpeedR = (S4)MIN_SPEED;
   u4_s_CurrentSpeedL = (S4)MIN_SPEED;
 #endif
+
+  //現在速度をDEBUG_SPPED*1000に設定する。
+  u4_s_CurrentSpeedR = (U4)(DEBUG_SPPED * 1000);
+  u4_s_CurrentSpeedL = (U4)(DEBUG_SPPED * 1000);
+
+
+  /* デバッグしやすさ重視でとりあえず1s動作するようにする */
+  u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
+  u4_s_StepCount += (U4)500;
+#if 0
   //ここは見直しが必要 FTやめる 1msの走行距離をちゃんと計算する
   //走行ステップ数算出
   //1ms割り込み何回で走行が完了するか？
   //現在の1ms割り込み回数に走行する時間を加算する
   u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
   u4_s_StepCount += (U4)(((FL)u1_a_block / (FL)ONE_BLOCK) * ((FL)BLOCK_LENGTH / (FL)STEP_LENGTH));
-
+#endif
 #if DEBUG_CONT
   //最高速度
   u4_s_MaxSpeedR = u4_a_speed;
@@ -305,10 +307,19 @@ static void vd_s_CtrlMtrTurn(S2 s2_a_angle)
   u4_s_CurrentSpeedR = (U4)MIN_SPEED;
   u4_s_CurrentSpeedL = (U4)MIN_SPEED;
 #endif
+  //現在速度をDEBUG_SPPED*1000に設定する。
+  u4_s_CurrentSpeedR = (U4)(DEBUG_SPPED * 2000);
+  u4_s_CurrentSpeedL = (U4)(DEBUG_SPPED * 2000);
+
+  /* デバッグしやすさ重視でとりあえず1s動作するようにする */
+  u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
+  u4_s_StepCount += (U4)540;
+#if 0
   /* 走行ステップ数算出 */
   //現在の1ms割り込み回数に旋回する時間を加算する
   u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
   u4_s_StepCount += (U4)((FL)TREAD_CIRCUIT * ((FL)u2_t_angle / (FL)360.0) / (FL)STEP_LENGTH);
+#endif
 #if DEBUG_CONT
   /* 最高速度 */
   u4_s_MaxSpeedR = TURN_SPEED;
