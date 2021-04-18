@@ -14,6 +14,14 @@
 /* ================================================== */
 /* オプション定義                                     */
 /* ================================================== */
+/* 姿勢制御(PID)機能 有効/無効フラグ 0:無効 1:有効 */
+#define OP_AppCmn_PidMode (1)
+
+/* 加速制御 */
+/* #define OP_AppCtrl_Accel_LogicTypePhysical */
+#define OP_AppCtrl_Accel_LogicTypeTable
+/* #define OP_AppCtrl_Accel_LogicTypePulseCnt */
+
 
 /* ================================================== */
 /* オプションチェック                                 */

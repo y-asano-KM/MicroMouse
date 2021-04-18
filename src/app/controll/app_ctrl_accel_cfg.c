@@ -1,8 +1,8 @@
 /* ============================================================ */
-/* ファイル名 : pf_sche_interrupt.c                             */
-/* 機能       : PF割り込みスケジュール                          */
+/* ファイル名 : app_ctrl_accel_cfg_local.h                      */
+/* 機能       : 加減速制御                                      */
 /* ============================================================ */
-#define SECTION_PF
+#define SECTION_APP
 
 /* ============================================================ */
 /* インクルード                                                 */
@@ -14,17 +14,13 @@
 #include "prj_cmn_macro.h"
 
 /* カテゴリ共通 */
-#include "pf_cmn_option.h"
-#include "pf_cmn_option_pac.h"
+#include "app_cmn_option.h"
+#include "app_cmn_option_pac.h"
 
 /* 個別 */
-#include "pf_if_hw_pac.h"
-#include "pf_mtr_ctrl_pac.h"
-#include "app_controll_pac.h"
-#include "app_recgwall_pac.h"
 
 /* 本体 */
-#include "pf_sche_interrupt.h"
+#include "app_ctrl_accel_local.h"
 
 
 /* ============================================================ */
@@ -60,6 +56,50 @@
 /* ============================================================ */
 /* const変数定義(static)                                        */
 /* ============================================================ */
+#if defined(OP_AppCtrl_Accel_LogicTypePhysical)
+/* None */
+#elif defined(OP_AppCtrl_Accel_LogicTypeTable)
+/* PWM出力周波数制御マップ */
+/* Memo:u2Timeは必ず昇順とすること */
+const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap1[CU4_AppCtrl_Accel_SizePwmPeriodMap] = {
+/* u4ElapsedTime, u2PwmPeriod */
+  {(U4)32000,    (U2)32000},
+  {(U4)48000,    (U2)16000},
+  {(U4)56000,    (U2)8000},
+  {(U4)60000,    (U2)4000},
+  {(U4)540000,   (U2)2000},
+  {(U4)544000,   (U2)4000},
+  {(U4)552000,   (U2)8000},
+  {(U4)568000,   (U2)16000},
+  {(U4)600000,   (U2)32000},
+  {CU4_Max,      CU2_Max}
+};
+
+const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap2[CU4_AppCtrl_Accel_SizePwmPeriodMap] = {
+/* u4ElapsedTime, u2PwmPeriod */
+  {(U4)64000,    (U2)64000},
+  {(U4)96000,    (U2)32000},
+  {(U4)112000,   (U2)16000},
+  {(U4)120000,   (U2)8000},
+  {(U4)620000,   (U2)4000},
+  {(U4)628000,   (U2)8000},
+  {(U4)644000,   (U2)16000},
+  {(U4)676000,   (U2)32000},
+  {(U4)740000,   (U2)64000},
+  {CU4_Max,      CU2_Max}
+};
+#elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
+const U2 CU2_AppCtrl_Accel_PwmTargetPulseCnt1 = (U2)248;
+const U2 CU2_AppCtrl_Accel_PwmTargetPulseCnt2 = (U2)133;
+const U2 CU2_AppCtrl_Accel_PwmTargetPeriod1   = (U2)2000;
+const U2 CU2_AppCtrl_Accel_PwmTargetPeriod2   = (U2)4000;
+const U2 CU2_AppCtrl_Accel_PwmPeriodInit1     = (U2)32000;
+const U2 CU2_AppCtrl_Accel_PwmPeriodInit2     = (U2)64000;
+const U2 CU2_AppCtrl_Accel_PwmMaxPeriod       = (U2)64000;
+const U2 CU2_AppCtrl_Accel_PwmMinPeriod       = (U2)250;
+#else
+/* None */
+#endif
 
 
 /* ============================================================ */
@@ -70,31 +110,4 @@
 /* ============================================================ */
 /* 関数定義                                                     */
 /* ============================================================ */
-/* ============================================================ */
-/* 関数名 : FnVD_PfSche_wrapInt1msProc                          */
-/*          PF1ms定期割り込みスケジュール                       */
-/* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : メイン処理の実行順を管理する                        */
-/* 制約   : なし                                                */
-/* ============================================================ */
-VD FnVD_PfSche_wrapInt1msProc(VD)
-{
-  /* ToDo:仮実装(実行順序未検討)(モータ出力が先の方が良い?) */
-  /*      入力処理を一番最初にしない場合は1ms周期割り込み実行回数の更新を一番最初に実施するように修正すること */
-  /* HW入力値取得 */
-  FnVD_PfIf_Hw_inputForInt();
-
-  /* 壁認識処理(1ms) */
-  FnVD_Recg_WallRecognize_1ms();
-
-  /* 加減速制御/姿勢制御 */
-  vd_s_IntDrvControll();
-
-  /* モータ制御要求調停処理 */
-  FnVD_PfMtr_Ctrl_mediate();
-
-  /* HW出力値指示 */
-  FnVD_PfIf_Hw_outputForInt();
-}
 

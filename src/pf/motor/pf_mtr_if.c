@@ -20,8 +20,10 @@
 /* 個別 */
 #include "hw_drv_mtr.h"
 #include "pf_mtr_ctrl_pac.h"
+#include "app_controll.h"
 
 /* 本体 */
+#include "pf_mtr_if.h"
 #include "pf_mtr_if_pac.h"
 
 
@@ -118,6 +120,7 @@ VD FnVD_PfMtr_If_setReq(VD)
   U1 tu1RotDirPortR;
   U1 tu1RotDirPortL;
   U1 tu1Enb;
+  U1 tu1ResetReq;
 
   /* ------------ */
   /* 調停結果取得 */
@@ -129,12 +132,15 @@ VD FnVD_PfMtr_If_setReq(VD)
   tu1RotDirPortL = FnU1_PfMtr_Ctrl_getLeftMtrRotDirReq();
   tu2PeriodL     = FnU2_PfMtr_Ctrl_getLeftMtrPeriod();
   tu2OnTimeL     = FnU2_PfMtr_Ctrl_getLeftMtrOnTime();
+  tu1ResetReq    = u1AppCtrl_getResetPulseCntReq();
 
   /* -------- */
   /* 出力設定 */
   /* -------- */
   /* 非駆動時はパルス数クリア */
-  if (tu1Enb == (U1)C_OFF) {
+  if (   (tu1Enb == (U1)C_OFF)
+      || (tu1ResetReq == (U1)C_ON)) {
+
     FnVD_PfMtr_If_clrPulseCntr();
   }
 

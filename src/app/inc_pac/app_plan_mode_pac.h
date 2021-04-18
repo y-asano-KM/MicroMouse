@@ -1,8 +1,8 @@
-#if !defined(INCLUDED_app_map_pac_h)
-#define INCLUDED_app_map_pac_h
+#if !defined(INCLUDED_app_plan_mode_pac_h)
+#define INCLUDED_app_plan_mode_pac_h
 /* ============================================================ */
-/* ファイル名 : app_map_pac.h                                   */
-/* 機能       : マップ(app公開)                                 */
+/* ファイル名 : app_plan_mode_pac.h                             */
+/* 機能       :                                                 */
 /* ============================================================ */
 
 /* ============================================================ */
@@ -18,6 +18,7 @@
 #include "app_cmn_option_pac.h"
 
 /* 個別 */
+#include "pf_switch_ctrl.h"
 
 /* 本体 */
 
@@ -25,74 +26,34 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
-#define MAZESIZE_X (5)       /* 迷路の大きさ(MAZESIZE_X x MAZESIZE_Y)迷路 */
-#define MAZESIZE_Y (5)       /* 迷路の大きさ(MAZESIZE_X x MAZESIZE_Y)迷路 */
-
-#define UNKNOWN 2             /* 壁があるかないか判らない状態の場合の値 */
-#define NOWALL 0              /* 壁がないばあいの値 */
-#define WALL 1                /* 壁がある場合の値 */
-#define VWALL 3               /* 仮想壁の値(未使用) */
-
-#define MASK_SEARCH 0x01      /* 探索走行用マスク値.壁情報とこの値のAND値が０（NOWALL）なら壁なしor未探索区間 */
-#define MASK_SECOND 0x03      /* 最短走行用マスク値.壁情報とこの値のAND値が０（NOWALL）なら壁なし */
 
 
 /* ============================================================ */
 /* 型定義                                                       */
 /* ============================================================ */
-/*?方角を示す列挙型?*/
+/* 走行モードを示す列挙型 */
 typedef enum
 {
-  north=0,       /* 北 */
-  east=1,        /* 東 */
-  south=2,       /* 南 */
-  west=3        /* 西 */
-}t_direction;
-
-/*?自分から見た方向を示す列挙型?*/
-typedef enum
-{
-  front=0,       /* 前 */
-  right=1,       /* 右 */
-  rear=2,        /* 後 */
-  left=3,        /* 左 */
-  unknown       /* 方向不明 */
-}t_local_dir;
-
-
-/*?自車位置情報?*/
-typedef struct
-{
-  short x;           /* 自車位置のX座標(東西方向) */
-  short y;           /* 自車位置のY座標(南北方向) */
-  t_direction dir;   /* 自車方角 */
-}t_position;
-
-
-/*?壁情報を格納する構造体(ビットフィールド)?*/
-typedef struct
-{
-  unsigned char north:2; /* 北の壁情報?*/
-  unsigned char east:2;  /* 東の壁情報?*/
-  unsigned char south:2; /* 南の壁情報?*/
-  unsigned char west:2;  /* 西の壁情報?*/
-}t_wall;
-
+  CEN_AppPln_Mode_Ready = 0,    /* 準備モード */
+  CEN_AppPln_Mode_Search,       /* 探索モード */
+  CEN_AppPln_Mode_Stay,         /* 待機モード */
+  CEN_AppPln_Mode_TimeAttack,   /* 計測モード */
+  CEN_AppPln_Mode_Finish,       /* 完了モード */
+  CEN_AppPln_Mode_Num
+}EN_AppPln_Mode;
 
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern void Fn_MAP_init(void);
-extern void Fn_MAP_outputWall(t_wall sta_wall[][MAZESIZE_Y]);
-extern void Fn_MAP_updateWall(void);
-extern void Fn_MAP_outputPosition(t_position *pst_mypos);
-extern void Fn_MAP_updatePosition(void);
+extern VD FnVD_AppPln_Mode_init(VD);
+extern VD FnVD_AppPln_Mode_transition_judge(VD);
+extern EN_AppPln_Mode FnEN_AppPln_Mode_get(VD);
+
 
 /* ============================================================ */
 /* 変数宣言(extern)                                             */
 /* ============================================================ */
-extern t_position mypos;                    /* 自車位置情報?*/
-extern t_wall wall[MAZESIZE_X][MAZESIZE_Y]; /* 壁の情報を格納する構造体配列?*/
+extern  U1 u1_mode;                          /* 走行モード */
 
 /* ============================================================ */
 /* const変数宣言(extern)                                        */
