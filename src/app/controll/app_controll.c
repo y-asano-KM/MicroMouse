@@ -226,18 +226,8 @@ void vd_ControllerMainTask(void)
       /* 旋回を含む指示の場合、必ず0.5区画直進する 2STEP目で旋回し、3STEP目で0.5区画直進する 4STEP目で走行完了し、次の指示を受ける */
       /* 停止の場合は、その場で停止し走行完了する(ゴール) */
       /* プランナ指示の元、次回制御を設定 */
-      if(u1_s_next_act == (U1)VHECLE_FORWORD){
-        vd_s_CtrlMtrForward(u1_t_next_block,(U4)NORMAL_SPEED);
-        u1_s_next_act = (U1)VHECLE_STOP;
-      }
-      else if(u1_s_next_act == (U1)VHECLE_TURNRIGHT){
-        vd_s_CtrlMtrForward((U1)HALF_BLOCK,(U4)NORMAL_SPEED);
-      }
-      else if(u1_s_next_act == (U1)VHECLE_TURNLEFT){
-        vd_s_CtrlMtrForward((U1)HALF_BLOCK,(U4)NORMAL_SPEED);
-      }
-      else if(u1_s_next_act == (U1)VHECLE_TURNBACK){
-        vd_s_CtrlMtrForward((U1)HALF_BLOCK,(U4)NORMAL_SPEED);
+      if(u1_s_next_act != (U1)VHECLE_STOP){
+        vd_s_CtrlMtrForward(HALF_BLOCK,(U4)NORMAL_SPEED);
       }
       else {
         vd_s_CtrlMtrStop();
@@ -259,8 +249,8 @@ void vd_ControllerMainTask(void)
         u1_s_next_act = (U1)VHECLE_FORWORD;
       }
       else if(u1_s_next_act == (U1)VHECLE_TURNBACK){
-        vd_s_CtrlMtrTurn((S2)180);
-        u1_s_next_act = (U1)VHECLE_FORWORD;
+        vd_s_CtrlMtrTurn((S2)90);
+        u1_s_next_act = (U1)VHECLE_TURNRIGHT;
       }
       else {
         /* 1指示に対する動作完了時、停止し次の指示を待つ */
@@ -294,6 +284,7 @@ static void vd_s_CtrlMtrForward(U1 u1_a_block, U4 u4_a_speed)
   u4_s_CurrentSpeedL = (U4)(DEBUG_SPPED * 1000);
 
 
+
   /* 500ms動作する。PWM2msで9cm前進する */
   u4_s_StepCount = FnU4_PfSche_If_getInt1msCnt();
 #if defined(OP_AppCtrl_Accel_LogicTypePhysical)
@@ -305,6 +296,7 @@ static void vd_s_CtrlMtrForward(U1 u1_a_block, U4 u4_a_speed)
 #else
   u4_s_StepCount += (U4)500;
 #endif
+
 #if 0
   //ここは見直しが必要 FTやめる 1msの走行距離をちゃんと計算する
   //走行ステップ数算出
@@ -368,6 +360,7 @@ static void vd_s_CtrlMtrTurn(S2 s2_a_angle)
   u4_s_CurrentSpeedL = (U4)MIN_SPEED;
 #endif
 
+
   //現在速度をDEBUG_SPPED*2000に設定する。前進より遅い設定
   u4_s_CurrentSpeedR = (U4)(DEBUG_SPPED * 2000);
   u4_s_CurrentSpeedL = (U4)(DEBUG_SPPED * 2000);
@@ -384,6 +377,7 @@ static void vd_s_CtrlMtrTurn(S2 s2_a_angle)
 #else
   u4_s_StepCount += (U4)540;
 #endif
+
 #if 0
   /* 走行ステップ数算出 */
   //現在の1ms割り込み回数に旋回する時間を加算する
