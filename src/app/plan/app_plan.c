@@ -36,7 +36,7 @@
 #define true 1
 
 #define debug_plan 0            /* デバッグ用3月26日走行会MAP */
-#define debug_planmode 0        /* Mode切替え(通常モード(最短経路走行モード):0, 探索走行モード:1)有効化 */
+#define debug_planmode 1        /* Mode切替え(通常モード(最短経路走行モード):0, 探索走行モード:1)有効化 */
 
 /* ============================================================ */
 /* 型定義                                                       */
@@ -404,7 +404,7 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
     U1 u1t_mode;
 
     u1t_mode = FnEN_AppPln_Mode_get();
-    if( u1t_mode == (U1)2 )       /* 停止モード */
+    if( u1t_mode == (U1)CEN_AppPln_Mode_Ready )     /* 準備モード */
     {
       u1s_retdir = dir;           /* 停止中のため現在の進行方角をセット */
       u1s_direction = (U1)0x04;   /* 進行方向　STOP(停止) */
@@ -537,13 +537,13 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
     U1 u1t_mode;
 
     u1t_mode = FnEN_AppPln_Mode_get();
-    if( u1t_mode = (U1)1 )
+    if( u1t_mode = (U1)CEN_AppPln_Mode_Search ) /* 探索モード */
     {
-        u1s_runpattern = (U1)0; 
+        u1s_runpattern = (U1)0;     /* 探索走行 */
     }
-    else if( u1t_mode = (U1)0 )
+    else if( u1t_mode = (U1)CEN_AppPln_Mode_TimeAttack )    /* 計測モード */
     {
-        u1s_runpattern = (U1)1; 
+        u1s_runpattern = (U1)1;     /* 最短経路走行 */
     }
 #endif
 
@@ -553,7 +553,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
         {
             u1t_ret_temp = north;               /* 進行方角　北(仮設定) */
 #if debug_planmode
-	    if( u1s_runpattern = (U1)1 )        /* 最短経路走行モード */
+	    if( u1s_runpattern = (U1)1 )        /* 最短経路走行 */
 	    {
                 if( u1s_map[x][ (U1)( y + (U1)1 ) ] == (U1)0 )      /* ゴールだったら */
                 {
@@ -589,7 +589,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
             if( wall[x][y].east == NOWALL )     /* 壁がなければ */
             {
 #if debug_planmode
-                if( u1s_runpattern = (U1)1 )        /* 最短経路走行モード */
+                if( u1s_runpattern = (U1)1 )        /* 最短経路走行 */
 	        {
                     if( u1s_map[ (U1)( x + (U1)1 ) ][y] == (U1)0 )          /* ゴールだったら */
                     {
@@ -633,7 +633,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
             if( wall[x][y].south == NOWALL )    /* 壁がなければ */
             {
 #if debug_planmode
-                if( u1s_runpattern = (U1)1 )        /* 最短経路走行モード */
+                if( u1s_runpattern = (U1)1 )        /* 最短経路走行 */
 	        {
                     if( u1s_map[x][ (U1)( y - (U1)1 ) ] == (U1)0 )  /* ゴールだったら */
                     {
@@ -677,7 +677,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
             if( wall[x][y].west == NOWALL )    /* 壁がなければ */
             {
 #if debug_planmode
-                if( u1s_runpattern = (U1)1 )        /* 最短経路走行モード */
+                if( u1s_runpattern = (U1)1 )        /* 最短経路走行 */
 	        {
                     if( u1s_map[ (U1)( x - (U1)1 ) ][y] == (U1)0 )  /* ゴールだったら */
                     {
