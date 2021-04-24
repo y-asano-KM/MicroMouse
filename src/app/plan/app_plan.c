@@ -537,11 +537,11 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
     U1 u1t_mode;
 
     u1t_mode = FnEN_AppPln_Mode_get();
-    if( u1t_mode = (U1)CEN_AppPln_Mode_Search ) /* ’Tõƒ‚[ƒh */
+    if( u1t_mode == (U1)CEN_AppPln_Mode_Search )        /* ’Tõƒ‚[ƒh */
     {
         u1s_runpattern = (U1)0;     /* ’Tõ‘–s */
     }
-    else if( u1t_mode = (U1)CEN_AppPln_Mode_TimeAttack )    /* Œv‘ªƒ‚[ƒh */
+    else if( u1t_mode == (U1)CEN_AppPln_Mode_TimeAttack )       /* Œv‘ªƒ‚[ƒh */
     {
         u1s_runpattern = (U1)1;     /* Å’ZŒo˜H‘–s */
     }
@@ -553,7 +553,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
         {
             u1t_ret_temp = north;               /* is•ûŠp@–k(‰¼İ’è) */
 #if debug_planmode
-	    if( u1s_runpattern = (U1)1 )        /* Å’ZŒo˜H‘–s */
+	    if( u1s_runpattern == (U1)1 )       /* Å’ZŒo˜H‘–s */
 	    {
                 if( u1s_map[x][ (U1)( y + (U1)1 ) ] == (U1)0 )      /* ƒS[ƒ‹‚¾‚Á‚½‚ç */
                 {
@@ -589,7 +589,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
             if( wall[x][y].east == NOWALL )     /* •Ç‚ª‚È‚¯‚ê‚Î */
             {
 #if debug_planmode
-                if( u1s_runpattern = (U1)1 )        /* Å’ZŒo˜H‘–s */
+                if( u1s_runpattern == (U1)1 )       /* Å’ZŒo˜H‘–s */
 	        {
                     if( u1s_map[ (U1)( x + (U1)1 ) ][y] == (U1)0 )          /* ƒS[ƒ‹‚¾‚Á‚½‚ç */
                     {
@@ -633,7 +633,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
             if( wall[x][y].south == NOWALL )    /* •Ç‚ª‚È‚¯‚ê‚Î */
             {
 #if debug_planmode
-                if( u1s_runpattern = (U1)1 )        /* Å’ZŒo˜H‘–s */
+                if( u1s_runpattern == (U1)1 )       /* Å’ZŒo˜H‘–s */
 	        {
                     if( u1s_map[x][ (U1)( y - (U1)1 ) ] == (U1)0 )  /* ƒS[ƒ‹‚¾‚Á‚½‚ç */
                     {
@@ -677,7 +677,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
             if( wall[x][y].west == NOWALL )    /* •Ç‚ª‚È‚¯‚ê‚Î */
             {
 #if debug_planmode
-                if( u1s_runpattern = (U1)1 )        /* Å’ZŒo˜H‘–s */
+                if( u1s_runpattern == (U1)1 )       /* Å’ZŒo˜H‘–s */
 	        {
                     if( u1s_map[ (U1)( x - (U1)1 ) ][y] == (U1)0 )  /* ƒS[ƒ‹‚¾‚Á‚½‚ç */
                     {
