@@ -110,10 +110,10 @@ U2 FnU2_AppCtrl_Accel_ctrlPwmPeriod(U2 tu2PulseCnt, U2 tu2TargetPulseCnt, U2 tu2
   U2 tu2Val;
 
   if (   (tu2TargetPulseCnt <= (U2)1)
-      || (tu2TargetPwmPeriod < CU2_AppCtrl_Accel_PwmMinPeriod)
-      || (tu2TargetPwmPeriod > CU2_AppCtrl_Accel_PwmMaxPeriod)
-      || (tu2PwmPeriodInit < CU2_AppCtrl_Accel_PwmMinPeriod)
-      || (tu2PwmPeriodInit > CU2_AppCtrl_Accel_PwmMaxPeriod)) {
+      || (tu2TargetPwmPeriod < CU2_AppCtrl_Accel_PwmPeriodMin)
+      || (tu2TargetPwmPeriod > CU2_AppCtrl_Accel_PwmPeriodMax)
+      || (tu2PwmPeriodInit < CU2_AppCtrl_Accel_PwmPeriodMin)
+      || (tu2PwmPeriodInit > CU2_AppCtrl_Accel_PwmPeriodMax)) {
 
     /* パラメータ異常処理 */
     tu2PwmPeriod = tu2TargetPwmPeriod;
@@ -144,7 +144,7 @@ U2 FnU2_AppCtrl_Accel_ctrlPwmPeriod(U2 tu2PulseCnt, U2 tu2TargetPulseCnt, U2 tu2
   }
 
   /* 上下限ガード */
-  tu2PwmPeriod = (U2)McXX_grdMed(tu2PwmPeriod, CU2_AppCtrl_Accel_PwmMinPeriod, CU2_AppCtrl_Accel_PwmMaxPeriod);
+  tu2PwmPeriod = (U2)McXX_grdMed(tu2PwmPeriod, CU2_AppCtrl_Accel_PwmPeriodMin, CU2_AppCtrl_Accel_PwmPeriodMax);
 
   return (tu2PwmPeriod);
 }

@@ -19,8 +19,8 @@
 
 /* 加速制御 */
 /* #define OP_AppCtrl_Accel_LogicTypePhysical */
-#define OP_AppCtrl_Accel_LogicTypeTable
-/* #define OP_AppCtrl_Accel_LogicTypePulseCnt */
+/* #define OP_AppCtrl_Accel_LogicTypeTable */
+#define OP_AppCtrl_Accel_LogicTypePulseCnt
 
 
 /* ================================================== */
