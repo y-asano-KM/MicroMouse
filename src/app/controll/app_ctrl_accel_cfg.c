@@ -63,30 +63,24 @@
 /* Memo:u2Timeは必ず昇順とすること */
 const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap1[CU4_AppCtrl_Accel_SizePwmPeriodMap] = {
 /* u4ElapsedTime, u2PwmPeriod */
-  {(U4)32000,    (U2)32000},
-  {(U4)48000,    (U2)16000},
-  {(U4)56000,    (U2)8000},
-  {(U4)60000,    (U2)4000},
-  {(U4)540000,   (U2)2000},
-  {(U4)544000,   (U2)4000},
-  {(U4)552000,   (U2)8000},
-  {(U4)568000,   (U2)16000},
-  {(U4)600000,   (U2)32000},
-  {CU4_Max,      CU2_Max}
+  {(U4)16000,    (U2)16000},
+  {(U4)24000,    (U2)8000},
+  {(U4)28000,    (U2)4000},
+  {(U4)522000,   (U2)2000},
+  {(U4)526000,   (U2)4000},
+  {(U4)534000,   (U2)8000},
+  {(U4)550000,   (U2)16000},
+  {CU4_Max,      (U2)20000}
 };
 
 const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap2[CU4_AppCtrl_Accel_SizePwmPeriodMap] = {
 /* u4ElapsedTime, u2PwmPeriod */
-  {(U4)64000,    (U2)64000},
-  {(U4)96000,    (U2)32000},
-  {(U4)112000,   (U2)16000},
-  {(U4)120000,   (U2)8000},
-  {(U4)620000,   (U2)4000},
-  {(U4)628000,   (U2)8000},
-  {(U4)644000,   (U2)16000},
-  {(U4)676000,   (U2)32000},
-  {(U4)740000,   (U2)64000},
-  {CU4_Max,      CU2_Max}
+  {(U4)16000,    (U2)16000},
+  {(U4)24000,    (U2)8000},
+  {(U4)564000,   (U2)4000},
+  {(U4)572000,   (U2)8000},
+  {(U4)588000,   (U2)16000},
+  {CU4_Max,      (U2)20000}
 };
 #elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
 const U2 CU2_AppCtrl_Accel_PwmTargetPulseCnt1 = (U2)248;

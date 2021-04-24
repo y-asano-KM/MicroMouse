@@ -290,7 +290,7 @@ static void vd_s_CtrlMtrForward(U1 u1_a_block, U4 u4_a_speed)
 #if defined(OP_AppCtrl_Accel_LogicTypePhysical)
   u4_s_StepCount += (U4)500;
 #elif defined(OP_AppCtrl_Accel_LogicTypeTable)
-  u4_s_StepCount += (U4)600;
+  u4_s_StepCount += (U4)550;
 #elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
   u4_s_StepCount += (U4)600;
 #else
@@ -371,7 +371,7 @@ static void vd_s_CtrlMtrTurn(S2 s2_a_angle)
 #if defined(OP_AppCtrl_Accel_LogicTypePhysical)
   u4_s_StepCount += (U4)540;
 #elif defined(OP_AppCtrl_Accel_LogicTypeTable)
-  u4_s_StepCount += (U4)740;
+  u4_s_StepCount += (U4)588;
 #elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
   u4_s_StepCount += (U4)740;
 #else
