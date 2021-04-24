@@ -79,8 +79,8 @@ extern U2 FnU2_AppCtrl_Accel_ctrlPwmPeriod(U2 tu2PulseCnt, U2 tu2TargetPulseCnt,
 #if defined(OP_AppCtrl_Accel_LogicTypePhysical)
 /* None */
 #elif defined(OP_AppCtrl_Accel_LogicTypeTable)
-extern const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap1[CU4_AppCtrl_Accel_SizePwmPeriodMap];
-extern const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap2[CU4_AppCtrl_Accel_SizePwmPeriodMap];
+extern const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMapStraight[CU4_AppCtrl_Accel_SizePwmPeriodMap];
+extern const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMapRotation[CU4_AppCtrl_Accel_SizePwmPeriodMap];
 #elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
 extern const U2 CU2_AppCtrl_Accel_PwmTargetPulseCntStraight;
 extern const U2 CU2_AppCtrl_Accel_PwmTargetPulseCntRotation;

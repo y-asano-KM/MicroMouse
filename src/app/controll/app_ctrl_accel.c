@@ -66,7 +66,9 @@
 /* ============================================================ */
 /* 関数定義                                                     */
 /* ============================================================ */
-#if defined(OP_AppCtrl_Accel_LogicTypeTable)
+#if defined(OP_AppCtrl_Accel_LogicTypePhysical)
+/* 実装なし */
+#elif defined(OP_AppCtrl_Accel_LogicTypeTable)
 /* ============================================================ */
 /* 関数名 : FnU2_AppCtrl_Accel_ctrlPwmPeriod                    */
 /*          PWM出力周期制御                                     */

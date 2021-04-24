@@ -61,7 +61,7 @@
 #elif defined(OP_AppCtrl_Accel_LogicTypeTable)
 /* PWM出力周波数制御マップ */
 /* Memo:u2Timeは必ず昇順とすること */
-const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap1[CU4_AppCtrl_Accel_SizePwmPeriodMap] = {
+const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMapStraight[CU4_AppCtrl_Accel_SizePwmPeriodMap] = {
 /* u4ElapsedTime, u2PwmPeriod */
   {(U4)16000,    (U2)16000},
   {(U4)24000,    (U2)8000},
@@ -73,7 +73,7 @@ const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap1[CU4_AppCtrl
   {CU4_Max,      (U2)20000}
 };
 
-const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap2[CU4_AppCtrl_Accel_SizePwmPeriodMap] = {
+const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMapRotation[CU4_AppCtrl_Accel_SizePwmPeriodMap] = {
 /* u4ElapsedTime, u2PwmPeriod */
   {(U4)16000,    (U2)16000},
   {(U4)24000,    (U2)8000},

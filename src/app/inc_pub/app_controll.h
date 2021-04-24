@@ -31,16 +31,17 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-U1 u1_g_get_MtrModeR(void);                       /* 右モーター モード */
-U1 u1_g_get_MtrModeL(void);                       /* 左モーター モード */
-U1 u1_g_get_MtrPowerMode(void);                   /* モータ励磁 */
-U2 u2_g_get_MtrSpeedR(void);
-U2 u2_g_get_MtrSpeedL(void);
+extern U1 u1_g_get_MtrModeR(VD);                       /* 右モーター モード */
+extern U1 u1_g_get_MtrModeL(VD);                       /* 左モーター モード */
+extern U1 u1_g_get_MtrPowerMode(VD);                   /* モータ励磁 */
+extern U2 u2_g_get_MtrSpeedR(VD);
+extern U2 u2_g_get_MtrSpeedL(VD);
 
-U2 u2_g_get_CycleTimeR(void);                     /* 右モータ周期とパルス幅(1ms割り込み) */
-U2 u2_g_get_CycleTimeL(void);                     /* 左モータ周期とパルス幅(1ms割り込み) */
+extern U2 u2_g_get_CycleTimeR(VD);                     /* 右モータ周期とパルス幅(1ms割り込み) */
+extern U2 u2_g_get_CycleTimeL(VD);                     /* 左モータ周期とパルス幅(1ms割り込み) */
 
 extern U1 u1AppCtrl_getResetPulseCntReq(VD);
+
 
 /* ============================================================ */
 /* 変数宣言(extern)                                             */

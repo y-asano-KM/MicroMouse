@@ -85,32 +85,35 @@
 #define CTRL_WALL_THRESHOLD_R	60			/* 中央に置いた時の右センサリファレンス */
 #define CTRL_WALL_THRESHOLD_L	60			/* 中央に置いた時の左センサリファレンス */
 
+
 /* ============================================================ */
 /* 型定義                                                       */
 /* ============================================================ */
-typedef enum
-{
+typedef enum {
   false = 0,
   true  = 1
-}t_bool;
+} t_bool;
+
 
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-void vd_g_InitializeController(void);             /* 初期化関数 */
-void vd_ControllerMainTask(void);                 /* 定期メインタスク */
-void vd_g_IntDmtrR(void);                         /* MTU3割り込み    */
-void vd_g_IntDmtrL(void);                         /* MTU4割り込み */
-void vd_s_IntDrvControll(void);                   /* 1ms割り込みタスク */
+extern VD vd_g_InitializeController(VD);             /* 初期化関数 */
+extern VD vd_ControllerMainTask(VD);                 /* 定期メインタスク */
+extern VD vd_g_IntDmtrR(VD);                         /* MTU3割り込み    */
+extern VD vd_g_IntDmtrL(VD);                         /* MTU4割り込み */
+extern VD vd_s_IntDrvControll(VD);                   /* 1ms割り込みタスク */
 /* 仮 */
-U1 u1_jdgStepChange(void);
-void vd_set_NextActFW(U1 u1_a_next_block);
-void vd_set_NextActTurnRight(void);
-void vd_set_NextActTurnLeft(void);
-void vd_set_NextActTurnBack(void);
-void vd_set_NextActStop(void);
+extern U1 u1_jdgStepChange(VD);
+extern VD vd_set_NextActFW(U1 u1_a_next_block);
+extern VD vd_set_NextActTurnRight(VD);
+extern VD vd_set_NextActTurnLeft(VD);
+extern VD vd_set_NextActTurnBack(VD);
+extern VD vd_set_NextActStop(VD);
 
 t_bool* Fn_CONTROL_outputStatus(t_local_dir*);
+
+
 /* ============================================================ */
 /* 変数宣言(extern)                                             */
 /* ============================================================ */
