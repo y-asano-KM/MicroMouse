@@ -137,13 +137,6 @@ VD FnVD_PfMtr_If_setReq(VD)
   /* -------- */
   /* 出力設定 */
   /* -------- */
-  /* 非駆動時はパルス数クリア */
-  if (   (tu1Enb == (U1)C_OFF)
-      || (tu1ResetReq == (U1)C_ON)) {
-
-    FnVD_PfMtr_If_clrPulseCntr();
-  }
-
   /* モータ出力許可設定 */
   FnVD_HwDrv_Mtr_setEnbPort(tu1Enb);
 
@@ -151,10 +144,24 @@ VD FnVD_PfMtr_If_setReq(VD)
   FnVD_HwDrv_Mtr_setRotDirPortBoth(tu1RotDirPortR, tu1RotDirPortL);
 
   /* モータPWM設定 */
-  FnVD_HwDrv_Mtr_setPulseWidthBoth(tu2PeriodR, tu2OnTimeR, tu2PeriodL, tu2OnTimeL);
+  if (tu1Enb == (U1)C_ON) {
+    FnVD_HwDrv_Mtr_setPulseWidthBoth(tu2PeriodR, tu2OnTimeR, tu2PeriodL, tu2OnTimeL);
+  }
 
   /* モータ制御開始/停止 */
   FnVD_HwDrv_Mtr_ctrlStpAndGoBoth(tu1Enb, tu1Enb);
+
+  /* 非駆動時はモータで使用のタイマをリセット(モータ停止後に設定をリセット) */
+  if (tu1Enb == (U1)C_OFF) {
+    FnVD_HwDrv_Mtr_reset();
+  }
+
+  /* パルス数クリア処理 */
+  if (   (tu1Enb == (U1)C_OFF)
+      || (tu1ResetReq == (U1)C_ON)) {
+
+    FnVD_PfMtr_If_clrPulseCntr();
+  }
 }
 
 
