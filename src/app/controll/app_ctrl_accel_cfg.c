@@ -83,11 +83,14 @@ const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMapRotation[CU4_
   {CU4_Max,      (U2)20000}
 };
 #elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
-/* 直進時目標パルス数(90mm) */
-const U2 CU2_AppCtrl_Accel_PwmTargetPulseCntStraight = (U2)253; /* 238.7324146=(2*400)dist/48pi/2 */
+/* [%]直進時目標パルス数補正係数 */
+const U1 CU1_AppCtrl_Accel_PwmTargetPulseCntCorrectCoef = (U1)105;
 
-/* 旋回時目標パルス数(90deg) */
-const U2 CU2_AppCtrl_Accel_PwmTargetPulseCntRotation = (U2)139; /* 135.4166667=(2*400)((65/2)*(deg/180))/48pi */
+/* [回]直進時目標パルス数(90mm) */ /* 238.7324146=(2*400)dist/48pi/2 */
+const U2 CU2_AppCtrl_Accel_PwmTargetPulseCntStraight = (U2)((U2)238 + (U2)15);
+
+/* [回]旋回時目標パルス数(90deg) */ /* 133.3333333=(2*400)((64/2)*(deg/180))/48pi */
+const U2 CU2_AppCtrl_Accel_PwmTargetPulseCntRotation = (U2)((U2)133 + (U2)6);
 
 /* [us]直進時出力目標周期 */
 const U2 CU2_AppCtrl_Accel_PwmTargetPeriodStraight = (U2)2000;
