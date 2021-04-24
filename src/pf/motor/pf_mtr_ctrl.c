@@ -30,6 +30,8 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
+/* [us]最低ON時間 */
+#define CU2_PfMtr_Ctrl_MinOnTime    ((U2)20)
 
 
 /* ============================================================ */
@@ -154,16 +156,15 @@ VD FnVD_PfMtr_Ctrl_mediate(VD)
   U1 tu1DirL;         /* 左モータ回転方向 */
   U1 tu1Enb;          /* モータ制御許可フラグ */
 
-#if (1)
-  /* ToDo:暫定処置 */
-  tu1Enb     = u1_g_get_MtrPowerMode();  /* 駆動許可禁止 */
-  tu1DirR    = u1_g_get_MtrModeR();  /* 右モータ：回転方向 */
-  tu1DirL    = u1_g_get_MtrModeL();  /* 左モータ：回転方向 */
-  tu2PeriodR = u2_g_get_MtrSpeedR();  /* 右モータ：16ms周期(タイマ3MHz) 暫定 */
-  tu2PeriodL = u2_g_get_MtrSpeedL();  /* 左モータ：16ms周期(タイマ3MHz) 暫定 */
-  tu2OnTimeR = tu2PeriodR - (U2)20;  /* 右モータ：パルス幅：60us 暫定 */
-  tu2OnTimeL = tu2PeriodL - (U2)20;  /* 右モータ：パルス幅：60us 暫定 */
-#endif
+  /* 要求取得 */
+  tu1Enb     = u1_g_get_MtrPowerMode();
+  tu1DirR    = u1_g_get_MtrModeR();
+  tu1DirL    = u1_g_get_MtrModeL();
+  tu2PeriodR = u2_g_get_MtrSpeedR();
+  tu2PeriodL = u2_g_get_MtrSpeedL();
+  tu2OnTimeR = CU2_PfMtr_Ctrl_MinOnTime;
+  tu2OnTimeL = CU2_PfMtr_Ctrl_MinOnTime;
+
 #if defined(OP_PfCmn_EvaMtrCtrl)
   /* モータ駆動要求調停処理(評価用) */
   FnVD_PfMtr_CtrlEva_mediate(&tu1Enb,

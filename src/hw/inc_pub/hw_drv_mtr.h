@@ -56,6 +56,7 @@ extern VD FnVD_HwDrv_Mtr_setPulseWidthLeft(U2 tu2Period, U2 tu2OnTime);
 extern VD FnVD_HwDrv_Mtr_ctrlStpAndGoBoth(U1 tu1ReqR, U1 tu1ReqL);
 extern VD FnVD_HwDrv_Mtr_ctrlStpAndGoRight(U1 tu1Req);
 extern VD FnVD_HwDrv_Mtr_ctrlStpAndGoLeft(U1 tu1Req);
+extern VD FnVD_HwDrv_Mtr_reset(VD);
 
 
 /* ============================================================ */

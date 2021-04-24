@@ -74,18 +74,18 @@
 /* タイマレジスタ識別 */
 #define CEN_HwDrv_Mtr_Mtu_IdPwmRTmrCnt          CEN_HwPph_Mtu_IdTCNT_MTU3
 #define CEN_HwDrv_Mtr_Mtu_IdPwmRPeriod          CEN_HwPph_Mtu_IdTGR_MTU3A
-#define CEN_HwDrv_Mtr_Mtu_IdPwmROffTime         CEN_HwPph_Mtu_IdTGR_MTU3B
+#define CEN_HwDrv_Mtr_Mtu_IdPwmROnTime          CEN_HwPph_Mtu_IdTGR_MTU3B
 #define CEN_HwDrv_Mtr_Mtu_IdPwmRNextPeriod      CEN_HwPph_Mtu_IdTGR_MTU3C
 
-/* [us]最低OFF時間 */
-#define CU2_HwDrv_Mtr_MinOffTimePwmR            ((U2)((FL)((FL)20.0F / CFL_HwDrv_Mtr_PwmRTmrLsb)))
+/* [us]最低ON時間 */
+#define CU2_HwDrv_Mtr_MinOnTimePwmR             ((U2)((FL)((FL)20.0F / CFL_HwDrv_Mtr_PwmRTmrLsb)))
 
 /* [us]最低周期 */
-#define CU2_HwDrv_Mtr_MinPeriodPwmR             ((U2)((U2)2 * CU2_HwDrv_Mtr_MinOffTimePwmR))
+#define CU2_HwDrv_Mtr_MinPeriodPwmR             ((U2)((U2)2 * CU2_HwDrv_Mtr_MinOnTimePwmR))
 
 /* タイマレジスタ初期値 */
-#define CU2_HwDrv_Mtr_PeriodInitPwmR            ((U2)((U2)((FL)((FL)4000.0F / CFL_HwDrv_Mtr_PwmRTmrLsb)) - (U2)1))
-#define CU2_HwDrv_Mtr_OffTimeInitPwmR           CU2_HwDrv_Mtr_MinOffTimePwmR
+#define CU2_HwDrv_Mtr_PeriodInitPwmR            ((U2)((U2)((FL)((FL)16000.0F / CFL_HwDrv_Mtr_PwmRTmrLsb)) - (U2)1))
+#define CU2_HwDrv_Mtr_OnTimeInitPwmR            CU2_HwDrv_Mtr_MinOnTimePwmR
 #define CU2_HwDrv_Mtr_NextPeriodInitPwmR        ((U2)((U2)((FL)((FL)16000.0F / CFL_HwDrv_Mtr_PwmRTmrLsb)) - (U2)1))
 
 /* モータ動作開始ビット位置 */
@@ -98,19 +98,19 @@
 /* タイマレジスタ識別 */
 #define CEN_HwDrv_Mtr_Mtu_IdPwmLTmrCnt          CEN_HwPph_Mtu_IdTCNT_MTU4
 #define CEN_HwDrv_Mtr_Mtu_IdPwmLPeriod          CEN_HwPph_Mtu_IdTGR_MTU4A
-#define CEN_HwDrv_Mtr_Mtu_IdPwmLOffTime         CEN_HwPph_Mtu_IdTGR_MTU4B
+#define CEN_HwDrv_Mtr_Mtu_IdPwmLOnTime          CEN_HwPph_Mtu_IdTGR_MTU4B
 #define CEN_HwDrv_Mtr_Mtu_IdPwmLNextPeriod      CEN_HwPph_Mtu_IdTGR_MTU4C
 
-/* [us]最低OFF時間 */
-#define CU2_HwDrv_Mtr_MinOffTimePwmL            ((U2)((FL)((FL)20.0F / CFL_HwDrv_Mtr_PwmRTmrLsb)))
+/* [us]最低ON時間 */
+#define CU2_HwDrv_Mtr_MinOnTimePwmL             ((U2)((FL)((FL)20.0F / CFL_HwDrv_Mtr_PwmLTmrLsb)))
 
 /* [us]最低周期 */
-#define CU2_HwDrv_Mtr_MinPeriodPwmL             ((U2)((U2)2 * CU2_HwDrv_Mtr_MinOffTimePwmL))
+#define CU2_HwDrv_Mtr_MinPeriodPwmL             ((U2)((U2)2 * CU2_HwDrv_Mtr_MinOnTimePwmL))
 
 /* タイマレジスタ初期値 */
-#define CU2_HwDrv_Mtr_PeriodInitPwmL            ((U2)((U2)((FL)((FL)4000.0F / CFL_HwDrv_Mtr_PwmRTmrLsb)) - (U2)1))
-#define CU2_HwDrv_Mtr_OffTimeInitPwmL           CU2_HwDrv_Mtr_MinOffTimePwmL
-#define CU2_HwDrv_Mtr_NextPeriodInitPwmL        ((U2)((U2)((FL)((FL)16000.0F / CFL_HwDrv_Mtr_PwmRTmrLsb)) - (U2)1))
+#define CU2_HwDrv_Mtr_PeriodInitPwmL            ((U2)((U2)((FL)((FL)16000.0F / CFL_HwDrv_Mtr_PwmLTmrLsb)) - (U2)1))
+#define CU2_HwDrv_Mtr_OnTimeInitPwmL            CU2_HwDrv_Mtr_MinOnTimePwmL
+#define CU2_HwDrv_Mtr_NextPeriodInitPwmL        ((U2)((U2)((FL)((FL)16000.0F / CFL_HwDrv_Mtr_PwmLTmrLsb)) - (U2)1))
 
 /* モータ動作開始ビット位置 */
 #define CU1_HwDrv_Mtr_Mtu_StartBitPosL          CU1_HwPph_Mtu_StartBitPosMtu4
@@ -176,12 +176,13 @@ static U2 u2HwDrv_Mtr_PulseCntrL;
 /* ============================================================ */
 /* 関数名 : McU2_HwDrv_Mtr_changeTimeToTimer                    */
 /*          時間[us]からタイマー値への変換                      */
-/* 引数   : なし                                                */
+/* 引数   : tu2Tim [us]時間                                     */
+/*          tflLsb [us]LSB                                      */
 /* 戻り値 : なし                                                */
 /* 概要   : 時間[us]からタイマー値へ変換する                    */
 /* 制約   : なし                                                */
 /* ============================================================ */
-#define McU2_HwDrv_Mtr_changeTimeToTimer(tu2Tim)    ((U2)((U4)(((U4)(tu2Tim) * (U4)((FL)CU4_HwDrv_Mtr_changeTimeToTimerGain / CFL_HwDrv_Mtr_PwmRTmrLsb)) / CU4_HwDrv_Mtr_changeTimeToTimerGain)))
+#define McU2_HwDrv_Mtr_changeTimeToTimer(tu2Tim, tflLsb)    ((U2)((U4)(((U4)(tu2Tim) * (U4)((FL)CU4_HwDrv_Mtr_changeTimeToTimerGain / (tflLsb))) / CU4_HwDrv_Mtr_changeTimeToTimerGain)))
 
 
 /* ============================================================ */
@@ -277,14 +278,14 @@ VD FnVD_HwDrv_Mtr_init(VD)
   FnVD_HwPph_Mtu_cfgMtu3(&CST_HwDrv_Mtr_Mtu_CfgPwmR);
   FnVD_HwPph_Mtu_setTimerCounter(CEN_HwDrv_Mtr_Mtu_IdPwmRTmrCnt, (U2)0);
   FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmRPeriod,     CU2_HwDrv_Mtr_PeriodInitPwmR);
-  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmROffTime,    CU2_HwDrv_Mtr_OffTimeInitPwmR);
+  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmROnTime,     CU2_HwDrv_Mtr_OnTimeInitPwmR);
   FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmRNextPeriod, CU2_HwDrv_Mtr_NextPeriodInitPwmR);
 
   /* 左モータPWM出力 */
   FnVD_HwPph_Mtu_cfgMtu4(&CST_HwDrv_Mtr_Mtu_CfgPwmL);
   FnVD_HwPph_Mtu_setTimerCounter(CEN_HwDrv_Mtr_Mtu_IdPwmLTmrCnt, (U2)0);
   FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLPeriod,     CU2_HwDrv_Mtr_PeriodInitPwmL);
-  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLOffTime,    CU2_HwDrv_Mtr_OffTimeInitPwmL);
+  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLOnTime,     CU2_HwDrv_Mtr_OnTimeInitPwmL);
   FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLNextPeriod, CU2_HwDrv_Mtr_NextPeriodInitPwmL);
 
   /* ポート設定 */
@@ -389,29 +390,25 @@ VD FnVD_HwDrv_Mtr_setPulseWidthBoth(U2 tu2PeriodR, U2 tu2OnTimeR, U2 tu2PeriodL,
 {
   U2 tu2PeriodTimerR;
   U2 tu2OnTimeTimerR;
-  S4 ts4OffTimeTimerR;
   U2 tu2PeriodTimerL;
   U2 tu2OnTimeTimerL;
-  S4 ts4OffTimeTimerL;
 
-  tu2PeriodTimerR = McU2_HwDrv_Mtr_changeTimeToTimer(tu2PeriodR) - (U2)1;
+  tu2PeriodTimerR = McU2_HwDrv_Mtr_changeTimeToTimer(tu2PeriodR, CFL_HwDrv_Mtr_PwmRTmrLsb) - (U2)1;
   tu2PeriodTimerR = McXX_grdMin(tu2PeriodTimerR, CU2_HwDrv_Mtr_MinPeriodPwmR);
 
-  tu2OnTimeTimerR = McU2_HwDrv_Mtr_changeTimeToTimer(tu2OnTimeR);
-  ts4OffTimeTimerR = (S4)tu2PeriodTimerR - (S4)tu2OnTimeTimerR;
-  ts4OffTimeTimerR = (S4)McXX_grdMin(ts4OffTimeTimerR, (S4)CU2_HwDrv_Mtr_MinOffTimePwmR);
+  tu2OnTimeTimerR = McU2_HwDrv_Mtr_changeTimeToTimer(tu2OnTimeR, CFL_HwDrv_Mtr_PwmRTmrLsb);
+  tu2OnTimeTimerR = (U2)McXX_grdMin(tu2OnTimeTimerR, CU2_HwDrv_Mtr_MinOnTimePwmR);
 
-  tu2PeriodTimerL = McU2_HwDrv_Mtr_changeTimeToTimer(tu2PeriodL) - (U2)1;
+  tu2PeriodTimerL = McU2_HwDrv_Mtr_changeTimeToTimer(tu2PeriodL, CFL_HwDrv_Mtr_PwmLTmrLsb) - (U2)1;
   tu2PeriodTimerL = McXX_grdMin(tu2PeriodTimerL, CU2_HwDrv_Mtr_MinPeriodPwmL);
 
-  tu2OnTimeTimerL = McU2_HwDrv_Mtr_changeTimeToTimer(tu2OnTimeL);
-  ts4OffTimeTimerL = (S4)tu2PeriodTimerL - (S4)tu2OnTimeTimerL;
-  ts4OffTimeTimerL = (S4)McXX_grdMin(ts4OffTimeTimerL, (S4)CU2_HwDrv_Mtr_MinOffTimePwmL);
+  tu2OnTimeTimerL = McU2_HwDrv_Mtr_changeTimeToTimer(tu2OnTimeL, CFL_HwDrv_Mtr_PwmLTmrLsb);
+  tu2OnTimeTimerL = (U2)McXX_grdMin(tu2OnTimeTimerL, CU2_HwDrv_Mtr_MinOnTimePwmL);
 
   FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmRNextPeriod, tu2PeriodTimerR);
   FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLNextPeriod, tu2PeriodTimerL);
-  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmROffTime,    (U2)ts4OffTimeTimerR);
-  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLOffTime,    (U2)ts4OffTimeTimerL);
+  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmROnTime,     tu2OnTimeTimerR);
+  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLOnTime,     tu2OnTimeTimerL);
 }
 
 
@@ -428,17 +425,15 @@ VD FnVD_HwDrv_Mtr_setPulseWidthRight(U2 tu2Period, U2 tu2OnTime)
 {
   U2 tu2PeriodTimer;
   U2 tu2OnTimeTimer;
-  S4 ts4OffTimeTimer;
-
-  tu2PeriodTimer = McU2_HwDrv_Mtr_changeTimeToTimer(tu2Period) - (U2)1;
+ 
+  tu2PeriodTimer = McU2_HwDrv_Mtr_changeTimeToTimer(tu2Period, CFL_HwDrv_Mtr_PwmRTmrLsb) - (U2)1;
   tu2PeriodTimer = McXX_grdMin(tu2PeriodTimer, CU2_HwDrv_Mtr_MinPeriodPwmR);
 
-  tu2OnTimeTimer = McU2_HwDrv_Mtr_changeTimeToTimer(tu2OnTime);
-  ts4OffTimeTimer = (S4)tu2PeriodTimer - (S4)tu2OnTimeTimer;
-  ts4OffTimeTimer = (S4)McXX_grdMin(ts4OffTimeTimer, (S4)CU2_HwDrv_Mtr_MinOffTimePwmR);
-
+  tu2OnTimeTimer = McU2_HwDrv_Mtr_changeTimeToTimer(tu2OnTime, CFL_HwDrv_Mtr_PwmRTmrLsb);
+  tu2OnTimeTimer = (U2)McXX_grdMin(tu2OnTimeTimer, CU2_HwDrv_Mtr_MinOnTimePwmR);
+  
   FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmRNextPeriod, tu2PeriodTimer);
-  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmROffTime,    (U2)ts4OffTimeTimer);
+  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmROnTime,     tu2OnTimeTimer);
 }
 
 
@@ -455,17 +450,15 @@ VD FnVD_HwDrv_Mtr_setPulseWidthLeft(U2 tu2Period, U2 tu2OnTime)
 {
   U2 tu2PeriodTimer;
   U2 tu2OnTimeTimer;
-  S4 ts4OffTimeTimer;
 
-  tu2PeriodTimer = McU2_HwDrv_Mtr_changeTimeToTimer(tu2Period) - (U2)1;
+  tu2PeriodTimer = McU2_HwDrv_Mtr_changeTimeToTimer(tu2Period, CFL_HwDrv_Mtr_PwmLTmrLsb) - (U2)1;
   tu2PeriodTimer = McXX_grdMin(tu2PeriodTimer, CU2_HwDrv_Mtr_MinPeriodPwmL);
 
-  tu2OnTimeTimer = McU2_HwDrv_Mtr_changeTimeToTimer(tu2OnTime);
-  ts4OffTimeTimer = (S4)tu2PeriodTimer - (S4)tu2OnTimeTimer;
-  ts4OffTimeTimer = (S4)McXX_grdMin(ts4OffTimeTimer, (S4)CU2_HwDrv_Mtr_MinOffTimePwmL);
+  tu2OnTimeTimer = McU2_HwDrv_Mtr_changeTimeToTimer(tu2OnTime, CFL_HwDrv_Mtr_PwmLTmrLsb);
+  tu2OnTimeTimer = (U2)McXX_grdMin(tu2OnTimeTimer, CU2_HwDrv_Mtr_MinOnTimePwmL);
 
   FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLNextPeriod, tu2PeriodTimer);
-  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLOffTime,    (U2)ts4OffTimeTimer);
+  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLOnTime,     tu2OnTimeTimer);
 }
 
 
@@ -495,8 +488,8 @@ VD FnVD_HwDrv_Mtr_ctrlStpAndGoBoth(U1 tu1ReqR, U1 tu1ReqL)
 
 /* ============================================================ */
 /* 関数名 : FnVD_HwDrv_Mtr_ctrlStpAndGoRight                    */
+/*          右モータ出力開始                                    */
 /* 引数   : tu1Req  右モータ制御要求(0:動作停止, 1:動作開始)    */
-/* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : 右モータ出力を停止/開始する                         */
 /* 制約   : 割り込み禁止が解除される                            */
@@ -517,8 +510,8 @@ VD FnVD_HwDrv_Mtr_ctrlStpAndGoRight(U1 tu1Req)
 
 /* ============================================================ */
 /* 関数名 : FnVD_HwDrv_Mtr_ctrlStpAndGoLeft                     */
+/*          左モータ出力開始                                    */
 /* 引数   : tu1Req  左モータ制御要求(0:動作停止, 1:動作開始)    */
-/* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : 左モータ出力を停止/開始する                         */
 /* 制約   : 割り込み禁止が解除される                            */
@@ -537,3 +530,23 @@ VD FnVD_HwDrv_Mtr_ctrlStpAndGoLeft(U1 tu1Req)
 }
 
 
+/* ============================================================ */
+/* 関数名 : FnVD_HwDrv_Mtr_reset                                */
+/*          モータリセット処理                                  */
+/* 引数   : なし                                                */
+/* 戻り値 : なし                                                */
+/* 概要   : モータリセット処理                                  */
+/* 制約   : タイマー(MTU)停止時に実行すること                   */
+/* ============================================================ */
+VD FnVD_HwDrv_Mtr_reset(VD)
+{
+  FnVD_HwPph_Mtu_setTimerCounter(CEN_HwDrv_Mtr_Mtu_IdPwmRTmrCnt, (U2)0);
+  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmRPeriod,     CU2_HwDrv_Mtr_PeriodInitPwmR);
+  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmROnTime,     CU2_HwDrv_Mtr_OnTimeInitPwmR);
+  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmRNextPeriod, CU2_HwDrv_Mtr_NextPeriodInitPwmR);
+
+  FnVD_HwPph_Mtu_setTimerCounter(CEN_HwDrv_Mtr_Mtu_IdPwmLTmrCnt, (U2)0);
+  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLPeriod,     CU2_HwDrv_Mtr_PeriodInitPwmL);
+  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLOnTime,     CU2_HwDrv_Mtr_OnTimeInitPwmL);
+  FnVD_HwPph_Mtu_setTimerGeneralRegister(CEN_HwDrv_Mtr_Mtu_IdPwmLNextPeriod, CU2_HwDrv_Mtr_NextPeriodInitPwmL);
+}
