@@ -292,7 +292,7 @@ static void vd_s_CtrlMtrForward(U1 u1_a_block, U4 u4_a_speed)
 #elif defined(OP_AppCtrl_Accel_LogicTypeTable)
   u4_s_StepCount += (U4)550;
 #elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
-  u4_s_StepCount += (U4)600;
+  u4_s_StepCount += (U4)550;
 #else
   u4_s_StepCount += (U4)500;
 #endif
@@ -373,7 +373,7 @@ static void vd_s_CtrlMtrTurn(S2 s2_a_angle)
 #elif defined(OP_AppCtrl_Accel_LogicTypeTable)
   u4_s_StepCount += (U4)588;
 #elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
-  u4_s_StepCount += (U4)740;
+  u4_s_StepCount += (U4)588;
 #else
   u4_s_StepCount += (U4)540;
 #endif
@@ -569,32 +569,29 @@ static void vd_s_IntDrvAcclControll(void)
     tu2PulseCntR = FnU2_PfMtr_If_getRightMtrPulseCount();
     tu2PulseCntL = FnU2_PfMtr_If_getLeftMtrPulseCount();
 
-  	/* 操舵方向が変化したらパルス数リセット */
-  	if (u1_s_MtrModeR != u1_s_MtrModeR_prev) {
+    /* 操舵方向が変化したらパルス数リセット */
+    if (   (u1_s_MtrModeR != u1_s_MtrModeR_prev)
+        || (u1_s_MtrModeL != u1_s_MtrModeL_prev)) {
+
       tu2PulseCntR = (U2)0;
       tu1ResetReqR = (U1)C_ON;
-    }
-    else {
-      tu1ResetReqR = (U1)C_OFF;
-    }
-
-  	if (u1_s_MtrModeL != u1_s_MtrModeL_prev) {
       tu2PulseCntL = (U2)0;
       tu1ResetReqL = (U1)C_ON;
     }
     else {
+      tu1ResetReqR = (U1)C_OFF;
       tu1ResetReqL = (U1)C_OFF;
     }
 
     if (u1_s_MtrModeR == u1_s_MtrModeL) {
       /* 直進 */
-      u4_s_CurrentSpeedR = FnU2_AppCtrl_Accel_ctrlPwmPeriod(tu2PulseCntR, CU2_AppCtrl_Accel_PwmTargetPulseCnt1, CU2_AppCtrl_Accel_PwmTargetPeriod1, CU2_AppCtrl_Accel_PwmPeriodInit1);
-      u4_s_CurrentSpeedL = FnU2_AppCtrl_Accel_ctrlPwmPeriod(tu2PulseCntL, CU2_AppCtrl_Accel_PwmTargetPulseCnt1, CU2_AppCtrl_Accel_PwmTargetPeriod1, CU2_AppCtrl_Accel_PwmPeriodInit1);
+      u4_s_CurrentSpeedR = FnU2_AppCtrl_Accel_ctrlPwmPeriod(tu2PulseCntR, CU2_AppCtrl_Accel_PwmTargetPulseCntStraight, CU2_AppCtrl_Accel_PwmTargetPeriodStraight, CU2_AppCtrl_Accel_PwmPeriodInitStraight);
+      u4_s_CurrentSpeedL = FnU2_AppCtrl_Accel_ctrlPwmPeriod(tu2PulseCntL, CU2_AppCtrl_Accel_PwmTargetPulseCntStraight, CU2_AppCtrl_Accel_PwmTargetPeriodStraight, CU2_AppCtrl_Accel_PwmPeriodInitStraight);
     }
     else {
       /* 旋回 */
-      u4_s_CurrentSpeedR = FnU2_AppCtrl_Accel_ctrlPwmPeriod(tu2PulseCntR, CU2_AppCtrl_Accel_PwmTargetPulseCnt2, CU2_AppCtrl_Accel_PwmTargetPeriod2, CU2_AppCtrl_Accel_PwmPeriodInit2);
-      u4_s_CurrentSpeedL = FnU2_AppCtrl_Accel_ctrlPwmPeriod(tu2PulseCntL, CU2_AppCtrl_Accel_PwmTargetPulseCnt2, CU2_AppCtrl_Accel_PwmTargetPeriod2, CU2_AppCtrl_Accel_PwmPeriodInit2);
+      u4_s_CurrentSpeedR = FnU2_AppCtrl_Accel_ctrlPwmPeriod(tu2PulseCntR, CU2_AppCtrl_Accel_PwmTargetPulseCntRotation, CU2_AppCtrl_Accel_PwmTargetPeriodRotation, CU2_AppCtrl_Accel_PwmPeriodInitRotation);
+      u4_s_CurrentSpeedL = FnU2_AppCtrl_Accel_ctrlPwmPeriod(tu2PulseCntL, CU2_AppCtrl_Accel_PwmTargetPulseCntRotation, CU2_AppCtrl_Accel_PwmTargetPeriodRotation, CU2_AppCtrl_Accel_PwmPeriodInitRotation);
     }
   }
   else {

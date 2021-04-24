@@ -82,14 +82,14 @@ extern U2 FnU2_AppCtrl_Accel_ctrlPwmPeriod(U2 tu2PulseCnt, U2 tu2TargetPulseCnt,
 extern const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap1[CU4_AppCtrl_Accel_SizePwmPeriodMap];
 extern const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap2[CU4_AppCtrl_Accel_SizePwmPeriodMap];
 #elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
-extern const U2 CU2_AppCtrl_Accel_PwmTargetPulseCnt1;
-extern const U2 CU2_AppCtrl_Accel_PwmTargetPulseCnt2;
-extern const U2 CU2_AppCtrl_Accel_PwmTargetPeriod1;
-extern const U2 CU2_AppCtrl_Accel_PwmTargetPeriod2;
-extern const U2 CU2_AppCtrl_Accel_PwmPeriodInit1;
-extern const U2 CU2_AppCtrl_Accel_PwmPeriodInit2;
-extern const U2 CU2_AppCtrl_Accel_PwmMaxPeriod;
-extern const U2 CU2_AppCtrl_Accel_PwmMinPeriod;
+extern const U2 CU2_AppCtrl_Accel_PwmTargetPulseCntStraight;
+extern const U2 CU2_AppCtrl_Accel_PwmTargetPulseCntRotation;
+extern const U2 CU2_AppCtrl_Accel_PwmTargetPeriodStraight;
+extern const U2 CU2_AppCtrl_Accel_PwmTargetPeriodRotation;
+extern const U2 CU2_AppCtrl_Accel_PwmPeriodInitStraight;
+extern const U2 CU2_AppCtrl_Accel_PwmPeriodInitRotation;
+extern const U2 CU2_AppCtrl_Accel_PwmPeriodMax;
+extern const U2 CU2_AppCtrl_Accel_PwmPeriodMin;
 #else
 /* None */
 #endif

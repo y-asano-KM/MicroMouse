@@ -83,14 +83,29 @@ const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMap2[CU4_AppCtrl
   {CU4_Max,      (U2)20000}
 };
 #elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
-const U2 CU2_AppCtrl_Accel_PwmTargetPulseCnt1 = (U2)248;
-const U2 CU2_AppCtrl_Accel_PwmTargetPulseCnt2 = (U2)133;
-const U2 CU2_AppCtrl_Accel_PwmTargetPeriod1   = (U2)2000;
-const U2 CU2_AppCtrl_Accel_PwmTargetPeriod2   = (U2)4000;
-const U2 CU2_AppCtrl_Accel_PwmPeriodInit1     = (U2)32000;
-const U2 CU2_AppCtrl_Accel_PwmPeriodInit2     = (U2)64000;
-const U2 CU2_AppCtrl_Accel_PwmMaxPeriod       = (U2)64000;
-const U2 CU2_AppCtrl_Accel_PwmMinPeriod       = (U2)250;
+/* 直進時目標パルス数(90mm) */
+const U2 CU2_AppCtrl_Accel_PwmTargetPulseCntStraight = (U2)253; /* 238.7324146=(2*400)dist/48pi/2 */
+
+/* 旋回時目標パルス数(90deg) */
+const U2 CU2_AppCtrl_Accel_PwmTargetPulseCntRotation = (U2)139; /* 135.4166667=(2*400)((65/2)*(deg/180))/48pi */
+
+/* [us]直進時出力目標周期 */
+const U2 CU2_AppCtrl_Accel_PwmTargetPeriodStraight = (U2)2000;
+
+/* [us]旋回時出力目標周期 */
+const U2 CU2_AppCtrl_Accel_PwmTargetPeriodRotation = (U2)4000;
+
+/* [us]直進時出力初期周期 */
+const U2 CU2_AppCtrl_Accel_PwmPeriodInitStraight = (U2)16000;
+
+/* [us]旋回時出力初期周期 */
+const U2 CU2_AppCtrl_Accel_PwmPeriodInitRotation = (U2)16000;
+
+/* [us]出力周期上限値 */
+const U2 CU2_AppCtrl_Accel_PwmPeriodMax = (U2)20000;
+
+/* [us]出力周期下限値 */
+const U2 CU2_AppCtrl_Accel_PwmPeriodMin = (U2)1000;
 #else
 /* None */
 #endif
