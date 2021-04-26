@@ -244,7 +244,7 @@ VD vd_ControllerMainTask(VD)
 
   U4 u4_t_1mscnt_now;
   U1 u1_t_next_block;
-#if (0)
+#if (1)
   U1 u1_t_nextact;
   t_position pst_mypos;
 #endif
@@ -259,7 +259,7 @@ VD vd_ControllerMainTask(VD)
   else{
     /* 走行完了ならば次の指示を取得する */
     if (en_s_runstt == 1) {
-#if (0)
+#if (1)
       /* *********************************** */
       /* plannnerの指示を受け取る            */
       /* *********************************** */
@@ -273,7 +273,7 @@ VD vd_ControllerMainTask(VD)
       u1_s_next_act = u1_t_nextact & 0x0F;
       en_s_runstt = (t_bool)0;
 #endif
-#if (1)
+#if (0)
       u1_s_next_act = VHECLE_FORWORD;
       u1_t_next_block = HALF_BLOCK * 2;
       /* 左右旋回、反転の場合は3STEPの走行が必要であるため、制御指示を記憶する */
