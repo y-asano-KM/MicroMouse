@@ -114,6 +114,7 @@ void Fn_MAP_init(void)
   /* スタート地点の西側を壁ありの設定にする */
   wall[0][0].east = WALL;
   wall[1][0].west = WALL;
+  wall[0][0].north = NOWALL;
   
   /* 自車位置座標を(0,0)に初期化 */
   mypos.x = 0;
@@ -362,19 +363,30 @@ void Fn_MAP_updatePosition(void)
 
     /* 座標を更新 */
     if (mypos.dir == north) {
-  	  mypos.y++;
+      if (mypos.y < MAZESIZE_Y-1 ) {
+	    mypos.y++;
+      }
     }
   
     if (mypos.dir == east) {
-  	  mypos.x++;
+      if(mypos.x < MAZESIZE_X-1)
+      {
+ 	  mypos.x++;
+      }
     }
 
     if (mypos.dir == south) {
+      if(mypos.y > 0)
+      {
   	  mypos.y--;
+      }
     }
 
     if (mypos.dir == west) {
+      if(mypos.x > 0)
+      {
   	  mypos.x--;
+      }
     }
   }
 }
