@@ -212,7 +212,7 @@ VD vd_g_InitializeController(VD)
   u1_s_MtrModeL      = (U1)MTR_STOP;                   /* 左モーター モード */
   u1_s_MtrPowerMode  = (U1)MTR_OFF;                    /* モーター励磁 OFF設定 */
   en_s_dir           = (t_local_dir)4;                 /* プランナ指示 方向 */
-  en_s_runstt        = (t_bool)1;                      /* 動作状況 0:走行中、1:走行完了 */
+  en_s_runstt        = (t_bool)2;                      /* 動作状況 0:走行中、1:走行完了 */
   u1_s_next_act      = (U1)VHECLE_STOP;                /* プランナ指示 方向→内部情報 */
 #if defined(OP_AppCtrl_Accel_LogicTypePhysical)
   u4AppCtrl_TimerCount       = (U4)0;                  /* 1msごとにカウントアップされる変数 */
@@ -258,7 +258,7 @@ VD vd_ControllerMainTask(VD)
   }
   else{
     /* 走行完了ならば次の指示を取得する */
-    if (en_s_runstt == 1) {
+    if (en_s_runstt == 1 || en_s_runstt == 2) {
 #if (1)
       /* *********************************** */
       /* plannnerの指示を受け取る            */
@@ -266,11 +266,16 @@ VD vd_ControllerMainTask(VD)
       /* 前後左右どちらに移動するか受け取る予定 IFは変わるため、一旦消す */
       /* MAPに渡す東西南北はどうすれば？残さなきゃいけないかも */
       Fn_MAP_outputPosition(&pst_mypos);
+//      Fn_MAP_updateWall();
       (VD)FnU1_Plan_indicatedir(pst_mypos.x, pst_mypos.y, pst_mypos.dir); /* 現在地情報(x,y) 現在の進行方向を与え、次の進行方向を得る north=0,east=1,south=2,west=3 */
       u1_t_nextact = FnU1_Plan_returndir();
       u1_t_next_block = u1_t_nextact >> 4 ;
       en_s_dir = (t_local_dir)(u1_t_nextact & 0x0F);
       u1_s_next_act = u1_t_nextact & 0x0F;
+
+//      Fn_MAP_updatePosition();
+//      Fn_MAP_updateWall();
+      
       en_s_runstt = (t_bool)0;
 #endif
 #if (0)
@@ -290,7 +295,7 @@ VD vd_ControllerMainTask(VD)
       }
       else {
         vd_s_CtrlMtrStop();
-        en_s_runstt = (t_bool)1;
+        en_s_runstt = (t_bool)2;
       }
     }
     /* 1STEP目以降の走行中ならば指示に合わせて動作する */
@@ -569,7 +574,7 @@ VD vd_s_IntDrvControll(VD)
   vd_s_IntDrvAcclControll();
 
   /* 姿勢制御 */
-  vd_s_int_AttitudeControl();
+  //vd_s_int_AttitudeControl();
 
   /* モータ出力周波数演算 */
   vd_s_CtrlMtuPulse();

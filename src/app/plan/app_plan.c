@@ -417,6 +417,10 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
         {
             /* 最短経路が判定できなかったため、壁判定UNKNOWN箇所(歩数マップ値が初期値(255)の箇所)の捜索 */
             u1t_ret = FnU1_Plan_searchdir( x, y, dir );
+
+	    
+	//u1t_ret = south;
+
         }
         else if( u1t_n == (U1)0 )   /* ゴール地点に着いたら */
         {
@@ -482,26 +486,28 @@ U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
                 u1s_bitpos--;
             }
         }
-
-        u1s_direction = (U1)0x04;      /* 進行方向　STOP(停止) */
-        if( u1t_ret == dir )
+	
+	u1s_direction = (U1)0x04;      /* 進行方向　STOP(停止) */
+        if( u1t_ret == (U1)dir )
         {
             u1s_direction = (U1)0x10;  /* 進行方向　FORWORD(前進)１マス */
         }
-        if( u1t_ret == ( (U1)( dir + (U1)1 ) & (U1)0x03 ) )
+        if( u1t_ret == ( (U1)( (U1)dir + (U1)1 ) & (U1)0x03 ) )
         {
             u1s_direction = (U1)0x01;  /* 進行方向　TURNRIGHT(右折) */
         }
-        if( u1t_ret == ( (U1)( dir + (U1)2 ) & (U1)0x03 ) )
+        if( u1t_ret == ( (U1)( (U1)dir + (U1)2 ) & (U1)0x03 ) )
         {
             u1s_direction = (U1)0x02;  /* 進行方向　TURNBACK(転回) */
         }
-        if( u1t_ret == ( (U1)( dir + (U1)3 ) & (U1)0x03 ) )
+        if( u1t_ret == ( (U1)( (U1)dir + (U1)3 ) & (U1)0x03 ) )
         {
             u1s_direction = (U1)0x03;  /* 進行方向　TURNLEFT(左折) */
         }
 
         u1s_retdir = u1t_ret;   /* 算出した進行方角をセット */
+
+	//u1s_direction = (U1)0x01;      /* 進行方向　STOP(停止) */
 
 #if debug_planmode
     }
@@ -541,9 +547,11 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
     {
         u1s_runpattern = (U1)0;     /* 探索走行 */
     }
-    else if( u1t_mode == (U1)CEN_AppPln_Mode_TimeAttack )       /* 計測モード */
+    //else if( u1t_mode == (U1)CEN_AppPln_Mode_TimeAttack )       /* 計測モード */
+    else
     {
         u1s_runpattern = (U1)1;     /* 最短経路走行 */
+        //u1s_runpattern = (U1)0;     /* 最短経路走行 */
     }
 #endif
 
@@ -622,6 +630,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
                     u1t_priority = u1t_priority_temp;
                     u1t_priority_temp = (U1)0;  /* クリア処理 */
                 }
+                u1t_priority_temp = (U1)0;  /* クリア処理 */
             }
         }
     }
@@ -666,6 +675,7 @@ static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
                     u1t_priority = u1t_priority_temp;
                     u1t_priority_temp = (U1)0;  /* クリア処理 */
                 }
+                u1t_priority_temp = (U1)0;  /* クリア処理 */
             }
         }
     }
