@@ -15,7 +15,7 @@
 /* オプション定義                                     */
 /* ================================================== */
 /* 姿勢制御(PID)機能 有効/無効フラグ */
-#define OP_AppCmn_PidMode
+/* #define OP_AppCmn_PidMode */
 
 /* 加速制御 */
 /* #define OP_AppCmn_LogicTypePhysical */

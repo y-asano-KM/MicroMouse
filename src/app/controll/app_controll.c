@@ -188,8 +188,16 @@ static U4 u4AppCtrl_StepCntL;                  /* 左モータ1stepごとにカ�
 #endif
 static U4 u4AppCtrl_CurSpdR;                   /* 右モーター 現在速度 */
 static U4 u4AppCtrl_CurSpdL;                   /* 左モーター 現在速度 */
+#if defined(OP_AppCmn_LogicTypePhysical)
 static U4 u4AppCtrl_MaxSpdR;                   /* 右モーター 最高速度 */
 static U4 u4AppCtrl_MaxSpdL;                   /* 左モーター 最高速度 */
+#elif defined(OP_AppCmn_LogicTypeTable)
+/* None */
+#elif defined(OP_AppCmn_LogicTypePulseCnt)
+/* None */
+#else
+/* None */
+#endif
 static U4 u4AppCtrl_AccelVal;                  /* 加速値 */
 static U4 u4AppCtrl_AccelCnt;                  /* 最高速度に達したカウント */
 static U4 u4AppCtrl_StepCnt;                   /* 走行ステップ数 */
@@ -258,8 +266,16 @@ VD FnVD_AppCtrl_init(VD)
 #endif
   u4AppCtrl_CurSpdR          = (U4)16000;                  /* 右モーター 現在速度 */
   u4AppCtrl_CurSpdL          = (U4)16000;                  /* 左モーター 現在速度 */
+#if defined(OP_AppCmn_LogicTypePhysical)
   u4AppCtrl_MaxSpdR          = (U4)0;                      /* 右モーター 最高速度 */
   u4AppCtrl_MaxSpdL          = (U4)0;                      /* 左モーター 最高速度 */
+#elif defined(OP_AppCmn_LogicTypeTable)
+/* None */
+#elif defined(OP_AppCmn_LogicTypePulseCnt)
+/* None */
+#else
+/* None */
+#endif
   u4AppCtrl_AccelVal         = (U4)0;                      /* 加速値 */
   u4AppCtrl_AccelCnt         = (U4)0;                      /* 最高速度に達したカウント */
   u4AppCtrl_StepCnt          = (U4)0;                      /* 走行ステップ数 */
@@ -297,7 +313,9 @@ VD FnVD_AppCtrl_init(VD)
 VD FnVD_AppCtrl_mngTsk(VD)
 {
   U4 tu4CntCur;
+#if (0)
   U1 tu1NextBlock;
+#endif
 #if (1)
   U1 tu1NextAct;
   ST_AppMap_CarStt tstMypos;
@@ -330,7 +348,9 @@ VD FnVD_AppCtrl_mngTsk(VD)
       (VD)FnU1_AppPln_reqDir(tstMypos.s2X, tstMypos.s2Y, tstMypos.enDir);
 
       tu1NextAct = FnU1_AppPln_getActReq();
+  #if (0)
       tu1NextBlock = tu1NextAct >> (U1)4 ;
+  #endif
       enAppCtrl_Dir = (EN_AppCtrl_Dir)(tu1NextAct & (U1)0x0F);
       u1AppCtrl_NextAct = (U1)(tu1NextAct & (U1)0x0F);
 
@@ -343,7 +363,9 @@ VD FnVD_AppCtrl_mngTsk(VD)
 #endif
 #if (0)
       u1AppCtrl_NextAct = CU1_AppPln_ActGoStraight;
+  #if (0)
       tu1NextBlock = CU1_AppCtrl_HalfBlock * 2;
+  #endif
       /* 左右旋回、反転の場合は3STEPの走行が必要であるため、制御指示を記憶する */
       enAppCtrl_Dir = (EN_AppCtrl_Dir)u1AppCtrl_NextAct;
       enAppCtrl_RunSts = CEN_AppCtrl_RunStsRunning;
@@ -470,8 +492,16 @@ static VD FnVD_AppCtrl_goStraight(U1 tu1Block, U4 tu4Speed)
 #endif
 #if defined(OP_AppCtrl_DbgCont)
   /* 最高速度 */
+  #if defined(OP_AppCmn_LogicTypePhysical)
   u4AppCtrl_MaxSpdR = tu4Speed;
   u4AppCtrl_MaxSpdL = tu4Speed;
+  #elif defined(OP_AppCmn_LogicTypeTable)
+  /* None */
+  #elif defined(OP_AppCmn_LogicTypePulseCnt)
+  /* None */
+  #else
+  /* None */
+  #endif
 
   /* 加速値 */
   u4AppCtrl_AccelVal = CU4_AppCtrl_AccelVal;
@@ -538,8 +568,16 @@ static VD FnVD_AppCtrl_turn(S2 ts2Deg)
 #endif
 #if defined(OP_AppCtrl_DbgCont)
   /* 最高速度 */
+  #if defined(OP_AppCmn_LogicTypePhysical)
   u4AppCtrl_MaxSpdR = CU4_AppCtrl_TurnSpd;
   u4AppCtrl_MaxSpdL = CU4_AppCtrl_TurnSpd;
+  #elif defined(OP_AppCmn_LogicTypeTable)
+  /* None */
+  #elif defined(OP_AppCmn_LogicTypePulseCnt)
+  /* None */
+  #else
+  /* None */
+  #endif
 
   /* 加速値 */
   u4AppCtrl_AccelVal = CU4_AppCtrl_AccelVal;
@@ -634,11 +672,7 @@ VD FnVD_AppCtrl_mngTskForInt(VD)
   FnVD_AppCtrl_ctrlAccel();
 
   /* 姿勢制御 */
-#if defined(OP_AppCmn_PidMode)
-  #if (0)
   FnVD_AppCtrl_ctrlAttitude();
-  #endif
-#endif
 
   /* モータ出力周波数演算 */
   FnVD_AppCtrl_ctrlTimerPulse();
@@ -822,6 +856,7 @@ static VD FnVD_AppCtrl_ctrlAccel(VD)
 /* ============================================================ */
 static VD FnVD_AppCtrl_ctrlAttitude(VD)
 {
+#if defined(OP_AppCmn_PidMode)
   S4 ts4SensDiff;        /* 偏差用変数 */
   S4 ts4SensDiffPrev;    /* 前回偏差用変数 */
   S4 ts4SensR;           /* 右センサ値 */
@@ -833,57 +868,57 @@ static VD FnVD_AppCtrl_ctrlAttitude(VD)
   FL tflCtrlMtr;
 
   tflCtrlMtr = (FL)0.0F;
+
   /* 1ならば姿勢制御をする */
-#if defined(OP_AppCmn_PidMode)
-  /*  センサから情報を取得   */
-    ts4SensR = (S4)stAppRcg_WallInfoForCtrl.stWallR.u2SensVal;
-    ts4SensL = (S4)stAppRcg_WallInfoForCtrl.stWallL.u2SensVal;
-    ts4SensRefR = CS4_AppCtrl_SensRefR;
-    ts4SensRefL = CS4_AppCtrl_SensRefL;
-    tu1WallFlagR = stAppRcg_WallInfoForCtrl.stWallR.u1WallExistance;
-    tu1WallFlagL = stAppRcg_WallInfoForCtrl.stWallL.u1WallExistance;
+  /* センサから情報を取得 */
+  ts4SensR = (S4)stAppRcg_WallInfoForCtrl.stWallR.u2SensVal;
+  ts4SensL = (S4)stAppRcg_WallInfoForCtrl.stWallL.u2SensVal;
+  ts4SensRefR = CS4_AppCtrl_SensRefR;
+  ts4SensRefL = CS4_AppCtrl_SensRefL;
+  tu1WallFlagR = stAppRcg_WallInfoForCtrl.stWallR.u1WallExistance;
+  tu1WallFlagL = stAppRcg_WallInfoForCtrl.stWallL.u1WallExistance;
 
-    /* ここの条件分岐で制御系を切り替える */
-    if (   (tu1WallFlagR == (U1)C_ON)
-        && (tu1WallFlagL == (U1)C_ON)) {
+  /* ここの条件分岐で制御系を切り替える */
+  if (   (tu1WallFlagR == (U1)C_ON)
+      && (tu1WallFlagL == (U1)C_ON)) {
 
-      /* 両側の壁を認識している場合 */
-      ts4SensDiff = ts4SensR - ts4SensL;
-    }
-    else if (   (tu1WallFlagR == (U1)C_ON)
-             && (tu1WallFlagL == (U1)C_OFF)) {
+    /* 両側の壁を認識している場合 */
+    ts4SensDiff = ts4SensR - ts4SensL;
+  }
+  else if (   (tu1WallFlagR == (U1)C_ON)
+           && (tu1WallFlagL == (U1)C_OFF)) {
 
-      /* 右側だけ壁を認識している場合 */
-      ts4SensDiff = (S4)2 * (ts4SensR - ts4SensRefR);  
-    }
-    else if (   (tu1WallFlagR == (U1)C_OFF)
-             && (tu1WallFlagL == (U1)C_ON)) {
+    /* 右側だけ壁を認識している場合 */
+    ts4SensDiff = (S4)2 * (ts4SensR - ts4SensRefR);  
+  }
+  else if (   (tu1WallFlagR == (U1)C_OFF)
+           && (tu1WallFlagL == (U1)C_ON)) {
 
-      /* 左側だけ壁を認識している場合 */
-      ts4SensDiff = (S4)-2 * (ts4SensL - ts4SensRefL);  
-    }
-    else if (   (tu1WallFlagR == (U1)C_OFF)
-             && (tu1WallFlagL == (U1)C_OFF)) {
+    /* 左側だけ壁を認識している場合 */
+    ts4SensDiff = (S4)-2 * (ts4SensL - ts4SensRefL);  
+  }
+  else if (   (tu1WallFlagR == (U1)C_OFF)
+           && (tu1WallFlagL == (U1)C_OFF)) {
 
-      /* 両側の壁を認識していない場合 */
-      ts4SensDiff = (S4)-1 * (ts4SensR - ts4SensL);
-    }
-    else {
-      /* NOP */
-    }
+    /* 両側の壁を認識していない場合 */
+    ts4SensDiff = (S4)-1 * (ts4SensR - ts4SensL);
+  }
+  else {
+    /* NOP */
+  }
 
-    /* P制御の制御量の計算(比例制御) */
-    tflCtrlMtr += (FL)ts4SensDiff * CFL_AppCtrl_CoefP;
+  /* P制御の制御量の計算(比例制御) */
+  tflCtrlMtr += (FL)ts4SensDiff * CFL_AppCtrl_CoefP;
 
-    /* D制御の制御量の計算(微分制御) */
-    tflCtrlMtr += (FL)(ts4SensDiff - ts4SensDiffPrev) * CFL_AppCtrl_CoefD;
+  /* D制御の制御量の計算(微分制御) */
+  tflCtrlMtr += (FL)(ts4SensDiff - ts4SensDiffPrev) * CFL_AppCtrl_CoefD;
 
-    /* 今回偏差を保持 */
-    ts4SensDiffPrev = ts4SensDiff;
+  /* 今回偏差を保持 */
+  ts4SensDiffPrev = ts4SensDiff;
+
+  u4AppCtrl_CurSpdR += (U4)tflCtrlMtr;    /* ToDo:要ガード */
+  u4AppCtrl_CurSpdL -= (U4)tflCtrlMtr;    /* ToDo:要ガード */
 #endif
-
-    u4AppCtrl_CurSpdR += (U4)tflCtrlMtr;    /* ToDo:要ガード */
-    u4AppCtrl_CurSpdL -= (U4)tflCtrlMtr;    /* ToDo:要ガード */
 }
 
 
