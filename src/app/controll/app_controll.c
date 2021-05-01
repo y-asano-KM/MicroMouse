@@ -169,9 +169,7 @@ static VD FnVD_AppCtrl_wait(VD);
 
 /* 割り込み処理 */
 static VD FnVD_AppCtrl_ctrlAccel(VD);
-#if defined(OP_AppCmn_PidMode)
 static VD FnVD_AppCtrl_ctrlAttitude(VD);
-#endif
 static VD FnVD_AppCtrl_ctrlTimerPulse(VD);
 
 
@@ -674,9 +672,7 @@ VD FnVD_AppCtrl_mngTskForInt(VD)
   FnVD_AppCtrl_ctrlAccel();
 
   /* 姿勢制御 */
-#if defined(OP_AppCmn_PidMode)
   FnVD_AppCtrl_ctrlAttitude();
-#endif
 
   /* モータ出力周波数演算 */
   FnVD_AppCtrl_ctrlTimerPulse();
@@ -850,7 +846,6 @@ static VD FnVD_AppCtrl_ctrlAccel(VD)
 }
 
 
-#if defined(OP_AppCmn_PidMode)
 /* ============================================================ */
 /* 関数名 : FnVD_AppCtrl_ctrlAttitude                           */
 /*          姿勢制御割り込み制御                                */
@@ -861,6 +856,7 @@ static VD FnVD_AppCtrl_ctrlAccel(VD)
 /* ============================================================ */
 static VD FnVD_AppCtrl_ctrlAttitude(VD)
 {
+#if defined(OP_AppCmn_PidMode)
   S4 ts4SensDiff;        /* 偏差用変数 */
   S4 ts4SensDiffPrev;    /* 前回偏差用変数 */
   S4 ts4SensR;           /* 右センサ値 */
@@ -922,8 +918,8 @@ static VD FnVD_AppCtrl_ctrlAttitude(VD)
 
   u4AppCtrl_CurSpdR += (U4)tflCtrlMtr;    /* ToDo:要ガード */
   u4AppCtrl_CurSpdL -= (U4)tflCtrlMtr;    /* ToDo:要ガード */
-}
 #endif
+}
 
 
 /* ============================================================ */
