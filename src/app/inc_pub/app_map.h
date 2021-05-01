@@ -1,8 +1,8 @@
-#if !defined(INCLUDED_app_controll_h)
-#define INCLUDED_app_controll_h
+#if !defined(INCLUDED_app_map_h)
+#define INCLUDED_app_map_h
 /* ============================================================ */
-/* ファイル名 : app_controll.h                                  */
-/* 機能       :                                                 */
+/* ファイル名 : app_map.h                                       */
+/* 機能       : マップ                                          */
 /* ============================================================ */
 
 /* ============================================================ */
@@ -15,8 +15,11 @@
 
 /* カテゴリ共通 */
 #include "app_cmn_option.h"
+#include "app_cmn_option_pac.h"
 
 /* 個別 */
+
+/* 本体 */
 
 
 /* ============================================================ */
@@ -32,17 +35,9 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern VD FnVD_AppCtrl_init(VD);                       /* 初期化関数 */
-extern VD FnVD_AppCtrl_mngTsk(VD);                     /* 定期メインタスク */
-extern VD FnVD_AppCtrl_mngTskForInt(VD);               /* 1ms割り込みタスク */
-extern U1 FnU1_AppCtrl_getMtrPowerMode(VD);            /* モータ励磁 */
-extern U1 FnU1_AppCtrl_getMtrModeR(VD);                /* 右モーター モード */
-extern U1 FnU1_AppCtrl_getMtrModeL(VD);                /* 左モーター モード */
-extern U2 FnU2_AppCtrl_getMtrSpeedR(VD);
-extern U2 FnU2_AppCtrl_getMtrSpeedL(VD);
-extern U2 FnU2_AppCtrl_getCycleTimeR(VD);              /* 右モータ周期とパルス幅(1ms割り込み) */
-extern U2 FnU2_AppCtrl_getCycleTimeL(VD);              /* 左モータ周期とパルス幅(1ms割り込み) */
-extern U1 FnU1_AppCtrl_getResetPulseCntReq(VD);
+extern VD FnVD_AppMap_init(VD);
+extern VD FnVD_AppMap_updateWall(VD);
+extern VD FnVD_AppMap_updatePosition(VD);
 
 
 /* ============================================================ */

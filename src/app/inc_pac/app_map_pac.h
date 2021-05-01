@@ -25,74 +25,48 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
-#define MAZESIZE_X (5)       /* 迷路の大きさ(MAZESIZE_X x MAZESIZE_Y)迷路 */
-#define MAZESIZE_Y (5)       /* 迷路の大きさ(MAZESIZE_X x MAZESIZE_Y)迷路 */
+#define CU1_AppMap_MazeSizeX      ((U1)5)    /* 迷路の大きさ(CS4_AppMap_MazeSizeX x CS4_AppMap_MazeSizeY)迷路 */
+#define CU1_AppMap_MazeSizeY      ((U1)5)    /* 迷路の大きさ(CS4_AppMap_MazeSizeX x CS4_AppMap_MazeSizeY)迷路 */
 
-#define UNKNOWN 2             /* 壁があるかないか判らない状態の場合の値 */
-#define NOWALL 0              /* 壁がないばあいの値 */
-#define WALL 1                /* 壁がある場合の値 */
-#define VWALL 3               /* 仮想壁の値(未使用) */
-
-#define MASK_SEARCH 0x01      /* 探索走行用マスク値.壁情報とこの値のAND値が０（NOWALL）なら壁なしor未探索区間 */
-#define MASK_SECOND 0x03      /* 最短走行用マスク値.壁情報とこの値のAND値が０（NOWALL）なら壁なし */
+#define CU1_AppMap_WallStsNothing ((U1)0)    /* 壁がないばあいの値 */
+#define CU1_AppMap_WallStsExist   ((U1)1)    /* 壁がある場合の値 */
+#define CU1_AppMap_WallStsUnkown  ((U1)2)    /* 壁があるかないか判らない状態の場合の値 */
 
 
 /* ============================================================ */
 /* 型定義                                                       */
 /* ============================================================ */
-/*?方角を示す列挙型?*/
-typedef enum
-{
-  north=0,       /* 北 */
-  east=1,        /* 東 */
-  south=2,       /* 南 */
-  west=3        /* 西 */
-}t_direction;
-
-/*?自分から見た方向を示す列挙型?*/
-typedef enum
-{
-  front=0,       /* 前 */
-  right=1,       /* 右 */
-  rear=2,        /* 後 */
-  left=3,        /* 左 */
-  unknown       /* 方向不明 */
-}t_local_dir;
+/* 自車位置情報 */
+typedef struct {
+  S2             s2X;     /* 自車位置のX座標(東西方向) */
+  S2             s2Y;     /* 自車位置のY座標(南北方向) */
+  EN_PrjCmn_Dir4 enDir;   /* 自車方角 */
+} ST_AppMap_CarStt;
 
 
-/*?自車位置情報?*/
-typedef struct
-{
-  short x;           /* 自車位置のX座標(東西方向) */
-  short y;           /* 自車位置のY座標(南北方向) */
-  t_direction dir;   /* 自車方角 */
-}t_position;
-
-
-/*?壁情報を格納する構造体(ビットフィールド)?*/
-typedef struct
-{
-  unsigned char north:2; /* 北の壁情報?*/
-  unsigned char east:2;  /* 東の壁情報?*/
-  unsigned char south:2; /* 南の壁情報?*/
-  unsigned char west:2;  /* 西の壁情報?*/
-}t_wall;
+/* 壁情報を格納する構造体(ビットフィールド) */
+typedef struct {
+  U1 b2North :2; /* 北の壁情報 */
+  U1 b2East  :2; /* 東の壁情報 */
+  U1 b2South :2; /* 南の壁情報 */
+  U1 b2West  :2; /* 西の壁情報 */
+} ST_AppMap_WallSts;
 
 
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern void Fn_MAP_init(void);
-extern void Fn_MAP_outputWall(t_wall sta_wall[][MAZESIZE_Y]);
-extern void Fn_MAP_updateWall(void);
-extern void Fn_MAP_outputPosition(t_position *pst_mypos);
-extern void Fn_MAP_updatePosition(void);
+extern VD FnVD_AppMap_initPos(VD);
+extern VD FnVD_AppMap_getWallSts(ST_AppMap_WallSts tsta2WallSts[CU1_AppMap_MazeSizeX][CU1_AppMap_MazeSizeY]);
+extern VD FnVD_AppMap_getPosition(ST_AppMap_CarStt * tpstMyPos);
+
 
 /* ============================================================ */
 /* 変数宣言(extern)                                             */
 /* ============================================================ */
-extern t_position mypos;                    /* 自車位置情報?*/
-extern t_wall wall[MAZESIZE_X][MAZESIZE_Y]; /* 壁の情報を格納する構造体配列?*/
+extern ST_AppMap_CarStt  stAppMap_MyPos; /* 自車位置情報 */
+extern ST_AppMap_WallSts staAppMap_WallSts[CU1_AppMap_MazeSizeX][CU1_AppMap_MazeSizeY]; /* 壁の情報を格納する構造体配列 */
+
 
 /* ============================================================ */
 /* const変数宣言(extern)                                        */
@@ -101,14 +75,6 @@ extern t_wall wall[MAZESIZE_X][MAZESIZE_Y]; /* 壁の情報を格納する構造
 
 /* ============================================================ */
 /* 関数形式マクロ定義                                           */
-/* ============================================================ */
-/* ============================================================ */
-/* 関数名 : McU1_XxYyy_getSignal                                */
-/*          関数和名をここへ記述                                */
-/* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : 関数箱型コメントの形式を示す                        */
-/* 制約   : なし                                                */
 /* ============================================================ */
 
 

@@ -114,4 +114,12 @@ typedef union {
   } HWord;
 } WD;
 
+/* 方角(4方向) */
+typedef enum {
+  CEN_PrjCmn_Dir4North = 0,    /* #1:北 */
+  CEN_PrjCmn_Dir4East,         /* #2:東 */
+  CEN_PrjCmn_Dir4South,        /* #3:南 */
+  CEN_PrjCmn_Dir4West          /* #4:西 */
+} EN_PrjCmn_Dir4;
 #endif
+

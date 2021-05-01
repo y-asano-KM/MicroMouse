@@ -132,7 +132,7 @@ VD FnVD_PfMtr_If_setReq(VD)
   tu1RotDirPortL = FnU1_PfMtr_Ctrl_getLeftMtrRotDirReq();
   tu2PeriodL     = FnU2_PfMtr_Ctrl_getLeftMtrPeriod();
   tu2OnTimeL     = FnU2_PfMtr_Ctrl_getLeftMtrOnTime();
-  tu1ResetReq    = u1AppCtrl_getResetPulseCntReq();
+  tu1ResetReq    = FnU1_AppCtrl_getResetPulseCntReq();
 
   /* -------- */
   /* 出力設定 */

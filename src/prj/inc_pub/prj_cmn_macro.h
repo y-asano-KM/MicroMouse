@@ -63,6 +63,10 @@
 #define CSI_SgnM       (-1)                        /* 符号- */
 #define CSI_SgnN       (0)                         /* 符号なし(0) */
 #define CSI_SgnP       (1)                         /* 符号+ */
+#define CDB_CircleDeg      ((DB)360.0)             /* 360deg */
+#define CFL_CircleDeg      ((FL)CDB_CircleDeg)     /* 360deg */
+#define CDB_SemiCircleDeg  ((DB)180.0)             /* 180deg */
+#define CFL_SemiCircleDeg  ((FL)CDB_SemiCircleDeg) /* 180deg */
 
 /* -------------- */
 /* 物理定数の定義 */
@@ -83,6 +87,18 @@
 /* ---------- */
 #define CAC_NULL       ((AC)0)                     /* 文字型NULL値 */
 #define CPVD_NULL      ((VD *)0)                   /* ポインタ型NULL値 */
+
+/* ---------------- */
+/* 尺度単位変換定数 */
+/* ---------------- */
+#define C_ConvUnitScale      (1000)
+#define CU2_ConvUnitScale    ((U2)C_ConvUnitScale)
+#define CU4_ConvUnitScale    ((U4)C_ConvUnitScale)
+#define CS2_ConvUnitScale    ((S2)C_ConvUnitScale)
+#define CS4_ConvUnitScale    ((S4)C_ConvUnitScale)
+#define CDB_ConvUnitScale    ((DB)1000.0)
+#define CFL_ConvUnitScale    ((FL)CDB_ConvUnitScale)
+
 
 /* ================================================== */
 /* 関数形式マクロ定義                                 */
