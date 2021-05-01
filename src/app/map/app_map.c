@@ -22,11 +22,13 @@
 #include "app_controll_pac.h"
 #include "app_recgwall.h"
 #include "app_recgwall_pac.h"
-
+#include "app_plan_pac.h"
 
 /* 本体 */
+#include "app_map.h"
 #include "app_map_pac.h"
-#include "app_plan_pac.h"
+
+
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
@@ -45,8 +47,12 @@
 /* ============================================================ */
 /* 変数定義(extern)                                             */
 /* ============================================================ */
-t_position mypos;                    /* 自車位置情報?*/
-t_wall wall[MAZESIZE_X][MAZESIZE_Y]; /* 壁の情報を格納する構造体配列?*/
+/* 自車位置情報 */
+ST_AppMap_CarStt  stAppMap_MyPos;
+
+/* 壁の情報を格納する構造体配列 */
+ST_AppMap_WallSts staAppMap_WallSts[CU1_AppMap_MazeSizeX][CU1_AppMap_MazeSizeY];
+
 
 /* ============================================================ */
 /* 変数定義(static)                                             */
@@ -66,63 +72,54 @@ t_wall wall[MAZESIZE_X][MAZESIZE_Y]; /* 壁の情報を格納する構造体配�
 /* ============================================================ */
 /* 関数形式マクロ定義                                           */
 /* ============================================================ */
-/* ============================================================ */
-/* 関数名 : CONV_SEN2WALL                                       */
-/*          センサ情報から壁情報へ変換                          */
-/* 引数   : w                                                   */
-/* 戻り値 : なし                                                */
-/* 概要   : センサ情報から壁情報へ変換                          */
-/* 制約   : なし                                                */
-/* ============================================================ */
-#define CONV_SEN2WALL(w) ((w) ? WALL : NOWALL)
 
 
 /* ============================================================ */
-/* 関数名 : Fn_MAP_init                                         */
+/* 関数名 : FnVD_AppMap_init                                    */
 /*          壁情報と自車位置情報初期化                          */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : 壁情報と自車位置情報初期化                          */
 /* 制約   : なし                                                */
 /* ============================================================ */
-void Fn_MAP_init(void)
+VD FnVD_AppMap_init(VD)
 {
-  int i,j;
+  S4 ts4X;
+  S4 ts4Y;
 
   /* 迷路全体を壁があるかないか判らない設定にする */
-  for ( i = 0; i < MAZESIZE_X; i++ ) {
-    for ( j = 0; j < MAZESIZE_Y; j++ ) {
-      wall[i][j].north = UNKNOWN;
-      wall[i][j].east = UNKNOWN;
-      wall[i][j].south = UNKNOWN;
-      wall[i][j].west = UNKNOWN;
+  for (ts4X = (S4)0; ts4X < (S4)CU1_AppMap_MazeSizeX; ts4X++) {
+    for (ts4Y = (S4)0; ts4Y < (S4)CU1_AppMap_MazeSizeY; ts4Y++) {
+      staAppMap_WallSts[ts4X][ts4Y].b2North = CU1_AppMap_WallStsUnkown;
+      staAppMap_WallSts[ts4X][ts4Y].b2East  = CU1_AppMap_WallStsUnkown;
+      staAppMap_WallSts[ts4X][ts4Y].b2South = CU1_AppMap_WallStsUnkown;
+      staAppMap_WallSts[ts4X][ts4Y].b2West  = CU1_AppMap_WallStsUnkown;
     }
   }
 
   /* 迷路の四方を壁ありの設定にする */
-  for ( i = 0; i < MAZESIZE_X; i++ )
+  for (ts4X = (S4)0; ts4X < (S4)CU1_AppMap_MazeSizeX; ts4X++)
   {
-    wall[i][0].south = WALL;            /* 南 */
-    wall[i][MAZESIZE_Y-1].north = WALL; /* 北 */
+    staAppMap_WallSts[ts4X][0].b2South = CU1_AppMap_WallStsExist;            /* 南 */
+    staAppMap_WallSts[ts4X][(S4)CU1_AppMap_MazeSizeY - (S4)1].b2North = CU1_AppMap_WallStsExist; /* 北 */
   }
 
-  for ( j = 0; j < MAZESIZE_Y; j++ ) {
-    wall[0][j].west = WALL;             /* 西 */
-    wall[MAZESIZE_X-1][j].east = WALL;  /* 東 */
+  for (ts4Y = (S4)0; ts4Y < (S4)CU1_AppMap_MazeSizeY; ts4Y++) {
+    staAppMap_WallSts[0][ts4Y].b2West = CU1_AppMap_WallStsExist;             /* 西 */
+    staAppMap_WallSts[(S4)CU1_AppMap_MazeSizeX - (S4)1][ts4Y].b2East = CU1_AppMap_WallStsExist;  /* 東 */
   }
-   
+ 
   /* スタート地点の西側を壁ありの設定にする */
-  wall[0][0].east = WALL;
-  wall[1][0].west = WALL;
-  wall[0][0].north = NOWALL;
-  
+  staAppMap_WallSts[0][0].b2East  = CU1_AppMap_WallStsExist;
+  staAppMap_WallSts[1][0].b2West  = CU1_AppMap_WallStsExist;
+  staAppMap_WallSts[0][0].b2North = CU1_AppMap_WallStsNothing;
+
   /* 自車位置座標を(0,0)に初期化 */
-  mypos.x = 0;
-  mypos.y = 0;
+  stAppMap_MyPos.s2X = (S2)0;
+  stAppMap_MyPos.s2Y = (S2)0;
 
   /* 自車方角を北に初期化 */
-  mypos.dir = north;  
-
+  stAppMap_MyPos.enDir = CEN_PrjCmn_Dir4North;
 }
 
 
@@ -134,258 +131,247 @@ void Fn_MAP_init(void)
 /* 概要   : 自車位置情報と自車方角初期化                        */
 /* 制約   : なし                                                */
 /* ============================================================ */
-void Fn_MAP_pos_init(void)
+VD FnVD_AppMap_initPos(VD)
 {
   /* 自車位置座標を(0,0)に初期化 */
-  mypos.x = 0;
-  mypos.y = 0;
+  stAppMap_MyPos.s2X = (S2)0;
+  stAppMap_MyPos.s2Y = (S2)0;
 
   /* 自車方角を北に初期化 */
-  mypos.dir = north;  
-
+  stAppMap_MyPos.enDir = CEN_PrjCmn_Dir4North;
 }
 
 /* ============================================================ */
-/* 関数名 : Fn_MAP_outputWall                                   */
+/* 関数名 : FnVD_AppMap_getWallSts                              */
 /*          壁情報出力                                          */
-/* 引数   : sta_wall[][MAZESIZE_Y]                              */
+/* 引数   : tsta2WallSts  壁情報                                */
 /* 戻り値 : なし                                                */
 /* 概要   : 壁情報出力                                          */
 /* 制約   : なし                                                */
 /* ============================================================ */
-void Fn_MAP_outputWall(t_wall sta_wall[][MAZESIZE_Y])
+VD FnVD_AppMap_getWallSts(ST_AppMap_WallSts tsta2WallSts[CU1_AppMap_MazeSizeX][CU1_AppMap_MazeSizeY])
 {
-  int i,j;
+  S4 ts4X;
+  S4 ts4Y;
 
-  for(i = 0; i < MAZESIZE_X; i++)
-  {
-    for(j = 0; j < MAZESIZE_Y; j++)
-    {
-      sta_wall[i][j].north = wall[i][j].north;
-      sta_wall[i][j].east = wall[i][j].east;
-      sta_wall[i][j].south = wall[i][j].south;
-      sta_wall[i][j].west = wall[i][j].west;
+  for (ts4X = (S4)0; ts4X < (S4)CU1_AppMap_MazeSizeX; ts4X++) {
+    for (ts4Y = (S4)0; ts4Y < (S4)CU1_AppMap_MazeSizeY; ts4Y++) {
+      tsta2WallSts[ts4X][ts4Y].b2North = staAppMap_WallSts[ts4X][ts4Y].b2North;
+      tsta2WallSts[ts4X][ts4Y].b2East  = staAppMap_WallSts[ts4X][ts4Y].b2East;
+      tsta2WallSts[ts4X][ts4Y].b2South = staAppMap_WallSts[ts4X][ts4Y].b2South;
+      tsta2WallSts[ts4X][ts4Y].b2West  = staAppMap_WallSts[ts4X][ts4Y].b2West;
     }
   }
-
 }
 
 
 /* ============================================================ */
-/* 関数名 : Fn_MAP_updateWall                                   */
+/* 関数名 : FnVD_AppMap_updateWall                              */
 /*          壁情報更新                                          */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : 壁情報更新                                          */
 /* 制約   : なし                                                */
 /* ============================================================ */
-void Fn_MAP_updateWall(void)
+VD FnVD_AppMap_updateWall(VD)
 {
-  int x,y;
-  unsigned char n_write,s_write,e_write,w_write;
+  S4 ts4X;
+  S4 ts4Y;
+  U1 tu1StsNorth;
+  U1 tu1StsSouth;
+  U1 tu1StsEast;
+  U1 tu1StsWest;
+  EN_AppCtrl_Dir *    tpstDir;    /* 移動内容を設定する変数 */
+  EN_AppCtrl_RunSts * tpenRunSts; /* 移動状況を設定する変数 */
 
-  /* 移動内容を設定する変数 */
-  t_local_dir* pst_t_dir;
-  /* 移動状況を設定する変数 */
-  t_bool* pen_t_runstt;
+  /* 動作状況 0:走行中、1:走行完了 */
+  tpenRunSts = FnEN_AppCtrl_getRunStt(tpstDir);
 
- /* 動作状況 0:走行中、1:走行完了 */
-  pen_t_runstt = Fn_CONTROL_outputStatus(pst_t_dir);
-
-  if(*pen_t_runstt == 1){ /* 動作状況 1:走行完了 */
-    if (mypos.dir == north) {                        /* 北を向いている時 */
-       if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
-         n_write = 1;
+  /* 動作状況 1:走行完了 */
+  if (*tpenRunSts == 1){
+    /* 北を向いている時 */
+    if (stAppMap_MyPos.enDir == CEN_PrjCmn_Dir4North) {
+       if (stAppRcg_WallInfoForMap.stWallF.u1WallExistance == (U1)C_ON) {
+         tu1StsNorth = CU1_AppMap_WallStsExist;
        }else{
-         n_write = 0;
+         tu1StsNorth = CU1_AppMap_WallStsNothing;
        }
 
-       if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
-         e_write = 1;
+       if (stAppRcg_WallInfoForMap.stWallR.u1WallExistance == (U1)C_ON) {
+         tu1StsEast = CU1_AppMap_WallStsExist;
        }else{
-         e_write = 0;
+         tu1StsEast = CU1_AppMap_WallStsNothing;
        }
 
-       if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
-         w_write = 1;
+       if (stAppRcg_WallInfoForMap.stWallL.u1WallExistance == (U1)C_ON) {
+         tu1StsWest = CU1_AppMap_WallStsExist;
        }else{
-         w_write = 0;
+         tu1StsWest = CU1_AppMap_WallStsNothing;
        }
 
-       s_write = NOWALL;                             /* 後ろは必ず壁がない */
-    }
-  
-    if (mypos.dir == east) {                        /* 東を向いている時 */
-       if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
-         e_write = 1;
-       }else{
-         e_write = 0;
-       }
-
-       if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
-         s_write = 1;
-       }else{
-         s_write = 0;
-       }
-
-       if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
-         n_write = 1;
-       }else{
-         n_write = 0;
-       }
-
-       w_write = NOWALL;                             /* 後ろは必ず壁がない */
-    }
-  
-    if (mypos.dir == south) {                        /* 南を向いている時 */
-       if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
-         s_write = 1;
-       }else{
-         s_write = 0;
-       }
-
-       if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
-         w_write = 1;
-       }else{
-         w_write = 0;
-       }
-
-       if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
-         e_write = 1;
-       }else{
-         e_write = 0;
-       }
-
-       n_write = NOWALL;                             /* 後ろは必ず壁がない */
+       tu1StsSouth = CU1_AppMap_WallStsNothing; /* 後ろは必ず壁がない */
     }
 
-    if (mypos.dir == west) {                        /* 西を向いている時 */
-       if (st_RecgWall_info.wall_f.bl_wall_with ==1) {
-         w_write = 1;
+    /* 東を向いている時 */
+    if (stAppMap_MyPos.enDir == CEN_PrjCmn_Dir4East) {
+       if (stAppRcg_WallInfoForMap.stWallF.u1WallExistance == (U1)C_ON) {
+         tu1StsEast = CU1_AppMap_WallStsExist;
        }else{
-         w_write = 0;
+         tu1StsEast = CU1_AppMap_WallStsNothing;
        }
 
-       if (st_RecgWall_info.wall_r.bl_wall_with ==1) {
-         n_write = 1;
+       if (stAppRcg_WallInfoForMap.stWallR.u1WallExistance == (U1)C_ON) {
+         tu1StsSouth = CU1_AppMap_WallStsExist;
        }else{
-         n_write = 0;
+         tu1StsSouth = CU1_AppMap_WallStsNothing;
        }
 
-       if (st_RecgWall_info.wall_l.bl_wall_with ==1) {
-         s_write = 1;
+       if (stAppRcg_WallInfoForMap.stWallL.u1WallExistance == (U1)C_ON) {
+         tu1StsNorth = CU1_AppMap_WallStsExist;
        }else{
-         s_write = 0;
+         tu1StsNorth = CU1_AppMap_WallStsNothing;
        }
 
-       e_write = NOWALL;                             /* 後ろは必ず壁がない */
+       tu1StsWest = CU1_AppMap_WallStsNothing; /* 後ろは必ず壁がない */
     }
 
-  
+    /* 南を向いている時 */
+    if (stAppMap_MyPos.enDir == CEN_PrjCmn_Dir4South) {
+       if (stAppRcg_WallInfoForMap.stWallF.u1WallExistance == (U1)C_ON) {
+         tu1StsSouth = CU1_AppMap_WallStsExist;
+       }else{
+         tu1StsSouth = CU1_AppMap_WallStsNothing;
+       }
+
+       if (stAppRcg_WallInfoForMap.stWallR.u1WallExistance == (U1)C_ON) {
+         tu1StsWest = CU1_AppMap_WallStsExist;
+       }else{
+         tu1StsWest = CU1_AppMap_WallStsNothing;
+       }
+
+       if (stAppRcg_WallInfoForMap.stWallL.u1WallExistance == (U1)C_ON) {
+         tu1StsEast = CU1_AppMap_WallStsExist;
+       }else{
+         tu1StsEast = CU1_AppMap_WallStsNothing;
+       }
+
+       tu1StsNorth = CU1_AppMap_WallStsNothing; /* 後ろは必ず壁がない */
+    }
+
+    /* 西を向いている時 */
+    if (stAppMap_MyPos.enDir == CEN_PrjCmn_Dir4West) {
+       if (stAppRcg_WallInfoForMap.stWallF.u1WallExistance == (U1)C_ON) {
+         tu1StsWest = CU1_AppMap_WallStsExist;
+       }else{
+         tu1StsWest = CU1_AppMap_WallStsNothing;
+       }
+
+       if (stAppRcg_WallInfoForMap.stWallR.u1WallExistance == (U1)C_ON) {
+         tu1StsNorth = CU1_AppMap_WallStsExist;
+       }else{
+         tu1StsNorth = CU1_AppMap_WallStsNothing;
+       }
+
+       if (stAppRcg_WallInfoForMap.stWallL.u1WallExistance == (U1)C_ON) {
+         tu1StsSouth = CU1_AppMap_WallStsExist;
+       }else{
+         tu1StsSouth = CU1_AppMap_WallStsNothing;
+       }
+
+       tu1StsEast = CU1_AppMap_WallStsNothing; /* 後ろは必ず壁がない */
+    }
 
     /* 自車位置の壁情報を更新 */
-    x = mypos.x;
-    y = mypos.y;
+    ts4X = stAppMap_MyPos.s2X;
+    ts4Y = stAppMap_MyPos.s2Y;
 
-    wall[x][y].north = n_write;
-    wall[x][y].south = s_write;
-    wall[x][y].east  = e_write;
-    wall[x][y].west  = w_write;
+    staAppMap_WallSts[ts4X][ts4Y].b2North = tu1StsNorth;
+    staAppMap_WallSts[ts4X][ts4Y].b2South = tu1StsSouth;
+    staAppMap_WallSts[ts4X][ts4Y].b2East  = tu1StsEast;
+    staAppMap_WallSts[ts4X][ts4Y].b2West  = tu1StsWest;
 
     /* 反対側から見た壁情報を更新 */
-    if(y < MAZESIZE_Y-1)
-    {
-      wall[x][y+1].south = n_write;
+    if (ts4Y < (S4)CU1_AppMap_MazeSizeY - (S4)1) {
+      staAppMap_WallSts[ts4X][ts4Y + (S4)1].b2South = tu1StsNorth;
     }
 
-    if(x < MAZESIZE_X-1)
-    {
-      wall[x+1][y].west = e_write;
+    if (ts4X < (S4)CU1_AppMap_MazeSizeX-1) {
+      staAppMap_WallSts[ts4X + (S4)1][ts4Y].b2West = tu1StsEast;
     }
 
-    if(y > 0)
-    {
-      wall[x][y-1].north = s_write;
+    if (ts4Y > (S4)0) {
+      staAppMap_WallSts[ts4X][ts4Y - (S4)1].b2North = tu1StsSouth;
     }
 
-    if(x > 0)
-    {
-      wall[x-1][y].east = w_write;
+    if (ts4X > (S4)0) {
+      staAppMap_WallSts[ts4X - (S4)1][ts4Y].b2East = tu1StsWest;
     }
   }
 }
 
 
-
 /* ============================================================ */
-/* 関数名 : Fn_MAP_outputPosition                               */
+/* 関数名 : FnVD_AppMap_getPosition                             */
 /*          自車位置情報出力                                    */
 /* 引数   : pst_mypos                                           */
 /* 戻り値 : なし                                                */
 /* 概要   : 自車位置情報出力                                    */
 /* 制約   : なし                                                */
 /* ============================================================ */
-void Fn_MAP_outputPosition(t_position *pst_mypos)
+VD FnVD_AppMap_getPosition(ST_AppMap_CarStt * tpstMyPos)
 {
-  pst_mypos->x = mypos.x;
-  pst_mypos->y = mypos.y;
-  pst_mypos->dir = mypos.dir;
-
+  tpstMyPos->s2X   = stAppMap_MyPos.s2X;
+  tpstMyPos->s2Y   = stAppMap_MyPos.s2Y;
+  tpstMyPos->enDir = stAppMap_MyPos.enDir;
 }
 
 
 /* ============================================================ */
-/* 関数名 : Fn_MAP_updatePosition                               */
+/* 関数名 : FnVD_AppMap_updatePosition                          */
 /*          自車位置情報更新                                    */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : 自車位置情報更新                                    */
 /* 制約   : なし                                                */
 /* ============================================================ */
-void Fn_MAP_updatePosition(void)
+VD FnVD_AppMap_updatePosition(VD)
 {
-  /* 次に向かう方向を記録する変数 */
-  t_direction glob_nextdir;
-  /* 移動内容を設定する変数 */
-  t_local_dir* pst_t_dir;
-  /* 移動状況を設定する変数 */
-  t_bool* pen_t_runstt;
+  EN_PrjCmn_Dir4      tenNextDir;  /* 次に向かう方向を記録する変数 */
+  EN_AppCtrl_Dir *    tpstDir;     /* 移動内容を設定する変数 */
+  EN_AppCtrl_RunSts * tpenRunSts;  /* 移動状況を設定する変数 */
 
  /* 動作状況 0:走行中、1:走行完了 */
-  pen_t_runstt = Fn_CONTROL_outputStatus(pst_t_dir);
+  tpenRunSts = FnEN_AppCtrl_getRunStt(tpstDir);
 
-  if(*pen_t_runstt == 1){ /* 動作状況 1:走行完了 */
+  if (*tpenRunSts == CEN_AppCtrl_RunStsFinish) {
     /* 次に行く方向を戻り値とする関数 */
-    glob_nextdir = (t_direction)FnU1_Plan_retdir();
+    tenNextDir = (EN_PrjCmn_Dir4)FnU1_AppPln_getDir();
 
     /* 方向を更新 */
-    mypos.dir = glob_nextdir;
+    stAppMap_MyPos.enDir = tenNextDir;
 
     /* 座標を更新 */
-    if (mypos.dir == north) {
-      if (mypos.y < MAZESIZE_Y-1 ) {
-	    mypos.y++;
+    if (stAppMap_MyPos.enDir == CEN_PrjCmn_Dir4North) {
+      if (stAppMap_MyPos.s2Y < ((S4)CU1_AppMap_MazeSizeY - (S4)1)) {
+	      stAppMap_MyPos.s2Y++;
       }
     }
   
-    if (mypos.dir == east) {
-      if(mypos.x < MAZESIZE_X-1)
-      {
- 	  mypos.x++;
+    if (stAppMap_MyPos.enDir == CEN_PrjCmn_Dir4East) {
+      if (stAppMap_MyPos.s2X < ((S4)CU1_AppMap_MazeSizeX - (S4)1)) {
+ 	      stAppMap_MyPos.s2X++;
       }
     }
 
-    if (mypos.dir == south) {
-      if(mypos.y > 0)
-      {
-  	  mypos.y--;
+    if (stAppMap_MyPos.enDir == CEN_PrjCmn_Dir4South) {
+      if (stAppMap_MyPos.s2Y > (S2)0) {
+  	    stAppMap_MyPos.s2Y--;
       }
     }
 
-    if (mypos.dir == west) {
-      if(mypos.x > 0)
-      {
-  	  mypos.x--;
+    if (stAppMap_MyPos.enDir == CEN_PrjCmn_Dir4West) {
+      if (stAppMap_MyPos.s2X > (S2)0) {
+  	    stAppMap_MyPos.s2X--;
       }
     }
   }

@@ -28,17 +28,35 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
+#define CU4_PfRaySens_If_FcRate       ((U4)80)     /* [%]重み */
+#define CU4_PfRaySens_If_FcMaxRate    ((U4)100)    /* [%]重み最大値 */
 
 
 /* ============================================================ */
 /* 型定義                                                       */
 /* ============================================================ */
+/* センサデータ */
+typedef struct {
+  U2 u2PreVal;        /* センサ前回値 */
+  U2 u2CurVal;        /* センサ値 */
+  U2 u2FilterVal;     /* FCセンサ値 */
+  U1 u1SensDatVld;    /* センサデータ有効無効 無効:OFF(0) 有効:ON(1) */
+} ST_PfRaySens_If_SensDat;
+
+/* センサ情報 */
+typedef struct {
+  ST_PfRaySens_If_SensDat stSensFR;        /* 前右センサ */
+  ST_PfRaySens_If_SensDat stSensFL;        /* 前左センサ */
+  ST_PfRaySens_If_SensDat stSensR;         /* 右センサ */
+  ST_PfRaySens_If_SensDat stSensL;         /* 左センサ */
+} ST_PfRaySens_If_SensInfo;
 
 
 /* ============================================================ */
 /* 関数プロトタイプ宣言(static)                                 */
 /* ============================================================ */
-static U2 FnU2_PfRaySens_If_RcFilter(U2 au2_pval, U2 au2_val);
+static U2 FnU2_PfRaySens_If_RcFilter(U2 tu2PreVal, U2 tu2CurVal);
+
 
 /* ============================================================ */
 /* 変数定義(extern)                                             */
@@ -48,7 +66,7 @@ static U2 FnU2_PfRaySens_If_RcFilter(U2 au2_pval, U2 au2_val);
 /* ============================================================ */
 /* 変数定義(static)                                             */
 /* ============================================================ */
-static ST_SENINFO st_PfRaySens_info;    /* センサ情報 */
+static ST_PfRaySens_If_SensInfo stPfRaySens_If_Info;    /* センサ情報 */
 
 
 /* ============================================================ */
@@ -94,28 +112,28 @@ VD FnVD_PfRaySens_If_initHw(VD)
 VD FnVD_PfRaySens_If_initPf(VD)
 {
   /* センサ値 */
-  st_PfRaySens_info.sen_r.u2_sen_val = (U2)0;
-  st_PfRaySens_info.sen_fl.u2_sen_val = (U2)0;
-  st_PfRaySens_info.sen_fr.u2_sen_val = (U2)0;
-  st_PfRaySens_info.sen_l.u2_sen_val = (U2)0;
+  stPfRaySens_If_Info.stSensR.u2CurVal = (U2)0;
+  stPfRaySens_If_Info.stSensFL.u2CurVal = (U2)0;
+  stPfRaySens_If_Info.stSensFR.u2CurVal = (U2)0;
+  stPfRaySens_If_Info.stSensL.u2CurVal = (U2)0;
 
   /* センサ前回値 */
-  st_PfRaySens_info.sen_r.u2_sen_pval = (U2)0;
-  st_PfRaySens_info.sen_fl.u2_sen_pval = (U2)0;
-  st_PfRaySens_info.sen_fr.u2_sen_pval = (U2)0;
-  st_PfRaySens_info.sen_l.u2_sen_pval = (U2)0;
+  stPfRaySens_If_Info.stSensR.u2PreVal = (U2)0;
+  stPfRaySens_If_Info.stSensFL.u2PreVal = (U2)0;
+  stPfRaySens_If_Info.stSensFR.u2PreVal = (U2)0;
+  stPfRaySens_If_Info.stSensL.u2PreVal = (U2)0;
 
   /* FCセンサ値  */
-  st_PfRaySens_info.sen_r.u2_sen_fcval = (U2)0;
-  st_PfRaySens_info.sen_fl.u2_sen_fcval = (U2)0;
-  st_PfRaySens_info.sen_fr.u2_sen_fcval = (U2)0;
-  st_PfRaySens_info.sen_l.u2_sen_fcval = (U2)0;
+  stPfRaySens_If_Info.stSensR.u2FilterVal = (U2)0;
+  stPfRaySens_If_Info.stSensFL.u2FilterVal = (U2)0;
+  stPfRaySens_If_Info.stSensFR.u2FilterVal = (U2)0;
+  stPfRaySens_If_Info.stSensL.u2FilterVal = (U2)0;
 
   /* センサデータ有効無効 */
-  st_PfRaySens_info.sen_r.bl_sen_data_valid = (BL)C_OFF;
-  st_PfRaySens_info.sen_fl.bl_sen_data_valid = (BL)C_OFF;
-  st_PfRaySens_info.sen_fr.bl_sen_data_valid = (BL)C_OFF;
-  st_PfRaySens_info.sen_l.bl_sen_data_valid = (BL)C_OFF;
+  stPfRaySens_If_Info.stSensR.u1SensDatVld = (U1)C_OFF;
+  stPfRaySens_If_Info.stSensFL.u1SensDatVld = (U1)C_OFF;
+  stPfRaySens_If_Info.stSensFR.u1SensDatVld = (U1)C_OFF;
+  stPfRaySens_If_Info.stSensL.u1SensDatVld = (U1)C_OFF;
 
 }
 
@@ -135,34 +153,34 @@ VD FnVD_PfRaySens_If_renewVal(VD)
   /* センサ右側 */
   FnVD_HwDrv_RaySens_renewVal(CEN_HwDrv_RaySens_Id_R);
   tu2_sen_val = FnU2_HwDrv_RaySens_getVal(CEN_HwDrv_RaySens_Id_R);
-  st_PfRaySens_info.sen_r.u2_sen_pval = st_PfRaySens_info.sen_r.u2_sen_val;    /* 過去の値を保存 */
-  st_PfRaySens_info.sen_r.u2_sen_val = tu2_sen_val;                            /* 現在の値を保存 */
+  stPfRaySens_If_Info.stSensR.u2PreVal = stPfRaySens_If_Info.stSensR.u2CurVal;    /* 過去の値を保存 */
+  stPfRaySens_If_Info.stSensR.u2CurVal = tu2_sen_val;                            /* 現在の値を保存 */
   /* RCフィルタを通す */
-  st_PfRaySens_info.sen_r.u2_sen_fcval = FnU2_PfRaySens_If_RcFilter(st_PfRaySens_info.sen_r.u2_sen_pval, st_PfRaySens_info.sen_r.u2_sen_val);
+  stPfRaySens_If_Info.stSensR.u2FilterVal = FnU2_PfRaySens_If_RcFilter(stPfRaySens_If_Info.stSensR.u2PreVal, stPfRaySens_If_Info.stSensR.u2CurVal);
 
   /* センサ前方左側 */
   FnVD_HwDrv_RaySens_renewVal(CEN_HwDrv_RaySens_Id_FL);
   tu2_sen_val = FnU2_HwDrv_RaySens_getVal(CEN_HwDrv_RaySens_Id_FL);
-  st_PfRaySens_info.sen_fl.u2_sen_pval = st_PfRaySens_info.sen_fl.u2_sen_val;  /* 過去の値を保存 */
-  st_PfRaySens_info.sen_fl.u2_sen_val = tu2_sen_val;                           /* 現在の値を保存 */  
+  stPfRaySens_If_Info.stSensFL.u2PreVal = stPfRaySens_If_Info.stSensFL.u2CurVal;  /* 過去の値を保存 */
+  stPfRaySens_If_Info.stSensFL.u2CurVal = tu2_sen_val;                           /* 現在の値を保存 */  
   /* RCフィルタを通す */
-  st_PfRaySens_info.sen_fl.u2_sen_fcval = FnU2_PfRaySens_If_RcFilter(st_PfRaySens_info.sen_fl.u2_sen_pval, st_PfRaySens_info.sen_fl.u2_sen_val);
+  stPfRaySens_If_Info.stSensFL.u2FilterVal = FnU2_PfRaySens_If_RcFilter(stPfRaySens_If_Info.stSensFL.u2PreVal, stPfRaySens_If_Info.stSensFL.u2CurVal);
 
   /* センサ前方右側 */
   FnVD_HwDrv_RaySens_renewVal(CEN_HwDrv_RaySens_Id_FR);
   tu2_sen_val = FnU2_HwDrv_RaySens_getVal(CEN_HwDrv_RaySens_Id_FR);
-  st_PfRaySens_info.sen_fr.u2_sen_pval = st_PfRaySens_info.sen_fr.u2_sen_val;  /* 過去の値を保存 */
-  st_PfRaySens_info.sen_fr.u2_sen_val = tu2_sen_val;                           /* 現在の値を保存 */ 
+  stPfRaySens_If_Info.stSensFR.u2PreVal = stPfRaySens_If_Info.stSensFR.u2CurVal;  /* 過去の値を保存 */
+  stPfRaySens_If_Info.stSensFR.u2CurVal = tu2_sen_val;                           /* 現在の値を保存 */ 
   /* RCフィルタを通す */
-  st_PfRaySens_info.sen_fr.u2_sen_fcval = FnU2_PfRaySens_If_RcFilter(st_PfRaySens_info.sen_fr.u2_sen_pval, st_PfRaySens_info.sen_fr.u2_sen_val);
+  stPfRaySens_If_Info.stSensFR.u2FilterVal = FnU2_PfRaySens_If_RcFilter(stPfRaySens_If_Info.stSensFR.u2PreVal, stPfRaySens_If_Info.stSensFR.u2CurVal);
 
   /* センサ左側 */
   FnVD_HwDrv_RaySens_renewVal(CEN_HwDrv_RaySens_Id_L);
   tu2_sen_val  = FnU2_HwDrv_RaySens_getVal(CEN_HwDrv_RaySens_Id_L);
-  st_PfRaySens_info.sen_l.u2_sen_pval = st_PfRaySens_info.sen_l.u2_sen_val;    /* 過去の値を保存 */
-  st_PfRaySens_info.sen_l.u2_sen_val = tu2_sen_val;                            /* 現在の値を保存 */
+  stPfRaySens_If_Info.stSensL.u2PreVal = stPfRaySens_If_Info.stSensL.u2CurVal;    /* 過去の値を保存 */
+  stPfRaySens_If_Info.stSensL.u2CurVal = tu2_sen_val;                            /* 現在の値を保存 */
   /* RCフィルタを通す */
-  st_PfRaySens_info.sen_l.u2_sen_fcval = FnU2_PfRaySens_If_RcFilter(st_PfRaySens_info.sen_l.u2_sen_pval, st_PfRaySens_info.sen_l.u2_sen_val);
+  stPfRaySens_If_Info.stSensL.u2FilterVal = FnU2_PfRaySens_If_RcFilter(stPfRaySens_If_Info.stSensL.u2PreVal, stPfRaySens_If_Info.stSensL.u2CurVal);
 
 }
 
@@ -177,7 +195,7 @@ VD FnVD_PfRaySens_If_renewVal(VD)
 /* ============================================================ */
 U2 FnU2_PfRaySens_If_getValRight(VD)
 {
-  return (st_PfRaySens_info.sen_r.u2_sen_fcval);
+  return (stPfRaySens_If_Info.stSensR.u2FilterVal);
 }
 
 
@@ -191,7 +209,7 @@ U2 FnU2_PfRaySens_If_getValRight(VD)
 /* ============================================================ */
 U2 FnU2_PfRaySens_If_getValFrontRight(VD)
 {
-  return (st_PfRaySens_info.sen_fr.u2_sen_fcval);
+  return (stPfRaySens_If_Info.stSensFR.u2FilterVal);
 }
 
 
@@ -205,7 +223,7 @@ U2 FnU2_PfRaySens_If_getValFrontRight(VD)
 /* ============================================================ */
 U2 FnU2_PfRaySens_If_getValFrontLeft(VD)
 {
-  return (st_PfRaySens_info.sen_fl.u2_sen_fcval);
+  return (stPfRaySens_If_Info.stSensFL.u2FilterVal);
 }
 
 
@@ -219,21 +237,22 @@ U2 FnU2_PfRaySens_If_getValFrontLeft(VD)
 /* ============================================================ */
 U2 FnU2_PfRaySens_If_getValLeft(VD)
 {
-  return (st_PfRaySens_info.sen_l.u2_sen_fcval);
+  return (stPfRaySens_If_Info.stSensL.u2FilterVal);
 }
 
 
 /* ============================================================ */
 /* 関数名 : FnU2_PfRaySens_If_RcFilter                          */
 /*          RCフィルタ関数                                      */
-/* 引数1  : (U2)前回の出力値                                    */
-/* 引数2  : (U2)今回の出力値                                    */
-/* 戻り値 : (U2)フィルタ後出力値                                */
+/* 引数1  : tu2PreVal 前回の出力値                              */
+/*          tu2CurVal 今回の出力値                              */
+/* 戻り値 : フィルタ後出力値                                    */
 /* 概要   : RCフィルタをかける                                  */
 /* 制約   : なし                                                */
 /* ============================================================ */
-static U2 FnU2_PfRaySens_If_RcFilter(U2 au2_pval, U2 au2_val)
+static U2 FnU2_PfRaySens_If_RcFilter(U2 tu2PreVal, U2 tu2CurVal)
 {
   /* 出力値 = (a[%] * 前回の出力値 + (100-a)[%] * 今回の出力値) / 100 */
-  return(((CU4_Fc_RATE * (U4)au2_pval) + ((CU4_Fc_MAX_RATE - CU4_Fc_RATE) * (U4)au2_val)) / CU4_Fc_MAX_RATE);
+  return ((U2)(((CU4_PfRaySens_If_FcRate * (U4)tu2PreVal) + (CU4_PfRaySens_If_FcMaxRate - CU4_PfRaySens_If_FcRate) * (U4)tu2CurVal) / CU4_PfRaySens_If_FcMaxRate));
 }
+

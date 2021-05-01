@@ -1,5 +1,5 @@
 /* ============================================================ */
-/* ファイル名 : app_recgwall.c                            　　　*/
+/* ファイル名 : app_recgwall.c                                  */
 /* 機能       : 壁認識                                          */
 /* ============================================================ */
 #define SECTION_APP
@@ -27,6 +27,9 @@
 /* ============================================================ */
 /* マクロ定数定義                                               */
 /* ============================================================ */
+#define  CU2_AppRcg_WallSensDetectThF  ((U2)10)   /* 前センサ値閾値(壁との距離約18cmくらい) */
+#define  CU2_AppRcg_WallSensDetectThR  ((U2)30)   /* 右センサ値閾値(壁との距離約5.5cmくらい) */
+#define  CU2_AppRcg_WallSensDetectThL  ((U2)30)   /* 左センサ値閾値(壁との距離約5.5cmくらい) */
 
 
 /* ============================================================ */
@@ -37,25 +40,25 @@
 /* ============================================================ */
 /* 関数プロトタイプ宣言(static)                                 */
 /* ============================================================ */
-static VD FnVD_Recg_ReadSensor(VD);
-static VD FnVD_Recg_RecognizeWall_1ms(VD);
-static VD FnVD_Recg_RecognizeWall_5ms(VD);
+static VD FnVD_AppRcg_readSens(VD);
+static VD FnVD_AppRcg_detectForInt(VD);
+static VD FnVD_AppRcg_detect(VD);
 
 
 /* ============================================================ */
 /* 変数定義(extern)                                             */
 /* ============================================================ */
-ST_WALLINFO st_RecgWall_info;      /* 壁情報(Map) */
-ST_WALLINFO st_RecgWall_info_attc; /* 壁情報(姿勢制御) */
+ST_AppRcg_WallInfo stAppRcg_WallInfoForMap;  /* 壁情報(Map) */
+ST_AppRcg_WallInfo stAppRcg_WallInfoForCtrl; /* 壁情報(姿勢制御) */
 
 
 /* ============================================================ */
 /* 変数定義(static)                                             */
 /* ============================================================ */
-static U2 u2RecgSensVal_R;
-static U2 u2RecgSensVal_FR;
-static U2 u2RecgSensVal_FL;
-static U2 u2RecgSensVal_L;
+static U2 u2AppRcg_SensValR;
+static U2 u2AppRcg_SensValFR;
+static U2 u2AppRcg_SensValFL;
+static U2 u2AppRcg_SensValL;
 
 
 /* ============================================================ */
@@ -77,200 +80,194 @@ static U2 u2RecgSensVal_L;
 /* 関数定義                                                     */
 /* ============================================================ */
 /* ============================================================ */
-/* 関数名 : FnVD_Recg_WallRecognize                             */
+/* 関数名 : FnVD_AppRcg_detectWall                              */
 /*          壁認識処理関数(5ms)                                 */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : 壁認識処理をする                                    */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_Recg_WallRecognize(VD)
+VD FnVD_AppRcg_detectWall(VD)
 {
- 
   /* センサ値読み込み */
-  FnVD_Recg_ReadSensor();
- 
+  FnVD_AppRcg_readSens();
+
   /* 壁検知 */
-  FnVD_Recg_RecognizeWall_5ms();
-  
+  FnVD_AppRcg_detect();
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_Recg_WallRecognize_1ms                         */
+/* 関数名 : FnVD_AppRcg_detectWallForInt                        */
 /*          壁認識処理関数(1ms)                                 */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : 壁認識処理をする                                    */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_Recg_WallRecognize_1ms(VD)
+VD FnVD_AppRcg_detectWallForInt(VD)
 {
- 
   /* センサ値読み込み */
-  FnVD_Recg_ReadSensor();
- 
+  FnVD_AppRcg_readSens();
+
   /* 壁検知 */
-  FnVD_Recg_RecognizeWall_1ms();
-  
+  FnVD_AppRcg_detectForInt();
 }
 
 
 /* ============================================================ */
-/* 関数名 : FnVD_Recg_RecognizeInit                             */
+/* 関数名 : FnVD_AppRcg_init                                    */
 /*          認識処理初期化関数                                  */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : 初期化                                              */
 /* 制約   : なし                                                */
 /* ============================================================ */
-VD FnVD_Recg_RecognizeInit(VD)
+VD FnVD_AppRcg_init(VD)
 {
-
   /* 壁情報(Map) */
   /* 壁有無 */
-  st_RecgWall_info.wall_f.bl_wall_with = (BL)C_OFF;
-  st_RecgWall_info.wall_r.bl_wall_with = (BL)C_OFF;
-  st_RecgWall_info.wall_l.bl_wall_with = (BL)C_OFF;
+  stAppRcg_WallInfoForMap.stWallF.u1WallExistance = (U1)C_OFF;
+  stAppRcg_WallInfoForMap.stWallR.u1WallExistance = (U1)C_OFF;
+  stAppRcg_WallInfoForMap.stWallL.u1WallExistance = (U1)C_OFF;
 
   /* 壁データ有効無効 */
-  st_RecgWall_info.wall_f.bl_wall_data_valid = (BL)C_OFF;
-  st_RecgWall_info.wall_r.bl_wall_data_valid = (BL)C_OFF;
-  st_RecgWall_info.wall_l.bl_wall_data_valid = (BL)C_OFF;
+  stAppRcg_WallInfoForMap.stWallF.u1WallVld = (U1)C_OFF;
+  stAppRcg_WallInfoForMap.stWallR.u1WallVld = (U1)C_OFF;
+  stAppRcg_WallInfoForMap.stWallL.u1WallVld = (U1)C_OFF;
   
   /* センサ値 */
-  st_RecgWall_info.wall_f.u2_sens_val = (U2)0;
-  st_RecgWall_info.wall_r.u2_sens_val = (U2)0;
-  st_RecgWall_info.wall_l.u2_sens_val = (U2)0;
+  stAppRcg_WallInfoForMap.stWallF.u2SensVal = (U2)0;
+  stAppRcg_WallInfoForMap.stWallR.u2SensVal = (U2)0;
+  stAppRcg_WallInfoForMap.stWallL.u2SensVal = (U2)0;
 
   /* 壁情報(姿勢制御) */
   /* 壁有無 */
-  st_RecgWall_info_attc.wall_f.bl_wall_with = (BL)C_OFF;
-  st_RecgWall_info_attc.wall_r.bl_wall_with = (BL)C_OFF;
-  st_RecgWall_info_attc.wall_l.bl_wall_with = (BL)C_OFF;
+  stAppRcg_WallInfoForCtrl.stWallF.u1WallExistance = (U1)C_OFF;
+  stAppRcg_WallInfoForCtrl.stWallR.u1WallExistance = (U1)C_OFF;
+  stAppRcg_WallInfoForCtrl.stWallL.u1WallExistance = (U1)C_OFF;
 
   /* 壁データ有効無効 */
-  st_RecgWall_info_attc.wall_f.bl_wall_data_valid = (BL)C_OFF;
-  st_RecgWall_info_attc.wall_r.bl_wall_data_valid = (BL)C_OFF;
-  st_RecgWall_info_attc.wall_l.bl_wall_data_valid = (BL)C_OFF;
+  stAppRcg_WallInfoForCtrl.stWallF.u1WallVld = (U1)C_OFF;
+  stAppRcg_WallInfoForCtrl.stWallR.u1WallVld = (U1)C_OFF;
+  stAppRcg_WallInfoForCtrl.stWallL.u1WallVld = (U1)C_OFF;
   
   /* センサ値 */
-  st_RecgWall_info_attc.wall_f.u2_sens_val = (U2)0;
-  st_RecgWall_info_attc.wall_r.u2_sens_val = (U2)0;
-  st_RecgWall_info_attc.wall_l.u2_sens_val = (U2)0;
-
+  stAppRcg_WallInfoForCtrl.stWallF.u2SensVal = (U2)0;
+  stAppRcg_WallInfoForCtrl.stWallR.u2SensVal = (U2)0;
+  stAppRcg_WallInfoForCtrl.stWallL.u2SensVal = (U2)0;
 }
 
+
 /* ============================================================ */
-/* 関数名 : FnVD_Recg_ReadSensor                                */
+/* 関数名 : FnVD_AppRcg_readSens                                */
 /*          センサ読み込み関数                                  */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : FCセンサ値を読み込む                                */
 /* 制約   : なし                                                */
 /* ============================================================ */
-static VD FnVD_Recg_ReadSensor(VD)
+static VD FnVD_AppRcg_readSens(VD)
 {
   /* センサ右側 */
-  u2RecgSensVal_R = FnU2_PfRaySens_If_getValRight();
+  u2AppRcg_SensValR = FnU2_PfRaySens_If_getValRight();
 
   /* センサ前方左側 */
-  u2RecgSensVal_FL = FnU2_PfRaySens_If_getValFrontLeft();
+  u2AppRcg_SensValFL = FnU2_PfRaySens_If_getValFrontLeft();
 
   /* センサ前方右側 */
-  u2RecgSensVal_FR = FnU2_PfRaySens_If_getValFrontRight();
+  u2AppRcg_SensValFR = FnU2_PfRaySens_If_getValFrontRight();
 
   /* センサ左側 */
-  u2RecgSensVal_L = FnU2_PfRaySens_If_getValLeft();
-
+  u2AppRcg_SensValL = FnU2_PfRaySens_If_getValLeft();
 }
 
+
 /* ============================================================ */
-/* 関数名 : FnVD_Recg_RecognizeWall_1ms                         */
+/* 関数名 : FnVD_AppRcg_detectForInt                            */
 /*          壁検知関数(1ms)                                     */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : 壁の有無を判断する                                  */
 /* 制約   : なし                                                */
 /* ============================================================ */
-static VD FnVD_Recg_RecognizeWall_1ms(VD)
+static VD FnVD_AppRcg_detectForInt(VD)
 {
-
   /* 右壁チェック */
-  if (u2RecgSensVal_R > CU1_WALL_R_SEN_TH) {
-    st_RecgWall_info_attc.wall_r.bl_wall_with = (BL)C_ON;         /* 右壁あり */
+  if (u2AppRcg_SensValR > CU2_AppRcg_WallSensDetectThR) {
+    stAppRcg_WallInfoForCtrl.stWallR.u1WallExistance = (U1)C_ON;         /* 右壁あり */
   }
   else {
-    st_RecgWall_info_attc.wall_r.bl_wall_with = (BL)C_OFF;        /* 右壁なし */
+    stAppRcg_WallInfoForCtrl.stWallR.u1WallExistance = (U1)C_OFF;        /* 右壁なし */
   }
   /* センサ値を格納 */
-  st_RecgWall_info_attc.wall_r.u2_sens_val = (U2)u2RecgSensVal_R;
-  st_RecgWall_info_attc.wall_r.bl_wall_data_valid = (BL)C_ON;
+  stAppRcg_WallInfoForCtrl.stWallR.u2SensVal = (U2)u2AppRcg_SensValR;
+  stAppRcg_WallInfoForCtrl.stWallR.u1WallVld = (U1)C_ON;
 
   /* 前壁チェック */
   /* 判定不要 */
 
   /* 左壁チェック */
-  if (u2RecgSensVal_L > CU1_WALL_L_SEN_TH) {
-    st_RecgWall_info_attc.wall_l.bl_wall_with = (BL)C_ON;         /* 左壁あり */
+  if (u2AppRcg_SensValL > CU2_AppRcg_WallSensDetectThL) {
+    stAppRcg_WallInfoForCtrl.stWallL.u1WallExistance = (U1)C_ON;         /* 左壁あり */
   }
   else {
-    st_RecgWall_info_attc.wall_l.bl_wall_with = (BL)C_OFF;        /* 左壁なし */
+    stAppRcg_WallInfoForCtrl.stWallL.u1WallExistance = (U1)C_OFF;        /* 左壁なし */
   }
   /* センサ値を格納 */
-  st_RecgWall_info_attc.wall_l.u2_sens_val = (U2)u2RecgSensVal_L;
-  st_RecgWall_info_attc.wall_l.bl_wall_data_valid = (BL)C_ON;
-  
+  stAppRcg_WallInfoForCtrl.stWallL.u2SensVal = (U2)u2AppRcg_SensValL;
+  stAppRcg_WallInfoForCtrl.stWallL.u1WallVld = (U1)C_ON;
 }
 
+
 /* ============================================================ */
-/* 関数名 : FnVD_Recg_RecognizeWall_5ms                         */
+/* 関数名 : FnVD_AppRcg_detect                                  */
 /*          壁検知関数(5ms)                                     */
 /* 引数   : なし                                                */
 /* 戻り値 : なし                                                */
 /* 概要   : 壁の有無を判断する                                  */
 /* 制約   : なし                                                */
 /* ============================================================ */
-static VD FnVD_Recg_RecognizeWall_5ms(VD)
+static VD FnVD_AppRcg_detect(VD)
 {
-  U2 tu2_f_ave;
+  U2 tu2FiltAve;
 
   /* 右壁チェック */
-  if (u2RecgSensVal_R > CU1_WALL_R_SEN_TH) {
-    st_RecgWall_info.wall_r.bl_wall_with = (BL)C_ON;         /* 右壁あり */
+  if (u2AppRcg_SensValR > CU2_AppRcg_WallSensDetectThR) {
+    stAppRcg_WallInfoForMap.stWallR.u1WallExistance = (U1)C_ON;         /* 右壁あり */
   }
   else {
-    st_RecgWall_info.wall_r.bl_wall_with = (BL)C_OFF;        /* 右壁なし */
+    stAppRcg_WallInfoForMap.stWallR.u1WallExistance = (U1)C_OFF;        /* 右壁なし */
   }
   /* センサ値を格納 */
-  st_RecgWall_info.wall_r.u2_sens_val = (U2)u2RecgSensVal_R;
-  st_RecgWall_info.wall_r.bl_wall_data_valid = (BL)C_ON;
+  stAppRcg_WallInfoForMap.stWallR.u2SensVal = (U2)u2AppRcg_SensValR;
+  stAppRcg_WallInfoForMap.stWallR.u1WallVld = (U1)C_ON;
 
   /* 前左FCセンサ値と前右FCセンサ値の平均 */
-  tu2_f_ave = 0;
-  tu2_f_ave = u2RecgSensVal_FL + u2RecgSensVal_FR;
-  tu2_f_ave = (tu2_f_ave + (U2)1) / (U2)2;    /* 切り上げ */
+  tu2FiltAve = (U2)0;
+  tu2FiltAve = u2AppRcg_SensValFL + u2AppRcg_SensValFR;
+  tu2FiltAve = (tu2FiltAve + (U2)1) / (U2)2;    /* 切り上げ */
   
   /* 前壁チェック */
-  if (tu2_f_ave > CU1_WALL_F_SEN_TH) {
-    st_RecgWall_info.wall_f.bl_wall_with = (BL)C_ON;        /* 前壁あり */
+  if (tu2FiltAve > CU2_AppRcg_WallSensDetectThF) {
+    stAppRcg_WallInfoForMap.stWallF.u1WallExistance = (U1)C_ON;        /* 前壁あり */
   }
   else {
-    st_RecgWall_info.wall_f.bl_wall_with = (BL)C_OFF;       /* 前壁なし */
+    stAppRcg_WallInfoForMap.stWallF.u1WallExistance = (U1)C_OFF;       /* 前壁なし */
   }
   /* センサ値を格納 */
-  st_RecgWall_info.wall_f.u2_sens_val = (U2)tu2_f_ave;
-  st_RecgWall_info.wall_f.bl_wall_data_valid = (BL)C_ON;
+  stAppRcg_WallInfoForMap.stWallF.u2SensVal = (U2)tu2FiltAve;
+  stAppRcg_WallInfoForMap.stWallF.u1WallVld = (U1)C_ON;
 
   /* 左壁チェック */
-  if (u2RecgSensVal_L > CU1_WALL_L_SEN_TH) {
-    st_RecgWall_info.wall_l.bl_wall_with = (BL)C_ON;         /* 左壁あり */
+  if (u2AppRcg_SensValL > CU2_AppRcg_WallSensDetectThL) {
+    stAppRcg_WallInfoForMap.stWallL.u1WallExistance = (U1)C_ON;         /* 左壁あり */
   }
   else {
-    st_RecgWall_info.wall_l.bl_wall_with = (BL)C_OFF;        /* 左壁なし */
+    stAppRcg_WallInfoForMap.stWallL.u1WallExistance = (U1)C_OFF;        /* 左壁なし */
   }
   /* センサ値を格納 */
-  st_RecgWall_info.wall_l.u2_sens_val = (U2)u2RecgSensVal_L;
-  st_RecgWall_info.wall_l.bl_wall_data_valid = (BL)C_ON;
-  
+  stAppRcg_WallInfoForMap.stWallL.u2SensVal = (U2)u2AppRcg_SensValL;
+  stAppRcg_WallInfoForMap.stWallL.u1WallVld = (U1)C_ON;
 }
+

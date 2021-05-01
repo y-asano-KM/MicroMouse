@@ -20,8 +20,8 @@
 /* 個別 */
 #include "pf_if_hw_pac.h"
 #include "pf_mtr_ctrl_pac.h"
-#include "app_controll_pac.h"
-#include "app_recgwall_pac.h"
+#include "app_controll.h"
+#include "app_recgwall.h"
 
 /* 本体 */
 #include "pf_sche_interrupt.h"
@@ -80,16 +80,15 @@
 /* ============================================================ */
 VD FnVD_PfSche_wrapInt1msProc(VD)
 {
-  /* ToDo:仮実装(実行順序未検討)(モータ出力が先の方が良い?) */
-  /*      入力処理を一番最初にしない場合は1ms周期割り込み実行回数の更新を一番最初に実施するように修正すること */
+  /* ToDo:入力処理を一番最初にしない場合は1ms周期割り込み実行回数の更新を一番最初に実施するように修正すること */
   /* HW入力値取得 */
   FnVD_PfIf_Hw_inputForInt();
 
   /* 壁認識処理(1ms) */
-  FnVD_Recg_WallRecognize_1ms();
+  FnVD_AppRcg_detectWallForInt();
 
   /* 加減速制御/姿勢制御 */
-  vd_s_IntDrvControll();
+  FnVD_AppCtrl_mngTskForInt();
 
   /* モータ制御要求調停処理 */
   FnVD_PfMtr_Ctrl_mediate();

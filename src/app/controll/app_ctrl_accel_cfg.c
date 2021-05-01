@@ -56,9 +56,9 @@
 /* ============================================================ */
 /* const変数定義(static)                                        */
 /* ============================================================ */
-#if defined(OP_AppCtrl_Accel_LogicTypePhysical)
+#if defined(OP_AppCmn_LogicTypePhysical)
 /* None */
-#elif defined(OP_AppCtrl_Accel_LogicTypeTable)
+#elif defined(OP_AppCmn_LogicTypeTable)
 /* PWM出力周波数制御マップ */
 /* Memo:u2Timeは必ず昇順とすること */
 const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMapStraight[CU4_AppCtrl_Accel_SizePwmPeriodMap] = {
@@ -82,7 +82,7 @@ const ST_AppCtrl_Accel_PwmPeriodMap CSTA_AppCtrl_Accel_PwmPeriodMapRotation[CU4_
   {(U4)588000,   (U2)16000},
   {CU4_Max,      (U2)20000}
 };
-#elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
+#elif defined(OP_AppCmn_LogicTypePulseCnt)
 /* [%]直進時目標パルス数補正係数 */
 const U1 CU1_AppCtrl_Accel_PwmTargetPulseCntCorrectCoef = (U1)105;
 

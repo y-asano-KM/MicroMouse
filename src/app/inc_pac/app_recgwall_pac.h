@@ -33,32 +33,29 @@
 /* ============================================================ */
 /* 壁データ */
 typedef struct {
-  BL  bl_wall_with;          /* 壁有無 壁無し:OFF(0) 壁あり:ON(1) */
-  BL  bl_wall_data_valid;    /* 壁データ有効無効 無効:OFF(0) 有効:ON(1) */
-  U2  u2_sens_val;           /* センサ値 */
-} ST_WALLDATA;
+  U1 u1WallExistance;       /* 壁有無 壁無し:OFF(0) 壁あり:ON(1) */
+  U1 u1WallVld;             /* 壁データ有効無効 無効:OFF(0) 有効:ON(1) */
+  U2 u2SensVal;             /* センサ値 */
+} ST_AppRcg_WallDat;
 
 /* 壁情報 */
 typedef struct {
-  ST_WALLDATA  wall_f;      /* 前壁情報 */
-  ST_WALLDATA  wall_r;      /* 右壁情報 */
-  ST_WALLDATA  wall_l;      /* 左壁情報 */
-} ST_WALLINFO;
+  ST_AppRcg_WallDat stWallF;      /* 前壁情報 */
+  ST_AppRcg_WallDat stWallR;      /* 右壁情報 */
+  ST_AppRcg_WallDat stWallL;      /* 左壁情報 */
+} ST_AppRcg_WallInfo;
 
 
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
-extern VD FnVD_Recg_WallRecognize(VD);
-extern VD FnVD_Recg_WallRecognize_1ms(VD);
-extern VD FnVD_Recg_RecognizeInit(VD);
 
 
 /* ============================================================ */
 /* 変数宣言(extern)                                             */
 /* ============================================================ */
-extern ST_WALLINFO st_RecgWall_info;      /* 壁情報(Map) */
-extern ST_WALLINFO st_RecgWall_info_attc; /* 壁情報(姿勢制御) */
+extern ST_AppRcg_WallInfo stAppRcg_WallInfoForMap;  /* 壁情報(Map) */
+extern ST_AppRcg_WallInfo stAppRcg_WallInfoForCtrl; /* 壁情報(姿勢制御) */
 
 
 /* ============================================================ */
@@ -68,14 +65,6 @@ extern ST_WALLINFO st_RecgWall_info_attc; /* 壁情報(姿勢制御) */
 
 /* ============================================================ */
 /* 関数形式マクロ定義                                           */
-/* ============================================================ */
-/* ============================================================ */
-/* 関数名 : McU1_XxYyy_getSignal                                */
-/*          関数和名をここへ記述                                */
-/* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : 関数箱型コメントの形式を示す                        */
-/* 制約   : なし                                                */
 /* ============================================================ */
 
 

@@ -66,9 +66,9 @@
 /* ============================================================ */
 /* 関数定義                                                     */
 /* ============================================================ */
-#if defined(OP_AppCtrl_Accel_LogicTypePhysical)
+#if defined(OP_AppCmn_LogicTypePhysical)
 /* 実装なし */
-#elif defined(OP_AppCtrl_Accel_LogicTypeTable)
+#elif defined(OP_AppCmn_LogicTypeTable)
 /* ============================================================ */
 /* 関数名 : FnU2_AppCtrl_Accel_ctrlPwmPeriod                    */
 /*          PWM出力周期制御                                     */
@@ -93,7 +93,7 @@ U2 FnU2_AppCtrl_Accel_ctrlPwmPeriod(U4 tu4ElapsedTime, U4 tu4SizePwmPeriodMap, c
 }
 
 
-#elif defined(OP_AppCtrl_Accel_LogicTypePulseCnt)
+#elif defined(OP_AppCmn_LogicTypePulseCnt)
 /* ============================================================ */
 /* 関数名 : FnU2_AppCtrl_Accel_ctrlPwmFreq                      */
 /*          PWM出力周期制御                                     */

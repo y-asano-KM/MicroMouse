@@ -32,28 +32,29 @@
 /* 型定義                                                       */
 /* ============================================================ */
 /* 走行モードを示す列挙型 */
-typedef enum
-{
-  CEN_AppPln_Mode_Ready = 0,    /* 準備モード */
-  CEN_AppPln_Mode_Search,       /* 探索モード */
-  CEN_AppPln_Mode_Stay,         /* 待機モード */
-  CEN_AppPln_Mode_TimeAttack,   /* 計測モード */
-  CEN_AppPln_Mode_Finish,       /* 完了モード */
-  CEN_AppPln_Mode_Num
-}EN_AppPln_Mode;
+typedef enum {
+  CEN_AppPln_Mode_StsReady = 0,    /* 準備モード */
+  CEN_AppPln_Mode_StsSearch,       /* 探索モード */
+  CEN_AppPln_Mode_StsStay,         /* 待機モード */
+  CEN_AppPln_Mode_StsTimeAttack,   /* 計測モード */
+  CEN_AppPln_Mode_StsFinish,       /* 完了モード */
+  CEN_AppPln_Mode_StsNum
+} EN_AppPln_Mode_Sts;
+
 
 /* ============================================================ */
 /* 関数プロトタイプ宣言(extern)                                 */
 /* ============================================================ */
 extern VD FnVD_AppPln_Mode_init(VD);
-extern VD FnVD_AppPln_Mode_transition_judge(VD);
-extern EN_AppPln_Mode FnEN_AppPln_Mode_get(VD);
+extern VD FnVD_AppPln_Mode_jdgTransition(VD);
+extern EN_AppPln_Mode_Sts FnEN_AppPln_Mode_get(VD);
 
 
 /* ============================================================ */
 /* 変数宣言(extern)                                             */
 /* ============================================================ */
-extern  U1 u1_mode;                          /* 走行モード */
+extern EN_AppPln_Mode_Sts enAppPln_Mode_Sts;    /* 走行モード */
+
 
 /* ============================================================ */
 /* const変数宣言(extern)                                        */
@@ -62,14 +63,6 @@ extern  U1 u1_mode;                          /* 走行モード */
 
 /* ============================================================ */
 /* 関数形式マクロ定義                                           */
-/* ============================================================ */
-/* ============================================================ */
-/* 関数名 : McU1_XxYyy_getSignal                                */
-/*          関数和名をここへ記述                                */
-/* 引数   : なし                                                */
-/* 戻り値 : なし                                                */
-/* 概要   : 関数箱型コメントの形式を示す                        */
-/* 制約   : なし                                                */
 /* ============================================================ */
 
 

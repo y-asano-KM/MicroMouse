@@ -1,756 +1,782 @@
 /* ============================================================ */
-/* ƒtƒ@ƒCƒ‹–¼ : app_plan.c                                      */
-/* ‹@”\       : Å’ZŒo˜HZoEis•ûŒüŒˆ’è                      */
+/* ãƒ•ã‚¡ã‚¤ãƒ«å : app_plan.c                                      */
+/* æ©Ÿèƒ½       : æœ€çŸ­çµŒè·¯ç®—å‡ºãƒ»é€²è¡Œæ–¹å‘æ±ºå®š                      */
 /* ============================================================ */
 #define SECTION_APP
 
 /* ============================================================ */
-/* ƒCƒ“ƒNƒ‹[ƒh                                                 */
+/* ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰                                                 */
 /* ============================================================ */
-/* ƒvƒƒWƒFƒNƒg‹¤’Ê */
+/* ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆå…±é€š */
 #include "prj_cmn_section.h"
 #include "prj_cmn_option.h"
 #include "prj_cmn_type.h"
 #include "prj_cmn_macro.h"
 
-/* ƒJƒeƒSƒŠ‹¤’Ê */
+/* ã‚«ãƒ†ã‚´ãƒªå…±é€š */
 #include "app_cmn_option.h"
 #include "app_cmn_option_pac.h"
 
-/* ŒÂ•Ê */
+/* å€‹åˆ¥ */
 #include "app_map_pac.h"
 #include "app_plan_mode_pac.h"
 
-/* –{‘Ì */
+/* æœ¬ä½“ */
+#include "app_plan.h"
 #include "app_plan_pac.h"
 
 
 /* ============================================================ */
-/* ƒ}ƒNƒ’è”’è‹`                                               */
+/* ãƒã‚¯ãƒ­å®šæ•°å®šç¾©                                               */
 /* ============================================================ */
-/* #define ARRAYSIZE 32 */      /* (MAZESIZE_X~MAZESIZE_Y|1)€8 */
-#define ARRAYSIZE 3             /* (MAZESIZE_X~MAZESIZE_Y|1)€8 */
-
-#define flag U1
-#define false 0
-#define true 1
-
-#define debug_plan 0            /* ƒfƒoƒbƒO—p3Œ26“ú‘–s‰ïMAP */
-#define debug_planmode 1        /* ModeØ‘Ö‚¦(’Êíƒ‚[ƒh(Å’ZŒo˜H‘–sƒ‚[ƒh):0, ’Tõ‘–sƒ‚[ƒh:1)—LŒø‰» */
-
-/* ============================================================ */
-/* Œ^’è‹`                                                       */
-/* ============================================================ */
-
-/* ============================================================ */
-/* ŠÖ”ƒvƒƒgƒ^ƒCƒvéŒ¾(static)                                 */
-/* ============================================================ */
-static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir);
-
-/* ============================================================ */
-/* •Ï”’è‹`(extern)                                             */
-/* ============================================================ */
-
-/* ============================================================ */
-/* •Ï”’è‹`(static)                                             */
-/* ============================================================ */
-static U1 u1s_map[MAZESIZE_X][MAZESIZE_Y];
-static U1 u1s_north[ARRAYSIZE];
-static U1 u1s_east[ARRAYSIZE];
-static U1 u1s_south[ARRAYSIZE];
-static U1 u1s_west[ARRAYSIZE];
-static U1 u1s_shortestroute_c;  /* Å’ZŒo˜H’ŠoÏƒtƒ‰ƒO */
-static U1 u1s_bytepos;          /* Å’ZŒo˜H’ŠoƒoƒCƒgˆÊ’u */
-static U1 u1s_bitpos;           /* Å’ZŒo˜H’ŠoƒrƒbƒgˆÊ’u */
-static U1 u1s_direction;        /* ãˆÊ‚SƒrƒbƒgF˜A‘±’¼i‰Â”\ƒ}ƒX” */
-                                /* ‰ºˆÊ‚SƒrƒbƒgFFORWORD(‘Oi)=0,TURNRIGHT(‰EÜ)=1,TURNBACK(“]‰ñ)=2,TURNLEFT(¶Ü)=3,STOP(’â~)=4 */
-static U1 u1s_runpattern;       /* ’Tõ‘–s=0,Å’ZŒo˜H‘–s=1 */
-static U1 u1s_retdir;
-
-/* ============================================================ */
-/* const•Ï”’è‹`(extern)                                        */
-/* ============================================================ */
-
-
-/* ============================================================ */
-/* const•Ï”’è‹`(static)                                        */
-/* ============================================================ */
-
-
-/* ============================================================ */
-/* ŠÖ”Œ`®ƒ}ƒNƒ’è‹`                                           */
-/* ============================================================ */
-
-
-/* ============================================================ */
-/* ŠÖ”’è‹`                                                     */
-/* ============================================================ */
-/* ============================================================ */
-/* ŠÖ”–¼ : FnVD_Plan_initmap                                   */
-/*          •à”Map‚Ì‰Šú‰»                                     */
-/* ˆø”   : ‚È‚µ                                                */
-/* –ß‚è’l : ‚È‚µ                                                */
-/* ŠT—v   : •à”Map‚ğ‘S‘Ì‚ğ0xffAƒS[ƒ‹À•W(x,y)‚Í0‚Å‰Šú‰»‚·‚é */
-/* §–ñ   : ‚È‚µ                                                */
-/* ============================================================ */
-VD FnVD_Plan_initmap(VD)
-{
-    U1 u1t_i;
-    U1 u1t_j;
-
-    for( u1t_i = (U1)0; u1t_i < MAZESIZE_X; u1t_i++ )           /* –À˜H‚Ì‘å‚«‚³•ªƒ‹[ƒv(xÀ•W) */
-    {
-        for( u1t_j = (U1)0; u1t_j < MAZESIZE_Y; u1t_j++ )       /* –À˜H‚Ì‘å‚«‚³•ªƒ‹[ƒv(yÀ•W) */
-        {
-            u1s_map[u1t_i][u1t_j] = (U1)255;                    /* ‚·‚×‚Ä255‚Å–„‚ß‚é */
-        }
-    }
-
-    //ƒS[ƒ‹À•W‚Ì•à”‚ğ0‚Éİ’è
-    u1s_map[2][2] = (U1)0;
-    /*u1s_map[7][7] = (U1)0;*/
-    /*u1s_map[7][8] = (U1)0;*/
-    /*u1s_map[8][7] = (U1)0;*/
-    /*u1s_map[8][8] = (U1)0;*/
-
-#if debug_plan
-    for( u1t_i = (U1)0; u1t_i < ARRAYSIZE; u1t_i++ )
-    {
-        u1s_north[u1t_i] = (U1)0x00;
-        u1s_east[u1t_i] = (U1)0x00;
-        u1s_south[u1t_i] = (U1)0x00;
-        u1s_west[u1t_i] = (U1)0x00;
-    }
-
-    u1s_bytepos = (U1)0;                /* Å’ZŒo˜H’ŠoƒoƒCƒgˆÊ’u */
-    u1s_bitpos = (U1)7;                 /* Å’ZŒo˜H’ŠoƒrƒbƒgˆÊ’u */
+#define CU1_AppPln_ArraySize      ((U1)3)       /* (CU1_AppMap_MazeSizeX * CU1_AppMap_MazeSizeY - 1) / 8 */
+#define CU1_AppPln_StepNumGoal    ((U1)0)       /* ã‚¹ãƒ†ãƒƒãƒ—æ•°:ç›®çš„åœ° */
+#define CU1_AppPln_StepNumInit    ((U1)255)     /* ã‚¹ãƒ†ãƒƒãƒ—æ•°åˆæœŸå€¤ */
+#define CU1_AppPln_DirInit        ((U1)255)     /* é€²è¡Œæ–¹å‘åˆæœŸå€¤ */
+#define CU1_AppPln_BitPosMax      ((U1)7)       /* ãƒ“ãƒƒãƒˆä½ç½®æœ€å¤§å€¤ */
+#define CU1_AppPln_RunSearch      ((U1)0)       /* æ¢ç´¢èµ°è¡Œ */
+#define CU1_AppPln_RunShortest    ((U1)1)       /* æœ€çŸ­çµŒè·¯èµ°è¡Œ */
+#define CU1_AppPln_DirMsk         ((U1)0x03)    /* æ–¹å‘ç”¨ãƒã‚¹ã‚¯ */
+#if (1)
+  #define CU1_AppPln_GoalPosX     ((U1)2)       /* ç›®çš„åœ°X */
+  #define CU1_AppPln_GoalPosY     ((U1)2)       /* ç›®çš„åœ°Y */
+#else
+  #define CU1_AppPln_GoalPosX     ((U1)7)       /* ç›®çš„åœ°X */
+  #define CU1_AppPln_GoalPosY     ((U1)7)       /* ç›®çš„åœ°Y */
 #endif
 
+#if (0)
+  #define OP_AppPln_Dbg           /* ãƒ‡ãƒãƒƒã‚°ç”¨3æœˆ26æ—¥èµ°è¡Œä¼šMAP */
+#endif
+#if (1)
+  #define OP_AppPln_DbgUseMode    /* Modeåˆ‡æ›¿ãˆ(é€šå¸¸ãƒ¢ãƒ¼ãƒ‰(æœ€çŸ­çµŒè·¯èµ°è¡Œãƒ¢ãƒ¼ãƒ‰):0, æ¢ç´¢èµ°è¡Œãƒ¢ãƒ¼ãƒ‰:1)æœ‰åŠ¹åŒ– */
+#endif
+
+
+/* ============================================================ */
+/* å‹å®šç¾©                                                       */
+/* ============================================================ */
+
+
+/* ============================================================ */
+/* é–¢æ•°ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€(static)                                 */
+/* ============================================================ */
+static VD FnVD_AppPln_initMap(VD);
+static VD FnVD_AppPln_extractShortestRoute(VD);
+static U1 FnU1_AppPln_searchDir(U1 tu1X, U1 tu1Y, EN_PrjCmn_Dir4 tenDir);
+
+
+/* ============================================================ */
+/* å¤‰æ•°å®šç¾©(extern)                                             */
+/* ============================================================ */
+
+
+/* ============================================================ */
+/* å¤‰æ•°å®šç¾©(static)                                             */
+/* ============================================================ */
+static U1 u1a2AppPln_StepMumMap[CU1_AppMap_MazeSizeX][CU1_AppMap_MazeSizeY];
+static U1 u1aAppPln_North[CU1_AppPln_ArraySize];
+static U1 u1aAppPln_East[CU1_AppPln_ArraySize];
+static U1 u1aAppPln_South[CU1_AppPln_ArraySize];
+static U1 u1aAppPln_West[CU1_AppPln_ArraySize];
+static U1 u1AppPln_ShortestRouteFlg;  /* æœ€çŸ­çµŒè·¯æŠ½å‡ºæ¸ˆãƒ•ãƒ©ã‚° */
+static U1 u1AppPln_BytePos;           /* æœ€çŸ­çµŒè·¯æŠ½å‡ºãƒã‚¤ãƒˆä½ç½® */
+static U1 u1AppPln_BitPos;            /* æœ€çŸ­çµŒè·¯æŠ½å‡ºãƒ“ãƒƒãƒˆä½ç½® */
+static U1 u1AppPln_ActReq;            /* ä¸Šä½4ãƒ“ãƒƒãƒˆ:é€£ç¶šç›´é€²å¯èƒ½ãƒã‚¹æ•°, ä¸‹ä½4ãƒ“ãƒƒãƒˆ:é€²è¡Œæ–¹å‘ */
+static U1 u1AppPln_RunPattern;        /* æ¢ç´¢èµ°è¡Œ=0, æœ€çŸ­çµŒè·¯èµ°è¡Œ=1 */
+static U1 u1AppPln_Dir;
+
+
+/* ============================================================ */
+/* constå¤‰æ•°å®šç¾©(extern)                                        */
+/* ============================================================ */
+
+
+/* ============================================================ */
+/* constå¤‰æ•°å®šç¾©(static)                                        */
+/* ============================================================ */
+
+
+/* ============================================================ */
+/* é–¢æ•°å½¢å¼ãƒã‚¯ãƒ­å®šç¾©                                           */
+/* ============================================================ */
+
+
+/* ============================================================ */
+/* é–¢æ•°å®šç¾©                                                     */
+/* ============================================================ */
+/* ============================================================ */
+/* é–¢æ•°å : FnVD_AppPln_initMap                                 */
+/*          æ­©æ•°Mapã®åˆæœŸåŒ–                                     */
+/* å¼•æ•°   : ãªã—                                                */
+/* æˆ»ã‚Šå€¤ : ãªã—                                                */
+/* æ¦‚è¦   : æ­©æ•°Mapã‚’å…¨ä½“ã‚’0xffã€ã‚´ãƒ¼ãƒ«åº§æ¨™ã¯0ã§åˆæœŸåŒ–ã™ã‚‹      */
+/* åˆ¶ç´„   : ãªã—                                                */
+/* ============================================================ */
+static VD FnVD_AppPln_initMap(VD)
+{
+  U1 tu1I;
+  U1 tu1J;
+
+  for (tu1I = (U1)0; tu1I < CU1_AppMap_MazeSizeX; tu1I++) {
+    for (tu1J = (U1)0; tu1J < CU1_AppMap_MazeSizeY; tu1J++) {
+      u1a2AppPln_StepMumMap[tu1I][tu1J] = CU1_AppPln_StepNumInit;
+    }
+  }
+
+  /* ã‚´ãƒ¼ãƒ«åº§æ¨™ã®æ­©æ•°ã‚’0ã«è¨­å®š */
+#if (1)
+  u1a2AppPln_StepMumMap[CU1_AppPln_GoalPosX][CU1_AppPln_GoalPosY] = CU1_AppPln_StepNumGoal;
+#else
+  u1a2AppPln_StepMumMap[CU1_AppPln_GoalPosX][CU1_AppPln_GoalPosY]                 = CU1_AppPln_StepNumGoal;
+  u1a2AppPln_StepMumMap[CU1_AppPln_GoalPosX][CU1_AppPln_GoalPosY + (U1)1]         = CU1_AppPln_StepNumGoal;
+  u1a2AppPln_StepMumMap[CU1_AppPln_GoalPosX + (U1)1][CU1_AppPln_GoalPosY]         = CU1_AppPln_StepNumGoal;
+  u1a2AppPln_StepMumMap[CU1_AppPln_GoalPosX + (U1)1][CU1_AppPln_GoalPosY + (U1)1] = CU1_AppPln_StepNumGoal;
+#endif
+
+#if defined(OP_AppPln_Dbg)
+  for (tu1I = (U1)0; tu1I < CU1_AppPln_ArraySize; tu1I++) {
+    u1aAppPln_North[tu1I] = (U1)0x00;
+    u1aAppPln_East[tu1I]  = (U1)0x00;
+    u1aAppPln_South[tu1I] = (U1)0x00;
+    u1aAppPln_West[tu1I]  = (U1)0x00;
+  }
+
+  u1AppPln_BytePos = (U1)0;                   /* æœ€çŸ­çµŒè·¯æŠ½å‡ºãƒã‚¤ãƒˆä½ç½® */
+  u1AppPln_BitPos  = CU1_AppPln_BitPosMax;    /* æœ€çŸ­çµŒè·¯æŠ½å‡ºãƒ“ãƒƒãƒˆä½ç½® */
+#endif
 }
 
+
 /* ============================================================ */
-/* ŠÖ”–¼ : FnVD_Plan_makemap                                   */
-/*          •à”Map‚ğì¬‚·‚é                                   */
-/* ˆø”   : ‚È‚µ                                                */
-/* –ß‚è’l : ‚È‚µ                                                */
-/* ŠT—v   : •Çî•ñ‚ğ‚à‚Æ‚É•à”Map‚ğì¬‚·‚é                     */
-/* §–ñ   : ƒS[ƒ‹‚É’…‚¢‚½‚Ü‚½‚ÍŒo˜H’Tõ‚ğI—¹‚µ‚½“_‚ÅƒR[ƒ‹  */
+/* é–¢æ•°å : FnVD_AppPln_makeMap                                 */
+/*          æ­©æ•°Mapã‚’ä½œæˆã™ã‚‹                                   */
+/* å¼•æ•°   : ãªã—                                                */
+/* æˆ»ã‚Šå€¤ : ãªã—                                                */
+/* æ¦‚è¦   : å£æƒ…å ±ã‚’ã‚‚ã¨ã«æ­©æ•°Mapã‚’ä½œæˆã™ã‚‹                     */
+/* åˆ¶ç´„   : ã‚´ãƒ¼ãƒ«ã«ç€ã„ãŸã¾ãŸã¯çµŒè·¯æ¢ç´¢ã‚’çµ‚äº†ã—ãŸæ™‚ç‚¹ã§ã‚³ãƒ¼ãƒ«  */
 /* ============================================================ */
-VD FnVD_Plan_makemap(VD)
+VD FnVD_AppPln_makeMap(VD)
 {
-    U1 u1t_i;
-    U1 u1t_j;
-    flag bit_change_flag;       /* Mapì¬I—¹‚ğŒ©‹É‚ß‚é‚½‚ß‚Ìƒtƒ‰ƒO */
+  U1 tu1X;
+  U1 tu1Y;
+  U1 tu1ChangeFlg;    /* Mapä½œæˆçµ‚äº†ã‚’è¦‹æ¥µã‚ã‚‹ãŸã‚ã®ãƒ•ãƒ©ã‚° */
 
-    FnVD_Plan_initmap();        /* Map‚ğ‰Šú‰»‚·‚é */
+  /* Mapã‚’åˆæœŸåŒ–ã™ã‚‹ */
+  FnVD_AppPln_initMap();
 
-    if( u1s_runpattern == 1 )     /* Å’ZŒo˜H‘–s */
-    {
+  /* æœ€çŸ­çµŒè·¯èµ°è¡Œ */
+  if (u1AppPln_RunPattern == CU1_AppPln_RunShortest) {
 
-        do
-        {
-            bit_change_flag = (flag)false;                          /* •ÏX‚ª‚È‚©‚Á‚½ê‡‚É‚Íƒ‹[ƒv‚ğ”²‚¯‚é */
-            for( u1t_i = 0; u1t_i < MAZESIZE_X; u1t_i++ )           /* –À˜H‚Ì‘å‚«‚³•ªƒ‹[ƒv(xÀ•W) */
-            {
-                for( u1t_j = 0; u1t_j < MAZESIZE_Y; u1t_j++ )       /* –À˜H‚Ì‘å‚«‚³•ªƒ‹[ƒv(yÀ•W) */
-                {
+    do {
+      tu1ChangeFlg = (U1)C_OFF;    /* å¤‰æ›´ãŒãªã‹ã£ãŸå ´åˆã«ã¯ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã‚‹ */
 
-                    if( u1s_map[u1t_i][u1t_j] == (U1)255 )          /* 255‚Ìê‡‚ÍŸ‚Ö */
-                    {
-                        continue;
-                    }
+      /* è¿·è·¯ã®å¤§ãã•åˆ†ãƒ«ãƒ¼ãƒ—(xåº§æ¨™) */
+      for (tu1X = (U1)0; tu1X < CU1_AppMap_MazeSizeX; tu1X++) {
+        /* è¿·è·¯ã®å¤§ãã•åˆ†ãƒ«ãƒ¼ãƒ—(yåº§æ¨™) */
+        for (tu1Y = (U1)0; tu1Y < CU1_AppMap_MazeSizeY; tu1Y++) {
 
-                    if( u1t_j < (U1)( MAZESIZE_Y - (U1)1 ) )        /* ”ÍˆÍƒ`ƒFƒbƒN */
-                    {
-                        if( wall[u1t_i][u1t_j].north == NOWALL )    /* •Ç‚ª‚È‚¯‚ê‚Î */
-                        {
-                            if( u1s_map[u1t_i][ (U1)( u1t_j + (U1)1 ) ] == (U1)255 )        /* ‚Ü‚¾’l‚ª“ü‚Á‚Ä‚¢‚È‚¯‚ê‚Î */
-                            {
-                                u1s_map[u1t_i][ (U1)( u1t_j + (U1)1 ) ] = (U1)( u1s_map[u1t_i][u1t_j] + (U1)1 );    /* ’l‚ğ‘ã“ü */
-                                bit_change_flag = (flag)true;       /* ’l‚ªXV‚³‚ê‚½‚±‚Æ‚ğ¦‚· */
-                            }
-                        }
-                    }
+          /* åˆæœŸå€¤ã®å ´åˆã¯æ¬¡ã¸ */
+          if (u1a2AppPln_StepMumMap[tu1X][tu1Y] == CU1_AppPln_StepNumInit) {
+            continue;
+          }
 
-                    if( u1t_i < (U1)( MAZESIZE_X - (U1)1 ) )        /* ”ÍˆÍƒ`ƒFƒbƒN */
-                    {
-                        if( wall[u1t_i][u1t_j].east == NOWALL )     /* •Ç‚ª‚È‚¯‚ê‚Î */
-                        {
-                            if( u1s_map[ (U1)( u1t_i + (U1)1 ) ][u1t_j] == (U1)255 )        /* ‚Ü‚¾’l‚ª“ü‚Á‚Ä‚¢‚È‚¯‚ê‚Î */
-                            {
-                                u1s_map[ (U1)( u1t_i + (U1)1 ) ][u1t_j] = (U1)( u1s_map[u1t_i][u1t_j] + (U1)1 );    /* ’l‚ğ‘ã“ü */
-                                bit_change_flag = (flag)true;       /* ’l‚ªXV‚³‚ê‚½‚±‚Æ‚ğ¦‚· */
-                            }
-                        }
-                    }
+          /* ç¯„å›²ãƒã‚§ãƒƒã‚¯ */
+          if (tu1Y < (U1)(CU1_AppMap_MazeSizeY - (U1)1)) {
 
-                    if( u1t_j > (U1)0 )                             /* ”ÍˆÍƒ`ƒFƒbƒN */
-                    {
-                        if( wall[u1t_i][u1t_j].south == NOWALL )    /* •Ç‚ª‚È‚¯‚ê‚Î */
-                        {
-                            if( u1s_map[u1t_i][ (U1)( u1t_j - (U1)1 ) ] == (U1)255 )        /* ’l‚ª“ü‚Á‚Ä‚¢‚È‚¯‚ê‚Î */
-                            {
-                                u1s_map[u1t_i][ (U1)( u1t_j - (U1)1 ) ] = (U1)( u1s_map[u1t_i][u1t_j] + (U1)1 );    /* ’l‚ğ‘ã“ü */
-                                bit_change_flag = (flag)true;       /* ’l‚ªXV‚³‚ê‚½‚±‚Æ‚ğ¦‚· */
-                            }
-                        }
-                    }
-
-                    if( u1t_i > (U1)0 )                             /* ”ÍˆÍƒ`ƒFƒbƒN */
-                    {
-                        if( wall[u1t_i][u1t_j].west == NOWALL )     /* •Ç‚ª‚È‚¯‚ê‚Î */
-	                {
-                            if( u1s_map[ (U1)( u1t_i - (U1)1 ) ][u1t_j] == (U1)255 )        /* ’l‚ª“ü‚Á‚Ä‚¢‚È‚¯‚ê‚Î */
-                            {
-                                u1s_map[ (U1)( u1t_i - (U1)1 ) ][u1t_j] = (U1)( u1s_map[u1t_i][u1t_j] + (U1)1 );    /* ’l‚ğ‘ã“ü */
-                                bit_change_flag = (flag)true;       /* ’l‚ªXV‚³‚ê‚½‚±‚Æ‚ğ¦‚· */
-                            }
-                        }
-                    }
-                }
-
+             /* å£ãŒãªã‘ã‚Œã° */
+            if (staAppMap_WallSts[tu1X][tu1Y].b2North == CU1_AppMap_WallStsNothing) {
+              if (u1a2AppPln_StepMumMap[tu1X][(U1)(tu1Y + (U1)1)] == CU1_AppPln_StepNumInit) {
+                u1a2AppPln_StepMumMap[tu1X][(U1)(tu1Y + (U1)1)] = u1a2AppPln_StepMumMap[tu1X][tu1Y] + (U1)1;
+                tu1ChangeFlg = (U1)C_ON;       /* å€¤ãŒæ›´æ–°ã•ã‚ŒãŸã“ã¨ã‚’ç¤ºã™ */
+              }
             }
+          }
 
-        }while( bit_change_flag == (flag)true );    /* ‘S‘Ì‚ğì‚èI‚í‚é‚Ü‚Å‘Ò‚Â */
-    }
+          /* ç¯„å›²ãƒã‚§ãƒƒã‚¯ */
+          if (tu1X < (U1)(CU1_AppMap_MazeSizeX - (U1)1)) {
 
+            /* å£ãŒãªã‘ã‚Œã° */
+            if (staAppMap_WallSts[tu1X][tu1Y].b2East == CU1_AppMap_WallStsNothing) {
+              if ( u1a2AppPln_StepMumMap[(U1)(tu1X + (U1)1)][tu1Y] == CU1_AppPln_StepNumInit) {
+                u1a2AppPln_StepMumMap[(U1)(tu1X + (U1)1)][tu1Y] = u1a2AppPln_StepMumMap[tu1X][tu1Y] + (U1)1;
+                tu1ChangeFlg = (U1)C_ON;       /* å€¤ãŒæ›´æ–°ã•ã‚ŒãŸã“ã¨ã‚’ç¤ºã™ */
+              }
+            }
+          }
+
+          /* ç¯„å›²ãƒã‚§ãƒƒã‚¯ */
+          if (tu1Y > (U1)0) {
+            /* å£ãŒãªã‘ã‚Œã° */
+            if (staAppMap_WallSts[tu1X][tu1Y].b2South == CU1_AppMap_WallStsNothing) {
+              if (u1a2AppPln_StepMumMap[tu1X][(U1)(tu1Y - (U1)1)] == CU1_AppPln_StepNumInit) {
+                u1a2AppPln_StepMumMap[tu1X][(U1)(tu1Y - (U1)1)] = u1a2AppPln_StepMumMap[tu1X][tu1Y] + (U1)1;
+                tu1ChangeFlg = (U1)C_ON;       /* å€¤ãŒæ›´æ–°ã•ã‚ŒãŸã“ã¨ã‚’ç¤ºã™ */
+              }
+            }
+          }
+
+          /* ç¯„å›²ãƒã‚§ãƒƒã‚¯ */
+          if (tu1X > (U1)0) {
+            /* å£ãŒãªã‘ã‚Œã° */
+            if (staAppMap_WallSts[tu1X][tu1Y].b2West == CU1_AppMap_WallStsNothing) {
+              if (u1a2AppPln_StepMumMap[(U1)(tu1X - (U1)1)][tu1Y] == CU1_AppPln_StepNumInit) {
+                u1a2AppPln_StepMumMap[(U1)(tu1X - (U1)1)][tu1Y] = u1a2AppPln_StepMumMap[tu1X][tu1Y] + (U1)1;
+                tu1ChangeFlg = (U1)C_ON;       /* å€¤ãŒæ›´æ–°ã•ã‚ŒãŸã“ã¨ã‚’ç¤ºã™ */
+              }
+            }
+          }
+        }
+      }
+    } while (tu1ChangeFlg == (U1)C_ON);    /* å…¨ä½“ã‚’ä½œã‚Šçµ‚ã‚ã‚‹ã¾ã§å¾…ã¤ */
+  }
 }
 
+
 /* ============================================================ */
-/* ŠÖ”–¼ : FnVD_Plan_shortestroute                             */
-/*          Å’ZŒo˜H‚ğ’Šo‚·‚é                                  */
-/* ˆø”   : ‚È‚µ                                                */
-/* –ß‚è’l : ‚È‚µ                                                */
-/* ŠT—v   : ì¬‚µ‚½•à”Map‚ğ‚à‚Æ‚ÉÅ’ZŒo˜H‚ğ’Šo‚·‚é           */
-/* §–ñ   : ‚È‚µ                                                */
+/* é–¢æ•°å : FnVD_AppPln_extractShortestRoute                    */
+/*          æœ€çŸ­çµŒè·¯ã‚’æŠ½å‡ºã™ã‚‹                                  */
+/* å¼•æ•°   : ãªã—                                                */
+/* æˆ»ã‚Šå€¤ : ãªã—                                                */
+/* æ¦‚è¦   : ä½œæˆã—ãŸæ­©æ•°Mapã‚’ã‚‚ã¨ã«æœ€çŸ­çµŒè·¯ã‚’æŠ½å‡ºã™ã‚‹           */
+/* åˆ¶ç´„   : ãªã—                                                */
 /* ============================================================ */
-VD FnVD_Plan_shortestroute(VD)
+static VD FnVD_AppPln_extractShortestRoute(VD)
 {
-    U1 u1t_i;
-    U1 u1t_j;
-    U1 u1t_k;
-    U1 u1t_l;
-    U1 u1t_m;
-    U1 u1t_n;
-    t_direction u1t_dir;        /* north=0,east=1,south=2,west=3 */
+  U1 tu1X;
+  U1 tu1Y;
+  U1 tu1Idx;
+  U1 tu1BytePos;
+  U1 tu1BitPos;
+  U1 tu1StepNum;
+  EN_PrjCmn_Dir4 tenDir;
+  EN_PrjCmn_Dir4 tenDirPrev;
+  U1 tu1DirFlg;
 
-    U1 u1t_dir_before;
-    flag bit_dir_flag;
+  tu1X       = (U1)0;                         /* ã‚¹ã‚¿ãƒ¼ãƒˆåœ°ç‚¹ã®xåº§æ¨™ */
+  tu1Y       = (U1)0;                         /* ã‚¹ã‚¿ãƒ¼ãƒˆåœ°ç‚¹ã®yåº§æ¨™ */
+  tu1BytePos = (U1)0;
+  tu1BitPos  = (U1)0;
+  tu1StepNum = u1a2AppPln_StepMumMap[tu1X][tu1Y];    /* ã‚¹ã‚¿ãƒ¼ãƒˆåœ°ç‚¹ã®æ­©æ•°ãƒãƒƒãƒ—å€¤ã‚’åˆæœŸå€¤è¨­å®š */
+  tenDir     = CEN_PrjCmn_Dir4North;
 
-    u1t_i = (U1)0;                      /* ƒXƒ^[ƒg’n“_‚ÌxÀ•W */
-    u1t_j = (U1)0;                      /* ƒXƒ^[ƒg’n“_‚ÌyÀ•W */
-    u1t_l = (U1)0;
-    u1t_m = (U1)0;
-    u1t_n = u1s_map[u1t_i][u1t_j];      /* ƒXƒ^[ƒg’n“_‚Ì•à”ƒ}ƒbƒv’l‚ğ‰Šú’lİ’è */
-    u1t_dir = north;
+  u1AppPln_ShortestRouteFlg = (U1)C_OFF;
+  u1AppPln_BytePos = (U1)0;                   /* æœ€çŸ­çµŒè·¯æŠ½å‡ºãƒã‚¤ãƒˆä½ç½® */
+  u1AppPln_BitPos  = CU1_AppPln_BitPosMax;    /* æœ€çŸ­çµŒè·¯æŠ½å‡ºãƒ“ãƒƒãƒˆä½ç½® */
 
-    u1s_shortestroute_c = (U1)0;
-    u1s_bytepos = (U1)0;                /* Å’ZŒo˜H’ŠoƒoƒCƒgˆÊ’u */
-    u1s_bitpos = (U1)7;                 /* Å’ZŒo˜H’ŠoƒrƒbƒgˆÊ’u */
+  for (tu1Idx = (U1)0; tu1Idx < CU1_AppPln_ArraySize; tu1Idx++) {
+    /* ã™ã¹ã¦0ã§åŸ‹ã‚ã‚‹ */
+    u1aAppPln_North[tu1Idx] = (U1)0x00;
+    u1aAppPln_East[tu1Idx]  = (U1)0x00;
+    u1aAppPln_South[tu1Idx] = (U1)0x00;
+    u1aAppPln_West[tu1Idx]  = (U1)0x00;
+  }
 
-    for( u1t_k = (U1)0; u1t_k < ARRAYSIZE; u1t_k++ )    /* ‚·‚×‚Ä0‚Å–„‚ß‚é */
-    {
-        u1s_north[u1t_k] = (U1)0;
-        u1s_east[u1t_k] = (U1)0;
-        u1s_south[u1t_k] = (U1)0;
-        u1s_west[u1t_k] = (U1)0;
+  do {
+    tu1DirFlg  = (U1)C_OFF;
+    tenDirPrev = tenDir;           /* å‰å›å€¤ä¿æŒ */
+
+    /* ç¯„å›²ãƒã‚§ãƒƒã‚¯ */
+    if (tu1Y < (U1)(CU1_AppMap_MazeSizeY - (U1)1)) {
+
+      /* å£ãŒãªã‘ã‚Œã° */
+      if (staAppMap_WallSts[tu1X][tu1Y].b2North == CU1_AppMap_WallStsNothing) {
+
+        /* æ­©æ•°ãƒãƒƒãƒ—å€¤ãŒ-1ã§ã‚ã‚Œã° */
+        if (u1a2AppPln_StepMumMap[tu1X][(U1)(tu1Y + (U1)1)] == (U1)(tu1StepNum - (U1)1)) {
+          tenDir = CEN_PrjCmn_Dir4North;                /* é€²è¡Œæ–¹è§’ã‚’è¨­å®š */
+          tu1DirFlg = (U1)C_ON;      /* å€¤ãŒæ›´æ–°ã•ã‚ŒãŸã“ã¨ã‚’ç¤ºã™ */
+        }
+      }
     }
 
-    do
-    {
-        bit_dir_flag = (flag)false;
-        u1t_dir_before = u1t_dir;           /* ‘O‰ñ’l•Û */
+    /* ç¯„å›²ãƒã‚§ãƒƒã‚¯ */
+    if (tu1X < (U1)(CU1_AppMap_MazeSizeX - (U1)1)) {
 
-        if( u1t_j < (U1)( MAZESIZE_Y - (U1)1 ) )    /* ”ÍˆÍƒ`ƒFƒbƒN */
-        {
-            if( wall[u1t_i][u1t_j].north == NOWALL )        /* •Ç‚ª‚È‚¯‚ê‚Î */
-            {
-                if( u1s_map[u1t_i][ (U1)( u1t_j + (U1)1 ) ] == (U1)( u1t_n - (U1)1 ) )  /* •à”ƒ}ƒbƒv’l‚ª-1‚Å‚ ‚ê‚Î */
-                {
-                    u1t_dir = north;                /* is•ûŠp‚ğİ’è */
-                    bit_dir_flag = (flag)true;      /* ’l‚ªXV‚³‚ê‚½‚±‚Æ‚ğ¦‚· */
-                }
+      /* å£ãŒãªã‘ã‚Œã° */
+      if (staAppMap_WallSts[tu1X][tu1Y].b2East == CU1_AppMap_WallStsNothing) {
+
+        /* æ­©æ•°ãƒãƒƒãƒ—å€¤ãŒ-1ã§ã‚ã‚Œã° */
+        if (u1a2AppPln_StepMumMap[(U1)(tu1X + (U1)1)][tu1Y] == (U1)(tu1StepNum - (U1)1)) {
+
+          /* é€²è¡Œæ–¹è§’ã«è¤‡æ•°ã®å¯èƒ½æ€§ãŒã‚ã‚‹å ´åˆ */
+          if (tu1DirFlg == (U1)C_ON) {
+
+            /* å‰å›ã®é€²è¡Œæ–¹è§’ã¨ä¸€è‡´ã™ã‚‹å ´åˆã¯å‰å›æ–¹è§’ã‚’å„ªå…ˆ */
+            if (tenDir != tenDirPrev) {
+              tenDir = CEN_PrjCmn_Dir4East;    /* é€²è¡Œæ–¹è§’ã‚’è¨­å®š */
+              tu1DirFlg = (U1)C_ON;            /* å€¤ãŒæ›´æ–°ã•ã‚ŒãŸã“ã¨ã‚’ç¤ºã™ */
             }
+          }
+          else {
+            tenDir = CEN_PrjCmn_Dir4East;    /* é€²è¡Œæ–¹è§’ã‚’è¨­å®š */
+            tu1DirFlg = (U1)C_ON;            /* å€¤ãŒæ›´æ–°ã•ã‚ŒãŸã“ã¨ã‚’ç¤ºã™ */
+          }
         }
+      }
+    }
 
-        if( u1t_i < (U1)( MAZESIZE_X - (U1)1 ) )    /* ”ÍˆÍƒ`ƒFƒbƒN */
-        {
-            if( wall[u1t_i][u1t_j].east == NOWALL )         /* •Ç‚ª‚È‚¯‚ê‚Î */
-            {
-                if( u1s_map[ (U1)( u1t_i + (U1)1 ) ][u1t_j] == (U1)( u1t_n - (U1)1 ) ) /* •à”ƒ}ƒbƒv’l‚ª-1‚Å‚ ‚ê‚Î */
-                {
-                    if( bit_dir_flag == (flag)true )        /* is•ûŠp‚É•¡”‚Ì‰Â”\«‚ª‚ ‚éê‡ */
-                    {
-                        if( u1t_dir != u1t_dir_before )     /* ‘O‰ñ‚Ìis•ûŠp‚Æˆê’v‚·‚éê‡‚Í‘O‰ñ•ûŠp‚ğ—Dæ */
-                        {
-                            u1t_dir = east;         /* is•ûŠp‚ğİ’è */
-                            bit_dir_flag = (flag)true;      /* ’l‚ªXV‚³‚ê‚½‚±‚Æ‚ğ¦‚· */
-                        }
-                    }
-                    else
-                    {
-                        u1t_dir = east;             /* is•ûŠp‚ğİ’è */
-                        bit_dir_flag = (flag)true;         /* ’l‚ªXV‚³‚ê‚½‚±‚Æ‚ğ¦‚· */
-  
-                    }
-                }
+    /* ç¯„å›²ãƒã‚§ãƒƒã‚¯ */
+    if (tu1Y > (U1)0) {
+
+      /* å£ãŒãªã‘ã‚Œã° */
+      if (staAppMap_WallSts[tu1X][tu1Y].b2South == CU1_AppMap_WallStsNothing) {
+
+        /* æ­©æ•°ãƒãƒƒãƒ—å€¤ãŒ-1ã§ã‚ã‚Œã° */
+        if (u1a2AppPln_StepMumMap[tu1X][(U1)(tu1Y - (U1)1)] == (U1)(tu1StepNum - (U1)1)) {
+
+          /* é€²è¡Œæ–¹è§’ã«è¤‡æ•°ã®å¯èƒ½æ€§ãŒã‚ã‚‹å ´åˆ */
+          if (tu1DirFlg == (U1)C_ON) {
+
+            /* å‰å›ã®é€²è¡Œæ–¹è§’ã¨ä¸€è‡´ã™ã‚‹å ´åˆã¯å‰å›æ–¹è§’ã‚’å„ªå…ˆ */
+            if (tenDir != tenDirPrev) {
+              tenDir = CEN_PrjCmn_Dir4South;    /* é€²è¡Œæ–¹è§’ã‚’è¨­å®š */
+              tu1DirFlg = (U1)C_ON;             /* å€¤ãŒæ›´æ–°ã•ã‚ŒãŸã“ã¨ã‚’ç¤ºã™ */
             }
+          }
+          else {
+            tenDir = CEN_PrjCmn_Dir4South;    /* é€²è¡Œæ–¹è§’ã‚’è¨­å®š */
+            tu1DirFlg = (U1)C_ON;             /* å€¤ãŒæ›´æ–°ã•ã‚ŒãŸã“ã¨ã‚’ç¤ºã™ */
+          }
         }
+      }
+    }
 
-        if( u1t_j > (U1)0 )                         /* ”ÍˆÍƒ`ƒFƒbƒN */
-        {
-            if( wall[u1t_i][u1t_j].south == NOWALL )        /* •Ç‚ª‚È‚¯‚ê‚Î */
-            {
-                if( u1s_map[u1t_i][ (U1)( u1t_j - (U1)1 ) ] == (U1)( u1t_n - (U1)1 ) )  /* •à”ƒ}ƒbƒv’l‚ª-1‚Å‚ ‚ê‚Î */
-                {
-                    if( bit_dir_flag == (flag)true )        /* is•ûŠp‚É•¡”‚Ì‰Â”\«‚ª‚ ‚éê‡ */
-                    {
-                        if( u1t_dir != u1t_dir_before )     /* ‘O‰ñ‚Ìis•ûŠp‚Æˆê’v‚·‚éê‡‚Í‘O‰ñ•ûŠp‚ğ—Dæ */
-                        {
-                            u1t_dir = south;        /* is•ûŠp‚ğİ’è */
-                            bit_dir_flag = (flag)true;      /* ’l‚ªXV‚³‚ê‚½‚±‚Æ‚ğ¦‚· */
-                        }
-                    }
-                    else
-                    {
-                        u1t_dir = south;            /* is•ûŠp‚ğİ’è */
-                        bit_dir_flag = (flag)true;          /* ’l‚ªXV‚³‚ê‚½‚±‚Æ‚ğ¦‚· */
-  
-                    }
-                }
+    /* ç¯„å›²ãƒã‚§ãƒƒã‚¯ */
+    if (tu1X > (U1)0) {
+
+      /* å£ãŒãªã‘ã‚Œã° */
+      if (staAppMap_WallSts[tu1X][tu1Y].b2West == CU1_AppMap_WallStsNothing) {
+
+        /* æ­©æ•°ãƒãƒƒãƒ—å€¤ãŒ-1ã§ã‚ã‚Œã° */
+        if (u1a2AppPln_StepMumMap[(U1)(tu1X - (U1)1)][tu1Y] == (U1)(tu1StepNum - (U1)1)) {
+
+          /* é€²è¡Œæ–¹è§’ã«è¤‡æ•°ã®å¯èƒ½æ€§ãŒã‚ã‚‹å ´åˆ */
+          if (tu1DirFlg == (U1)C_ON) {
+
+            /* å‰å›ã®é€²è¡Œæ–¹è§’ã¨ä¸€è‡´ã™ã‚‹å ´åˆã¯å‰å›æ–¹è§’ã‚’å„ªå…ˆ */
+            if (tenDir != tenDirPrev) {
+              tenDir = CEN_PrjCmn_Dir4West;    /* é€²è¡Œæ–¹è§’ã‚’è¨­å®š */
+              tu1DirFlg = (U1)C_ON;            /* å€¤ãŒæ›´æ–°ã•ã‚ŒãŸã“ã¨ã‚’ç¤ºã™ */
             }
+          }
+          else {
+            tenDir = CEN_PrjCmn_Dir4West;    /* é€²è¡Œæ–¹è§’ã‚’è¨­å®š */
+            tu1DirFlg = (U1)C_ON;            /* å€¤ãŒæ›´æ–°ã•ã‚ŒãŸã“ã¨ã‚’ç¤ºã™ */
+          }
         }
+      }
+    }
 
-        if( u1t_i > (U1)0 )                         /* ”ÍˆÍƒ`ƒFƒbƒN */
-        {
-            if( wall[u1t_i][u1t_j].west == NOWALL )         /* •Ç‚ª‚È‚¯‚ê‚Î */
-            {
-                if( u1s_map[ (U1)( u1t_i - (U1)1 ) ][u1t_j] == (U1)( u1t_n - (U1)1 ) )  /* •à”ƒ}ƒbƒv’l‚ª-1‚Å‚ ‚ê‚Î */
-                {
-                    if( bit_dir_flag == (flag)true )        /* is•ûŠp‚É•¡”‚Ì‰Â”\«‚ª‚ ‚éê‡ */
-                    {
-                        if( u1t_dir != u1t_dir_before )     /* ‘O‰ñ‚Ìis•ûŠp‚Æˆê’v‚·‚éê‡‚Í‘O‰ñ•ûŠp‚ğ—Dæ */
-                        {
-                            u1t_dir = west;         /* is•ûŠp‚ğİ’è */
-                            bit_dir_flag = (flag)true;      /* ’l‚ªXV‚³‚ê‚½‚±‚Æ‚ğ¦‚· */
-                        }
-                    }
-                    else
-                    {
-                        u1t_dir = west;             /* is•ûŠp‚ğİ’è */
-                        bit_dir_flag = (flag)true;          /* ’l‚ªXV‚³‚ê‚½‚±‚Æ‚ğ¦‚· */
-  
-                    }
-                }
-            }
-        }
+    /* é€²è¡Œæ–¹è§’ã‚’ä¿æŒ */
+    if (tu1DirFlg == (U1)C_ON) {
+      if (tenDir == CEN_PrjCmn_Dir4North) {
+        u1aAppPln_North[tu1BytePos] |= (U1)((U1)1 << (U1)(CU1_AppPln_BitPosMax - tu1BitPos));
+      }
+      if (tenDir == CEN_PrjCmn_Dir4East) {
+        u1aAppPln_East[tu1BytePos]  |= (U1)((U1)1 << (U1)(CU1_AppPln_BitPosMax - tu1BitPos));
+      }
+      if (tenDir == CEN_PrjCmn_Dir4South) {
+        u1aAppPln_South[tu1BytePos] |= (U1)((U1)1 << (U1)(CU1_AppPln_BitPosMax - tu1BitPos));
+      }
+      if (tenDir == CEN_PrjCmn_Dir4West) {
+        u1aAppPln_West[tu1BytePos]  |= (U1)((U1)1 << (U1)(CU1_AppPln_BitPosMax - tu1BitPos));
+      }
 
-        if( bit_dir_flag == (flag)true )        /* is•ûŠp‚ğ•Û */
-        {
-            if( u1t_dir == north )
-            {
-                u1s_north[u1t_l] |= ( (U1)1 << (U1)( (U1)7 - u1t_m ) );
-            }
-            if( u1t_dir == east )
-            {
-                u1s_east[u1t_l] |= ( (U1)1 << (U1)( (U1)7 - u1t_m ) );
-            }
-            if( u1t_dir == south )
-            {
-                u1s_south[u1t_l] |= ( (U1)1 << (U1)( (U1)7 - u1t_m ) );
-            }
-            if( u1t_dir == west )
-            {
-                u1s_west[u1t_l] |= ( (U1)1 << (U1)( (U1)7 - u1t_m ) );
-            }
+      tu1BitPos++;
+      if (tu1BitPos > CU1_AppPln_BitPosMax) {
+        tu1BytePos++;
+        tu1BitPos = 0;
+      }
+    }
+  } while (tu1DirFlg == (U1)C_ON);         /* å…¨ä½“ã‚’ä½œã‚Šçµ‚ã‚ã‚‹ã¾ã§å¾…ã¤ */
 
-            u1t_m++;
-            if( u1t_m > (U1)7 )
-            {
-                u1t_l++;
-                u1t_m = 0;
-            }
-        }
-
-    }while( bit_dir_flag == (flag)true );      /* ‘S‘Ì‚ğì‚èI‚í‚é‚Ü‚Å‘Ò‚Â */
-
-    u1s_shortestroute_c = (U1)1;               /* Å’ZŒo˜H’ŠoÏ */
-
+  u1AppPln_ShortestRouteFlg = (U1)C_ON;    /* æœ€çŸ­çµŒè·¯æŠ½å‡ºæ¸ˆ */
 }
 
+
 /* ============================================================ */
-/* ŠÖ”–¼ : FnU1_Plan_indicatedir                               */
-/*          Œo˜H‚ğw¦‚·‚é                                      */
-/* ˆø”   : x,y FŒ»İ’nî•ñ(x,y)                               */
-/*          dir FŒ»İ‚Ìis•ûŠp                                */
-/* –ß‚è’l : u1t_ret Fnorth=0,east=1,south=2,west=3             */
-/* ŠT—v   : Œ»İ’nî•ñ(x,y)‚©‚çŒo˜H(is•ûŠp)‚ğZo‚·‚é         */
-/* §–ñ   : ‚È‚µ                                                */
+/* é–¢æ•°å : FnU1_AppPln_reqDir                                  */
+/*          çµŒè·¯ã‚’æŒ‡ç¤ºã™ã‚‹                                      */
+/* å¼•æ•°   : tu1X    ï¼šç¾åœ¨åœ°æƒ…å ±X                               */
+/*          tu1Y    ï¼šç¾åœ¨åœ°æƒ…å ±Y                               */
+/*          tenDir  ï¼šç¾åœ¨ã®é€²è¡Œæ–¹è§’                            */
+/* æˆ»ã‚Šå€¤ : u1t_ret ï¼šEN_PrjCmn_Dir4                            */
+/* æ¦‚è¦   : ç¾åœ¨åœ°æƒ…å ±ã‹ã‚‰çµŒè·¯(é€²è¡Œæ–¹è§’)ã‚’ç®—å‡ºã™ã‚‹              */
+/* åˆ¶ç´„   : ãªã—                                                */
 /* ============================================================ */
-U1 FnU1_Plan_indicatedir(U1 x, U1 y, t_direction dir)
+U1 FnU1_AppPln_reqDir(U1 tu1X, U1 tu1Y, EN_PrjCmn_Dir4 tenDir)
 {
-    U1 u1t_n;
-    U1 u1t_ret;         /* north=0,east=1,south=2,west=3 */
-    U1 u1t_temp;
-    
-    u1t_n = u1s_map[x][y];      /* ‘ÎÛ’n“_‚Ì•à”ƒ}ƒbƒv’l‚ğ‰Šú’lİ’è */
-    u1t_ret = (U1)255;
-
-#if debug_plan
-    u1t_n = (U1)254;
+  U1 tu1StepNum;
+  U1 tu1Dir;
+  U1 tu1Val;
+#if defined(OP_AppPln_DbgUseMode)
+  EN_AppPln_Mode_Sts tenMode;
 #endif
 
-#if debug_planmode
-    U1 u1t_mode;
+  tu1StepNum = u1a2AppPln_StepMumMap[tu1X][tu1Y];    /* å¯¾è±¡åœ°ç‚¹ã®æ­©æ•°ãƒãƒƒãƒ—å€¤ã‚’åˆæœŸå€¤è¨­å®š */
+  tu1Dir = CU1_AppPln_DirInit;
 
-    u1t_mode = FnEN_AppPln_Mode_get();
-    if( u1t_mode == (U1)CEN_AppPln_Mode_Ready )     /* €”õƒ‚[ƒh */
-    {
-      u1s_retdir = dir;           /* ’â~’†‚Ì‚½‚ßŒ»İ‚Ìis•ûŠp‚ğƒZƒbƒg */
-      u1s_direction = (U1)0x04;   /* is•ûŒü@STOP(’â~) */
+#if defined(OP_AppPln_Dbg)
+  tu1StepNum = CU1_AppPln_StepNumInit - (U1)1;
+#endif
+
+#if defined(OP_AppPln_DbgUseMode)
+  tenMode = FnEN_AppPln_Mode_get();
+#endif
+
+#if defined(OP_AppPln_DbgUseMode)
+  if (tenMode == CEN_AppPln_Mode_StsReady) {
+    u1AppPln_Dir    = tenDir;               /* åœæ­¢ä¸­ã®ãŸã‚ç¾åœ¨ã®é€²è¡Œæ–¹è§’ã‚’ã‚»ãƒƒãƒˆ */
+    u1AppPln_ActReq = CU1_AppPln_ActStop;   /* é€²è¡Œæ–¹å‘(åœæ­¢) */
+  }
+  else {
+#endif
+    if (tu1StepNum == CU1_AppPln_StepNumInit) {
+       /* æœ€çŸ­çµŒè·¯ãŒåˆ¤å®šã§ããªã‹ã£ãŸãŸã‚ã€å£åˆ¤å®šCU1_AppMap_WallStsUnkownç®‡æ‰€(æ­©æ•°ãƒãƒƒãƒ—å€¤ãŒåˆæœŸå€¤CU1_AppPln_StepNumInitã®ç®‡æ‰€)ã®æœç´¢ */
+#if (1)
+       tu1Dir = FnU1_AppPln_searchDir(tu1X, tu1Y, tenDir);
+#else
+       tu1Dir = (U1)CEN_PrjCmn_Dir4South;
+#endif
     }
-    else
-    {
-#endif
+    else if (tu1StepNum == CU1_AppPln_StepNumGoal) {
+      /* ã‚´ãƒ¼ãƒ«åœ°ç‚¹ã«ç€ã„ãŸã‚‰ */
 
-        if( u1t_n == (U1)255 )
-        {
-            /* Å’ZŒo˜H‚ª”»’è‚Å‚«‚È‚©‚Á‚½‚½‚ßA•Ç”»’èUNKNOWN‰ÓŠ(•à”ƒ}ƒbƒv’l‚ª‰Šú’l(255)‚Ì‰ÓŠ)‚Ì‘{õ */
-            u1t_ret = FnU1_Plan_searchdir( x, y, dir );
-
-	    
-	//u1t_ret = south;
-
-        }
-        else if( u1t_n == (U1)0 )   /* ƒS[ƒ‹’n“_‚É’…‚¢‚½‚ç */
-        {
-            if( u1s_shortestroute_c == (U1)0 )  /* Å’ZŒo˜H–¢’Šo‚Ìê‡ */
-            {
-                u1s_runpattern =1;
-                FnVD_Plan_makemap();            /* •à”ƒ}ƒbƒvì¬ */
-                FnVD_Plan_shortestroute();      /* Å’ZŒo˜H’Šo */
-                u1t_ret = (U1)( (U1)( dir + (U1)2 ) & (U1)0x03 );   /* is•ûŒü@TURNBACK(“]‰ñ) */
-            }
-        }
-        else
-        {
-
-#if debug_plan
-            u1s_north[0] = (U1)0xF0;    /* ƒfƒoƒbƒO—p3Œ26“ú‘–s‰ïMAP */
-            u1s_east[0] = (U1)0x0F;     /* ƒfƒoƒbƒO—p3Œ26“ú‘–s‰ïMAP */
-            u1s_south[1] = (U1)0xC0;    /* ƒfƒoƒbƒO—p3Œ26“ú‘–s‰ïMAP */
-            u1s_west[1] = (U1)0x30;     /* ƒfƒoƒbƒO—p3Œ26“ú‘–s‰ïMAP */
-#endif
-
-            u1t_temp = u1s_north[u1s_bytepos];
-            u1t_temp &= ( (U1)1 << u1s_bitpos );
-            if( u1t_temp != (U1)0 )
-            {
-                u1t_ret = north;                /* is•ûŠp@–k */
-            }
-            if( u1t_ret == (U1)255 )
-            {
-                u1t_temp = u1s_east[u1s_bytepos];
-                u1t_temp &= ( (U1)1 << u1s_bitpos );
-                if( u1t_temp != (U1)0 )
-                {
-                    u1t_ret = east;             /* is•ûŠp@“Œ */
-                }
-            }
-            if( u1t_ret == (U1)255 )
-            {
-                u1t_temp = u1s_south[u1s_bytepos];
-                u1t_temp &= ( (U1)1 << u1s_bitpos );
-                if( u1t_temp != (U1)0 )
-                {
-                    u1t_ret = south;            /* is•ûŠp@“ì */
-                }
-            }
-            if( u1t_ret == (U1)255 )
-            {
-                u1t_temp = u1s_west[u1s_bytepos];
-                u1t_temp &= ( (U1)1 << u1s_bitpos );
-                if( u1t_temp != (U1)0 )
-                {
-                    u1t_ret = west;             /* is•ûŠp@¼ */
-                }
-            }
-
-            if( u1s_bitpos == (U1)0 )
-            {
-                u1s_bytepos++;
-                u1s_bitpos = (U1)7;
-            }
-            else
-            {
-                u1s_bitpos--;
-            }
-        }
-	
-	u1s_direction = (U1)0x04;      /* is•ûŒü@STOP(’â~) */
-        if( u1t_ret == (U1)dir )
-        {
-            u1s_direction = (U1)0x10;  /* is•ûŒü@FORWORD(‘Oi)‚Pƒ}ƒX */
-        }
-        if( u1t_ret == ( (U1)( (U1)dir + (U1)1 ) & (U1)0x03 ) )
-        {
-            u1s_direction = (U1)0x01;  /* is•ûŒü@TURNRIGHT(‰EÜ) */
-        }
-        if( u1t_ret == ( (U1)( (U1)dir + (U1)2 ) & (U1)0x03 ) )
-        {
-            u1s_direction = (U1)0x02;  /* is•ûŒü@TURNBACK(“]‰ñ) */
-        }
-        if( u1t_ret == ( (U1)( (U1)dir + (U1)3 ) & (U1)0x03 ) )
-        {
-            u1s_direction = (U1)0x03;  /* is•ûŒü@TURNLEFT(¶Ü) */
-        }
-
-        u1s_retdir = u1t_ret;   /* Zo‚µ‚½is•ûŠp‚ğƒZƒbƒg */
-
-	//u1s_direction = (U1)0x01;      /* is•ûŒü@STOP(’â~) */
-
-#if debug_planmode
+      /* æœ€çŸ­çµŒè·¯æœªæŠ½å‡ºã®å ´åˆ */
+      if (u1AppPln_ShortestRouteFlg == (U1)C_OFF) {
+        u1AppPln_RunPattern = CU1_AppPln_RunShortest;
+        FnVD_AppPln_makeMap();            /* æ­©æ•°ãƒãƒƒãƒ—ä½œæˆ */
+        FnVD_AppPln_extractShortestRoute();      /* æœ€çŸ­çµŒè·¯æŠ½å‡º */
+        tu1Dir = (U1)((U1)((U1)tenDir + (U1)2) & CU1_AppPln_DirMsk);   /* é€²è¡Œæ–¹å‘ TURNBACK(è»¢å›) */
+      }
     }
+    else {
+#if defined(OP_AppPln_Dbg)
+      u1aAppPln_North[0] = (U1)0xF0;    /* ãƒ‡ãƒãƒƒã‚°ç”¨3æœˆ26æ—¥èµ°è¡Œä¼šMAP */
+      u1aAppPln_East[0]  = (U1)0x0F;    /* ãƒ‡ãƒãƒƒã‚°ç”¨3æœˆ26æ—¥èµ°è¡Œä¼šMAP */
+      u1aAppPln_South[1] = (U1)0xC0;    /* ãƒ‡ãƒãƒƒã‚°ç”¨3æœˆ26æ—¥èµ°è¡Œä¼šMAP */
+      u1aAppPln_West[1]  = (U1)0x30;    /* ãƒ‡ãƒãƒƒã‚°ç”¨3æœˆ26æ—¥èµ°è¡Œä¼šMAP */
 #endif
 
-    return(u1s_direction);
+      tu1Val = u1aAppPln_North[u1AppPln_BytePos];
+      tu1Val &= (U1)((U1)1 << u1AppPln_BitPos);
+      if (tu1Val != (U1)0) {
+        tu1Dir = (U1)CEN_PrjCmn_Dir4North;              /* é€²è¡Œæ–¹è§’ åŒ— */
+      }
+      if (tu1Dir == CU1_AppPln_DirInit) {
+        tu1Val = u1aAppPln_East[u1AppPln_BytePos];
+        tu1Val &= (U1)((U1)1 << u1AppPln_BitPos);
+        if (tu1Val != (U1)0) {
+          tu1Dir = (U1)CEN_PrjCmn_Dir4East;             /* é€²è¡Œæ–¹è§’ æ± */
+        }
+      }
+      if (tu1Dir == CU1_AppPln_DirInit) {
+        tu1Val = u1aAppPln_South[u1AppPln_BytePos];
+        tu1Val &= (U1)((U1)1 << u1AppPln_BitPos);
+        if (tu1Val != (U1)0) {
+          tu1Dir = (U1)CEN_PrjCmn_Dir4South;            /* é€²è¡Œæ–¹è§’ å— */
+        }
+      }
+      if (tu1Dir == CU1_AppPln_DirInit) {
+        tu1Val = u1aAppPln_West[u1AppPln_BytePos];
+        tu1Val &= (U1)((U1)1 << u1AppPln_BitPos);
+        if (tu1Val != (U1)0) {
+          tu1Dir = (U1)CEN_PrjCmn_Dir4West;             /* é€²è¡Œæ–¹è§’ è¥¿ */
+        }
+      }
 
+      if (u1AppPln_BitPos == (U1)0) {
+        u1AppPln_BytePos++;
+        u1AppPln_BitPos = CU1_AppPln_BitPosMax;
+      }
+      else {
+        u1AppPln_BitPos--;
+      }
+    }
+
+    u1AppPln_ActReq = CU1_AppPln_ActStop;    /* é€²è¡Œæ–¹å‘(åœæ­¢) */
+    if (tu1Dir == (U1)tenDir) {
+      u1AppPln_ActReq = (U1)((U1)0x10 | CU1_AppPln_ActGoStraight);  /* é€²è¡Œæ–¹å‘(å‰é€²)1ãƒã‚¹ */
+    }
+    if (tu1Dir == (U1)((U1)((U1)tenDir + (U1)1) & CU1_AppPln_DirMsk)) {
+      u1AppPln_ActReq = CU1_AppPln_ActTurnRight;  /* é€²è¡Œæ–¹å‘(å³æŠ˜) */
+    }
+    if (tu1Dir == (U1)((U1)((U1)tenDir + (U1)2) & CU1_AppPln_DirMsk)) {
+      u1AppPln_ActReq = CU1_AppPln_ActTurnBack;  /* é€²è¡Œæ–¹å‘(è»¢å›) */
+    }
+    if (tu1Dir == (U1)((U1)((U1)tenDir + (U1)3) & CU1_AppPln_DirMsk)) {
+      u1AppPln_ActReq = CU1_AppPln_ActTurnLeft;  /* é€²è¡Œæ–¹å‘(å·¦æŠ˜) */
+    }
+
+#if (1)
+    u1AppPln_Dir = tu1Dir;        /* ç®—å‡ºã—ãŸé€²è¡Œæ–¹è§’ã‚’ã‚»ãƒƒãƒˆ */
+#endif
+#if (0)
+	  u1AppPln_ActReq = CU1_AppPln_ActStop;    /* é€²è¡Œæ–¹å‘(åœæ­¢) */
+#endif
+#if defined(OP_AppPln_DbgUseMode)
+  }
+#endif
+
+  return (u1AppPln_ActReq);
 }
 
+
 /* ============================================================ */
-/* ŠÖ”–¼ : FnU1_Plan_searchdir                                 */
-/*          Å’ZŒo˜H‚ª•ª‚©‚ç‚È‚¢ê‡‚ÌŒo˜H‚ğw¦‚·‚é            */
-/* ˆø”   : x,y FŒ»İ’nî•ñ(x,y)                               */
-/*          dir FŒ»İ‚Ìis•ûŠp(north=0,east=1,south=2,west=3) */
-/* –ß‚è’l : u1t_ret_temp Fnorth=0,east=1,south=2,west=3        */
-/* ŠT—v   : Œ»İ’nî•ñ(x,y)‚©‚çŒo˜H(is•ûŠp)‚ğZo‚·‚é         */
-/*          —Dæ‡:ƒS[ƒ‹¨–¢ŒŸõ•ûŠp¨’¼i¨‰E¶Ü¨Œã‘Ş       */
-/* §–ñ   : ‚È‚µ                                                */
+/* é–¢æ•°å : FnU1_AppPln_searchDir                               */
+/*          æœ€çŸ­çµŒè·¯ãŒåˆ†ã‹ã‚‰ãªã„å ´åˆã®çµŒè·¯ã‚’æŒ‡ç¤ºã™ã‚‹            */
+/* å¼•æ•°   : tu1X    ï¼šç¾åœ¨åœ°æƒ…å ±X                               */
+/*          tu1Y    ï¼šç¾åœ¨åœ°æƒ…å ±Y                               */
+/*          tenDir ï¼šç¾åœ¨ã®é€²è¡Œæ–¹è§’                             */
+/* æˆ»ã‚Šå€¤ : é€²è¡Œæ–¹å‘                                            */
+/* æ¦‚è¦   : ç¾åœ¨åœ°æƒ…å ±ã‹ã‚‰çµŒè·¯(é€²è¡Œæ–¹è§’)ã‚’ç®—å‡ºã™ã‚‹              */
+/*          å„ªå…ˆé †:ã‚´ãƒ¼ãƒ«â†’æœªæ¤œç´¢æ–¹è§’â†’ç›´é€²â†’å³å·¦æŠ˜â†’å¾Œé€€       */
+/* åˆ¶ç´„   : ãªã—                                                */
 /* ============================================================ */
-static U1 FnU1_Plan_searchdir(U1 x, U1 y, t_direction dir)
+static U1 FnU1_AppPln_searchDir(U1 tu1X, U1 tu1Y, EN_PrjCmn_Dir4 tenDir)
 {
-    t_direction u1t_dir;        /* north=0,east=1,south=2,west=3 */
-    U1 u1t_ret_temp;            /* north=0,east=1,south=2,west=3,‰Šú’l=255 */
-    U1 u1t_priority;            /* —Dæ‡iƒS[ƒ‹:8A–¢ŒŸõ:4A’¼i:2A‰E¶Ü:1j */
-    U1 u1t_priority_temp;       /* —Dæ‡iƒS[ƒ‹:8A–¢ŒŸõ:4A’¼i:2A‰E¶Ü:1j */
-
-    u1t_dir = dir;
-    u1t_ret_temp = (U1)255;
-    u1t_priority = (U1)0;
-    u1t_priority_temp = (U1)0;
-
-#if debug_planmode
-    U1 u1t_mode;
-
-    u1t_mode = FnEN_AppPln_Mode_get();
-    if( u1t_mode == (U1)CEN_AppPln_Mode_Search )        /* ’Tõƒ‚[ƒh */
-    {
-        u1s_runpattern = (U1)0;     /* ’Tõ‘–s */
-    }
-    //else if( u1t_mode == (U1)CEN_AppPln_Mode_TimeAttack )       /* Œv‘ªƒ‚[ƒh */
-    else
-    {
-        u1s_runpattern = (U1)1;     /* Å’ZŒo˜H‘–s */
-        //u1s_runpattern = (U1)0;     /* Å’ZŒo˜H‘–s */
-    }
+  EN_PrjCmn_Dir4 tenDirection;
+  U1 tu1Dir;            /* é€²è¡Œæ–¹å‘ */
+  U1 tu1Priority;       /* å„ªå…ˆé †ï¼ˆã‚´ãƒ¼ãƒ«:8ã€æœªæ¤œç´¢:4ã€ç›´é€²:2ã€å³å·¦æŠ˜:1ï¼‰ */
+  U1 tu1PriorityTmp;    /* å„ªå…ˆé †ï¼ˆã‚´ãƒ¼ãƒ«:8ã€æœªæ¤œç´¢:4ã€ç›´é€²:2ã€å³å·¦æŠ˜:1ï¼‰ */
+#if defined(OP_AppPln_DbgUseMode)
+  EN_AppPln_Mode_Sts tenMode;
 #endif
 
-    if( y < (U1)( MAZESIZE_Y - (U1)1 ) )        /* ”ÍˆÍƒ`ƒFƒbƒN */
-    {
-        if( wall[x][y].north == NOWALL )        /* •Ç‚ª‚È‚¯‚ê‚Î */
-        {
-            u1t_ret_temp = north;               /* is•ûŠp@–k(‰¼İ’è) */
-#if debug_planmode
-	    if( u1s_runpattern == (U1)1 )       /* Å’ZŒo˜H‘–s */
-	    {
-                if( u1s_map[x][ (U1)( y + (U1)1 ) ] == (U1)0 )      /* ƒS[ƒ‹‚¾‚Á‚½‚ç */
-                {
-                    u1t_priority = (U1)8;           /* is•ûŠpŒˆ’è */
-                }
+  tenDirection   = tenDir;
+  tu1Dir         = CU1_AppPln_DirInit;
+  tu1Priority    = (U1)0;
+  tu1PriorityTmp = (U1)0;
+
+#if defined(OP_AppPln_DbgUseMode)
+  tenMode = FnEN_AppPln_Mode_get();
+  if (tenMode == CEN_AppPln_Mode_StsSearch) {
+    u1AppPln_RunPattern = CU1_AppPln_RunSearch;    /* æ¢ç´¢èµ°è¡Œ */
+  }
+  else if (   (0)
+  #if (0)
+           || (tenMode == CEN_AppPln_Mode_StsTimeAttack)
+  #endif
+                                                        ) {
+
+    /* è¨ˆæ¸¬ãƒ¢ãƒ¼ãƒ‰ */
+  }
+  else {
+  #if (1)
+    u1AppPln_RunPattern = CU1_AppPln_RunShortest;    /* æœ€çŸ­çµŒè·¯èµ°è¡Œ */
+  #else
+    u1AppPln_RunPattern = CU1_AppPln_RunSearch;      /* æœ€çŸ­çµŒè·¯èµ°è¡Œ */
+  #endif
+  }
+#endif
+
+  /* ç¯„å›²ãƒã‚§ãƒƒã‚¯ */
+  if (tu1Y < (U1)(CU1_AppMap_MazeSizeY - (U1)1)) {
+
+    /* å£ãŒãªã‘ã‚Œã° */
+    if (staAppMap_WallSts[tu1X][tu1Y].b2North == CU1_AppMap_WallStsNothing) {
+      tu1Dir = (U1)CEN_PrjCmn_Dir4North;               /* é€²è¡Œæ–¹è§’ åŒ—(ä»®è¨­å®š) */
+#if defined(OP_AppPln_DbgUseMode)
+      /* æœ€çŸ­çµŒè·¯èµ°è¡Œ */
+	    if (u1AppPln_RunPattern == CU1_AppPln_RunShortest) {
+        /* ã‚´ãƒ¼ãƒ«ã ã£ãŸã‚‰ */
+        if (u1a2AppPln_StepMumMap[tu1X][(U1)(tu1Y + (U1)1)] == CU1_AppPln_StepNumGoal) {
+          tu1Priority = (U1)8;           /* é€²è¡Œæ–¹è§’æ±ºå®š */
+        }
 	    }
-            else
-            {
+      else {
 #endif
-                if( wall[x][ (U1)( y + (U1)1 ) ].north == UNKNOWN )     /* –k‚É‚Pƒ}ƒXi‚ñ‚¾æ‚ğˆê“x‚à’Tõ‚µ‚Ä‚¢‚È‚©‚Á‚½‚ç */
-                {
-                    u1t_priority = (U1)4;
-                }
-
-                if( u1t_dir == north )          /* is•ûŠp(–k)‚ª’¼i•ûŒü */
-                {
-                    u1t_priority += (U1)2;
-                }
-                else if( u1t_dir != south )     /* is•ûŠp(–k)‚ª‰E¶Ü•ûŒü */
-                {
-                    u1t_priority += (U1)1;
-                }
-#if debug_planmode
-            }
-#endif
+        /* åŒ—ã«1ãƒã‚¹é€²ã‚“ã å…ˆã‚’ä¸€åº¦ã‚‚æ¢ç´¢ã—ã¦ã„ãªã‹ã£ãŸã‚‰ */
+        if (staAppMap_WallSts[tu1X][(U1)(tu1Y + (U1)1)].b2North == CU1_AppMap_WallStsUnkown) {
+          tu1Priority = (U1)4;
         }
-    }
 
-    if( u1t_priority < (U1)8 )
-    {
-        if( x < (U1)( MAZESIZE_X - (U1)1 ) )    /* ”ÍˆÍƒ`ƒFƒbƒN */
-        {
-            if( wall[x][y].east == NOWALL )     /* •Ç‚ª‚È‚¯‚ê‚Î */
-            {
-#if debug_planmode
-                if( u1s_runpattern == (U1)1 )       /* Å’ZŒo˜H‘–s */
-	        {
-                    if( u1s_map[ (U1)( x + (U1)1 ) ][y] == (U1)0 )          /* ƒS[ƒ‹‚¾‚Á‚½‚ç */
-                    {
-                        u1t_priority_temp = (U1)8;  /* is•ûŠpŒˆ’è */
-                    }
-                }
-                else
-                {
-#endif
-                    if( wall[ (U1)( x + (U1)1 ) ][y].east == UNKNOWN ) /* “Œ‚É‚Pƒ}ƒXi‚ñ‚¾æ‚ğˆê“x‚à’Tõ‚µ‚Ä‚¢‚È‚©‚Á‚½‚ç */
-                    {
-                        u1t_priority_temp = (U1)4;
-                    }
-
-                    if( u1t_dir == east )       /* is•ûŠp(“Œ)‚ª’¼i•ûŒü */
-                    {
-                        u1t_priority_temp += (U1)2;
-                    }
-                    else if( u1t_dir != west )  /* is•ûŠp(“Œ)‚ª‰E¶Ü•ûŒü */
-                    {
-                        u1t_priority_temp += (U1)1;
-                    }
-#if debug_planmode
-                }
-#endif
-
-                if( u1t_priority_temp > u1t_priority )
-                {
-                    u1t_ret_temp = east;        /* is•ûŠp@“Œ(XV) */
-                    u1t_priority = u1t_priority_temp;
-                    u1t_priority_temp = (U1)0;  /* ƒNƒŠƒAˆ— */
-                }
-                u1t_priority_temp = (U1)0;  /* ƒNƒŠƒAˆ— */
-            }
+        if (tenDirection == CEN_PrjCmn_Dir4North) {
+          /* é€²è¡Œæ–¹è§’(åŒ—)ãŒç›´é€²æ–¹å‘ */
+          tu1Priority += (U1)2;
         }
-    }
-
-    if( u1t_priority < (U1)8 )
-    {
-        if( y > (U1)0 )                         /* ”ÍˆÍƒ`ƒFƒbƒN */
-        {
-            if( wall[x][y].south == NOWALL )    /* •Ç‚ª‚È‚¯‚ê‚Î */
-            {
-#if debug_planmode
-                if( u1s_runpattern == (U1)1 )       /* Å’ZŒo˜H‘–s */
-	        {
-                    if( u1s_map[x][ (U1)( y - (U1)1 ) ] == (U1)0 )  /* ƒS[ƒ‹‚¾‚Á‚½‚ç */
-                    {
-                        u1t_priority_temp = (U1)8;  /* is•ûŠpŒˆ’è */
-                    }
-                }
-                else
-                {
-#endif
-                    if( wall[x][ (U1)( y - (U1)1 ) ].south == UNKNOWN ) /* “ì‚É‚Pƒ}ƒXi‚ñ‚¾æ‚ğˆê“x‚à’Tõ‚µ‚Ä‚¢‚È‚©‚Á‚½‚ç */
-                    {
-                        u1t_priority_temp = (U1)4;
-                    }
-
-                    if( u1t_dir == south )      /* is•ûŠp(“ì)‚ª’¼i•ûŒü */
-                    {
-                        u1t_priority_temp += (U1)2;
-                    }
-                    else if( u1t_dir != north ) /* is•ûŠp(“ì)‚ª‰E¶Ü•ûŒü */
-                    {
-                        u1t_priority_temp += (U1)1;
-                    }
-#if debug_planmode
-                }
-#endif
-
-                if( u1t_priority_temp > u1t_priority )
-                {
-                    u1t_ret_temp = south;       /* is•ûŠp@“ì(XV) */
-                    u1t_priority = u1t_priority_temp;
-                    u1t_priority_temp = (U1)0;  /* ƒNƒŠƒAˆ— */
-                }
-                u1t_priority_temp = (U1)0;  /* ƒNƒŠƒAˆ— */
-            }
+        else if (tenDirection != CEN_PrjCmn_Dir4South) {
+          /* é€²è¡Œæ–¹è§’(åŒ—)ãŒå³å·¦æŠ˜æ–¹å‘ */
+          tu1Priority += (U1)1;
         }
-    }
-
-    if( u1t_priority < (U1)8 )
-    {
-        if( y > (U1)0 )                         /* ”ÍˆÍƒ`ƒFƒbƒN */
-        {
-            if( wall[x][y].west == NOWALL )    /* •Ç‚ª‚È‚¯‚ê‚Î */
-            {
-#if debug_planmode
-                if( u1s_runpattern == (U1)1 )       /* Å’ZŒo˜H‘–s */
-	        {
-                    if( u1s_map[ (U1)( x - (U1)1 ) ][y] == (U1)0 )  /* ƒS[ƒ‹‚¾‚Á‚½‚ç */
-                    {
-                        u1t_priority_temp = (U1)8;  /* is•ûŠpŒˆ’è */
-                    }
-                }
-                else
-                {
-#endif
-                    if( wall[ (U1)( x - (U1)1 ) ][y].west == UNKNOWN )  /* ¼‚É‚Pƒ}ƒXi‚ñ‚¾æ‚ğˆê“x‚à’Tõ‚µ‚Ä‚¢‚È‚©‚Á‚½‚ç */
-                    {
-                        u1t_priority_temp = (U1)4;
-                    }
-
-                    if( u1t_dir == west )       /* is•ûŠp(¼)‚ª’¼i•ûŒü */
-                    {
-                        u1t_priority_temp += (U1)2;
-                    }
-                    else if( u1t_dir != east )  /* is•ûŠp(¼)‚ª‰E¶Ü•ûŒü */
-                    {
-                        u1t_priority_temp += (U1)1;
-                    }
-#if debug_planmode
-                }
-#endif
-
-                if( u1t_priority_temp > u1t_priority )
-                {
-                    u1t_ret_temp = west;        /* is•ûŠp@¼(XV) */
-                    u1t_priority = u1t_priority_temp;
-                }
-            }
+        else {
+          /* ä½•ã‚‚ã—ãªã„ */
         }
+#if defined(OP_AppPln_DbgUseMode)
+      }
+#endif
     }
+  }
 
-    return(u1t_ret_temp);
+  if (tu1Priority < (U1)8) {
 
+    /* ç¯„å›²ãƒã‚§ãƒƒã‚¯ */
+    if (tu1X < (U1)(CU1_AppMap_MazeSizeX - (U1)1)) {
+
+      /* å£ãŒãªã‘ã‚Œã° */
+      if (staAppMap_WallSts[tu1X][tu1Y].b2East == CU1_AppMap_WallStsNothing) {
+#if defined(OP_AppPln_DbgUseMode)
+        /* æœ€çŸ­çµŒè·¯èµ°è¡Œ */
+        if (u1AppPln_RunPattern == CU1_AppPln_RunShortest) {
+          /* ã‚´ãƒ¼ãƒ«ã ã£ãŸã‚‰ */
+          if (u1a2AppPln_StepMumMap[(U1)(tu1X + (U1)1) ][tu1Y] == CU1_AppPln_StepNumGoal) {
+            tu1PriorityTmp = (U1)8;  /* é€²è¡Œæ–¹è§’æ±ºå®š */
+          }
+        }
+        else {
+#endif
+          /* æ±ã«1ãƒã‚¹é€²ã‚“ã å…ˆã‚’ä¸€åº¦ã‚‚æ¢ç´¢ã—ã¦ã„ãªã‹ã£ãŸã‚‰ */
+          if (staAppMap_WallSts[(U1)(tu1X + (U1)1)][tu1Y].b2East == CU1_AppMap_WallStsUnkown) {
+            tu1PriorityTmp = (U1)4;
+          }
+
+          if (tenDirection == CEN_PrjCmn_Dir4East) {
+            /* é€²è¡Œæ–¹è§’(æ±)ãŒç›´é€²æ–¹å‘ */
+            tu1PriorityTmp += (U1)2;
+          }
+          else if (tenDirection != CEN_PrjCmn_Dir4West)
+          {
+            /* é€²è¡Œæ–¹è§’(æ±)ãŒå³å·¦æŠ˜æ–¹å‘ */
+            tu1PriorityTmp += (U1)1;
+          }
+          else {
+            /* ä½•ã‚‚ã—ãªã„ */
+          }
+#if defined(OP_AppPln_DbgUseMode)
+        }
+#endif
+
+        if (tu1PriorityTmp > tu1Priority) {
+          tu1Dir = (U1)CEN_PrjCmn_Dir4East;        /* é€²è¡Œæ–¹è§’ æ±(æ›´æ–°) */
+          tu1Priority = tu1PriorityTmp;
+          tu1PriorityTmp = (U1)0;  /* ã‚¯ãƒªã‚¢å‡¦ç† */
+        }
+        tu1PriorityTmp = (U1)0;  /* ã‚¯ãƒªã‚¢å‡¦ç† */
+      }
+    }
+  }
+
+  if (tu1Priority < (U1)8) {
+
+    /* ç¯„å›²ãƒã‚§ãƒƒã‚¯ */
+    if (tu1Y > (U1)0) {
+      /* å£ãŒãªã‘ã‚Œã° */
+      if (staAppMap_WallSts[tu1X][tu1Y].b2South == CU1_AppMap_WallStsNothing) {
+#if defined(OP_AppPln_DbgUseMode)
+        /* æœ€çŸ­çµŒè·¯èµ°è¡Œ */
+        if (u1AppPln_RunPattern == CU1_AppPln_RunShortest) {
+          /* ã‚´ãƒ¼ãƒ«ã ã£ãŸã‚‰ */
+          if (u1a2AppPln_StepMumMap[tu1X][(U1)(tu1Y - (U1)1)] == CU1_AppPln_StepNumGoal) {
+            tu1PriorityTmp = (U1)8;  /* é€²è¡Œæ–¹è§’æ±ºå®š */
+          }
+        }
+        else {
+#endif
+          /* å—ã«1ãƒã‚¹é€²ã‚“ã å…ˆã‚’ä¸€åº¦ã‚‚æ¢ç´¢ã—ã¦ã„ãªã‹ã£ãŸã‚‰ */
+          if (staAppMap_WallSts[tu1X][(U1)(tu1Y - (U1)1)].b2South == CU1_AppMap_WallStsUnkown) {
+            tu1PriorityTmp = (U1)4;
+          }
+
+          if (tenDirection == CEN_PrjCmn_Dir4South) {
+            /* é€²è¡Œæ–¹è§’(å—)ãŒç›´é€²æ–¹å‘ */
+            tu1PriorityTmp += (U1)2;
+          }
+          else if (tenDirection != CEN_PrjCmn_Dir4North) {
+            /* é€²è¡Œæ–¹è§’(å—)ãŒå³å·¦æŠ˜æ–¹å‘ */
+            tu1PriorityTmp += (U1)1;
+          }
+          else {
+            /* ä½•ã‚‚ã—ãªã„ */
+          }
+#if defined(OP_AppPln_DbgUseMode)
+        }
+#endif
+
+        if (tu1PriorityTmp > tu1Priority) {
+          tu1Dir = (U1)CEN_PrjCmn_Dir4South;       /* é€²è¡Œæ–¹è§’ å—(æ›´æ–°) */
+          tu1Priority = tu1PriorityTmp;
+          tu1PriorityTmp = (U1)0;  /* ã‚¯ãƒªã‚¢å‡¦ç† */
+        }
+        tu1PriorityTmp = (U1)0;  /* ã‚¯ãƒªã‚¢å‡¦ç† */
+      }
+    }
+  }
+
+  if (tu1Priority < (U1)8) {
+
+    /* ç¯„å›²ãƒã‚§ãƒƒã‚¯ */
+    if (tu1Y > (U1)0) {
+
+      /* å£ãŒãªã‘ã‚Œã° */
+      if (staAppMap_WallSts[tu1X][tu1Y].b2West == CU1_AppMap_WallStsNothing) {
+#if defined(OP_AppPln_DbgUseMode)
+        /* æœ€çŸ­çµŒè·¯èµ°è¡Œ */
+        if (u1AppPln_RunPattern == CU1_AppPln_RunShortest) {
+          /* ã‚´ãƒ¼ãƒ«ã ã£ãŸã‚‰ */
+          if (u1a2AppPln_StepMumMap[(U1)(tu1X - (U1)1)][tu1Y] == CU1_AppPln_StepNumGoal) {
+            tu1PriorityTmp = (U1)8;  /* é€²è¡Œæ–¹è§’æ±ºå®š */
+          }
+        }
+        else {
+#endif
+          /* è¥¿ã«1ãƒã‚¹é€²ã‚“ã å…ˆã‚’ä¸€åº¦ã‚‚æ¢ç´¢ã—ã¦ã„ãªã‹ã£ãŸã‚‰ */
+          if (staAppMap_WallSts[(U1)(tu1X - (U1)1)][tu1Y].b2West == CU1_AppMap_WallStsUnkown) {
+            tu1PriorityTmp = (U1)4;
+          }
+
+          if (tenDirection == CEN_PrjCmn_Dir4West) {
+            /* é€²è¡Œæ–¹è§’(è¥¿)ãŒç›´é€²æ–¹å‘ */
+            tu1PriorityTmp += (U1)2;
+          }
+          else if (tenDirection != CEN_PrjCmn_Dir4East) {
+            /* é€²è¡Œæ–¹è§’(è¥¿)ãŒå³å·¦æŠ˜æ–¹å‘ */
+            tu1PriorityTmp += (U1)1;
+          }
+          else {
+            /* ä½•ã‚‚ã—ãªã„ */
+          }
+#if defined(OP_AppPln_DbgUseMode)
+        }
+#endif
+
+        if (tu1PriorityTmp > tu1Priority) {
+          tu1Dir = (U1)CEN_PrjCmn_Dir4West;        /* é€²è¡Œæ–¹è§’ è¥¿(æ›´æ–°) */
+          tu1Priority = tu1PriorityTmp;
+        }
+      }
+    }
+  }
+
+  return (tu1Dir);
 }
 
+
 /* ============================================================ */
-/* ŠÖ”–¼ : FnU1_Plan_retdir                                    */
-/*          Œ»İ‚Ìis•ûŠp‚ğ•Ô‚·                                */
-/* ˆø”   : ‚È‚µ                                                */
-/* –ß‚è’l : u1t_ret Fnorth=0,east=1,south=2,west=3             */
-/* ŠT—v   : is•ûŒü‚ğ•Ô‚·                                      */
-/* §–ñ   : ‚È‚µ                                                */
+/* é–¢æ•°å : FnU1_AppPln_getDir                                  */
+/*          ç¾åœ¨ã®é€²è¡Œæ–¹è§’ã‚’è¿”ã™                                */
+/* å¼•æ•°   : ãªã—                                                */
+/* æˆ»ã‚Šå€¤ : é€²è¡Œæ–¹å‘                                            */
+/* æ¦‚è¦   : é€²è¡Œæ–¹å‘ã‚’è¿”ã™                                      */
+/* åˆ¶ç´„   : ãªã—                                                */
 /* ============================================================ */
-U1 FnU1_Plan_retdir(VD)
+U1 FnU1_AppPln_getDir(VD)
 {
-    return(u1s_retdir);
+  return (u1AppPln_Dir);
 }
 
+
 /* ============================================================ */
-/* ŠÖ”–¼ : FnU1_Plan_returndir                                 */
-/*          is•ûŒü‚ğ•Ô‚·                                      */
-/* ˆø”   : ‚È‚µ                                                */
-/* –ß‚è’l : u1s_direction FãˆÊ‚SƒrƒbƒgF˜A‘±’¼i‰Â”\ƒ}ƒX”    */
-/*            ‰ºˆÊ‚SƒrƒbƒgFFORWORD(‘Oi)=0,TURNRIGHT(‰EÜ)=1,  */
-/*              TURNBACK(“]‰ñ)=2,TURNLEFT(¶Ü)=3,STOP(’â~)=4  */
-/* ŠT—v   : is•ûŒü‚Æ’¼i‚Í˜A‘±’¼i‰Â”\ƒ}ƒX”‚ğ•Ô‚·          */
-/* §–ñ   : ‚È‚µ                                                */
+/* é–¢æ•°å : FnU1_AppPln_getActReq                               */
+/*          é€²è¡Œæ–¹å‘ã‚’è¿”ã™                                      */
+/* å¼•æ•°   : ãªã—                                                */
+/* æˆ»ã‚Šå€¤ : u1AppPln_ActReq ä¸Šä½4ãƒ“ãƒƒãƒˆ:é€£ç¶šç›´é€²å¯èƒ½ãƒã‚¹æ•°      */
+/*                          ä¸‹ä½4ãƒ“ãƒƒãƒˆ:é€²è¡Œæ–¹å‘                */
+/* æ¦‚è¦   : é€²è¡Œæ–¹å‘ã¨ç›´é€²æ™‚ã¯é€£ç¶šç›´é€²å¯èƒ½ãƒã‚¹æ•°ã‚’è¿”ã™          */
+/* åˆ¶ç´„   : ãªã—                                                */
 /* ============================================================ */
-U1 FnU1_Plan_returndir(VD)
+U1 FnU1_AppPln_getActReq(VD)
 {
-    return(u1s_direction);
+  return (u1AppPln_ActReq);
 }
+

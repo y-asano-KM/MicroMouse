@@ -30,12 +30,11 @@
 #include "pf_bz_ctrl_pac.h"
 #include "pf_mtr_if_pac.h"
 #include "pf_mtr_ctrl_pac.h"
-
-#include "app_controll_pac.h"
-#include "app_recgwall_pac.h"
-#include "app_plan_pac.h"
-#include "app_plan_mode_pac.h"
-#include "app_map_pac.h"
+#include "app_controll.h"
+#include "app_recgwall.h"
+#include "app_plan.h"
+#include "app_plan_mode.h"
+#include "app_map.h"
 
 /* 本体 */
 #include "pf_sche_init.h"
@@ -137,19 +136,18 @@ VD FnVD_PfSche_wrapInitProc(VD)
   /* アプリ層初期化 */
   /* -------------- */
   /* Controller初期化 */
-  vd_g_InitializeController();
+  FnVD_AppCtrl_init();
 
   /* 認識処理初期化 */
-  FnVD_Recg_RecognizeInit();
+  FnVD_AppRcg_init();
 
   /* 歩数Map初期化 */
-  FnVD_Plan_makemap();
+  FnVD_AppPln_makeMap();
 
   /* 壁情報と自車位置情報初期化 */
-  Fn_MAP_init();
+  FnVD_AppMap_init();
 
   /* 動作モード初期化 */
   FnVD_AppPln_Mode_init();
-
 }
 

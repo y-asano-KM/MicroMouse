@@ -157,11 +157,11 @@ VD FnVD_PfMtr_Ctrl_mediate(VD)
   U1 tu1Enb;          /* モータ制御許可フラグ */
 
   /* 要求取得 */
-  tu1Enb     = u1_g_get_MtrPowerMode();
-  tu1DirR    = u1_g_get_MtrModeR();
-  tu1DirL    = u1_g_get_MtrModeL();
-  tu2PeriodR = u2_g_get_MtrSpeedR();
-  tu2PeriodL = u2_g_get_MtrSpeedL();
+  tu1Enb     = FnU1_AppCtrl_getMtrPowerMode();
+  tu1DirR    = FnU1_AppCtrl_getMtrModeR();
+  tu1DirL    = FnU1_AppCtrl_getMtrModeL();
+  tu2PeriodR = FnU2_AppCtrl_getMtrSpeedR();
+  tu2PeriodL = FnU2_AppCtrl_getMtrSpeedL();
   tu2OnTimeR = CU2_PfMtr_Ctrl_MinOnTime;
   tu2OnTimeL = CU2_PfMtr_Ctrl_MinOnTime;
 

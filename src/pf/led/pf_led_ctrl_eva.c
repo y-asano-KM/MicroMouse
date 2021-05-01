@@ -201,12 +201,6 @@ VD FnVD_PfLed_CtrlEva_mediate(U1 * tpu1Req0, U1 * tpu1Req1, U1 * tpu1Req2, U1 * 
   tu1LedReq1 = ((tu2RaySensFL > (U2)30) ? (U1)C_OFF : tu1LedReq1);
   tu1LedReq2 = ((tu2RaySensFR > (U2)30) ? (U1)C_OFF : tu1LedReq2);
   tu1LedReq3 = ((tu2RaySensR  > (U2)30) ? (U1)C_OFF : tu1LedReq3);
-
-  /* 動作モード */
-  /* tu1LedReq0 = ((u1_mode == (U1)CEN_AppPln_Mode_Normal) ? (U1)C_OFF : tu1LedReq0); */  /* 通常で消灯 */
-  /* tu1LedReq1 = ((u1_mode == (U1)CEN_AppPln_Mode_Search) ? (U1)C_OFF : tu1LedReq1); */  /* 探索で消灯 */
-  /* tu1LedReq3 = ((u1_mode_transition_permit == (U1)C_ON) ? (U1)C_OFF : tu1LedReq3); */  /* 動作モード遷移判定許可フラグOFFで消灯 */
-
   #endif
 
   #if defined(OP_PfCmn_EvaLedMediation_Mtr)
